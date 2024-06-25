@@ -4,6 +4,7 @@ import FedoraDataCollector from "../services/FedoraDataCollector";
 import FedoraDataCollection from "./FedoraDataCollection";
 import * as fs from "fs";
 import Config from "../models/Config";
+import SolrCache from "../services/SolrCache";
 
 jest.mock("fs");
 
@@ -54,7 +55,7 @@ describe("FedoraObject", () => {
                     },
                 },
             });
-            const fedora = new Fedora(config);
+            const fedora = new Fedora(config, new SolrCache(false));
             fedoraObject = new FedoraObject(pid, config, fedora, FedoraDataCollector.getInstance());
             const spy = jest.spyOn(fedoraObject, "addDatastreamFromStringOrBuffer").mockImplementation(jest.fn());
 
@@ -92,7 +93,7 @@ describe("FedoraObject", () => {
             ["doubleQuotes", [`""`], "<METS:note>&quot;&quot;</METS:note>"],
         ])("adds a datastream for an agent with %s notes", async (numString, testInput, notesXml) => {
             const config = new Config({});
-            const fedora = new Fedora(config);
+            const fedora = new Fedora(config, new SolrCache(false));
             fedoraObject = new FedoraObject(pid, config, fedora, FedoraDataCollector.getInstance());
             const spy = jest.spyOn(fedoraObject, "addDatastreamFromStringOrBuffer").mockImplementation(jest.fn());
             agents[0].notes = testInput;

@@ -19,7 +19,7 @@ messenger.get("/solrindex/:pid", pidSanitizer, requireToken, async function (req
         res.send(JSON.stringify(fedoraFields, null, "\t"));
     } catch (e) {
         console.error(e);
-        res.status(500).send(e.message);
+        res.status(500).send(e.message ?? "unexpected exception");
     }
 });
 
@@ -32,7 +32,7 @@ messenger.post("/solrindex/:pid", pidSanitizer, requireToken, async function (re
         );
     } catch (e) {
         console.error(e);
-        res.status(500).send(e.message);
+        res.status(500).send(e.message ?? "unexpected exception");
     }
 });
 
@@ -63,7 +63,7 @@ messenger.post("/queuesolrindex", requireToken, bodyParser.json(), async functio
         try {
             await QueueManager.getInstance().performIndexOperation(pid, "index");
         } catch (e) {
-            res.status(500).send(`Index operation failed, iteration ${x}, error: ${e.message}`);
+            res.status(500).send(`Index operation failed, iteration ${x}, error: ${e.message ?? "unspecified"}`);
             return;
         }
     }

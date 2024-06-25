@@ -5,6 +5,7 @@ import FedoraObjectFactory from "../services/FedoraObjectFactory";
 import { IngestProcessor } from "./Ingest";
 import Database from "../services/Database";
 import QueueManager from "../services/QueueManager";
+import SolrCache from "../services/SolrCache";
 import fs = require("fs");
 import winston = require("winston");
 
@@ -30,7 +31,7 @@ describe("IngestProcessor", () => {
             level: "error", // we don't want to see info messages while testing
             transports: [new winston.transports.Console()],
         });
-        job = new Job(dir + "/" + jobName, config, new QueueManager(config));
+        job = new Job(dir + "/" + jobName, config, new QueueManager(config, new SolrCache(false)));
         jest.spyOn(Job, "build").mockReturnValue(job);
         ingest = new IngestProcessor(dir, config, new FedoraObjectFactory(config, {} as Database), logger);
     });

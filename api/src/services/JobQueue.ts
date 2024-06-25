@@ -7,6 +7,7 @@ import Metadata from "../jobs/Metadata";
 import Notify from "../jobs/Notify";
 import QueueJob from "../jobs/QueueJobInterface";
 import QueueManager from "./QueueManager";
+import Reindex from "../jobs/Reindex";
 
 class JobQueue {
     workers: { [key: string]: QueueJob } = {};
@@ -32,6 +33,7 @@ class JobQueue {
         this.workers.ingest = new Ingest();
         this.workers.metadata = new Metadata();
         this.workers.notify = new Notify();
+        this.workers.reindex = new Reindex();
         this.manager = this.queueManager.getWorker(async (job) => {
             console.log("JOB: " + job.name);
             if (typeof this.workers[job.name] === "undefined") {

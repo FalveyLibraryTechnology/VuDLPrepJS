@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express"; // Types
 import passport = require("passport");
 import Config from "../models/Config";
-import Database from "../services/Database";
+import { Database, User } from "../services/Database";
 
 interface NextFunction {
     (err?: Error): void;
@@ -18,7 +18,7 @@ export function authenticate(req: Request, res: Response, next?: NextFunction): 
     authMethod(req, res, next);
 }
 
-function saveSessionReferer(req: Request) {
+function saveSessionReferer(req) {
     req.session.referer = req.originalUrl;
 }
 
@@ -109,7 +109,7 @@ export function getAuthRouter(): Router {
         if (!req.user) {
             return res.sendStatus(401);
         }
-        const token = await Database.getInstance().makeToken(req.user);
+        const token = await Database.getInstance().makeToken(req.user as User);
         req.session.token = token;
         res.json(token);
     });

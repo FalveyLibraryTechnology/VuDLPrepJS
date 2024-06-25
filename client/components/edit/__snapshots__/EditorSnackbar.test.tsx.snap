@@ -13,7 +13,7 @@ exports[`EditorSnackbar renders 1`] = `
   role="presentation"
 >
   <div
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardInfo MuiAlert-standard editorSnackbarAlert css-1fuz9qr-MuiPaper-root-MuiAlert-root"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard editorSnackbarAlert css-hu7tqv-MuiPaper-root-MuiAlert-root"
     direction="up"
     role="alert"
     style={

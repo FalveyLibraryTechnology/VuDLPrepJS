@@ -24,6 +24,7 @@
     "@mui/lab": "^5.0.0-alpha.150",
     "@mui/material": "^5",
     "@mui/x-date-pickers": "^5",
+    "@mui/x-tree-view": "^6",
     "@tinymce/tinymce-react": "^4",
     "dayjs": "^1",
     "html-react-parser": "^4",

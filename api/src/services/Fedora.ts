@@ -8,6 +8,7 @@ import { NeedleResponse } from "./interfaces";
 import xmlescape = require("xml-escape");
 import { HttpError } from "../models/HttpError";
 import winston = require("winston");
+import SolrCache from "./SolrCache";
 
 export interface DatastreamParameters {
     dsLabel?: string;
@@ -32,14 +33,16 @@ export class Fedora {
     private static instance: Fedora;
     protected logger: winston.Logger = null;
     config: Config;
+    cache: SolrCache;
 
-    constructor(config: Config) {
+    constructor(config: Config, cache: SolrCache) {
         this.config = config;
+        this.cache = cache;
     }
 
     public static getInstance(): Fedora {
         if (!Fedora.instance) {
-            Fedora.instance = new Fedora(Config.getInstance());
+            Fedora.instance = new Fedora(Config.getInstance(), SolrCache.getInstance());
         }
         return Fedora.instance;
     }
@@ -116,6 +119,7 @@ export class Fedora {
         datastream: string,
         requestOptions = { parse_response: false },
     ): Promise<NeedleResponse> {
+        this.cache.purgeFromCacheIfEnabled(pid);
         return await this._request(
             "delete",
             `${pid}/${datastream}`,
@@ -136,6 +140,7 @@ export class Fedora {
         datastream: string,
         requestOptions = { parse_response: false },
     ): Promise<NeedleResponse> {
+        this.cache.purgeFromCacheIfEnabled(pid);
         return await this._request(
             "delete",
             `${pid}/${datastream}/fcr:tombstone`,
@@ -151,6 +156,7 @@ export class Fedora {
      * @param parse Parse JSON (true) or return raw (false, default)
      */
     async deleteObject(pid: string, requestOptions = { parse_response: false }): Promise<NeedleResponse> {
+        this.cache.purgeFromCacheIfEnabled(pid);
         return await this._request(
             "delete",
             pid,
@@ -166,6 +172,7 @@ export class Fedora {
      * @param requestOptions Parse JSON (true) or return raw (false, default)
      */
     async deleteObjectTombstone(pid: string, requestOptions = { parse_response: false }): Promise<NeedleResponse> {
+        this.cache.purgeFromCacheIfEnabled(pid);
         return await this._request(
             "delete",
             `${pid}/fcr:tombstone`,
@@ -260,6 +267,7 @@ export class Fedora {
         data: string | Buffer,
         linkHeader = "",
     ): Promise<void> {
+        this.cache.purgeFromCacheIfEnabled(pid);
         const md5 = crypto.createHash("md5").update(data).digest("hex");
         const sha = crypto.createHash("sha512").update(data).digest("hex");
         const headers: Record<string, string> = {
@@ -300,6 +308,8 @@ export class Fedora {
         data: string | Buffer,
         expectedStatus = [201],
     ): Promise<void> {
+        this.cache.purgeFromCacheIfEnabled(pid);
+
         // First create the stream:
         await this.putDatastream(pid, stream, params.mimeType, expectedStatus, data, params.linkHeader ?? "");
 
@@ -330,6 +340,7 @@ export class Fedora {
      * @param title New label to apply
      */
     async modifyObjectLabel(pid: string, title: string): Promise<void> {
+        this.cache.purgeFromCacheIfEnabled(pid);
         const writer = new N3.Writer({ format: "text/turtle" });
         this.addLabelToContainerGraph(writer, title);
         const insertClause = this.getOutputFromWriter(writer);
@@ -349,6 +360,7 @@ export class Fedora {
      * @param state New state to set
      */
     async modifyObjectState(pid: string, state: string): Promise<void> {
+        this.cache.purgeFromCacheIfEnabled(pid);
         const writer = new N3.Writer({ format: "text/turtle" });
         writer.addQuad(namedNode(""), namedNode("info:fedora/fedora-system:def/model#state"), literal(state));
         const insertClause = this.getOutputFromWriter(writer);
@@ -376,6 +388,7 @@ export class Fedora {
         obj: string,
         isLiteral = false,
     ): Promise<void> {
+        this.cache.purgeFromCacheIfEnabled(pid);
         const writer = new N3.Writer({ format: "text/turtle" });
         writer.addQuad(namedNode(subject), namedNode(predicate), isLiteral ? literal(obj) : namedNode(obj));
         const turtle = this.getOutputFromWriter(writer);
@@ -393,6 +406,7 @@ export class Fedora {
      * @param parentPid Parent PID to update
      */
     async deleteParentRelationship(pid: string, parentPid: string): Promise<void> {
+        this.cache.purgeFromCacheIfEnabled(pid);
         const predicate = "info:fedora/fedora-system:def/relations-external#isMemberOf";
         const targetPath = "/" + pid;
         const insertClause = "";
@@ -411,6 +425,7 @@ export class Fedora {
      * @param parentPid Parent PID to update
      */
     async deleteSequenceRelationship(pid: string, parentPid: string): Promise<void> {
+        this.cache.purgeFromCacheIfEnabled(pid);
         const predicate = "http://vudl.org/relationships#sequence";
         const targetPath = "/" + pid;
         const insertClause = "";
@@ -432,6 +447,7 @@ export class Fedora {
         if (sortOn !== "title" && sortOn !== "custom") {
             throw new Error("Unexpected sortOn value: " + sortOn);
         }
+        this.cache.purgeFromCacheIfEnabled(pid);
         const subject = "info:fedora/" + pid;
         const predicate = "http://vudl.org/relationships#sortOn";
         const writer = new N3.Writer({ format: "text/turtle" });
@@ -455,6 +471,7 @@ export class Fedora {
      * @param newPosition New position to set
      */
     async updateSequenceRelationship(pid: string, parentPid: string, newPosition: number): Promise<void> {
+        this.cache.purgeFromCacheIfEnabled(pid);
         const subject = "info:fedora/" + pid;
         const predicate = "http://vudl.org/relationships#sequence";
         const writer = new N3.Writer({ format: "text/turtle" });

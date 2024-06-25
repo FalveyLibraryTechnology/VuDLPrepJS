@@ -9,7 +9,7 @@
   },
   "scripts": {
     "api": "cd api && npm run start:server",
-    "api:build": "cd api && tsc",
+    "api:build": "cd api && npm run build",
     "api:dev": "cd api && npm run start:serverWatch",
     "api:format": "cd api && npm run format",
     "api:lint": "cd api && npm run lint",
@@ -38,7 +38,7 @@
     "setup": "concurrently npm:api:setup npm:client:setup",
     "start": "concurrently -c 'cyan,green,gray' npm:client npm:api npm:queue",
     "test": "concurrently npm:client:test npm:api:test",
-    "watch": "cd api && tsc --watch"
+    "watch": "cd api && npm run watch"
   },
   "devDependencies": {
     "concurrently": "^8"

@@ -1,6 +1,7 @@
 import Config from "./Config";
 import Job from "./Job";
 import QueueManager from "../services/QueueManager";
+import SolrCache from "../services/SolrCache";
 
 jest.mock("./Config");
 jest.mock("../services/QueueManager");
@@ -16,7 +17,7 @@ describe("Job", () => {
 
     beforeEach(() => {
         const config = new Config({});
-        job = new Job("test1", config, new QueueManager(config));
+        job = new Job("test1", config, new QueueManager(config, new SolrCache(false)));
     });
 
     it("should return the name", () => {

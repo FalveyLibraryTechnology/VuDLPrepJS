@@ -129,6 +129,10 @@ class Config {
         return this.ini["solr_url"] ?? "http://localhost:8983/solr";
     }
 
+    get solrDocumentCacheDir(): boolean | string {
+        return this.ini["solr_document_cache_dir"] ?? false;
+    }
+
     get allowedOrigins(): string[] {
         return this.ini["allowed_origins"] ?? [];
     }
@@ -300,6 +304,22 @@ class Config {
         return {
             defaultChannel: this.ini?.["notify"]?.["ntfy_defaultChannel"] ?? "vudl-ntfy",
         };
+    }
+
+    get indexerLockRetries(): number {
+        return parseInt(this.ini?.["indexer"]?.["lockRetries"] ?? 60);
+    }
+
+    get indexerLockWaitMs(): number {
+        return parseInt(this.ini?.["indexer"]?.["lockWaitMs"] ?? 1000);
+    }
+
+    get indexerExceptionRetries(): number {
+        return parseInt(this.ini?.["indexer"]?.["exceptionRetries"] ?? 10);
+    }
+
+    get indexerExceptionWaitMs(): number {
+        return parseInt(this.ini?.["indexer"]?.["exceptionWaitMs"] ?? 500);
     }
 }
 
