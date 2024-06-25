@@ -62,13 +62,26 @@ export class SolrCache {
         }
     }
 
-    public unlockPidIfEnabled(pid: string, action: string): void {
-        if (!this.isEnabled()) {
-            return;
-        }
-        const file = this.getLockFileForPid(pid, action);
+    protected tolerantDeleteFile(file: string): void {
         if (existsSync(file)) {
-            rmSync(file);
+            try {
+                rmSync(file);
+            } catch (e) {
+                // Since we don't have file locking in place, it's possible that a
+                // file might get deleted by another process in between the exists
+                // check and the delete call. This will trigger an exception, but
+                // as long as the file is really deleted, we don't mind. If the file
+                // still exists, though, we should rethrow the exception.
+                if (existsSync(file)) {
+                    throw e;
+                }
+            }
+        }
+    }
+
+    public unlockPidIfEnabled(pid: string, action: string): void {
+        if (this.isEnabled()) {
+            this.tolerantDeleteFile(this.getLockFileForPid(pid, action));
         }
     }
 
@@ -78,8 +91,8 @@ export class SolrCache {
 
     public purgeFromCacheIfEnabled(pid: string): void {
         const cacheFile = this.getDocumentCachePath(pid);
-        if (cacheFile !== false && existsSync(cacheFile as string)) {
-            rmSync(cacheFile as string);
+        if (cacheFile !== false) {
+            this.tolerantDeleteFile(cacheFile as string);
         }
     }
 

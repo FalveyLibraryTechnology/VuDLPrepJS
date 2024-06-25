@@ -87,8 +87,12 @@ class QueueManager {
             console.log(`Skipping queue; ${pid} is already awaiting ${action}.`);
         } else {
             // Clear the cache for the pid that needs to be reindexed; we don't want to read an
-            // outdated version while updates are pending:
-            this.cache.purgeFromCacheIfEnabled(pid);
+            // outdated version while updates are pending. Note that reindex_children is a
+            // special case, since it does not directly modify the specified pid and should not
+            // trigger a cache purge!
+            if (action !== "reindex_children") {
+                this.cache.purgeFromCacheIfEnabled(pid);
+            }
             this.cache.lockPidIfEnabled(pid, action);
             await q.add("index", queueJob);
         }
@@ -108,7 +112,9 @@ class QueueManager {
 
     public async getActiveIndexJobsForPid(pid: string): Promise<Array<Job>> {
         const q = this.getQueue(this.getQueueNameForJob("index"));
-        return (await q.getJobs("active")).filter((job) => job.data.pid === pid);
+        const result = (await q.getJobs("active")).filter((job) => job.data.pid === pid);
+        q.close();
+        return result;
     }
 
     public async queueMetadataOperation(pid: string, action: string, force = false): Promise<void> {

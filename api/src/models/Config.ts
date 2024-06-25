@@ -305,6 +305,22 @@ class Config {
             defaultChannel: this.ini?.["notify"]?.["ntfy_defaultChannel"] ?? "vudl-ntfy",
         };
     }
+
+    get indexerLockRetries(): number {
+        return parseInt(this.ini?.["indexer"]?.["lockRetries"] ?? 60);
+    }
+
+    get indexerLockWaitMs(): number {
+        return parseInt(this.ini?.["indexer"]?.["lockWaitMs"] ?? 1000);
+    }
+
+    get indexerExceptionRetries(): number {
+        return parseInt(this.ini?.["indexer"]?.["exceptionRetries"] ?? 10);
+    }
+
+    get indexerExceptionWaitMs(): number {
+        return parseInt(this.ini?.["indexer"]?.["exceptionWaitMs"] ?? 500);
+    }
 }
 
 export default Config;

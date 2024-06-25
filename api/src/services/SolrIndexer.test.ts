@@ -3,6 +3,8 @@ import Fedora from "./Fedora";
 import FedoraDataCollection from "../models/FedoraDataCollection";
 import FedoraDataCollector from "./FedoraDataCollector";
 import { NeedleResponse } from "./interfaces";
+import Solr from "./Solr";
+import SolrCache from "./SolrCache";
 import SolrIndexer from "./SolrIndexer";
 import TikaExtractor from "./TikaExtractor";
 
@@ -657,5 +659,25 @@ describe("SolrIndexer", () => {
         expect(getHierarchySpy).toHaveBeenCalledWith(pid);
         expect(changeSpy).toHaveBeenCalledTimes(1);
         expect(changeSpy).toHaveBeenCalledWith(pid, "1900-01-01T00:00:00Z");
+    });
+
+    it("can initiate Solr delete operations", async () => {
+        const pid = "test:123";
+        const deleteSpy = jest.spyOn(Solr.getInstance(), "deleteRecord").mockImplementation(jest.fn());
+        await indexer.deletePid(pid);
+        expect(deleteSpy).toHaveBeenCalledWith("biblio", pid);
+    });
+
+    it("can initiate Solr index operations and store the result", async () => {
+        const pid = "test:123";
+        const fakeFields = { pid };
+        const getSpy = jest.spyOn(indexer, "getFields").mockReturnValue(fakeFields);
+        const purgeSpy = jest.spyOn(SolrCache.getInstance(), "purgeFromCacheIfEnabled").mockImplementation(jest.fn());
+        const indexSpy = jest.spyOn(Solr.getInstance(), "indexRecord").mockImplementation(jest.fn());
+        await indexer.indexPid(pid);
+        expect(purgeSpy).toHaveBeenCalledWith(pid);
+        expect(getSpy).toHaveBeenCalledWith(pid);
+        expect(indexSpy).toHaveBeenCalledWith("biblio", fakeFields);
+        expect(indexer.getLastIndexResults()).toEqual(fakeFields);
     });
 });

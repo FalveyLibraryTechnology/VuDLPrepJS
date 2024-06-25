@@ -10,6 +10,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
+- Index jobs now fail when missing parents are detected.
+- Index jobs now automatically trigger child record indexing when certain parent details change.
+- Index workers now retry up to 3 times before throwing exceptions.
+- Removal of files by SolrCache class is more tolerant of race conditions.
 - Updated dependencies.
 
 ### Deprecated
@@ -22,6 +26,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
+- Problem with cached data getting "stuck" when re-indexing.
 - Race condition when processing the same index job in multiple queues.
 
 ## 2.1 - 2023-11-28

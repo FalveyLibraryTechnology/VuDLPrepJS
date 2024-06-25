@@ -165,6 +165,15 @@ describe("QueueManager", () => {
             expect(purgeSpy).toHaveBeenCalledWith("123");
             expect(lockSpy).toHaveBeenCalledWith("123", "index");
         });
+
+        it("will not purge the queue for reindex_children operations", async () => {
+            const pendingSpy = jest.spyOn(queueManager, "hasPendingIndexJob").mockReturnValue(false);
+            await queueManager.performIndexOperation("123", "reindex_children");
+            expect(pendingSpy).toHaveBeenCalledWith(expect.anything(), { pid: "123", action: "reindex_children" });
+            expect(addSpy).toHaveBeenCalledWith("index", { pid: "123", action: "reindex_children" });
+            expect(purgeSpy).not.toHaveBeenCalled();
+            expect(lockSpy).toHaveBeenCalledWith("123", "reindex_children");
+        });
     });
 
     describe("sendNotification", () => {

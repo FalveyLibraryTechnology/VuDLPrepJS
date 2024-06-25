@@ -148,6 +148,22 @@ describe("SolrCache", () => {
         expect(rmSpy).toHaveBeenCalledWith("/foo/foo/000/000/123/123.index.lock");
     });
 
+    it("throws an exception if something goes wrong during unlock", () => {
+        const cache = new SolrCache("/foo");
+        existsSpy.mockReturnValue(true);
+        const testError = new Error("test!");
+        rmSpy.mockImplementation(() => {
+            throw testError;
+        });
+        let thrownException = null;
+        try {
+            cache.unlockPidIfEnabled("foo:123", "index");
+        } catch (e) {
+            thrownException = e;
+        }
+        expect(thrownException).toEqual(testError);
+    });
+
     it("reports lock status based on file existence", () => {
         const cache = new SolrCache("/foo");
         existsSpy.mockReturnValueOnce(true).mockReturnValueOnce(false);

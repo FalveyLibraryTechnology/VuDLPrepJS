@@ -491,6 +491,19 @@ host = "localhost"
 port = 6379
 #password = "mypass"
 
+# These settings control the behavior of the indexer job processor
+[indexer]
+# Total number of times to check that the current job is the earliest running job for
+# its pid before giving up.
+lockRetries = 60
+# Time (in ms) to wait before re-checking the lock, when an earlier job processor
+# is working on the active processor's pid.
+lockWaitMs = 1000
+# Total number of times to try an index job before giving up due to exceptions
+exceptionRetries = 10
+# Time (in ms) to wait between retries after encountering an indexing exception
+exceptionWaitMs = 500
+
 # These settings control the Sharp image processing library
 [sharp]
 limitInputPixels = 268402689
