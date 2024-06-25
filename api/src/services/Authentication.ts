@@ -54,11 +54,12 @@ class Authentication {
     public getSamlStrategy(): saml.Strategy {
         return new saml.Strategy(
             {
-                path: "/api/auth/login",
                 callbackUrl: `${this.config.backendUrl}/api/auth/login`,
                 entryPoint: this.config.samlEntryPoint,
                 issuer: this.config.backendUrl,
-                cert: this.config.samlCertificate,
+                idpCert: this.config.samlCertificate,
+                wantAssertionsSigned: false,
+                wantAuthnResponseSigned: false,
             },
             async function (profile, done) {
                 let user: User | boolean = false;
