@@ -7,11 +7,11 @@ exports[`SolrIndexer renders 1`] = `
     Solr Index Tool
   </h1>
   <div
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
   >
     <div
       aria-expanded={false}
-      className="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root"
+      className="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1f773le-MuiButtonBase-root-MuiAccordionSummary-root"
       onBlur={[Function]}
       onClick={[Function]}
       onContextMenu={[Function]}
@@ -29,7 +29,7 @@ exports[`SolrIndexer renders 1`] = `
       tabIndex={0}
     >
       <div
-        className="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+        className="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-eqpfi5-MuiAccordionSummary-content"
       >
         Index Single PID:
       </div>
@@ -78,11 +78,11 @@ exports[`SolrIndexer renders 1`] = `
     </div>
   </div>
   <div
-    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1elwnq4-MuiPaper-root-MuiAccordion-root"
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
   >
     <div
       aria-expanded={false}
-      className="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root"
+      className="MuiButtonBase-root MuiAccordionSummary-root MuiAccordionSummary-gutters css-1f773le-MuiButtonBase-root-MuiAccordionSummary-root"
       onBlur={[Function]}
       onClick={[Function]}
       onContextMenu={[Function]}
@@ -100,7 +100,7 @@ exports[`SolrIndexer renders 1`] = `
       tabIndex={0}
     >
       <div
-        className="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-o4b71y-MuiAccordionSummary-content"
+        className="MuiAccordionSummary-content MuiAccordionSummary-contentGutters css-eqpfi5-MuiAccordionSummary-content"
       >
         Index Range of PIDs:
       </div>
