@@ -17,6 +17,13 @@ import { requireLogin, getAuthRouter } from "./routes/auth";
 import Authentication from "./services/Authentication";
 import Config from "./models/Config";
 
+// Set up session types
+declare module "express-session" {
+    interface SessionData {
+        token?: string;
+    }
+}
+
 const sess = {
     secret: Config.getInstance().sessionKey,
     saveUninitialized: true,
