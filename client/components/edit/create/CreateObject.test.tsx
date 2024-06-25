@@ -11,15 +11,17 @@ import { FetchContextProvider } from "../../../context/FetchContext";
 let nodeSelectFunction = null;
 let treeItems = null;
 
-jest.mock("@mui/lab/TreeItem", function () {
-    return () => "TreeItem";
+jest.mock("@mui/x-tree-view/TreeItem", function () {
+    return { TreeItem: () => "TreeItem" };
 });
 
-jest.mock("@mui/lab/TreeView", function () {
-    return ({ onNodeSelect, children }) => {
-        nodeSelectFunction = onNodeSelect;
-        treeItems = children;
-        return children;
+jest.mock("@mui/x-tree-view/TreeView", function () {
+    return {
+        TreeView: ({ onNodeSelect, children }) => {
+            nodeSelectFunction = onNodeSelect;
+            treeItems = children;
+            return children;
+        },
     };
 });
 

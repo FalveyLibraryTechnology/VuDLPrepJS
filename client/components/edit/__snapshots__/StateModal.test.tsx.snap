@@ -43,7 +43,7 @@ exports[`StateModal renders correctly for a loaded object with children 1`] = `
     </label>
     <div
       aria-labelledby="state-modal-group-label"
-      className="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
+      className="MuiFormGroup-root MuiRadioGroup-root css-dmmspl-MuiFormGroup-root"
       role="radiogroup"
     >
       <label
@@ -348,7 +348,7 @@ exports[`StateModal renders correctly for a loaded object without children 1`] =
     </label>
     <div
       aria-labelledby="state-modal-group-label"
-      className="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
+      className="MuiFormGroup-root MuiRadioGroup-root css-dmmspl-MuiFormGroup-root"
       role="radiogroup"
     >
       <label
@@ -599,7 +599,7 @@ exports[`StateModal renders correctly for a pending object 1`] = `
     </label>
     <div
       aria-labelledby="state-modal-group-label"
-      className="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
+      className="MuiFormGroup-root MuiRadioGroup-root css-dmmspl-MuiFormGroup-root"
       role="radiogroup"
     >
       <label
@@ -853,7 +853,7 @@ exports[`StateModal renders correctly when closed 1`] = `
     </label>
     <div
       aria-labelledby="state-modal-group-label"
-      className="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
+      className="MuiFormGroup-root MuiRadioGroup-root css-dmmspl-MuiFormGroup-root"
       role="radiogroup"
     >
       <label
