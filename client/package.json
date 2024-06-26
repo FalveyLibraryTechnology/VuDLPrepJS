@@ -35,10 +35,9 @@
     "tinymce": "^6"
   },
   "devDependencies": {
-    "@testing-library/dom": "10",
     "@testing-library/jest-dom": "^5",
     "@testing-library/react": "^16",
-    "@testing-library/user-event": "^14.5.1",
+    "@testing-library/user-event": "^14",
     "@types/jest": "^29",
     "@types/node": "^18",
     "@types/react": "^18",
