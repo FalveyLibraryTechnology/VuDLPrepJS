@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { renderHook, act } from "@testing-library/react";
+import { renderHook, act, waitFor } from "@testing-library/react";
 import { EditorContextProvider, useEditorContext } from "./EditorContext";
 
 const mockUseFetchContext = jest.fn();
@@ -277,8 +277,9 @@ describe("useEditorContext", () => {
             const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
             await act(async () => {
                 await result.current.action.setCurrentPid("test:123");
-                await result.current.action.loadCurrentObjectDetails();
             });
+            await result.current.action.loadCurrentObjectDetails();
+            await waitFor(() => expect(fetchValues.action.fetchJSON).toHaveBeenCalled());
             expect(result.current.action.extractFirstMetadataValue("field", "default")).toEqual("foo");
         });
     });
