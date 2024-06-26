@@ -38,12 +38,17 @@ describe("JobSelector", () => {
         };
     });
 
-    it("renders", () => {
-        const tree = renderer.create(
-            <FetchContextProvider>
-                <JobSelector />
-            </FetchContextProvider>,
-        );
+    it("renders", async () => {
+        response.json.mockResolvedValueOnce({});
+        global.fetch.mockResolvedValueOnce(response);
+        let tree;
+        await renderer.act(() => {
+            tree = renderer.create(
+                <FetchContextProvider>
+                    <JobSelector />
+                </FetchContextProvider>,
+            );
+        });
         expect(tree.toJSON()).toMatchSnapshot();
     });
 
