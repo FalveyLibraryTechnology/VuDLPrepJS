@@ -90,8 +90,8 @@ describe("StateModal", () => {
         let tree;
         await renderer.act(async () => {
             tree = renderer.create(<StateModal />);
-            await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
         });
+        await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
         expect(tree.toJSON()).toMatchSnapshot();
     });
 
@@ -101,8 +101,8 @@ describe("StateModal", () => {
         let tree;
         await renderer.act(async () => {
             tree = renderer.create(<StateModal />);
-            await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
         });
+        await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
         expect(tree.toJSON()).toMatchSnapshot();
     });
 
@@ -112,7 +112,9 @@ describe("StateModal", () => {
         fetchContextValues.action.fetchText.mockResolvedValue("ok");
         await act(async () => {
             render(<StateModal />);
-            await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        });
+        await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        await act(async () => {
             await userEvent.setup().click(screen.getByText("Active"));
             await userEvent.setup().click(screen.getByText("Save"));
         });
@@ -137,8 +139,10 @@ describe("StateModal", () => {
         fetchContextValues.action.fetchText.mockResolvedValue("ok");
         await act(async () => {
             render(<StateModal />);
-            await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
-            await userEvent.setup().click(screen.getByText("Save"));
+        });
+        await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        await act(async () => {
+                await userEvent.setup().click(screen.getByText("Save"));
         });
         await waitFor(() =>
             expect(editorValues.action.setSnackbarState).toHaveBeenCalledWith({
@@ -158,7 +162,9 @@ describe("StateModal", () => {
         fetchContextValues.action.fetchText.mockResolvedValue("not ok");
         await act(async () => {
             render(<StateModal />);
-            await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        });
+        await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        await act(async () => {
             await userEvent.setup().click(screen.getByText("Active"));
             await userEvent.setup().click(screen.getByText("Save"));
         });
@@ -183,7 +189,9 @@ describe("StateModal", () => {
         fetchContextValues.action.fetchText.mockResolvedValue("not ok");
         await act(async () => {
             render(<StateModal />);
-            await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        });
+        await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        await act(async () => {
             await userEvent.setup().click(screen.getByText("Active"));
             await userEvent.setup().click(screen.getByText("Update 1 children to match"));
             await userEvent.setup().click(screen.getByText("Save"));
@@ -209,7 +217,9 @@ describe("StateModal", () => {
         fetchContextValues.action.fetchText.mockResolvedValue("ok");
         await act(async () => {
             render(<StateModal />);
-            await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        });
+        await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        await act(async () => {
             await userEvent.setup().click(screen.getByText("Active"));
             await userEvent.setup().click(screen.getByText("Update 1 children to match"));
             await userEvent.setup().click(screen.getByText("Save"));
