@@ -78,9 +78,7 @@ describe("DatastreamAgentsContent", () => {
             render(<DatastreamAgentsContent />);
         });
         await waitFor(() => expect(datastreamOperationValues.getAgents).toHaveBeenCalled());
-        await act(async () => {
-                await userEvent.setup().click(screen.getByText("Save Changes"));
-        });
+        await userEvent.setup().click(screen.getByText("Save Changes"));
 
         expect(datastreamOperationValues.uploadAgents).toHaveBeenCalled();
         expect(editorValues.action.toggleDatastreamModal).not.toHaveBeenCalled();
@@ -93,9 +91,7 @@ describe("DatastreamAgentsContent", () => {
             render(<DatastreamAgentsContent />);
         });
         await waitFor(() => expect(datastreamOperationValues.getAgents).toHaveBeenCalled());
-        await act(async () => {
-            await userEvent.setup().click(screen.getByText("Save And Close"));
-        });
+        await userEvent.setup().click(screen.getByText("Save And Close"));
 
         expect(datastreamOperationValues.uploadAgents).toHaveBeenCalled();
         expect(editorValues.action.toggleDatastreamModal).toHaveBeenCalled();
@@ -108,9 +104,7 @@ describe("DatastreamAgentsContent", () => {
             render(<DatastreamAgentsContent />);
         });
         await waitFor(() => expect(datastreamOperationValues.getAgents).toHaveBeenCalled());
-        await act(async () => {
-            await userEvent.setup().click(screen.getByText("Cancel"));
-        });
+        await userEvent.setup().click(screen.getByText("Cancel"));
 
         expect(datastreamOperationValues.uploadAgents).not.toHaveBeenCalled();
         expect(datastreamOperationValues.getAgents).toHaveBeenCalled();
