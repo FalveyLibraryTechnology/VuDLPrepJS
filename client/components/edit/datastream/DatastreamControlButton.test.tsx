@@ -38,15 +38,17 @@ describe("DatastreamControlButton", () => {
     });
 
     it("downloads the datastream", async () => {
-        render(<DatastreamControlButton modalState="Download" datastream="THUMBNAIL" />);
         await act(async () => {
-            await userEvent.setup().click(screen.getByRole("button"));
+            render(<DatastreamControlButton modalState="Download" datastream="THUMBNAIL" />);
         });
+        await userEvent.setup().click(screen.getByRole("button"));
         expect(datastreamOperationValues.downloadDatastream).toHaveBeenCalledWith("THUMBNAIL");
     });
 
     it("activates the modal", async () => {
-        render(<DatastreamControlButton modalState="View" datastream="THUMBNAIL" />);
+        await act(async () => {
+            render(<DatastreamControlButton modalState="View" datastream="THUMBNAIL" />);
+        });
         await userEvent.setup().click(screen.getByRole("button"));
         expect(editorValues.action.setActiveDatastream).toHaveBeenCalledWith("THUMBNAIL");
         expect(editorValues.action.setDatastreamModalState).toHaveBeenCalledWith("View");
