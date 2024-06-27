@@ -129,7 +129,7 @@ describe("ObjectOrder", () => {
         await act(() => {
             render(<ObjectOrder pid={pid} />);
         });
-        userEvent.setup().click(screen.getByRole("button"));
+        await userEvent.setup().click(screen.getByRole("button"));
         await waitFor(() =>
             expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
                 "http://localhost:9000/api/edit/object/foo%3A125/positionInParent/foo%3A123",
@@ -151,7 +151,7 @@ describe("ObjectOrder", () => {
         await act(() => {
             render(<ObjectOrder pid={pid} />);
         });
-        userEvent.setup().click(screen.getByRole("button"));
+        await userEvent.setup().click(screen.getByRole("button"));
         await waitFor(() =>
             expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
                 "http://localhost:9000/api/edit/object/foo%3A125/positionInParent/foo%3A123",
@@ -172,7 +172,7 @@ describe("ObjectOrder", () => {
         await act(() => {
             render(<ObjectOrder pid={pid} />);
         });
-        userEvent.setup().click(screen.getByRole("button"));
+        await userEvent.setup().click(screen.getByRole("button"));
         await waitFor(() =>
             expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
                 "http://localhost:9000/api/edit/object/foo%3A125/positionInParent/foo%3A123",
