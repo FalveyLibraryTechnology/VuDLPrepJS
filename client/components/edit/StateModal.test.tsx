@@ -114,10 +114,9 @@ describe("StateModal", () => {
             render(<StateModal />);
         });
         await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
-        await act(async () => {
-            await userEvent.setup().click(screen.getByText("Active"));
-            await userEvent.setup().click(screen.getByText("Save"));
-        });
+        const user = userEvent.setup();
+        await user.click(screen.getByText("Active"));
+        await user.click(screen.getByText("Save"));
         await waitFor(() =>
             expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
                 "http://localhost:9000/api/edit/object/foo%3A123/state",
@@ -141,9 +140,7 @@ describe("StateModal", () => {
             render(<StateModal />);
         });
         await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
-        await act(async () => {
-                await userEvent.setup().click(screen.getByText("Save"));
-        });
+        await userEvent.setup().click(screen.getByText("Save"));
         await waitFor(() =>
             expect(editorValues.action.setSnackbarState).toHaveBeenCalledWith({
                 message: "No changes were made.",
@@ -164,10 +161,9 @@ describe("StateModal", () => {
             render(<StateModal />);
         });
         await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
-        await act(async () => {
-            await userEvent.setup().click(screen.getByText("Active"));
-            await userEvent.setup().click(screen.getByText("Save"));
-        });
+        const user = userEvent.setup();
+        await user.click(screen.getByText("Active"));
+        await user.click(screen.getByText("Save"));
         await waitFor(() =>
             expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
                 "http://localhost:9000/api/edit/object/foo%3A123/state",
@@ -191,11 +187,10 @@ describe("StateModal", () => {
             render(<StateModal />);
         });
         await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
-        await act(async () => {
-            await userEvent.setup().click(screen.getByText("Active"));
-            await userEvent.setup().click(screen.getByText("Update 1 children to match"));
-            await userEvent.setup().click(screen.getByText("Save"));
-        });
+        const user = userEvent.setup();
+        await user.click(screen.getByText("Active"));
+        await user.click(screen.getByText("Update 1 children to match"));
+        await user.click(screen.getByText("Save"));
         await waitFor(() =>
             expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
                 "http://localhost:9000/api/edit/object/foo%3A125/state",
@@ -219,11 +214,10 @@ describe("StateModal", () => {
             render(<StateModal />);
         });
         await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
-        await act(async () => {
-            await userEvent.setup().click(screen.getByText("Active"));
-            await userEvent.setup().click(screen.getByText("Update 1 children to match"));
-            await userEvent.setup().click(screen.getByText("Save"));
-        });
+        const user = userEvent.setup();
+        await user.click(screen.getByText("Active"));
+        await user.click(screen.getByText("Update 1 children to match"));
+        await user.click(screen.getByText("Save"));
         await waitFor(() =>
             expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
                 "http://localhost:9000/api/edit/object/foo%3A123/state",
