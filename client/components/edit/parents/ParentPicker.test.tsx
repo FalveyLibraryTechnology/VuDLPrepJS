@@ -95,7 +95,7 @@ describe("ParentPicker", () => {
             sortOn: "title",
         };
         render(<ParentPicker pid={pid} />);
-        act(() => setSelected(parentPid));
+        await act(() => setSelected(parentPid));
         await act(async () => {
             await userEvent.setup().click(screen.getByRole("button"));
             await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
@@ -122,7 +122,7 @@ describe("ParentPicker", () => {
             sortOn: "title",
         };
         render(<ParentPicker pid={pid} />);
-        act(() => setSelected(parentPid));
+        await act(() => setSelected(parentPid));
         await act(async () => {
             await userEvent.setup().click(screen.getByRole("button"));
             await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
@@ -147,7 +147,7 @@ describe("ParentPicker", () => {
             sortOn: "title",
         };
         render(<ParentPicker pid={pid} />);
-        act(() => setSelected(parentPid));
+        await act(() => setSelected(parentPid));
         await act(async () => {
             await userEvent.setup().click(screen.getByRole("button"));
             await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
@@ -183,7 +183,7 @@ describe("ParentPicker", () => {
             sortOn: "custom",
         };
         render(<ParentPicker pid={pid} />);
-        act(() => setSelected(parentPid));
+        await act(() => setSelected(parentPid));
         await act(async () => {
             fireEvent.change(screen.getByRole("textbox", { name: "Position:" }), { target: { value: "100" } });
             await Promise.resolve();
@@ -211,7 +211,7 @@ describe("ParentPicker", () => {
             sortOn: "custom",
         };
         render(<ParentPicker pid={pid} />);
-        act(() => setSelected(parentPid));
+        await act(() => setSelected(parentPid));
         await act(async () => {
             await userEvent.setup().click(screen.getByRole("button"));
             await waitFor(() => expect(fetchValues.action.fetchText).toHaveBeenCalled());
@@ -249,7 +249,7 @@ describe("ParentPicker", () => {
             sortOn: "custom",
         };
         render(<ParentPicker pid={pid} />);
-        act(() => setSelected(parentPid));
+        await act(() => setSelected(parentPid));
         await act(async () => {
             await userEvent.setup().click(screen.getByRole("button"));
             await waitFor(() => expect(fetchValues.action.fetchText).toHaveBeenCalled());
