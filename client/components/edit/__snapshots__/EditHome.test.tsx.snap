@@ -15,6 +15,7 @@ exports[`EditHome renders 1`] = `
         href="/edit/newChild"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Create New Top-Level Object
       </a>

@@ -26,6 +26,7 @@ exports[`ObjectEditor renders 1`] = `
               href="/edit/object/foo:123/newChild"
               onClick={[Function]}
               onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               Create New Child Object
             </a>

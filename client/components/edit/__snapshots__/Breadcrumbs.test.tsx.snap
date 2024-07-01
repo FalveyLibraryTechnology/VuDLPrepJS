@@ -9,6 +9,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Main Menu
     </a>
@@ -18,6 +19,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Edit Home
     </a>
@@ -27,6 +29,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:0"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 0
     </a>
@@ -36,6 +39,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:1"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 1
     </a>
@@ -45,6 +49,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:2"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 2
     </a>
@@ -54,6 +59,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:3"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 3
     </a>
@@ -63,6 +69,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:4"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 4
     </a>
@@ -72,6 +79,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:5"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 5
     </a>
@@ -81,6 +89,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:6"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 6
     </a>
@@ -90,6 +99,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:7"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 7
     </a>
@@ -99,6 +109,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:8"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 8
     </a>
@@ -108,6 +119,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:9"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 9
     </a>
@@ -117,6 +129,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:10"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 10
     </a>
@@ -126,6 +139,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:11"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 11
     </a>
@@ -135,6 +149,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:12"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 12
     </a>
@@ -144,6 +159,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:13"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 13
     </a>
@@ -153,6 +169,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
       href="/edit/object/foo:14"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent 14
     </a>
@@ -170,6 +187,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -179,6 +197,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -188,6 +207,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:0"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 0
       </a>
@@ -201,6 +221,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -210,6 +231,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -219,6 +241,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:1"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 1
       </a>
@@ -232,6 +255,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -241,6 +265,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -250,6 +275,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:2"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 2
       </a>
@@ -263,6 +289,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -272,6 +299,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -281,6 +309,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:3"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 3
       </a>
@@ -294,6 +323,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -303,6 +333,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -312,6 +343,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:4"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 4
       </a>
@@ -325,6 +357,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -334,6 +367,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -343,6 +377,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:5"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 5
       </a>
@@ -356,6 +391,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -365,6 +401,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -374,6 +411,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:6"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 6
       </a>
@@ -387,6 +425,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -396,6 +435,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -405,6 +445,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:7"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 7
       </a>
@@ -418,6 +459,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -427,6 +469,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -436,6 +479,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:8"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 8
       </a>
@@ -449,6 +493,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -458,6 +503,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -467,6 +513,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:9"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 9
       </a>
@@ -480,6 +527,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -489,6 +537,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -498,6 +547,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:10"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 10
       </a>
@@ -511,6 +561,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -520,6 +571,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -529,6 +581,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:11"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 11
       </a>
@@ -542,6 +595,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -551,6 +605,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -560,6 +615,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:12"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 12
       </a>
@@ -573,6 +629,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -582,6 +639,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -591,6 +649,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:13"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 13
       </a>
@@ -604,6 +663,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -613,6 +673,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -622,6 +683,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
         href="/edit/object/foo:14"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 14
       </a>
@@ -640,6 +702,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -649,6 +712,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -665,6 +729,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:0"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 0
       </a>
@@ -678,6 +743,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -687,6 +753,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -703,6 +770,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:1"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 1
       </a>
@@ -716,6 +784,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -725,6 +794,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -741,6 +811,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:2"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 2
       </a>
@@ -754,6 +825,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -763,6 +835,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -779,6 +852,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:3"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 3
       </a>
@@ -792,6 +866,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -801,6 +876,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -817,6 +893,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:4"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 4
       </a>
@@ -830,6 +907,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -839,6 +917,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -855,6 +934,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:5"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 5
       </a>
@@ -868,6 +948,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -877,6 +958,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -893,6 +975,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:6"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 6
       </a>
@@ -906,6 +989,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -915,6 +999,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -931,6 +1016,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:7"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 7
       </a>
@@ -944,6 +1030,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -953,6 +1040,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -969,6 +1057,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:8"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 8
       </a>
@@ -982,6 +1071,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -991,6 +1081,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -1007,6 +1098,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:9"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 9
       </a>
@@ -1020,6 +1112,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -1029,6 +1122,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -1045,6 +1139,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:10"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 10
       </a>
@@ -1058,6 +1153,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -1067,6 +1163,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -1083,6 +1180,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:11"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 11
       </a>
@@ -1096,6 +1194,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -1105,6 +1204,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -1121,6 +1221,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:12"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 12
       </a>
@@ -1134,6 +1235,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -1143,6 +1245,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -1159,6 +1262,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:13"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 13
       </a>
@@ -1172,6 +1276,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -1181,6 +1286,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -1197,6 +1303,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
         href="/edit/object/foo:14"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 14
       </a>
@@ -1215,6 +1322,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (multiple parents with
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -1224,6 +1332,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (multiple parents with
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -1233,6 +1342,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (multiple parents with
         href="/edit/object/foo:1232"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Grandparent
       </a>
@@ -1242,6 +1352,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (multiple parents with
         href="/edit/object/foo:1233"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 1
       </a>
@@ -1255,6 +1366,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (multiple parents with
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Main Menu
       </a>
@@ -1264,6 +1376,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (multiple parents with
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Edit Home
       </a>
@@ -1273,6 +1386,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (multiple parents with
         href="/edit/object/foo:1232"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Grandparent
       </a>
@@ -1282,6 +1396,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (multiple parents with
         href="/edit/object/foo:1231"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Fake Parent 2
       </a>
@@ -1299,6 +1414,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (no parents, deep mode
       href="/"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Main Menu
     </a>
@@ -1308,6 +1424,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (no parents, deep mode
       href="/edit"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Edit Home
     </a>
@@ -1324,6 +1441,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (no parents, shallow m
       href="/"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Main Menu
     </a>
@@ -1333,6 +1451,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (no parents, shallow m
       href="/edit"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Edit Home
     </a>
@@ -1349,6 +1468,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (simple case, deep mod
       href="/"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Main Menu
     </a>
@@ -1358,6 +1478,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (simple case, deep mod
       href="/edit"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Edit Home
     </a>
@@ -1367,6 +1488,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (simple case, deep mod
       href="/edit/object/foo:1233"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent
     </a>
@@ -1383,6 +1505,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (simple case, shallow 
       href="/"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Main Menu
     </a>
@@ -1392,6 +1515,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (simple case, shallow 
       href="/edit"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Edit Home
     </a>
@@ -1408,6 +1532,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (simple case, shallow 
       href="/edit/object/foo:1233"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Fake Parent
     </a>
@@ -1424,6 +1549,7 @@ exports[`Breadcrumb renders without a pid 1`] = `
       href="/"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       Main Menu
     </a>
