@@ -12,6 +12,13 @@ jest.mock("../../../context/EditorContext", () => ({
     },
 }));
 
+const mockUseGlobalContext = jest.fn();
+jest.mock("../../../context/GlobalContext", () => ({
+    useGlobalContext: () => {
+        return mockUseGlobalContext();
+    },
+}));
+
 const mockUseDublinCoreMetadataContext = jest.fn();
 jest.mock("../../../context/DublinCoreMetadataContext", () => ({
     useDublinCoreMetadataContext: () => {
@@ -29,6 +36,7 @@ jest.mock("../ObjectPreviewButton", () => () => "ObjectPreviewButton");
 describe("DatastreamDublinCoreContent ", () => {
     let dcValues;
     let editorValues;
+    let globalValues;
     let pid;
     let uploadDublinCore;
 
@@ -39,11 +47,14 @@ describe("DatastreamDublinCoreContent ", () => {
                 currentPid: pid,
                 objectDetailsStorage: {},
             },
+        };
+        globalValues = {
             action: {
-                toggleDatastreamsModel: jest.fn(),
+                closeModal: jest.fn(),
             },
         };
         mockUseEditorContext.mockReturnValue(editorValues);
+        mockUseGlobalContext.mockReturnValue(globalValues);
         uploadDublinCore = jest.fn();
         mockUseDatastreamOperation.mockReturnValue({ uploadDublinCore });
         dcValues = {
@@ -89,5 +100,12 @@ describe("DatastreamDublinCoreContent ", () => {
         render(<DatastreamDublinCoreContent />);
         await userEvent.setup().click(screen.getByText("Save"));
         expect(uploadDublinCore).toHaveBeenCalledWith(metadata);
+    });
+
+    it("can be canceled", async () => {
+        render(<DatastreamDublinCoreContent />);
+        await userEvent.setup().click(screen.getByText("Cancel"));
+        expect(uploadDublinCore).not.toHaveBeenCalled();
+        expect(globalValues.action.closeModal).toHaveBeenCalledWith("datastream");
     });
 });

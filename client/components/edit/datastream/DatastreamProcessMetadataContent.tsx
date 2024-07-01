@@ -6,7 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import useDatastreamOperation from "../../../hooks/useDatastreamOperation";
-import { useEditorContext } from "../../../context/EditorContext";
+import { useGlobalContext } from "../../../context/GlobalContext";
 import { useProcessMetadataContext } from "../../../context/ProcessMetadataContext";
 import BlurSavingTextField from "../../shared/BlurSavingTextField";
 import Grid from "@mui/material/Grid";
@@ -22,8 +22,8 @@ let taskKeyGeneration = 0;
 
 const DatastreamProcessMetadataContent = (): React.ReactElement => {
     const {
-        action: { toggleDatastreamModal },
-    } = useEditorContext();
+        action: { closeModal },
+    } = useGlobalContext();
     const {
         state: processMetadata,
         action: {
@@ -133,7 +133,7 @@ const DatastreamProcessMetadataContent = (): React.ReactElement => {
                 >
                     Save
                 </Button>
-                <Button onClick={toggleDatastreamModal}>Cancel</Button>
+                <Button onClick={() => closeModal("datastream")}>Cancel</Button>
             </DialogActions>
         </>
     );

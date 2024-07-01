@@ -11,39 +11,22 @@ jest.mock("../../../context/GlobalContext", () => ({
         return mockUseGlobalContext();
     },
 }));
-const mockUseEditorContext = jest.fn();
-jest.mock("../../../context/EditorContext", () => ({
-    useEditorContext: () => {
-        return mockUseEditorContext();
-    },
-}));
 const mockUseDatastreamOperation = jest.fn();
 jest.mock("../../../hooks/useDatastreamOperation", () => () => mockUseDatastreamOperation());
 describe("DatastreamDeleteModalContent", () => {
     let globalValues;
-    let editorValues;
     let datastreamOperationValues;
     beforeEach(() => {
         globalValues = {
             action: {
                 setSnackbarState: jest.fn(),
-            },
-        };
-        editorValues = {
-            state: {
-                currentPid: "vudl:123",
-                activeDatastream: "THUMBNAIL",
-            },
-            action: {
-                loadCurrentObjectDetails: jest.fn().mockResolvedValue({}),
-                toggleDatastreamModal: jest.fn(),
+                closeModal: jest.fn(),
             },
         };
         datastreamOperationValues = {
             deleteDatastream: jest.fn(),
         };
         mockUseGlobalContext.mockReturnValue(globalValues);
-        mockUseEditorContext.mockReturnValue(editorValues);
         mockUseDatastreamOperation.mockReturnValue(datastreamOperationValues);
     });
 
@@ -56,5 +39,11 @@ describe("DatastreamDeleteModalContent", () => {
         render(<DatastreamDeleteModalContent />);
         await userEvent.setup().click(screen.getByText("Yes"));
         expect(datastreamOperationValues.deleteDatastream).toHaveBeenCalled();
+    });
+
+    it("can be stopped", async () => {
+        render(<DatastreamDeleteModalContent />);
+        await userEvent.setup().click(screen.getByText("No"));
+        expect(globalValues.action.closeModal).toHaveBeenCalledWith("datastream");
     });
 });

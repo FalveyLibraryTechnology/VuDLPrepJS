@@ -22,6 +22,12 @@ jest.mock("../../../context/EditorContext", () => ({
         return mockUseEditorContext();
     },
 }));
+const mockUseGlobalContext = jest.fn();
+jest.mock("../../../context/GlobalContext", () => ({
+    useGlobalContext: () => {
+        return mockUseGlobalContext();
+    },
+}));
 const mockUseDatastreamOperation = jest.fn();
 jest.mock("../../../hooks/useDatastreamOperation", () => () => {
     return mockUseDatastreamOperation();
@@ -30,6 +36,7 @@ jest.mock("@mui/material/Grid", () => (props) => props.children);
 
 describe("DatastreamAgentsContent", () => {
     let editorValues;
+    let globalValues;
     let datastreamOperationValues;
     beforeEach(() => {
         editorValues = {
@@ -45,7 +52,11 @@ describe("DatastreamAgentsContent", () => {
             },
             action: {
                 setCurrentAgents: jest.fn(),
-                toggleDatastreamModal: jest.fn(),
+            },
+        };
+        globalValues = {
+            action: {
+                closeModal: jest.fn(),
             },
         };
         datastreamOperationValues = {
@@ -53,6 +64,7 @@ describe("DatastreamAgentsContent", () => {
             getAgents: jest.fn(),
         };
         mockUseEditorContext.mockReturnValue(editorValues);
+        mockUseGlobalContext.mockReturnValue(globalValues);
         mockUseDatastreamOperation.mockReturnValue(datastreamOperationValues);
     });
 
@@ -81,7 +93,7 @@ describe("DatastreamAgentsContent", () => {
         await userEvent.setup().click(screen.getByText("Save Changes"));
 
         expect(datastreamOperationValues.uploadAgents).toHaveBeenCalled();
-        expect(editorValues.action.toggleDatastreamModal).not.toHaveBeenCalled();
+        expect(globalValues.action.closeModal).not.toHaveBeenCalled();
     });
 
     it("saves current agents and closes the modal", async () => {
@@ -94,7 +106,7 @@ describe("DatastreamAgentsContent", () => {
         await userEvent.setup().click(screen.getByText("Save And Close"));
 
         expect(datastreamOperationValues.uploadAgents).toHaveBeenCalled();
-        expect(editorValues.action.toggleDatastreamModal).toHaveBeenCalled();
+        expect(globalValues.action.closeModal).toHaveBeenCalledWith("datastream");
     });
 
     it("resets current agents on cancel", async () => {
@@ -109,6 +121,6 @@ describe("DatastreamAgentsContent", () => {
         expect(datastreamOperationValues.uploadAgents).not.toHaveBeenCalled();
         expect(datastreamOperationValues.getAgents).toHaveBeenCalled();
         expect(editorValues.action.setCurrentAgents).toHaveBeenCalled();
-        expect(editorValues.action.toggleDatastreamModal).toHaveBeenCalled();
+        expect(globalValues.action.closeModal).toHaveBeenCalledWith("datastream");
     });
 });
