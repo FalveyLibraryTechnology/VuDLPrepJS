@@ -29,6 +29,7 @@ exports[`Child handles empty titles appropriately 1`] = `
       href="/edit/object/foo:123"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       - [foo:123]
     </a>
@@ -70,6 +71,7 @@ exports[`Child renders a thumbnail 1`] = `
       href="/edit/object/foo:123"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       ajax-loaded title [foo:123]
     </a>
@@ -116,6 +118,7 @@ exports[`Child renders using ajax-loaded data 1`] = `
       href="/edit/object/foo:123"
       onClick={[Function]}
       onMouseEnter={[Function]}
+      onTouchStart={[Function]}
     >
       ajax-loaded title [foo:123]
     </a>
