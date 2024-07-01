@@ -1,18 +1,22 @@
 import http = require("needle");
 import { NeedleResponse } from "./interfaces";
 import Config from "../models/Config";
+import SolrCache from "./SolrCache";
+import { readFileSync } from "fs";
 
 class Solr {
     private static instance: Solr;
+    cache: SolrCache;
     baseUrl: string;
 
-    constructor(baseUrl: string) {
+    constructor(baseUrl: string, cache: SolrCache) {
         this.baseUrl = baseUrl;
+        this.cache = cache;
     }
 
     public static getInstance(): Solr {
         if (!Solr.instance) {
-            Solr.instance = new Solr(Config.getInstance().solrUrl);
+            Solr.instance = new Solr(Config.getInstance().solrUrl, SolrCache.getInstance());
         }
         return Solr.instance;
     }
@@ -52,11 +56,18 @@ class Solr {
         // Strip double quotes from PID -- they should never be present, and it protects
         // against malicious query manipulation.
         const data = JSON.stringify({ delete: { query: 'id:"' + pid.replace(/["]/g, "") + '"' } });
+        this.cache.purgeFromCacheIfEnabled(pid);
         return this.updateSolr(core, data);
     }
 
     public async indexRecord(core: string, _data: Record<string, unknown>): Promise<NeedleResponse> {
         const data = JSON.stringify({ add: { doc: _data } });
+        this.cache.writeToCacheIfEnabled(_data.id as string, data);
+        return this.updateSolr(core, data);
+    }
+
+    public async reindexFromFile(core: string, filename): Promise<NeedleResponse> {
+        const data = readFileSync(filename).toString();
         return this.updateSolr(core, data);
     }
 

@@ -26,8 +26,6 @@ exports[`PdfGenerator renders 1`] = `
   </h2>
   <pre
     id="pdfGenerateResults"
-  >
-    
-  </pre>
+  />
 </div>
 `;

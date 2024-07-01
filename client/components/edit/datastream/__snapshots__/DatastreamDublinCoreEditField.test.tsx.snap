@@ -4,7 +4,7 @@ exports[`DatastreamDublinCoreEditField renders a dropdown field 1`] = `
 [
   "FormControl",
   <div
-    className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-q0jhri-MuiInputBase-root-MuiInput-root"
+    className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-bz5ng3-MuiInputBase-root-MuiInput-root"
     onClick={[Function]}
   >
     <select
@@ -50,7 +50,7 @@ exports[`DatastreamDublinCoreEditField renders a dropdown field with an unexpect
 [
   "FormControl",
   <div
-    className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-q0jhri-MuiInputBase-root-MuiInput-root"
+    className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-bz5ng3-MuiInputBase-root-MuiInput-root"
     onClick={[Function]}
   >
     <select
@@ -93,6 +93,7 @@ exports[`DatastreamDublinCoreEditField renders a locked field 1`] = `
     <input
       autoFocus={false}
       className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+      id=":r0:"
       onAnimationStart={[Function]}
       onBlur={[Function]}
       onChange={[Function]}

@@ -4,6 +4,7 @@ import Job from "./Job";
 import JobMetadata from "./JobMetadata";
 import PageOrder from "./PageOrder";
 import QueueManager from "../services/QueueManager";
+import SolrCache from "../services/SolrCache";
 import VideoOrder from "./VideoOrder";
 
 jest.mock("./Config");
@@ -22,7 +23,7 @@ describe("JobMetadata", () => {
 
     beforeEach(() => {
         config = new Config({});
-        job = new Job("test1", config, new QueueManager(config));
+        job = new Job("test1", config, new QueueManager(config, new SolrCache(false)));
         jobMetadata = new JobMetadata(job);
     });
 

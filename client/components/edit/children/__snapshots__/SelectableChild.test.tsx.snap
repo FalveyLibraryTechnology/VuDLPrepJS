@@ -25,7 +25,6 @@ exports[`SelectableChild handles empty initial titles appropriately 1`] = `
   >
     - [foo:123]
   </button>,
-  "",
 ]
 `;
 
@@ -54,7 +53,6 @@ exports[`SelectableChild handles missing object details storage title metadata c
   >
     - [foo:123]
   </button>,
-  "",
 ]
 `;
 
@@ -85,7 +83,6 @@ exports[`SelectableChild renders thumbnails 1`] = `
     <br />
     ObjectThumbnail
   </button>,
-  "",
 ]
 `;
 
@@ -114,7 +111,6 @@ exports[`SelectableChild renders using object details storage data 1`] = `
   >
     loaded title [foo:123]
   </button>,
-  "",
 ]
 `;
 
@@ -143,6 +139,5 @@ exports[`SelectableChild renders using provided default data 1`] = `
   >
     initial title [foo:123]
   </button>,
-  "",
 ]
 `;

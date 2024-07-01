@@ -11,15 +11,17 @@ import { FetchContextProvider } from "../../../context/FetchContext";
 let nodeSelectFunction = null;
 let treeItems = null;
 
-jest.mock("@mui/lab/TreeItem", function () {
-    return () => "TreeItem";
+jest.mock("@mui/x-tree-view/TreeItem", function () {
+    return { TreeItem: () => "TreeItem" };
 });
 
-jest.mock("@mui/lab/TreeView", function () {
-    return ({ onNodeSelect, children }) => {
-        nodeSelectFunction = onNodeSelect;
-        treeItems = children;
-        return children;
+jest.mock("@mui/x-tree-view/TreeView", function () {
+    return {
+        TreeView: ({ onNodeSelect, children }) => {
+            nodeSelectFunction = onNodeSelect;
+            treeItems = children;
+            return children;
+        },
     };
 });
 
@@ -69,8 +71,8 @@ describe("CreateObject", () => {
         let tree;
         await renderer.act(async () => {
             tree = renderer.create(getCreateObjectToTest({}));
-            await waitFor(() => expect(global.fetch).toHaveBeenCalled());
         });
+        await waitFor(() => expect(global.fetch).toHaveBeenCalled());
         expect(tree.toJSON()).toMatchSnapshot();
     });
 
@@ -79,8 +81,8 @@ describe("CreateObject", () => {
         let tree;
         await renderer.act(async () => {
             tree = renderer.create(getCreateObjectToTest(props));
-            await waitFor(() => expect(global.fetch).toHaveBeenCalled());
         });
+        await waitFor(() => expect(global.fetch).toHaveBeenCalled());
         expect(tree.toJSON()).toMatchSnapshot();
     });
 
@@ -90,24 +92,24 @@ describe("CreateObject", () => {
         let tree;
         await renderer.act(async () => {
             tree = renderer.create(getCreateObjectToTest(props));
-            await waitFor(() => expect(global.fetch).toHaveBeenCalled());
         });
+        await waitFor(() => expect(global.fetch).toHaveBeenCalled());
         expect(tree.toJSON()).toMatchSnapshot();
     });
 
     it("submits appropriate data in default case", async () => {
         await act(async () => {
             render(getCreateObjectToTest(props));
-            await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+        });
+        await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+        await act(async () => {
             nodeSelectFunction(new Event("event-foo"), "model-foo");
             // Test that category select has no effect:
             nodeSelectFunction(new Event("event-foo"), "__categoryWillBeIgnored");
         });
         fireEvent.change(screen.getByRole("textbox", { name: "Title" }), { target: { value: "Test Title" } });
         fireEvent.change(screen.getByRole("textbox", { name: "Parent ID" }), { target: { value: "foo:1234" } });
-        await act(async () => {
-            await userEvent.setup().click(screen.getByRole("button", { name: "Create Object" }));
-        });
+        await userEvent.setup().click(screen.getByRole("button", { name: "Create Object" }));
         expect(treeItems.length).toEqual(3); // make sure setFakeModels is working
         expect(submittedData).toEqual({
             body: JSON.stringify({
@@ -132,13 +134,13 @@ describe("CreateObject", () => {
         props.allowChangeParentPid = false;
         await act(async () => {
             render(getCreateObjectToTest(props));
-            await waitFor(() => expect(global.fetch).toHaveBeenCalled());
-            nodeSelectFunction(new Event("event-foo"), "model-foo");
         });
-        fireEvent.change(screen.getByRole("textbox", { name: "Title" }), { target: { value: "Test Title" } });
+        await waitFor(() => expect(global.fetch).toHaveBeenCalled());
         await act(async () => {
-            await userEvent.setup().click(screen.getByRole("button", { name: "Create Object" }));
+            nodeSelectFunction(new Event("event-foo"), "model-foo");
+            fireEvent.change(screen.getByRole("textbox", { name: "Title" }), { target: { value: "Test Title" } });
         });
+        await userEvent.setup().click(screen.getByRole("button", { name: "Create Object" }));
         expect(treeItems.length).toEqual(3); // make sure setFakeModels is working
         expect(submittedData).toEqual({
             body: JSON.stringify({
@@ -162,16 +164,16 @@ describe("CreateObject", () => {
         props.allowNoParentPid = true;
         await act(async () => {
             render(getCreateObjectToTest(props));
-            await waitFor(() => expect(global.fetch).toHaveBeenCalled());
-            nodeSelectFunction(new Event("event-foo"), "model-foo");
         });
-        fireEvent.change(screen.getByRole("textbox", { name: "Title" }), { target: { value: "Test Title" } });
-        const user = userEvent.setup();
+        await waitFor(() => expect(global.fetch).toHaveBeenCalled());
         await act(async () => {
-            await user.click(screen.getByRole("radio", { name: "Active" }));
-            await user.click(screen.getByRole("checkbox", { name: "No parent PID" }));
-            await user.click(screen.getByRole("button", { name: "Create Object" }));
+            nodeSelectFunction(new Event("event-foo"), "model-foo");
+            fireEvent.change(screen.getByRole("textbox", { name: "Title" }), { target: { value: "Test Title" } });
         });
+        const user = userEvent.setup();
+        await user.click(screen.getByRole("radio", { name: "Active" }));
+        await user.click(screen.getByRole("checkbox", { name: "No parent PID" }));
+        await user.click(screen.getByRole("button", { name: "Create Object" }));
         expect(submittedData).toEqual({
             body: JSON.stringify({
                 title: "Test Title",
@@ -194,16 +196,20 @@ describe("CreateObject", () => {
         props.allowNoParentPid = true;
         await act(async () => {
             render(getCreateObjectToTest(props));
-            await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+        });
+        await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+        await act(async () => {
             nodeSelectFunction(new Event("event-foo"), "model-foo");
         });
         const user = userEvent.setup();
         await act(async () => {
             fireEvent.change(screen.getByRole("textbox", { name: "Title" }), { target: { value: "Test Title" } });
-            await user.click(screen.getByRole("radio", { name: "Active" }));
-            fireEvent.change(screen.getByRole("textbox", { name: "Parent ID" }), { target: { value: "" } });
-            await user.click(screen.getByRole("button", { name: "Create Object" }));
         });
+        await user.click(screen.getByRole("radio", { name: "Active" }));
+        await act(async () => {
+            fireEvent.change(screen.getByRole("textbox", { name: "Parent ID" }), { target: { value: "" } });
+        });
+        await user.click(screen.getByRole("button", { name: "Create Object" }));
         expect(submittedData).toEqual({
             body: JSON.stringify({
                 title: "Test Title",

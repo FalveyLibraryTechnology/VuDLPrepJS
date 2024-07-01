@@ -1,7 +1,7 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { act } from "react-dom/test-utils";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import renderer from "react-test-renderer";
 import PdfGenerator from "./PdfGenerator";
@@ -51,9 +51,10 @@ describe("PdfGenerator", () => {
                 value: "testPid",
             },
         });
-        await act(async () => userEvent.setup().click(screen.getByRole("button")));
-
-        expect(fetchContextValues.action.fetchText).toHaveBeenCalled();
+        await act(async () => {
+            userEvent.setup().click(screen.getByRole("button"));
+        });
+        await waitFor(() => expect(fetchContextValues.action.fetchText).toHaveBeenCalled());
         expect(screen.queryAllByText("testText")).toHaveLength(1);
     });
 
@@ -69,9 +70,10 @@ describe("PdfGenerator", () => {
                 value: "testPid",
             },
         });
-        await act(async () => userEvent.setup().click(screen.getByRole("button")));
-
-        expect(fetchContextValues.action.fetchText).toHaveBeenCalled();
+        await act(async () => {
+            userEvent.setup().click(screen.getByRole("button"));
+        });
+        await waitFor(() => expect(fetchContextValues.action.fetchText).toHaveBeenCalled());
         expect(screen.queryAllByText("testError")).toHaveLength(1);
     });
 });

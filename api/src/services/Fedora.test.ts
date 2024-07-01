@@ -1,11 +1,13 @@
 import Config from "../models/Config";
 import Fedora from "./Fedora";
+import SolrCache from "./SolrCache";
 
 describe("Fedora", () => {
     let fedora;
     let pid;
     let datastream;
     let requestSpy;
+    let purgeCacheSpy;
     beforeEach(() => {
         Config.setInstance(
             new Config({
@@ -17,6 +19,7 @@ describe("Fedora", () => {
         pid = "test4";
         datastream = "test5";
         fedora = Fedora.getInstance();
+        purgeCacheSpy = jest.spyOn(SolrCache.getInstance(), "purgeFromCacheIfEnabled").mockImplementation(jest.fn());
     });
 
     afterEach(() => {
@@ -31,17 +34,20 @@ describe("Fedora", () => {
             expect(async () => await fedora.getDublinCore("foo:123")).rejects.toThrowError(
                 "Unexpected status code: 500",
             );
+            expect(purgeCacheSpy).not.toHaveBeenCalled();
         });
 
         it("will return empty data if datastream does not exist", async () => {
             requestSpy = jest.spyOn(fedora, "_request").mockResolvedValue({ statusCode: 404, body: "not found" });
             expect(await fedora.getDublinCore("foo:123")).toEqual({});
+            expect(purgeCacheSpy).not.toHaveBeenCalled();
         });
 
         it("will return an appropriate response body when data exists", async () => {
             requestSpy = jest.spyOn(fedora, "_request").mockResolvedValue({ statusCode: 200, body: "foo response" });
             expect(await fedora.getDublinCore("foo:123")).toEqual("foo response");
             expect(requestSpy).toHaveBeenCalledWith("get", "foo:123/DC", null, { parse_response: true });
+            expect(purgeCacheSpy).not.toHaveBeenCalled();
         });
     });
 
@@ -49,6 +55,7 @@ describe("Fedora", () => {
         it("will fail if an unexpected status code is received", async () => {
             requestSpy = jest.spyOn(fedora, "_request").mockResolvedValue({ statusCode: 404, body: "not found" });
             expect(async () => await fedora.getRdf("foo:123")).rejects.toThrowError("Unexpected status code: 404");
+            expect(purgeCacheSpy).not.toHaveBeenCalled();
         });
 
         it("will return an appropriate response body when data exists", async () => {
@@ -60,6 +67,21 @@ describe("Fedora", () => {
                 headers: { Accept: "application/rdf+xml" },
                 parse_response: false,
             });
+            expect(purgeCacheSpy).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("addDatastream", () => {
+        it("can add a datastream", async () => {
+            const putSpy = jest.spyOn(fedora, "putDatastream").mockImplementation(jest.fn());
+            const patchSpy = jest.spyOn(fedora, "patchRdf").mockReturnValue({ statusCode: 204 });
+            await fedora.addDatastream(pid, "MASTER", { mimeType: "foo/bar" }, "content");
+            expect(putSpy).toHaveBeenCalledWith(pid, "MASTER", "foo/bar", [201], "content", "");
+            const expectedTurtle =
+                '<> <http://fedora.info/definitions/1/0/access/objState> "A";\n    <http://purl.org/dc/terms/title> "test4_MASTER".\n';
+            expect(patchSpy).toHaveBeenCalledWith(`/${pid}/MASTER/fcr:metadata`, expectedTurtle);
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
         });
     });
 
@@ -76,6 +98,8 @@ describe("Fedora", () => {
                 ' INSERT { <subject> <predicate> "object".\n } WHERE {  }',
                 { headers: { "Content-Type": "application/sparql-update" } },
             );
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
         });
 
         it("will add a relationship with a URI object", () => {
@@ -86,6 +110,8 @@ describe("Fedora", () => {
                 " INSERT { <subject> <predicate> <object>.\n } WHERE {  }",
                 { headers: { "Content-Type": "application/sparql-update" } },
             );
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
         });
     });
 
@@ -97,6 +123,8 @@ describe("Fedora", () => {
         it("will delete a datastream", async () => {
             fedora.deleteDatastream(pid, datastream, {});
             expect(requestSpy).toHaveBeenCalledWith("delete", pid + "/" + datastream, null, {});
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
         });
     });
 
@@ -108,6 +136,8 @@ describe("Fedora", () => {
         it("will delete a datastream tombstone", async () => {
             fedora.deleteDatastreamTombstone(pid, datastream, {});
             expect(requestSpy).toHaveBeenCalledWith("delete", pid + "/" + datastream + "/fcr:tombstone", null, {});
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
         });
     });
 
@@ -119,6 +149,8 @@ describe("Fedora", () => {
         it("will delete an object", async () => {
             fedora.deleteObject(pid, {});
             expect(requestSpy).toHaveBeenCalledWith("delete", pid, null, {});
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
         });
     });
 
@@ -130,6 +162,8 @@ describe("Fedora", () => {
         it("will delete an object tombstone", async () => {
             fedora.deleteObjectTombstone(pid, {});
             expect(requestSpy).toHaveBeenCalledWith("delete", pid + "/fcr:tombstone", null, {});
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
         });
     });
 
@@ -160,6 +194,23 @@ describe("Fedora", () => {
 </oai_dc:dc>
 `;
             expect(addDatastreamSpy).toHaveBeenCalledWith("foo:123", "DC", expectedParams, expectedXml, [201]);
+            // The cache purge would be called by add datastream, but since that's stubbed out, we expect no cache purging:
+            expect(purgeCacheSpy).not.toHaveBeenCalled();
+        });
+    });
+
+    describe("modifyObjectLabel", () => {
+        it("can modify an object label", async () => {
+            const patchSpy = jest.spyOn(fedora, "patchRdf").mockReturnValue({ statusCode: 204 });
+            await fedora.modifyObjectLabel(pid, "new title");
+            const expectedInsert =
+                '<> <http://purl.org/dc/terms/title> "new title";\n    <info:fedora/fedora-system:def/model#label> "new title".\n';
+            const expectedDelete =
+                "<> <http://purl.org/dc/terms/title> ?any ; <info:fedora/fedora-system:def/model#label> ?any .";
+            const expectedWhere = "?id <http://purl.org/dc/terms/title> ?any";
+            expect(patchSpy).toHaveBeenCalledWith(`/${pid}`, expectedInsert, expectedDelete, expectedWhere);
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
         });
     });
 
@@ -177,6 +228,8 @@ describe("Fedora", () => {
                     " } WHERE { ?id <info:fedora/fedora-system:def/model#state> ?any }",
                 { headers: { "Content-Type": "application/sparql-update" } },
             );
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
         });
     });
 
@@ -193,6 +246,8 @@ describe("Fedora", () => {
                 "DELETE { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> <info:fedora/foo:100> . } WHERE {  }",
                 { headers: { "Content-Type": "application/sparql-update" } },
             );
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
         });
     });
 
@@ -209,6 +264,8 @@ describe("Fedora", () => {
                 'DELETE { <> <http://vudl.org/relationships#sequence> ?pos . } WHERE { ?id <http://vudl.org/relationships#sequence> ?pos . FILTER(REGEX(?pos, "foo:100#")) }',
                 { headers: { "Content-Type": "application/sparql-update" } },
             );
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
         });
     });
 
@@ -226,6 +283,8 @@ describe("Fedora", () => {
                     ' } WHERE { OPTIONAL { ?id <http://vudl.org/relationships#sequence> ?pos . FILTER(REGEX(?pos, "foo:100#")) } }',
                 { headers: { "Content-Type": "application/sparql-update" } },
             );
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
         });
     });
 
@@ -242,6 +301,7 @@ describe("Fedora", () => {
                 message = e.message;
             }
             expect(message).toEqual("Unexpected sortOn value: invalid");
+            expect(purgeCacheSpy).not.toHaveBeenCalled();
         });
 
         it("will modify sortOn relationship", async () => {
@@ -253,6 +313,8 @@ describe("Fedora", () => {
                     " } WHERE { ?id <http://vudl.org/relationships#sortOn> ?any }",
                 { headers: { "Content-Type": "application/sparql-update" } },
             );
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
         });
 
         it("handles unexpected codes", async () => {

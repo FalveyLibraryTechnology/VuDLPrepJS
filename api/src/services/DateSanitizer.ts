@@ -45,7 +45,7 @@ export default class DateSanitizer {
         const year = padNumber(parseInt(date.substring(0, 4)), 4);
 
         // Let's get rid of punctuation and normalize separators:
-        date = date.replace(/[. ?]/g, "").replace(/\/|--|0-/g, "-");
+        date = date.replace(/[. ?]/g, "").replace(/\/|--|-0/g, "-");
 
         // If multiple dates are &'ed together, take just the first:
         date = date.split("&")[0].trim();

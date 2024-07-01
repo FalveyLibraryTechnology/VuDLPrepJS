@@ -17,8 +17,6 @@ exports[`ObjectSummary displays loading message when appropriate 1`] = `
     Loading...
   </h2>
   <div />
-  
-  
   <br
     style={
       {

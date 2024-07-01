@@ -37,6 +37,7 @@ exports[`GenericError renders 1`] = `
         href="/"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         home.
       </a>

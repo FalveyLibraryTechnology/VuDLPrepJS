@@ -22,6 +22,7 @@ exports[`MainMenu renders 1`] = `
         href="/paginate"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Job Paginator
       </a>
@@ -31,6 +32,7 @@ exports[`MainMenu renders 1`] = `
         href="/edit"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Object Editor
       </a>
@@ -56,6 +58,7 @@ exports[`MainMenu renders 1`] = `
         href="/pdf"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         PDF Generator
       </a>
@@ -65,6 +68,7 @@ exports[`MainMenu renders 1`] = `
         href="/solr"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Solr Indexer
       </a>

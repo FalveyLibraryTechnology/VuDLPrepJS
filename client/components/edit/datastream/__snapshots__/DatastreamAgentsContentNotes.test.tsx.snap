@@ -39,6 +39,8 @@ exports[`DatastreamAgentsContentNotes renders 1`] = `
                     <label
                       className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
                       data-shrink={true}
+                      htmlFor=":r0:"
+                      id=":r0:-label"
                     >
                       Note
                     </label>
@@ -51,6 +53,7 @@ exports[`DatastreamAgentsContentNotes renders 1`] = `
                         autoFocus={false}
                         className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
                         disabled={false}
+                        id=":r0:"
                         onAnimationStart={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}
@@ -124,6 +127,7 @@ exports[`DatastreamAgentsContentNotes renders 1`] = `
                         autoFocus={false}
                         className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
                         disabled={false}
+                        id=":r1:"
                         onAnimationStart={[Function]}
                         onBlur={[Function]}
                         onChange={[Function]}

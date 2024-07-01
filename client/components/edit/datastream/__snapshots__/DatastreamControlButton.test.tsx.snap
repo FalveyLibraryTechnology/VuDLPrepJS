@@ -15,9 +15,9 @@ exports[`DatastreamControlButton renders 1`] = `
 >
   <button
     aria-label="Upload"
-    className="MuiButtonBase-root MuiButton-root MuiLoadingButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiLoadingButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall datastreamControlButton css-owonun-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root"
+    className="MuiButtonBase-root MuiButton-root MuiLoadingButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiLoadingButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary datastreamControlButton css-owonun-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root"
     disabled={false}
-    id="mui-1"
+    id=":r1:"
     onBlur={[Function]}
     onClick={[Function]}
     onContextMenu={[Function]}

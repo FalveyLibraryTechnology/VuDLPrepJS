@@ -1,5 +1,5 @@
-import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { renderHook, act } from "@testing-library/react-hooks";
+import { describe, expect, it } from "@jest/globals";
+import { renderHook, act } from "@testing-library/react";
 import { GlobalContextProvider, useGlobalContext } from "./GlobalContext";
 
 describe("useGlobalContext", () => {

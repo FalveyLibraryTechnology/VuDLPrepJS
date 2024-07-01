@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { renderHook, act } from "@testing-library/react-hooks";
+import { renderHook, act } from "@testing-library/react";
 import { DublinCoreMetadataContextProvider, useDublinCoreMetadataContext } from "./DublinCoreMetadataContext";
 
 describe("useDublinCoreMetadataContext", () => {

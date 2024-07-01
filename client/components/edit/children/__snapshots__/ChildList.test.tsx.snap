@@ -13,7 +13,6 @@ exports[`ChildList allows thumbnails to be toggled on 1`] = `
   >
     Hide Thumbnails
   </button>,
-  "",
   <ul
     className="childlist"
   >
@@ -97,7 +96,6 @@ exports[`ChildList renders using SelectableChild when a callback is provided 1`]
   >
     Show Thumbnails
   </button>,
-  "",
   <ul
     className="childlist"
   >
@@ -121,7 +119,6 @@ exports[`ChildList renders using ajax-loaded object data 1`] = `
   >
     Show Thumbnails
   </button>,
-  "",
   <ul
     className="childlist"
   >
@@ -145,7 +142,6 @@ exports[`ChildList renders using ajax-loaded root data 1`] = `
   >
     Show Thumbnails
   </button>,
-  "",
   <ul
     className="childlist"
   >

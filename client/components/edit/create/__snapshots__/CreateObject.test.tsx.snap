@@ -57,14 +57,11 @@ exports[`CreateObject renders appropriately with default settings 1`] = `
   </label>
   <label>
     Select Model Type:
-    <b>
-      
-    </b>
+    <b />
   </label>
   TreeItem
   TreeItem
   TreeItem
-  
 </form>
 `;
 
@@ -115,14 +112,11 @@ exports[`CreateObject renders appropriately with editing disabled 1`] = `
   </label>
   <label>
     Select Model Type:
-    <b>
-      
-    </b>
+    <b />
   </label>
   TreeItem
   TreeItem
   TreeItem
-  
 </form>
 `;
 
@@ -193,13 +187,10 @@ exports[`CreateObject renders appropriately with noParent and parent change enab
   </label>
   <label>
     Select Model Type:
-    <b>
-      
-    </b>
+    <b />
   </label>
   TreeItem
   TreeItem
   TreeItem
-  
 </form>
 `;

@@ -15,6 +15,7 @@ exports[`ChildPosition renders correctly when a sequence exists and parent is cu
       className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
       defaultValue={73}
       disabled={false}
+      id=":r0:"
       onAnimationStart={[Function]}
       onBlur={[Function]}
       onChange={[Function]}

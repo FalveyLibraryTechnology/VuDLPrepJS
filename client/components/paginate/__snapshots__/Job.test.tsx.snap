@@ -5,6 +5,5 @@ exports[`Job renders 1`] = `
   JobClickable
    [] 
   <br />
-  
 </li>
 `;
