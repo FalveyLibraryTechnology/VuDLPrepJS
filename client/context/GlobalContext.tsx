@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer, Dispatch, ReactNode } from "react";
 
 interface SnackbarState {
     open: boolean,
@@ -28,49 +28,62 @@ const globalContextParams: GlobalState = {
     },
 };
 
-const reducerMapping: Record<string, string> = {
-    // Snackbar
-    SET_SNACKBAR_STATE: "snackbarState",
-};
+type Action =
+    | { type: 'OPEN_MODAL'; payload: string }
+    | { type: 'CLOSE_MODAL'; payload: string }
+    | { type: 'SET_SNACKBAR_STATE'; payload: SnackbarState };
 
 /**
  * Update the shared states of react components.
  */
-const globalReducer = (state: GlobalState, { type, payload }: { type: string, payload: unknown}) => {
-    function updateModalInState(payload, isOpen) {
-        const modalOpenStates = {
+const globalReducer = (state: GlobalState, action: Action): GlobalState => {
+    switch (action.type) {
+        case 'OPEN_MODAL':
+            return {
+                ...state,
+                modalOpenStates: {
             ...state.modalOpenStates,
-            [payload]: isOpen,
+                    [action.payload]: true,
+                },
         };
+        case 'CLOSE_MODAL':
         return {
             ...state,
-            modalOpenStates,
-        };
-    }
-    if (type == "OPEN_MODAL") {
-        return updateModalInState(payload, true);
-    }
-    if (type == "CLOSE_MODAL") {
-        return updateModalInState(payload, false);
-    }
-
-    if (Object.keys(reducerMapping).includes(type)){
+                modalOpenStates: {
+                    ...state.modalOpenStates,
+                    [action.payload]: false,
+                },
+            };
+        case 'SET_SNACKBAR_STATE':
         return {
             ...state,
-            [reducerMapping[type]]: payload
+                snackbarState: action.payload,
         };
-    } else {
-        console.error(`global action type: ${type} does not exist`);
+        default:
         return state;
     }
 };
 
-const GlobalContext = createContext({});
+/**
+ * Context to provide global state and dispatch function.
+ */
+interface GlobalContextProps {
+    state: GlobalState;
+    dispatch: Dispatch<Action>;
+}
 
-export const GlobalContextProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(globalReducer, globalContextParams);
-    const value = { state, dispatch };
-    return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
+const GlobalContext = createContext<GlobalContextProps | undefined>(undefined);
+
+/**
+ * GlobalContextProvider to wrap around the application.
+ */
+export const GlobalContextProvider = ({ children }: { children: ReactNode }) => {
+    const [state, dispatch] = useReducer(globalReducer, initalGlobalState);
+    return (
+        <GlobalContext.Provider value={{ state, dispatch }}>
+            {children}
+        </GlobalContext.Provider>
+    );
 };
 
 export const useGlobalContext = () => {
