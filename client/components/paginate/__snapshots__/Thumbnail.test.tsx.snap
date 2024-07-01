@@ -6,7 +6,7 @@ exports[`Thumbnail renders 1`] = `
   onClick={[Function]}
 >
   <img
-    alt=""
+    alt="thumbnail 1"
     src="www.testurl.com"
   />
   <div

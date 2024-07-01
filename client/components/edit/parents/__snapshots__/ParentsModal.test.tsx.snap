@@ -88,7 +88,6 @@ exports[`ParentsModal renders correctly for a non-loaded PID 1`] = `
     </svg>
   </button>,
   "ObjectLoader: {"pid":"foo:123"}",
-  "",
 ]
 `;
 
@@ -127,7 +126,5 @@ exports[`ParentsModal renders correctly when PID is unset 1`] = `
       />
     </svg>
   </button>,
-  "",
-  "",
 ]
 `;

@@ -95,11 +95,9 @@ describe("ParentPicker", () => {
             sortOn: "title",
         };
         render(<ParentPicker pid={pid} />);
-        act(() => setSelected(parentPid));
-        await act(async () => {
-            await userEvent.setup().click(screen.getByRole("button"));
-            await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
-        });
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button"));
+        await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
         expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
             "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
             { body: "", method: "PUT" },
@@ -122,11 +120,9 @@ describe("ParentPicker", () => {
             sortOn: "title",
         };
         render(<ParentPicker pid={pid} />);
-        act(() => setSelected(parentPid));
-        await act(async () => {
-            await userEvent.setup().click(screen.getByRole("button"));
-            await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
-        });
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button"));
+        await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
         expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
             "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
             { body: "", method: "PUT" },
@@ -147,11 +143,9 @@ describe("ParentPicker", () => {
             sortOn: "title",
         };
         render(<ParentPicker pid={pid} />);
-        act(() => setSelected(parentPid));
-        await act(async () => {
-            await userEvent.setup().click(screen.getByRole("button"));
-            await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
-        });
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button"));
+        await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
         expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
             "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
             { body: "", method: "PUT" },
@@ -183,13 +177,12 @@ describe("ParentPicker", () => {
             sortOn: "custom",
         };
         render(<ParentPicker pid={pid} />);
-        act(() => setSelected(parentPid));
+        await act(() => setSelected(parentPid));
         await act(async () => {
             fireEvent.change(screen.getByRole("textbox", { name: "Position:" }), { target: { value: "100" } });
-            await Promise.resolve();
-            await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
-            await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
         });
+        await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
+        await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
         expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
             "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
             { body: "100", method: "PUT" },
@@ -211,15 +204,11 @@ describe("ParentPicker", () => {
             sortOn: "custom",
         };
         render(<ParentPicker pid={pid} />);
-        act(() => setSelected(parentPid));
-        await act(async () => {
-            await userEvent.setup().click(screen.getByRole("button"));
-            await waitFor(() => expect(fetchValues.action.fetchText).toHaveBeenCalled());
-        });
-        await act(async () => {
-            await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
-            await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
-        });
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button"));
+        await waitFor(() => expect(fetchValues.action.fetchText).toHaveBeenCalled());
+        await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
+        await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
         expect(fetchValues.action.fetchText).toHaveBeenNthCalledWith(
             1,
             "http://localhost:9000/api/edit/object/foo%3A122/lastChildPosition",
@@ -249,15 +238,11 @@ describe("ParentPicker", () => {
             sortOn: "custom",
         };
         render(<ParentPicker pid={pid} />);
-        act(() => setSelected(parentPid));
-        await act(async () => {
-            await userEvent.setup().click(screen.getByRole("button"));
-            await waitFor(() => expect(fetchValues.action.fetchText).toHaveBeenCalled());
-        });
-        await act(async () => {
-            await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
-            await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
-        });
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button"));
+        await waitFor(() => expect(fetchValues.action.fetchText).toHaveBeenCalled());
+        await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
+        await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
         expect(fetchValues.action.fetchText).toHaveBeenNthCalledWith(
             1,
             "http://localhost:9000/api/edit/object/foo%3A122/lastChildPosition",
@@ -282,10 +267,11 @@ describe("ParentPicker", () => {
         const tree = renderer.create(<ParentPicker pid={pid} />);
         await renderer.act(async () => {
             setSelected(parentPid);
-            await Promise.resolve();
-            errorCallback(parentPid);
-            await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
         });
+        await renderer.act(async () => {
+            errorCallback(parentPid);
+        });
+        await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
         expect(editorValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: "Cannot load details for foo:122. Are you sure this is a valid PID?",
             open: true,

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { renderHook, act } from "@testing-library/react-hooks";
+import { renderHook, act } from "@testing-library/react";
 import * as JobPaginatorState from "./JobPaginatorState";
 import * as routes from "../util/routes";
 import { FetchContextProvider } from "./FetchContext";

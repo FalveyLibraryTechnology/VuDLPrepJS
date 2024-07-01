@@ -60,8 +60,8 @@ describe("Child", () => {
         let tree;
         await renderer.act(async () => {
             tree = renderer.create(getChildComponent(props));
-            await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
         });
+        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
         expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/object/foo%3A123/details");
         expect(tree.toJSON()).toMatchSnapshot();
     });
@@ -71,8 +71,8 @@ describe("Child", () => {
         let tree;
         await renderer.act(async () => {
             tree = renderer.create(getChildComponent(props));
-            await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
         });
+        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
         expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/object/foo%3A123/details");
         expect(tree.toJSON()).toMatchSnapshot();
     });
@@ -83,24 +83,24 @@ describe("Child", () => {
         let tree;
         await renderer.act(async () => {
             tree = renderer.create(getChildComponent(props));
-            await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
         });
+        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
         expect(tree.toJSON()).toMatchSnapshot();
     });
 
     it("can be expanded to show children", async () => {
         await act(async () => {
             render(getChildComponent(props));
-            await waitFor(() => expect(global.fetch).toHaveBeenCalled());
         });
+        await waitFor(() => expect(global.fetch).toHaveBeenCalled());
         // There should initially be an expand button and no children:
         const expandIcon = screen.getByRole("img", { name: "Expand Tree" });
         expect(screen.queryAllByText("ChildList")).toHaveLength(0);
         // Click expand:
         await act(async () => {
             await userEvent.setup().click(expandIcon);
-            await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
         });
+        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
         // There should now be a collapse button and children:
         screen.getByRole("img", { name: "Collapse Tree" });
         expect(screen.queryAllByText("ChildList")).toHaveLength(1);

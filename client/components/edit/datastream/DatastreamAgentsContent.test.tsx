@@ -1,11 +1,10 @@
 import React from "react";
 import { describe, beforeEach, afterEach, expect, it, jest } from "@jest/globals";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
 import renderer from "react-test-renderer";
 import DatastreamAgentsContent from "./DatastreamAgentsContent";
-import { waitFor } from "@testing-library/react";
 
 const mockDatastreamAgentsModifyContentRow = jest.fn();
 jest.mock("./DatastreamAgentsModifyContentRow", () => (props) => {
@@ -66,8 +65,8 @@ describe("DatastreamAgentsContent", () => {
         let tree;
         await renderer.act(async () => {
             tree = renderer.create(<DatastreamAgentsContent />);
-            await waitFor(() => expect(datastreamOperationValues.getAgents).toHaveBeenCalled());
         });
+        await waitFor(() => expect(datastreamOperationValues.getAgents).toHaveBeenCalled());
         expect(editorValues.action.setCurrentAgents).toHaveBeenCalled();
         expect(tree.toJSON()).toMatchSnapshot();
     });
@@ -75,11 +74,11 @@ describe("DatastreamAgentsContent", () => {
     it("saves current changes on save changes click", async () => {
         datastreamOperationValues.getAgents.mockResolvedValue([]);
 
-        render(<DatastreamAgentsContent />);
         await act(async () => {
-            await waitFor(() => expect(datastreamOperationValues.getAgents).toHaveBeenCalled());
-            await userEvent.setup().click(screen.getByText("Save Changes"));
+            render(<DatastreamAgentsContent />);
         });
+        await waitFor(() => expect(datastreamOperationValues.getAgents).toHaveBeenCalled());
+        await userEvent.setup().click(screen.getByText("Save Changes"));
 
         expect(datastreamOperationValues.uploadAgents).toHaveBeenCalled();
         expect(editorValues.action.toggleDatastreamModal).not.toHaveBeenCalled();
@@ -88,11 +87,11 @@ describe("DatastreamAgentsContent", () => {
     it("saves current agents and closes the modal", async () => {
         datastreamOperationValues.getAgents.mockResolvedValue([]);
 
-        render(<DatastreamAgentsContent />);
         await act(async () => {
-            await waitFor(() => expect(datastreamOperationValues.getAgents).toHaveBeenCalled());
-            await userEvent.setup().click(screen.getByText("Save And Close"));
+            render(<DatastreamAgentsContent />);
         });
+        await waitFor(() => expect(datastreamOperationValues.getAgents).toHaveBeenCalled());
+        await userEvent.setup().click(screen.getByText("Save And Close"));
 
         expect(datastreamOperationValues.uploadAgents).toHaveBeenCalled();
         expect(editorValues.action.toggleDatastreamModal).toHaveBeenCalled();
@@ -101,11 +100,11 @@ describe("DatastreamAgentsContent", () => {
     it("resets current agents on cancel", async () => {
         datastreamOperationValues.getAgents.mockResolvedValue([]);
 
-        render(<DatastreamAgentsContent />);
         await act(async () => {
-            await waitFor(() => expect(datastreamOperationValues.getAgents).toHaveBeenCalled());
-            await userEvent.setup().click(screen.getByText("Cancel"));
+            render(<DatastreamAgentsContent />);
         });
+        await waitFor(() => expect(datastreamOperationValues.getAgents).toHaveBeenCalled());
+        await userEvent.setup().click(screen.getByText("Cancel"));
 
         expect(datastreamOperationValues.uploadAgents).not.toHaveBeenCalled();
         expect(datastreamOperationValues.getAgents).toHaveBeenCalled();

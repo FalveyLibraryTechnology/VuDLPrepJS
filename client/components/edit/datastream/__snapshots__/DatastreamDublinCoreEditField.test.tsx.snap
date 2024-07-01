@@ -93,6 +93,7 @@ exports[`DatastreamDublinCoreEditField renders a locked field 1`] = `
     <input
       autoFocus={false}
       className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+      id=":r0:"
       onAnimationStart={[Function]}
       onBlur={[Function]}
       onChange={[Function]}

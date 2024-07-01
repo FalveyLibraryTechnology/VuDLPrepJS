@@ -153,8 +153,6 @@ exports[`SolrIndexer renders 1`] = `
   </h2>
   <pre
     id="solrIndexResults"
-  >
-    
-  </pre>
+  />
 </div>
 `;

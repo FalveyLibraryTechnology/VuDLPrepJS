@@ -19,7 +19,7 @@ const Thumbnail = forwardRef(({ scrollTo, number, selected }: ThumbnailProps, re
     }, [selected]);
 
     const url = getJobImageUrl(order[number], "thumb");
-    const img = url ? <img alt="" src={url} /> : "";
+    const img = url ? <img alt={`thumbnail ${number}`} src={url} /> : "";
     return (
         <div onClick={() => setPage(number)} className={"thumbnail" + (selected ? " selected" : "")} ref={ref}>
             {img}

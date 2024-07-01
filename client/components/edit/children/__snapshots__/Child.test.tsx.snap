@@ -1,141 +1,129 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Child handles empty titles appropriately 1`] = `
-[
+<div
+  className="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+>
   <div
-    className="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
   >
-    <div
-      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+    <span
+      onClick={[Function]}
     >
-      <span
-        onClick={[Function]}
+      <svg
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="AddBoxIcon"
+        focusable="false"
+        role="img"
+        viewBox="0 0 24 24"
       >
-        <svg
-          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-          data-testid="AddBoxIcon"
-          focusable="false"
-          role="img"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
-          />
-          <title>
-            Expand Tree
-          </title>
-        </svg>
-      </span>
-      
-      <a
-        href="/edit/object/foo:123"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-      >
-        - [foo:123]
-      </a>
-    </div>
-    <div
-      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+        <path
+          d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
+        />
+        <title>
+          Expand Tree
+        </title>
+      </svg>
+    </span>
+    <a
+      href="/edit/object/foo:123"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
     >
-      ObjectButtonBar:{"pid":"foo:123"}
-    </div>
-  </div>,
-  "",
-]
+      - [foo:123]
+    </a>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+  >
+    ObjectButtonBar:{"pid":"foo:123"}
+  </div>
+</div>
 `;
 
 exports[`Child renders a thumbnail 1`] = `
-[
+<div
+  className="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+>
   <div
-    className="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
   >
-    <div
-      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+    <span
+      onClick={[Function]}
     >
-      <span
-        onClick={[Function]}
+      <svg
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="AddBoxIcon"
+        focusable="false"
+        role="img"
+        viewBox="0 0 24 24"
       >
-        <svg
-          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-          data-testid="AddBoxIcon"
-          focusable="false"
-          role="img"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
-          />
-          <title>
-            Expand Tree
-          </title>
-        </svg>
-      </span>
-      
-      <a
-        href="/edit/object/foo:123"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-      >
-        ajax-loaded title [foo:123]
-      </a>
-    </div>
-    <div
-      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+        <path
+          d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
+        />
+        <title>
+          Expand Tree
+        </title>
+      </svg>
+    </span>
+    <a
+      href="/edit/object/foo:123"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
     >
-      ObjectButtonBar:{"pid":"foo:123"}
-    </div>
-    <div
-      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 css-u78q51-MuiGrid-root"
-    >
-      ObjectThumbnail: {"pid":"foo:123"}
-    </div>
-  </div>,
-  "",
-]
+      ajax-loaded title [foo:123]
+    </a>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+  >
+    ObjectButtonBar:{"pid":"foo:123"}
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 css-u78q51-MuiGrid-root"
+  >
+    ObjectThumbnail: {"pid":"foo:123"}
+  </div>
+</div>
 `;
 
 exports[`Child renders using ajax-loaded data 1`] = `
-[
+<div
+  className="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+>
   <div
-    className="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
   >
-    <div
-      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+    <span
+      onClick={[Function]}
     >
-      <span
-        onClick={[Function]}
+      <svg
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="AddBoxIcon"
+        focusable="false"
+        role="img"
+        viewBox="0 0 24 24"
       >
-        <svg
-          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-          data-testid="AddBoxIcon"
-          focusable="false"
-          role="img"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
-          />
-          <title>
-            Expand Tree
-          </title>
-        </svg>
-      </span>
-      
-      <a
-        href="/edit/object/foo:123"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-      >
-        ajax-loaded title [foo:123]
-      </a>
-    </div>
-    <div
-      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+        <path
+          d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
+        />
+        <title>
+          Expand Tree
+        </title>
+      </svg>
+    </span>
+    <a
+      href="/edit/object/foo:123"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
     >
-      ObjectButtonBar:{"pid":"foo:123"}
-    </div>
-  </div>,
-  "",
-]
+      ajax-loaded title [foo:123]
+    </a>
+  </div>
+  <div
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+  >
+    ObjectButtonBar:{"pid":"foo:123"}
+  </div>
+</div>
 `;

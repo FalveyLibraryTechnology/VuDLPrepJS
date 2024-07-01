@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { renderHook, act } from "@testing-library/react-hooks";
+import { renderHook, act } from "@testing-library/react";
 import MagicLabeler from "../util/MagicLabeler";
 import usePaginatorControls from "./usePaginatorControls";
 

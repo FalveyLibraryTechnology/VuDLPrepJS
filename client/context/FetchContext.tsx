@@ -81,7 +81,7 @@ export const useFetchContext = () => {
      * @param {Object} params - The request parameters
      * @param {Object} headers - The request parameter headers
      */
-    const makeRequest = async (url, params = {}, headers = {}) => {
+    const makeRequest = async (url: string, params = {}, headers = {}) => {
         const response = await fetch(
             url,
             fetchParams(params, {
@@ -89,7 +89,7 @@ export const useFetchContext = () => {
                 Authorization: `Token ${token}`,
             })
         );
-        if (response.status == 401) {
+        if (response?.status == 401) {
             const token = await refreshToken();
             return token
                 ? await fetch(

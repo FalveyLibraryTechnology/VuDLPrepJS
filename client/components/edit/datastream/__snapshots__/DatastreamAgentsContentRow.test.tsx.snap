@@ -118,6 +118,7 @@ exports[`DatastreamAgentsContentRow renders 1`] = `
             autoFocus={false}
             className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
             disabled={false}
+            id=":r0:"
             onAnimationStart={[Function]}
             onBlur={[Function]}
             onChange={[Function]}
