@@ -17,7 +17,7 @@ interface GlobalState {
  * Pass a shared entity to react components,
  * specifically a way to make api requests.
  */
-const globalContextParams: GlobalState = {
+const initalGlobalState: GlobalState = {
     // Modal control
     modalOpenStates: {},
     // Snackbar
@@ -42,25 +42,25 @@ const globalReducer = (state: GlobalState, action: Action): GlobalState => {
             return {
                 ...state,
                 modalOpenStates: {
-            ...state.modalOpenStates,
+                    ...state.modalOpenStates,
                     [action.payload]: true,
                 },
-        };
+            };
         case 'CLOSE_MODAL':
-        return {
-            ...state,
+            return {
+                ...state,
                 modalOpenStates: {
                     ...state.modalOpenStates,
                     [action.payload]: false,
                 },
             };
         case 'SET_SNACKBAR_STATE':
-        return {
-            ...state,
+            return {
+                ...state,
                 snackbarState: action.payload,
-        };
+            };
         default:
-        return state;
+            return state;
     }
 };
 
@@ -87,19 +87,17 @@ export const GlobalContextProvider = ({ children }: { children: ReactNode }) => 
 };
 
 export const useGlobalContext = () => {
-    const {
-        state: {
-            // Modal control
-            modalOpenStates,
-            // Snackbar
-            snackbarState,
-        },
-        dispatch,
-    } = useContext(GlobalContext);
+    const context = useContext(GlobalContext);
+
+    if (!context) {
+        throw new Error("useGlobalContext must be used within a GlobalContextProvider");
+    }
+
+    const { state, dispatch } = context;
 
     // Modal control
 
-    const isModalOpen = (modal: string) => modalOpenStates[modal] ?? false;
+    const isModalOpen = (modal: string) => state.modalOpenStates[modal] ?? false;
     const openModal = (modal: string) => {
         dispatch({
             type: "OPEN_MODAL",
@@ -113,7 +111,7 @@ export const useGlobalContext = () => {
         });
     };
     const toggleModal = (modal: string) => {
-        if (modalOpenStates[modal] ?? false) {
+        if (isModalOpen(modal)) {
             closeModal(modal);
         } else {
             openModal(modal);
@@ -130,10 +128,7 @@ export const useGlobalContext = () => {
     };
 
     return {
-        state: {
-            // Snackbar
-            snackbarState,
-        },
+        state,
         action: {
             // Modal control
             isModalOpen,
