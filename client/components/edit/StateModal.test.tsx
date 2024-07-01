@@ -92,6 +92,7 @@ describe("StateModal", () => {
         renderer.act(() => {
             tree = renderer.create(<StateModal />);
         });
+        expect(globalValues.action.isModalOpen).toHaveBeenCalledWith("state");
         expect(tree.toJSON()).toMatchSnapshot();
     });
 
@@ -100,6 +101,7 @@ describe("StateModal", () => {
         renderer.act(() => {
             tree = renderer.create(<StateModal />);
         });
+        expect(globalValues.action.isModalOpen).toHaveBeenCalledWith("state");
         expect(tree.toJSON()).toMatchSnapshot();
     });
 
@@ -111,6 +113,7 @@ describe("StateModal", () => {
             tree = renderer.create(<StateModal />);
         });
         await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        expect(globalValues.action.isModalOpen).toHaveBeenCalledWith("state");
         expect(tree.toJSON()).toMatchSnapshot();
     });
 
@@ -122,6 +125,7 @@ describe("StateModal", () => {
             tree = renderer.create(<StateModal />);
         });
         await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        expect(globalValues.action.isModalOpen).toHaveBeenCalledWith("state");
         expect(tree.toJSON()).toMatchSnapshot();
     });
 
@@ -133,6 +137,7 @@ describe("StateModal", () => {
             render(<StateModal />);
         });
         await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        expect(globalValues.action.isModalOpen).toHaveBeenCalledWith("state");
         const user = userEvent.setup();
         await user.click(screen.getByText("Active"));
         await user.click(screen.getByText("Save"));
@@ -159,6 +164,7 @@ describe("StateModal", () => {
             render(<StateModal />);
         });
         await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        expect(globalValues.action.isModalOpen).toHaveBeenCalledWith("state");
         await userEvent.setup().click(screen.getByText("Save"));
         await waitFor(() =>
             expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
@@ -180,6 +186,7 @@ describe("StateModal", () => {
             render(<StateModal />);
         });
         await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        expect(globalValues.action.isModalOpen).toHaveBeenCalledWith("state");
         const user = userEvent.setup();
         await user.click(screen.getByText("Active"));
         await user.click(screen.getByText("Save"));
@@ -206,6 +213,7 @@ describe("StateModal", () => {
             render(<StateModal />);
         });
         await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        expect(globalValues.action.isModalOpen).toHaveBeenCalledWith("state");
         const user = userEvent.setup();
         await user.click(screen.getByText("Active"));
         await user.click(screen.getByText("Update 1 children to match"));
@@ -233,6 +241,7 @@ describe("StateModal", () => {
             render(<StateModal />);
         });
         await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        expect(globalValues.action.isModalOpen).toHaveBeenCalledWith("state");
         const user = userEvent.setup();
         await user.click(screen.getByText("Active"));
         await user.click(screen.getByText("Update 1 children to match"));
