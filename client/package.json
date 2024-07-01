@@ -25,14 +25,14 @@
     "@mui/material": "^5",
     "@mui/x-date-pickers": "^5",
     "@mui/x-tree-view": "^6",
-    "@tinymce/tinymce-react": "^4",
+    "@tinymce/tinymce-react": "^5",
     "dayjs": "^1",
     "html-react-parser": "^4",
     "identity-obj-proxy": "^3.0.0",
     "next": "^14",
     "react": "^18",
     "roman-numerals": "^0.3.2",
-    "tinymce": "^6"
+    "tinymce": "^7"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5",
