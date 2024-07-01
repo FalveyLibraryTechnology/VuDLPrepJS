@@ -102,7 +102,7 @@ describe("CreateObject", () => {
             render(getCreateObjectToTest(props));
         });
         await waitFor(() => expect(global.fetch).toHaveBeenCalled());
-        await act(async() => {
+        await act(async () => {
             nodeSelectFunction(new Event("event-foo"), "model-foo");
             // Test that category select has no effect:
             nodeSelectFunction(new Event("event-foo"), "__categoryWillBeIgnored");

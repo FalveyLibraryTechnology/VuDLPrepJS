@@ -51,7 +51,9 @@ describe("PdfGenerator", () => {
                 value: "testPid",
             },
         });
-        await act(async () => { userEvent.setup().click(screen.getByRole("button")); });
+        await act(async () => {
+            userEvent.setup().click(screen.getByRole("button"));
+        });
         await waitFor(() => expect(fetchContextValues.action.fetchText).toHaveBeenCalled());
         expect(screen.queryAllByText("testText")).toHaveLength(1);
     });
@@ -68,7 +70,9 @@ describe("PdfGenerator", () => {
                 value: "testPid",
             },
         });
-        await act(async () => { userEvent.setup().click(screen.getByRole("button")) });
+        await act(async () => {
+            userEvent.setup().click(screen.getByRole("button"));
+        });
         await waitFor(() => expect(fetchContextValues.action.fetchText).toHaveBeenCalled());
         expect(screen.queryAllByText("testError")).toHaveLength(1);
     });
