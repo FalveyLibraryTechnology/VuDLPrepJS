@@ -18,6 +18,7 @@ const BulkEditor = (): React.ReactElement => {
     const [selectedRecords, setSelectedRecords] = useState("");
     const [licenseKey, setLicenseKey] = useState("");
     const [query, setQuery] = useState("");
+    const [limit, setLimit] = useState("50");
     const [selectedRecordIds, setSelectedRecordIds] = useState<Array<string>>([]);
     const {
         action: { fetchText },
@@ -31,7 +32,7 @@ const BulkEditor = (): React.ReactElement => {
         try {
             const result = await fetchText(
                 baseUrl + "/api/edit/query/solr",
-                { method: "POST", body: JSON.stringify({ query }) },
+                { method: "POST", body: JSON.stringify({ query, rows: parseInt(limit) }) },
                 { "Content-Type": "application/json" },
             );
             const json = JSON.parse(result);
@@ -50,6 +51,7 @@ const BulkEditor = (): React.ReactElement => {
         } catch (error) {
             setSelectedRecords(error.message);
         }
+        setResults("");
     };
 
     const doApplyChanges = async () => {
@@ -93,6 +95,13 @@ const BulkEditor = (): React.ReactElement => {
                     value={query}
                     setValue={setQuery}
                     options={{ id: "outlined-basic", label: "Search Query", variant: "outlined" }}
+                />
+            </FormControl>
+            <FormControl fullWidth>
+                <BlurSavingTextField
+                    value={limit}
+                    setValue={setLimit}
+                    options={{ id: "outlined-basic", label: "Result Limit", variant: "outlined" }}
                 />
             </FormControl>
             <FormControl>
