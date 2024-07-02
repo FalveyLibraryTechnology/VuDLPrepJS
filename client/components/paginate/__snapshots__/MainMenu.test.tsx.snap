@@ -55,6 +55,16 @@ exports[`MainMenu renders 1`] = `
     </li>
     <li>
       <a
+        href="/bulk"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Bulk Editor
+      </a>
+    </li>
+    <li>
+      <a
         href="/pdf"
         onClick={[Function]}
         onMouseEnter={[Function]}
