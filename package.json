@@ -38,7 +38,9 @@
     "setup": "concurrently npm:api:setup npm:client:setup",
     "start": "concurrently -c 'cyan,green,gray' npm:client npm:api npm:queue",
     "test": "concurrently npm:client:test npm:api:test",
-    "watch": "cd api && npm run watch"
+    "watch": "cd api && npm run watch",
+    
+    "postinstall": "npm run setup"
   },
   "devDependencies": {
     "concurrently": "^8"
