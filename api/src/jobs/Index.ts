@@ -80,11 +80,10 @@ class Index implements QueueJob {
     ): boolean {
         const oldTitle: string = (existingSolrDocument?.title ?? "") as string;
         const newTitle: string = (newResults?.title ?? "") as string;
-        const oldHierarchyTitle: string = (existingSolrDocument?.hierarchy_top_title ?? "") as string;
-        const newHierarchyTitle: string = (newResults?.hierarchy_top_title ?? "") as string;
+        const oldHierarchyTitle: Array<string> = (existingSolrDocument?.hierarchy_top_title ?? []) as Array<string>;
+        const newHierarchyTitle: Array<string> = (newResults?.hierarchy_top_title ?? []) as Array<string>;
         const oldParents: Array<string> = (existingSolrDocument?.hierarchy_all_parents_str_mv ?? []) as Array<string>;
         const newParents: Array<string> = (newResults?.hierarchy_all_parents_str_mv ?? []) as Array<string>;
-
         // If we have no old title or parents, this is almost certainly the first time this record
         // has been indexed, so the following comparisons are not meaningful. We'll assume that there
         // is no point in modifying children at this stage.
@@ -95,13 +94,15 @@ class Index implements QueueJob {
         // We need to reindex children if our title has changed, or if our parents have changed:
         if (
             oldTitle !== newTitle ||
-            oldHierarchyTitle !== newHierarchyTitle ||
+            oldHierarchyTitle.length !== newHierarchyTitle.length ||
             oldParents.length !== newParents.length
         ) {
             return true;
         }
-        const intersection = oldParents.filter((x) => newParents.includes(x));
-        return intersection.length !== oldParents.length;
+        const hierarchyTitleIntersection = oldHierarchyTitle.filter((x) => newHierarchyTitle.includes(x));
+        const parentIntersection = oldParents.filter((x) => newParents.includes(x));
+        return parentIntersection.length !== oldParents.length
+            || hierarchyTitleIntersection.length !== oldHierarchyTitle.length;
     }
 
     async run(job: Job): Promise<void> {
