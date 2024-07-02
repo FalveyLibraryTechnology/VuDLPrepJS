@@ -21,6 +21,9 @@ const MainMenu = (): React.ReactElement => {
                     <a href={`${baseUrl}/queue`}>Arena (Job Queue Manager)</a>
                 </li>
                 <li>
+                    <Link href="/bulk">Bulk Editor</Link>
+                </li>
+                <li>
                     <Link href="/pdf">PDF Generator</Link>
                 </li>
                 <li>
