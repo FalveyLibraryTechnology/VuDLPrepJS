@@ -101,8 +101,10 @@ class Index implements QueueJob {
         }
         const hierarchyTitleIntersection = oldHierarchyTitle.filter((x) => newHierarchyTitle.includes(x));
         const parentIntersection = oldParents.filter((x) => newParents.includes(x));
-        return parentIntersection.length !== oldParents.length
-            || hierarchyTitleIntersection.length !== oldHierarchyTitle.length;
+        return (
+            parentIntersection.length !== oldParents.length ||
+            hierarchyTitleIntersection.length !== oldHierarchyTitle.length
+        );
     }
 
     async run(job: Job): Promise<void> {
