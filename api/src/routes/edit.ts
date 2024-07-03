@@ -56,7 +56,7 @@ edit.post("/query/solr", requireToken, bodyParser.json(), async function (req, r
     const solr = Solr.getInstance();
     const rows = parseInt(req?.body?.rows ?? "100").toString();
     const start = parseInt(req?.body?.start ?? "0").toString();
-    const sort = req?.body?.sort ?? "title asc";
+    const sort = req?.body?.sort ?? "title_sort asc";
     const result = await solr.query(config.solrCore, query, { sort, fl: "id,title", rows, start });
     if (result.statusCode !== 200) {
         res.status(result.statusCode ?? 500).send("Unexpected Solr response code.");

@@ -77,7 +77,7 @@ const BulkEditor = (): React.ReactElement => {
                     },
                     { "Content-Type": "application/json" },
                 );
-                result += `${id}: ${text}\n`;
+                result += `(${i + 1}/${selectedRecordIds.length}) ${id}: ${text}\n`;
                 setResults(result);
             }
         } catch (error) {
