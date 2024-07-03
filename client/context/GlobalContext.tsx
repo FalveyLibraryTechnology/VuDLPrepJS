@@ -128,7 +128,11 @@ export const useGlobalContext = () => {
     };
 
     return {
-        state,
+        state: {
+            // only return limited state
+            // to create "private" attributes
+            snackbarState: state.snackbarState,
+        },
         action: {
             // Modal control
             isModalOpen,
