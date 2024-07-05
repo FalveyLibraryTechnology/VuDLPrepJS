@@ -5,33 +5,28 @@ import userEvent from "@testing-library/user-event";
 import renderer from "react-test-renderer";
 import DatastreamDeleteModalContent from "./DatastreamDeleteModalContent";
 
-const mockUseEditorContext = jest.fn();
-jest.mock("../../../context/EditorContext", () => ({
-    useEditorContext: () => {
-        return mockUseEditorContext();
+const mockUseGlobalContext = jest.fn();
+jest.mock("../../../context/GlobalContext", () => ({
+    useGlobalContext: () => {
+        return mockUseGlobalContext();
     },
 }));
 const mockUseDatastreamOperation = jest.fn();
 jest.mock("../../../hooks/useDatastreamOperation", () => () => mockUseDatastreamOperation());
 describe("DatastreamDeleteModalContent", () => {
-    let editorValues;
+    let globalValues;
     let datastreamOperationValues;
     beforeEach(() => {
-        editorValues = {
-            state: {
-                currentPid: "vudl:123",
-                activeDatastream: "THUMBNAIL",
-            },
+        globalValues = {
             action: {
-                loadCurrentObjectDetails: jest.fn().mockResolvedValue({}),
                 setSnackbarState: jest.fn(),
-                toggleDatastreamModal: jest.fn(),
+                closeModal: jest.fn(),
             },
         };
         datastreamOperationValues = {
             deleteDatastream: jest.fn(),
         };
-        mockUseEditorContext.mockReturnValue(editorValues);
+        mockUseGlobalContext.mockReturnValue(globalValues);
         mockUseDatastreamOperation.mockReturnValue(datastreamOperationValues);
     });
 
@@ -44,5 +39,11 @@ describe("DatastreamDeleteModalContent", () => {
         render(<DatastreamDeleteModalContent />);
         await userEvent.setup().click(screen.getByText("Yes"));
         expect(datastreamOperationValues.deleteDatastream).toHaveBeenCalled();
+    });
+
+    it("can be stopped", async () => {
+        render(<DatastreamDeleteModalContent />);
+        await userEvent.setup().click(screen.getByText("No"));
+        expect(globalValues.action.closeModal).toHaveBeenCalledWith("datastream");
     });
 });

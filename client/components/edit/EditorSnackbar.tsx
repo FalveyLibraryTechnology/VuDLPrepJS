@@ -3,7 +3,7 @@ import Alert from "@mui/material/Alert";
 import IconButton from "@mui/material/IconButton";
 import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
-import { useEditorContext } from "../../context/EditorContext";
+import { useGlobalContext } from "../../context/GlobalContext";
 
 const EditorSnackbar = (): React.ReactElement => {
     const {
@@ -11,7 +11,7 @@ const EditorSnackbar = (): React.ReactElement => {
             snackbarState: { message, open, severity },
         },
         action: { setSnackbarState },
-    } = useEditorContext();
+    } = useGlobalContext();
 
     const handleClose = () => {
         setSnackbarState({

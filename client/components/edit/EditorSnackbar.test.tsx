@@ -5,18 +5,18 @@ import userEvent from "@testing-library/user-event";
 import renderer from "react-test-renderer";
 import EditorSnackbar from "./EditorSnackbar";
 
-const mockUseEditorContext = jest.fn();
-jest.mock("../../context/EditorContext", () => ({
-    useEditorContext: () => {
-        return mockUseEditorContext();
+const mockUseGlobalContext = jest.fn();
+jest.mock("../../context/GlobalContext", () => ({
+    useGlobalContext: () => {
+        return mockUseGlobalContext();
     },
 }));
 jest.mock("./children/ChildList", () => () => "ChildList");
 
 describe("EditorSnackbar", () => {
-    let editorValues;
+    let globalValues;
     beforeEach(() => {
-        editorValues = {
+        globalValues = {
             state: {
                 snackbarState: {
                     message: "test1",
@@ -28,7 +28,7 @@ describe("EditorSnackbar", () => {
                 setSnackbarState: jest.fn(),
             },
         };
-        mockUseEditorContext.mockReturnValue(editorValues);
+        mockUseGlobalContext.mockReturnValue(globalValues);
     });
 
     it("renders", () => {
@@ -47,7 +47,7 @@ describe("EditorSnackbar", () => {
 
         await userEvent.setup().click(screen.getByRole("button"));
 
-        expect(editorValues.action.setSnackbarState).toHaveBeenCalledWith({
+        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             open: false,
             message: "",
             severity: "info",

@@ -1,5 +1,6 @@
 import { useFetchContext } from "../context/FetchContext";
 import { useEditorContext } from "../context/EditorContext";
+import { useGlobalContext } from "../context/GlobalContext";
 import {
     deleteObjectDatastreamUrl,
     downloadObjectDatastreamUrl,
@@ -15,11 +16,14 @@ import {
 
 const useDatastreamOperation = () => {
     const {
+        action: { setSnackbarState, closeModal },
+    } = useGlobalContext();
+    const {
         action: { fetchBlob, fetchJSON, fetchText },
     } = useFetchContext();
     const {
         state: { currentPid, activeDatastream, datastreamsCatalog, currentDatastreams, processMetadataDefaults },
-        action: { setSnackbarState, toggleDatastreamModal, loadCurrentObjectDetails },
+        action: { loadCurrentObjectDetails },
     } = useEditorContext();
 
     const isAllowedMimeType = (mimeType) => {
@@ -51,15 +55,14 @@ const useDatastreamOperation = () => {
                 message: text,
                 severity: "success",
             });
-            toggleDatastreamModal();
         } catch (err) {
             setSnackbarState({
                 open: true,
                 message: err.message,
                 severity: "error",
             });
-            toggleDatastreamModal();
         }
+        closeModal("datastream");
     };
 
     const uploadAgents = async (agents) => {
@@ -106,7 +109,7 @@ const useDatastreamOperation = () => {
                 severity: "error",
             });
         }
-        toggleDatastreamModal();
+        closeModal("datastream");
     };
 
     const uploadLicense = async (licenseKey) => {
@@ -130,7 +133,7 @@ const useDatastreamOperation = () => {
                 severity: "error",
             });
         }
-        toggleDatastreamModal();
+        closeModal("datastream");
     };
 
     const uploadProcessMetadata = async (processMetadata) => {
@@ -154,7 +157,7 @@ const useDatastreamOperation = () => {
                 severity: "error",
             });
         }
-        toggleDatastreamModal();
+        closeModal("datastream");
     };
 
     const deleteDatastream = async () => {
@@ -175,7 +178,7 @@ const useDatastreamOperation = () => {
                 severity: "error",
             });
         }
-        toggleDatastreamModal();
+        closeModal("datastream");
     };
 
     const downloadDatastream = async (datastream) => {

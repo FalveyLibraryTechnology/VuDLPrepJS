@@ -1,5 +1,6 @@
 /* eslint react/prop-types: 0 */
 import React from "react";
+import { GlobalContextProvider } from "../context/GlobalContext";
 import { PaginatorContextProvider } from "../context/PaginatorContext";
 import { FetchContextProvider } from "../context/FetchContext";
 
@@ -12,14 +13,16 @@ import LogoutButton from "../components/LogoutButton";
 
 function MyApp({ Component, pageProps }: { Component: React.ReactNode }): React.ReactElement {
     return (
-        <PaginatorContextProvider>
-            <div className="logout">
-                <LogoutButton />
-            </div>
-            <FetchContextProvider>
-                <Component {...pageProps} />
-            </FetchContextProvider>
-        </PaginatorContextProvider>
+        <GlobalContextProvider>
+            <PaginatorContextProvider>
+                <div className="logout">
+                    <LogoutButton />
+                </div>
+                <FetchContextProvider>
+                    <Component {...pageProps} />
+                </FetchContextProvider>
+            </PaginatorContextProvider>
+        </GlobalContextProvider>
     );
 }
 export default MyApp;

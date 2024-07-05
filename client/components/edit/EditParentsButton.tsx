@@ -1,4 +1,5 @@
 import React from "react";
+import { useGlobalContext } from "../../context/GlobalContext";
 import { useEditorContext } from "../../context/EditorContext";
 
 export interface ObjectStatusProps {
@@ -7,12 +8,16 @@ export interface ObjectStatusProps {
 
 export const EditParentsButton = ({ pid }: ObjectStatusProps): React.ReactElement => {
     const {
-        action: { setParentsModalActivePid, toggleParentsModal },
+        action: { openModal },
+    } = useGlobalContext();
+
+    const {
+        action: { setParentsModalActivePid },
     } = useEditorContext();
 
     const clickAction = () => {
         setParentsModalActivePid(pid);
-        toggleParentsModal();
+        openModal("parents");
     };
     return <button onClick={clickAction}>Edit Parents</button>;
 };

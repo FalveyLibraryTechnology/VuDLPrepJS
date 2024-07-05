@@ -6,6 +6,12 @@ import renderer from "react-test-renderer";
 import ParentList from "./ParentList";
 import { waitFor } from "@testing-library/dom";
 
+const mockUseGlobalContext = jest.fn();
+jest.mock("../../../context/GlobalContext", () => ({
+    useGlobalContext: () => {
+        return mockUseGlobalContext();
+    },
+}));
 const mockUseEditorContext = jest.fn();
 jest.mock("../../../context/EditorContext", () => ({
     useEditorContext: () => {
@@ -22,11 +28,17 @@ jest.mock("../../../context/FetchContext", () => ({
 jest.mock("@mui/icons-material/Delete", () => (props) => props.titleAccess);
 
 describe("ParentList", () => {
+    let globalValues;
     let editorValues;
     let fetchValues;
     let pid: string;
     beforeEach(() => {
         pid = "foo:123";
+        globalValues = {
+            action: {
+                setSnackbarState: jest.fn(),
+            },
+        };
         editorValues = {
             state: {
                 parentDetailsStorage: {
@@ -69,7 +81,6 @@ describe("ParentList", () => {
                 loadParentDetailsIntoStorage: jest.fn(),
                 removeFromObjectDetailsStorage: jest.fn(),
                 removeFromParentDetailsStorage: jest.fn(),
-                setSnackbarState: jest.fn(),
             },
         };
         fetchValues = {
@@ -77,6 +88,7 @@ describe("ParentList", () => {
                 fetchText: jest.fn(),
             },
         };
+        mockUseGlobalContext.mockReturnValue(globalValues);
         mockUseEditorContext.mockReturnValue(editorValues);
         mockUseFetchContext.mockReturnValue(fetchValues);
     });
@@ -127,7 +139,7 @@ describe("ParentList", () => {
         expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenCalledWith(pid);
         expect(editorValues.action.removeFromParentDetailsStorage).toHaveBeenCalledWith(pid);
         expect(editorValues.action.clearPidFromChildListStorage).toHaveBeenCalledWith("foo:122");
-        expect(editorValues.action.setSnackbarState).toHaveBeenCalledWith({
+        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: "Successfully removed foo:123 from foo:122",
             open: true,
             severity: "info",
@@ -152,11 +164,11 @@ describe("ParentList", () => {
             "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
             { method: "DELETE" },
         );
-        await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
+        await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(editorValues.action.removeFromObjectDetailsStorage).not.toHaveBeenCalled();
         expect(editorValues.action.removeFromParentDetailsStorage).not.toHaveBeenCalled();
         expect(editorValues.action.clearPidFromChildListStorage).not.toHaveBeenCalled();
-        expect(editorValues.action.setSnackbarState).toHaveBeenCalledWith({
+        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: "not ok",
             open: true,
             severity: "error",
@@ -175,11 +187,11 @@ describe("ParentList", () => {
             "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
             { method: "DELETE" },
         );
-        await waitFor(() => expect(editorValues.action.setSnackbarState).toHaveBeenCalled());
+        await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(editorValues.action.removeFromObjectDetailsStorage).not.toHaveBeenCalled();
         expect(editorValues.action.removeFromParentDetailsStorage).not.toHaveBeenCalled();
         expect(editorValues.action.clearPidFromChildListStorage).not.toHaveBeenCalled();
-        expect(editorValues.action.setSnackbarState).toHaveBeenCalledWith({
+        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: "boom",
             open: true,
             severity: "error",

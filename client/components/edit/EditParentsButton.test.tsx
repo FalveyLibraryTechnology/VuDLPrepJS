@@ -12,18 +12,31 @@ jest.mock("../../context/EditorContext", () => ({
     },
 }));
 
+const mockUseGlobalContext = jest.fn();
+jest.mock("../../context/GlobalContext", () => ({
+    useGlobalContext: () => {
+        return mockUseGlobalContext();
+    },
+}));
+
 describe("EditParentsButton", () => {
     let editorValues;
+    let globalValues;
     let pid: string;
     beforeEach(() => {
         pid = "foo:123";
         editorValues = {
             action: {
                 setParentsModalActivePid: jest.fn(),
-                toggleParentsModal: jest.fn(),
             },
         };
         mockUseEditorContext.mockReturnValue(editorValues);
+        globalValues = {
+            action: {
+                openModal: jest.fn(),
+            },
+        };
+        mockUseGlobalContext.mockReturnValue(globalValues);
     });
 
     it("renders", () => {
@@ -36,6 +49,6 @@ describe("EditParentsButton", () => {
         await userEvent.setup().click(screen.getByRole("button"));
 
         expect(editorValues.action.setParentsModalActivePid).toHaveBeenCalledWith(pid);
-        expect(editorValues.action.toggleParentsModal).toHaveBeenCalled();
+        expect(globalValues.action.openModal).toHaveBeenCalledWith("parents");
     });
 });

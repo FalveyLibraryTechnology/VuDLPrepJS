@@ -12,6 +12,12 @@ jest.mock("../../../context/EditorContext", () => ({
         return mockUseEditorContext();
     },
 }));
+const mockUseGlobalContext = jest.fn();
+jest.mock("../../../context/GlobalContext", () => ({
+    useGlobalContext: () => {
+        return mockUseGlobalContext();
+    },
+}));
 const mockUseDatastreamOperation = jest.fn();
 jest.mock("../../../hooks/useDatastreamOperation", () => () => {
     return mockUseDatastreamOperation();
@@ -19,6 +25,7 @@ jest.mock("../../../hooks/useDatastreamOperation", () => () => {
 
 describe("DatastreamLicenseContent", () => {
     let editorValues;
+    let globalValues;
     let datastreamOperationValues;
     beforeEach(() => {
         editorValues = {
@@ -29,8 +36,10 @@ describe("DatastreamLicenseContent", () => {
                     },
                 },
             },
+        };
+        globalValues = {
             action: {
-                toggleDatastreamModal: jest.fn(),
+                closeModal: jest.fn(),
             },
         };
         datastreamOperationValues = {
@@ -38,6 +47,7 @@ describe("DatastreamLicenseContent", () => {
             getLicenseKey: jest.fn(),
         };
         mockUseEditorContext.mockReturnValue(editorValues);
+        mockUseGlobalContext.mockReturnValue(globalValues);
         mockUseDatastreamOperation.mockReturnValue(datastreamOperationValues);
     });
 
@@ -54,5 +64,14 @@ describe("DatastreamLicenseContent", () => {
         });
         expect(datastreamOperationValues.getLicenseKey).toHaveBeenCalled();
         expect(datastreamOperationValues.uploadLicense).toHaveBeenCalled();
+    });
+
+    it("can be canceled", async () => {
+        await act(async () => {
+            await render(<DatastreamLicenseContent />);
+        });
+        await fireEvent.click(screen.getByText("Cancel"));
+        expect(datastreamOperationValues.uploadLicense).not.toHaveBeenCalled();
+        expect(globalValues.action.closeModal).toHaveBeenCalledWith("datastream");
     });
 });

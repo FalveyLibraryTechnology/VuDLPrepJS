@@ -12,23 +12,35 @@ jest.mock("../../../context/EditorContext", () => ({
         return mockUseEditorContext();
     },
 }));
+const mockUseGlobalContext = jest.fn();
+jest.mock("../../../context/GlobalContext", () => ({
+    useGlobalContext: () => {
+        return mockUseGlobalContext();
+    },
+}));
 const mockUseDatastreamOperation = jest.fn();
 jest.mock("../../../hooks/useDatastreamOperation", () => () => mockUseDatastreamOperation());
 describe("DatastreamControlButton", () => {
     let editorValues;
+    let globalValues;
     let datastreamOperationValues;
     beforeEach(() => {
         editorValues = {
             action: {
-                toggleDatastreamModal: jest.fn(),
                 setActiveDatastream: jest.fn(),
                 setDatastreamModalState: jest.fn(),
+            },
+        };
+        globalValues = {
+            action: {
+                openModal: jest.fn(),
             },
         };
         datastreamOperationValues = {
             downloadDatastream: jest.fn(),
         };
         mockUseEditorContext.mockReturnValue(editorValues);
+        mockUseGlobalContext.mockReturnValue(globalValues);
         mockUseDatastreamOperation.mockReturnValue(datastreamOperationValues);
     });
 
@@ -52,6 +64,6 @@ describe("DatastreamControlButton", () => {
         await userEvent.setup().click(screen.getByRole("button"));
         expect(editorValues.action.setActiveDatastream).toHaveBeenCalledWith("THUMBNAIL");
         expect(editorValues.action.setDatastreamModalState).toHaveBeenCalledWith("View");
-        expect(editorValues.action.toggleDatastreamModal).toHaveBeenCalled();
+        expect(globalValues.action.openModal).toHaveBeenCalledWith("datastream");
     });
 });
