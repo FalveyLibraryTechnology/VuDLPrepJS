@@ -1222,4 +1222,66 @@ describe("edit", () => {
             expect(sequenceSpy).toHaveBeenCalledWith(pid, parentPid, 2);
         });
     });
+
+    describe("post /query/solr", () => {
+        let querySpy;
+        let solrResponse = {};
+        beforeEach(() => {
+            solrResponse = { statusCode: 200, body: { response: { foo: "bar" } } };
+            querySpy = jest.spyOn(Solr.getInstance(), "query").mockResolvedValue(solrResponse as NeedleResponse);
+        });
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+        it("will return an empty response if no query is provided", async () => {
+            const response = await request(app)
+                .post(`/edit/query/solr`)
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.OK);
+            expect(response.text).toEqual('{"numFound":0,"start":0,"docs":[]}');
+        });
+        it("will run an appropriate Solr query with default params", async () => {
+            const response = await request(app)
+                .post(`/edit/query/solr`)
+                .send({ query: "foo" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.OK);
+            expect(querySpy).toHaveBeenCalledWith("biblio", "foo", {
+                fl: "id,title",
+                rows: "100",
+                sort: "title_sort asc",
+                start: "0",
+            });
+            expect(response.text).toEqual('{"foo":"bar"}');
+        });
+        it("allows sort, start and rows to be overridden", async () => {
+            const response = await request(app)
+                .post(`/edit/query/solr`)
+                .send({ query: "foo", rows: 5, start: 3, sort: "title_sort desc" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.OK);
+            expect(querySpy).toHaveBeenCalledWith("biblio", "foo", {
+                fl: "id,title",
+                rows: "5",
+                sort: "title_sort desc",
+                start: "3",
+            });
+            expect(response.text).toEqual('{"foo":"bar"}');
+        });
+        it("handles Solr errors", async () => {
+            (solrResponse as Record<string, unknown>).statusCode = 500;
+            const response = await request(app)
+                .post(`/edit/query/solr`)
+                .send({ query: "foo" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.INTERNAL_SERVER_ERROR);
+            expect(querySpy).toHaveBeenCalledWith("biblio", "foo", {
+                fl: "id,title",
+                rows: "100",
+                sort: "title_sort asc",
+                start: "0",
+            });
+            expect(response.text).toEqual("Unexpected Solr response code.");
+        });
+    });
 });

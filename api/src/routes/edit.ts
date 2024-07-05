@@ -45,7 +45,6 @@ edit.get("/catalog/favoritePids", requireToken, async function (req, res) {
 
 edit.post("/query/solr", requireToken, bodyParser.json(), async function (req, res) {
     const emptyResponse = { numFound: 0, start: 0, docs: [] };
-    console.log(req.body);
     const query = req?.body?.query ?? "";
     if (query.length < 1) {
         res.json(emptyResponse);
