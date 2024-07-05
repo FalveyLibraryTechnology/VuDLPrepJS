@@ -43,7 +43,7 @@ describe("useDatastreamOperation", () => {
         globalValues = {
             action: {
                 setSnackbarState: jest.fn(),
-                toggleModal: jest.fn()
+                closeModal: jest.fn()
             },
         };
         fetchValues = {
@@ -104,7 +104,7 @@ describe("useDatastreamOperation", () => {
                 message: expect.stringContaining("Illegal mime type"),
                 severity: "error",
             });
-            expect(globalValues.action.toggleModal).toHaveBeenCalled();
+            expect(globalValues.action.closeModal).toHaveBeenCalled();
         });
 
         it("returns illegal mime type when catalog cannot find datastream", async () => {
@@ -120,7 +120,7 @@ describe("useDatastreamOperation", () => {
                 message: expect.stringContaining("Illegal mime type"),
                 severity: "error",
             });
-            expect(globalValues.action.toggleModal).toHaveBeenCalled();
+            expect(globalValues.action.closeModal).toHaveBeenCalled();
         });
     });
 
