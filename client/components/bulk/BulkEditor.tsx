@@ -108,7 +108,9 @@ const BulkEditor = (): React.ReactElement => {
                 <button onClick={() => doFetchRecords()}>Fetch Records</button>
             </FormControl>
             <p>{`${selectedRecordIds.length} selected.`}</p>
-            <pre id="selectedRecords">{selectedRecords}</pre>
+            <pre title="Selected Records" id="selectedRecords">
+                {selectedRecords}
+            </pre>
             <h2>Changes to Apply</h2>
             <FormControl fullWidth>
                 <InputLabel>Choose New License</InputLabel>
@@ -135,7 +137,9 @@ const BulkEditor = (): React.ReactElement => {
                 </button>
             </FormControl>
             <h2>Results:</h2>
-            <pre id="bulkEditResults">{results}</pre>
+            <pre title="Bulk Edit Results" id="bulkEditResults">
+                {results}
+            </pre>
         </div>
     );
 };
