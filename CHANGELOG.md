@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - Index jobs now automatically trigger child record indexing when certain parent details change.
 - Index workers now retry up to 3 times before throwing exceptions.
 - Removal of files by SolrCache class is more tolerant of race conditions.
+- Snackbar and modal state handling have been refactored to a new GlobalContext.
 - Updated dependencies.
 
 ### Deprecated
