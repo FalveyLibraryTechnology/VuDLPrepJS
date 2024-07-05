@@ -43,6 +43,28 @@ edit.get("/catalog/favoritePids", requireToken, async function (req, res) {
     res.json(await FedoraCatalog.getInstance().getFavoritePids());
 });
 
+edit.post("/query/solr", requireToken, bodyParser.json(), async function (req, res) {
+    const emptyResponse = { numFound: 0, start: 0, docs: [] };
+    const query = req?.body?.query ?? "";
+    if (query.length < 1) {
+        res.json(emptyResponse);
+        return;
+    }
+
+    const config = Config.getInstance();
+    const solr = Solr.getInstance();
+    const rows = parseInt(req?.body?.rows ?? "100").toString();
+    const start = parseInt(req?.body?.start ?? "0").toString();
+    const sort = req?.body?.sort ?? "title_sort asc";
+    const result = await solr.query(config.solrCore, query, { sort, fl: "id,title", rows, start });
+    if (result.statusCode !== 200) {
+        res.status(result.statusCode ?? 500).send("Unexpected Solr response code.");
+        return;
+    }
+    const response = result?.body?.response ?? emptyResponse;
+    res.json(response);
+});
+
 edit.post("/object/new", requireToken, bodyParser.json(), async function (req, res) {
     let parentPid = req?.body?.parent;
     if (parentPid !== null && !parentPid?.length) {

@@ -2,11 +2,11 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## Next Release - TBD
+## 2.2 - TBD
 
 ### Added
 
-- Nothing.
+- Bulk edit tool (currently only able to change licenses).
 
 ### Changed
 
