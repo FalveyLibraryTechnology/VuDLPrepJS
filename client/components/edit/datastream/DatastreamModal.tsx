@@ -4,6 +4,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { useGlobalContext } from "../../../context/GlobalContext";
 import { useEditorContext } from "../../../context/EditorContext";
 import DatastreamUploadModalContent from "./DatastreamUploadModalContent";
 import DatastreamDeleteModalContent from "./DatastreamDeleteModalContent";
@@ -23,15 +24,17 @@ const DatastreamModalContent = ({ datastreamModalState }: { datastreamModalState
 
 const DatastreamModal = (): React.ReactElement => {
     const {
-        state: { datastreamModalState, isDatastreamModalOpen },
-        action: { toggleDatastreamModal },
+        state: { datastreamModalState },
     } = useEditorContext();
+    const {
+        action: { closeModal, isModalOpen },
+    } = useGlobalContext();
 
     return (
         <Dialog
             className="datastreamModal"
-            open={isDatastreamModalOpen}
-            onClose={toggleDatastreamModal}
+            open={isModalOpen("datastream")}
+            onClose={() => closeModal("datastream")}
             fullWidth={true}
             maxWidth={"lg"}
         >
@@ -41,7 +44,7 @@ const DatastreamModal = (): React.ReactElement => {
                         {datastreamModalState}
                     </Grid>
                     <Grid item xs={1} display="flex" justifyContent="flex-end">
-                        <IconButton className="closeButton" onClick={toggleDatastreamModal}>
+                        <IconButton className="closeButton" onClick={() => closeModal("datastream")}>
                             <CloseIcon />
                         </IconButton>
                     </Grid>

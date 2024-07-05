@@ -4,6 +4,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import { useEditorContext } from "../../../context/EditorContext";
+import { useGlobalContext } from "../../../context/GlobalContext";
 import useDatastreamOperation from "../../../hooks/useDatastreamOperation";
 import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
@@ -15,8 +16,11 @@ import Box from "@mui/material/Box";
 const DatastreamAgentsContent = (): React.ReactElement => {
     const {
         state: { agentsCatalog, currentAgents },
-        action: { setCurrentAgents, toggleDatastreamModal },
+        action: { setCurrentAgents },
     } = useEditorContext();
+    const {
+        action: { closeModal },
+    } = useGlobalContext();
     const { uploadAgents, getAgents } = useDatastreamOperation();
     const {
         defaults: { role, type, name },
@@ -150,7 +154,7 @@ const DatastreamAgentsContent = (): React.ReactElement => {
                                 disabled={!canSave}
                                 onClick={async () => {
                                     await saveCurrentAgents();
-                                    toggleDatastreamModal();
+                                    closeModal("datastream");
                                 }}
                             >
                                 Save And Close
@@ -161,7 +165,7 @@ const DatastreamAgentsContent = (): React.ReactElement => {
                             className="agentsCancelButton"
                             onClick={async () => {
                                 setCurrentAgents(await getAgents());
-                                toggleDatastreamModal();
+                                closeModal("datastream");
                             }}
                         >
                             Cancel

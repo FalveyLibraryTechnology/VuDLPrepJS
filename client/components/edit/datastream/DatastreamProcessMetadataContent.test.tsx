@@ -6,10 +6,10 @@ import renderer from "react-test-renderer";
 import DatastreamProcessMetadataContent from "./DatastreamProcessMetadataContent";
 import { waitFor } from "@testing-library/react";
 
-const mockUseEditorContext = jest.fn();
-jest.mock("../../../context/EditorContext", () => ({
-    useEditorContext: () => {
-        return mockUseEditorContext();
+const mockUseGlobalContext = jest.fn();
+jest.mock("../../../context/GlobalContext", () => ({
+    useGlobalContext: () => {
+        return mockUseGlobalContext();
     },
 }));
 
@@ -39,7 +39,7 @@ jest.mock("@mui/x-date-pickers", () => ({
 
 describe("DatastreamProcessMetadataContent", () => {
     let datastreamOperationValues;
-    let editorValues;
+    let globalValues;
     let processMetadataValues;
 
     const renderComponent = async (fakeData = {}) => {
@@ -70,8 +70,8 @@ describe("DatastreamProcessMetadataContent", () => {
             getProcessMetadata: jest.fn(),
         };
         mockUseDatastreamOperation.mockReturnValue(datastreamOperationValues);
-        editorValues = { action: { toggleDatastreamModal: jest.fn() } };
-        mockUseEditorContext.mockReturnValue(editorValues);
+        globalValues = { action: { closeModal: jest.fn() } };
+        mockUseGlobalContext.mockReturnValue(globalValues);
         mockDatastreamProcessMetadataTaskProps = [];
         processMetadataValues = {
             state: {},
@@ -140,5 +140,12 @@ describe("DatastreamProcessMetadataContent", () => {
         await renderComponent({ tasks: [{ id: 1 }] });
         mockDatastreamProcessMetadataTaskProps[0].deleteTask();
         expect(processMetadataValues.action.deleteTask).toHaveBeenCalledWith(0);
+    });
+
+    it("can be canceled", async () => {
+        await renderComponent();
+        await userEvent.setup().click(screen.getByText("Cancel"));
+        expect(datastreamOperationValues.uploadProcessMetadata).not.toHaveBeenCalled();
+        expect(globalValues.action.closeModal).toHaveBeenCalledWith("datastream");
     });
 });

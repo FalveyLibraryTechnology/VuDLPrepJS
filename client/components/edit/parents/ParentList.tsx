@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useGlobalContext } from "../../../context/GlobalContext";
 import { useEditorContext } from "../../../context/EditorContext";
 import { useFetchContext } from "../../../context/FetchContext";
 import { getParentUrl } from "../../../util/routes";
@@ -11,13 +12,15 @@ export interface ParentListProps {
 
 const ParentList = ({ pid, initiallyShallow = true }: ParentListProps): React.ReactElement => {
     const {
+        action: { setSnackbarState },
+    } = useGlobalContext();
+    const {
         state: { parentDetailsStorage },
         action: {
             clearPidFromChildListStorage,
             loadParentDetailsIntoStorage,
             removeFromObjectDetailsStorage,
             removeFromParentDetailsStorage,
-            setSnackbarState,
         },
     } = useEditorContext();
     const {

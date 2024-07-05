@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ObjectLoader from "../ObjectLoader";
 import PidPicker from "../PidPicker";
+import { useGlobalContext } from "../../../context/GlobalContext";
 import { useEditorContext } from "../../../context/EditorContext";
 import { useFetchContext } from "../../../context/FetchContext";
 import { getObjectLastChildPositionUrl, getParentUrl } from "../../../util/routes";
@@ -11,13 +12,11 @@ interface ParentPickerProps {
 
 const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
     const {
+        action: { setSnackbarState },
+    } = useGlobalContext();
+    const {
         state: { objectDetailsStorage },
-        action: {
-            clearPidFromChildListStorage,
-            removeFromObjectDetailsStorage,
-            removeFromParentDetailsStorage,
-            setSnackbarState,
-        },
+        action: { clearPidFromChildListStorage, removeFromObjectDetailsStorage, removeFromParentDetailsStorage },
     } = useEditorContext();
     const {
         action: { fetchText },

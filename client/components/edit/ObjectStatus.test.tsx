@@ -5,14 +5,18 @@ import renderer from "react-test-renderer";
 import { ObjectStatusProps, ObjectStatus } from "./ObjectStatus";
 import { EditorContextProvider, ObjectDetails } from "../../context/EditorContext";
 import { FetchContextProvider } from "../../context/FetchContext";
+import { GlobalContextProvider } from "../../context/GlobalContext";
 
 function getMountedObjectStatusComponent(props: ObjectStatusProps) {
     return renderer.create(
-        <FetchContextProvider>
-            <EditorContextProvider>
-                <ObjectStatus {...props} />
-            </EditorContextProvider>
-        </FetchContextProvider>,
+        <GlobalContextProvider>
+            <FetchContextProvider>
+                <EditorContextProvider>
+                    <ObjectStatus {...props} />
+                </EditorContextProvider>
+            </FetchContextProvider>
+            ,
+        </GlobalContextProvider>,
     );
 }
 

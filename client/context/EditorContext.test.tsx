@@ -53,34 +53,6 @@ describe("useEditorContext", () => {
         });
     });
 
-    describe("toggleDatastreamModal", () => {
-        it("toggles the modal", async () => {
-            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
-
-            expect(result.current.state.isDatastreamModalOpen).toBeFalsy();
-
-            await act(async () => {
-                await result.current.action.toggleDatastreamModal();
-            });
-
-            expect(result.current.state.isDatastreamModalOpen).toBeTruthy();
-        });
-    });
-
-    describe("toggleParentsModal", () => {
-        it("toggles the modal", async () => {
-            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
-
-            expect(result.current.state.isParentsModalOpen).toBeFalsy();
-
-            await act(async () => {
-                await result.current.action.toggleParentsModal();
-            });
-
-            expect(result.current.state.isParentsModalOpen).toBeTruthy();
-        });
-    });
-
     describe("setDatastreamModalState", () => {
         it("sets the modal state", async () => {
             const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
@@ -235,33 +207,6 @@ describe("useEditorContext", () => {
         });
     });
 
-    describe("setSnackbarState", () => {
-        it("sets the snackbar state with text and severity", async () => {
-            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
-
-            expect(result.current.state.snackbarState).toEqual({
-                open: false,
-                message: "",
-                severity: "info"
-            });
-
-            await act(async () => {
-                await result.current.action.setSnackbarState({
-                    open: true,
-                    message: "oh no!",
-                    severity: "error"
-                });
-            });
-
-            expect(result.current.state.snackbarState).toEqual({
-                open: true,
-                message: "oh no!",
-                severity: "error"
-            });
-        });
-
-    });
-
     describe("extractFirstMetadataValue", () => {
         it("returns a default value if no matching field is found", async () => {
             const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
@@ -380,20 +325,6 @@ describe("useEditorContext", () => {
                 await result.current.action.clearPidFromChildListStorage("test:123");
             });
             expect(Object.keys(result.current.state.childListStorage)).toEqual(["test:1234_1_10"]);
-        });
-    });
-
-    describe("toggleStateModal ", () => {
-        it("toggles the modal", async () => {
-            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
-
-            expect(result.current.state.isStateModalOpen).toBeFalsy();
-
-            await act(async () => {
-                await result.current.action.toggleStateModal();
-            });
-
-            expect(result.current.state.isStateModalOpen).toBeTruthy();
         });
     });
 

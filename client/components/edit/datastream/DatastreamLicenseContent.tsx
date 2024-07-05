@@ -9,12 +9,15 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import useDatastreamOperation from "../../../hooks/useDatastreamOperation";
 import { useEditorContext } from "../../../context/EditorContext";
+import { useGlobalContext } from "../../../context/GlobalContext";
 
 const DatastreamLicenseContent = (): React.ReactElement => {
     const {
         state: { licensesCatalog },
-        action: { toggleDatastreamModal },
     } = useEditorContext();
+    const {
+        action: { closeModal },
+    } = useGlobalContext();
     const { uploadLicense, getLicenseKey } = useDatastreamOperation();
     const [licenseKey, setLicenseKey] = useState("");
     useEffect(() => {
@@ -53,7 +56,7 @@ const DatastreamLicenseContent = (): React.ReactElement => {
                 >
                     Save
                 </Button>
-                <Button onClick={toggleDatastreamModal}>Cancel</Button>
+                <Button onClick={() => closeModal("datastream")}>Cancel</Button>
             </DialogActions>
         </>
     );

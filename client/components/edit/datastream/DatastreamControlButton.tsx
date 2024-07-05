@@ -7,6 +7,7 @@ import Delete from "@mui/icons-material/Delete";
 import Preview from "@mui/icons-material/Preview";
 import UploadFile from "@mui/icons-material/UploadFile";
 import { useEditorContext } from "../../../context/EditorContext";
+import { useGlobalContext } from "../../../context/GlobalContext";
 import useDatastreamOperation from "../../../hooks/useDatastreamOperation";
 
 const Icons = {
@@ -30,15 +31,18 @@ const DatastreamControlButton = ({
 }: DatastreamControlButtonProps): React.ReactElement => {
     const [isLoading, setLoading] = useState(false);
     const {
-        action: { toggleDatastreamModal, setActiveDatastream, setDatastreamModalState },
+        action: { setActiveDatastream, setDatastreamModalState },
     } = useEditorContext();
+    const {
+        action: { openModal },
+    } = useGlobalContext();
     const { downloadDatastream } = useDatastreamOperation();
     const onClick = (modalState) => {
         if (modalState !== "Download") {
             return () => {
                 setActiveDatastream(datastream);
                 setDatastreamModalState(modalState);
-                toggleDatastreamModal();
+                openModal("datastream");
             };
         }
         return async () => {

@@ -1,31 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ObjectStatus defaults to unknown state 1`] = `
-<button
-  className="unknown"
-  onClick={[Function]}
->
-  <span
-    className="indicator"
+[
+  <button
+    className="unknown"
+    onClick={[Function]}
   >
-    ◉
-  </span>
-   
-  Unknown
-</button>
+    <span
+      className="indicator"
+    >
+      ◉
+    </span>
+     
+    Unknown
+  </button>,
+  ",",
+]
 `;
 
 exports[`ObjectStatus displays the state found in the response 1`] = `
-<button
-  className="inactive"
-  onClick={[Function]}
->
-  <span
-    className="indicator"
+[
+  <button
+    className="inactive"
+    onClick={[Function]}
   >
-    ◉
-  </span>
-   
-  Inactive
-</button>
+    <span
+      className="indicator"
+    >
+      ◉
+    </span>
+     
+    Inactive
+  </button>,
+  ",",
+]
 `;
