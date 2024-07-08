@@ -1,7 +1,8 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { shallow, mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import renderer from "react-test-renderer";
 import Thumbnail from "./Thumbnail";
 
 const mockUseJobPaginatorContext = jest.fn();
@@ -47,18 +48,18 @@ describe("Thumbnail", () => {
     });
 
     it("renders", () => {
-        const wrapper = shallow(<Thumbnail {...props} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<Thumbnail {...props} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("renders initial state and calls appropriate functions when selected", () => {
-        const wrapper = mount(<Thumbnail {...props} />);
+        render(<Thumbnail {...props} />);
 
         expect(props.scrollTo).toHaveBeenCalled();
         expect(paginatorValues.action.getJobImageUrl).toHaveBeenCalledWith(order[props.number], "thumb");
-        expect(wrapper.find(".thumbnail.selected").exists()).toBeTruthy();
-        expect(wrapper.text().includes("2")).toBeTruthy();
-        expect(wrapper.find(".label.magic").exists()).toBeTruthy();
+        expect(document.querySelectorAll(".thumbnail.selected")).toHaveLength(1);
+        expect(document.querySelectorAll(".label.magic")).toHaveLength(1);
+        expect(screen.queryAllByText("2")).toHaveLength(1);
     });
 
     it("renders correctly when not selected or no label", () => {
@@ -66,20 +67,20 @@ describe("Thumbnail", () => {
         paginatorValues.action.getLabel.mockReturnValue("testLabel");
         paginatorValues.action.getMagicLabel.mockReturnValue("testLabel");
 
-        const wrapper = mount(<Thumbnail {...props} />);
+        render(<Thumbnail {...props} />);
 
         expect(props.scrollTo).not.toHaveBeenCalled();
         expect(paginatorValues.action.getJobImageUrl).toHaveBeenCalledWith(order[props.number], "thumb");
-        expect(wrapper.find(".thumbnail.selected").exists()).toBeFalsy();
-        expect(wrapper.find(".label.magic").exists()).toBeFalsy();
-        expect(wrapper.text().includes("testLabel")).toBeTruthy();
+        expect(document.querySelectorAll(".thumbnail.selected")).toHaveLength(0);
+        expect(document.querySelectorAll(".label.magic")).toHaveLength(0);
+        expect(screen.queryAllByText("testLabel")).toHaveLength(1);
     });
 
-    it("calls setPage when div is clicked", () => {
-        const wrapper = mount(<Thumbnail {...props} />);
+    it("calls setPage when clicked", async () => {
+        render(<Thumbnail {...props} />);
 
         expect(paginatorValues.action.setPage).not.toHaveBeenCalledWith(props.number);
-        wrapper.find(".thumbnail").simulate("click");
+        await userEvent.setup().click(screen.getByRole("img"));
         expect(paginatorValues.action.setPage).toHaveBeenCalledWith(props.number);
     });
 });

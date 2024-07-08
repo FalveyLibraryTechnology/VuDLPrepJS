@@ -28,11 +28,7 @@ const getAddedPages = (order, pages) => {
 };
 
 const getNonRemovedPages = (order, deletedPages) =>
-    order.filter((o) =>
-        deletedPages.every((page) => {
-            return o.filename !== page;
-        })
-    );
+    order.filter((o) => !deletedPages.includes(o.filename));
 
 const getLabel = (order, imageNumber) => {
     return typeof order[imageNumber] === "undefined" ? null : order[imageNumber].label;

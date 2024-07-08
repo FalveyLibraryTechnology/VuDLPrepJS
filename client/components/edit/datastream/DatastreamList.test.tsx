@@ -1,7 +1,6 @@
 import React from "react";
 import { describe, beforeEach, expect, it, jest } from "@jest/globals";
-import { mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import renderer from "react-test-renderer";
 import DatastreamList from "./DatastreamList";
 
 const mockUseEditorContext = jest.fn();
@@ -13,7 +12,7 @@ jest.mock("../../../context/EditorContext", () => ({
 const mockDatastream = jest.fn();
 jest.mock("./Datastream", () => (props) => {
     mockDatastream(props);
-    return "Datastream";
+    return "Datastream: " + JSON.stringify(props);
 });
 
 describe("DatastreamList", () => {
@@ -31,8 +30,8 @@ describe("DatastreamList", () => {
     });
 
     it("renders", () => {
-        const wrapper = mount(<DatastreamList />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<DatastreamList />).toJSON();
+        expect(tree).toMatchSnapshot();
         expect(mockDatastream).toHaveBeenCalledWith({
             datastream: { stream: "test0", disabled: false },
         });

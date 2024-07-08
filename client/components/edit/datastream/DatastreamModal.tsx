@@ -25,14 +25,16 @@ const DatastreamModalContent = ({ datastreamModalState }: { datastreamModalState
 const DatastreamModal = (): React.ReactElement => {
     const {
         state: { datastreamModalState },
-        action: { isModalOpen, openModal, closeModal },
+    } = useEditorContext();
+    const {
+        action: { closeModal, isModalOpen },
     } = useGlobalContext();
 
     return (
         <Dialog
             className="datastreamModal"
             open={isModalOpen("datastream")}
-            onClose={closeModal}
+            onClose={() => closeModal("datastream")}
             fullWidth={true}
             maxWidth={"lg"}
         >
@@ -42,7 +44,7 @@ const DatastreamModal = (): React.ReactElement => {
                         {datastreamModalState}
                     </Grid>
                     <Grid item xs={1} display="flex" justifyContent="flex-end">
-                        <IconButton className="closeButton" onClick={closeModal}>
+                        <IconButton className="closeButton" onClick={() => closeModal("datastream")}>
                             <CloseIcon />
                         </IconButton>
                     </Grid>

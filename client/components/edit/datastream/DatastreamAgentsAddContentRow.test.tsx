@@ -1,11 +1,13 @@
 import React from "react";
 import { describe, afterEach, expect, it, jest } from "@jest/globals";
-import { shallow } from "enzyme";
-import toJson from "enzyme-to-json";
+import renderer from "react-test-renderer";
 import DatastreamAgentsAddContentRow from "./DatastreamAgentsAddContentRow";
 
 const mockDatastreamAgentsContentRow = jest.fn();
+let datastreamAgentsContentRowProps;
+
 jest.mock("./DatastreamAgentsContentRow", () => (props) => {
+    datastreamAgentsContentRowProps = props;
     mockDatastreamAgentsContentRow(props);
     return "DatastreamAgentsContentRow";
 });
@@ -44,9 +46,9 @@ describe("DatastreamAgentsAddContentRow", () => {
         jest.clearAllMocks();
     });
 
-    it("renders", () => {
-        const wrapper = shallow(<DatastreamAgentsAddContentRow {...props} />);
-
-        expect(toJson(wrapper)).toMatchSnapshot();
+    it("proxies DatastreamAgentsContextRow", () => {
+        const tree = renderer.create(<DatastreamAgentsAddContentRow {...props} />).toJSON();
+        expect(tree).toEqual("DatastreamAgentsContentRow");
+        expect(datastreamAgentsContentRowProps.agent).toEqual(props.agent);
     });
 });

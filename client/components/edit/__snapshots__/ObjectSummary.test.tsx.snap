@@ -1,87 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ObjectSummary displays loading message when appropriate 1`] = `
-<ObjectSummary>
+<div
+  className="infobox"
+>
   <div
-    className="infobox"
+    style={
+      {
+        "float": "right",
+      }
+    }
   >
-    <div
-      style={
-        Object {
-          "float": "right",
-        }
-      }
-    >
-      <Component
-        pid="foo:123"
-      >
-        ObjectThumbnail
-      </Component>
-    </div>
-    <h2>
-      Loading...
-    </h2>
-    <div />
-    <br
-      style={
-        Object {
-          "clear": "both",
-        }
-      }
-    />
+    ObjectThumbnail
   </div>
-</ObjectSummary>
+  <h2>
+    Loading...
+  </h2>
+  <div />
+  <br
+    style={
+      {
+        "clear": "both",
+      }
+    }
+  />
+</div>
 `;
 
 exports[`ObjectSummary renders information from metadata when available 1`] = `
-<ObjectSummary>
+<div
+  className="infobox"
+>
   <div
-    className="infobox"
+    style={
+      {
+        "float": "right",
+      }
+    }
   >
-    <div
-      style={
-        Object {
-          "float": "right",
-        }
-      }
-    >
-      <Component
-        pid="foo:123"
-      >
-        ObjectThumbnail
-      </Component>
-    </div>
-    <h2>
-      My title
-    </h2>
-    <div>
-      <p>
-        Hello 
-        <b
-          key="1"
-        >
-          world
-        </b>
-        !
-      </p>
-    </div>
-    <Component
-      pid="foo:123"
-    >
-      ObjectButtonBar
-    </Component>
-    <Component
-      pid="foo:123"
-    >
-      ObjectOrder
-    </Component>
-    <br
-      style={
-        Object {
-          "clear": "both",
-        }
-      }
-    />
+    ObjectThumbnail
   </div>
-</ObjectSummary>
+  <h2>
+    My title
+  </h2>
+  <div>
+    <p>
+      Hello 
+      <b>
+        world
+      </b>
+      !
+    </p>
+  </div>
+  ObjectButtonBar
+  ObjectOrder
+  <br
+    style={
+      {
+        "clear": "both",
+      }
+    }
+  />
+</div>
 `;

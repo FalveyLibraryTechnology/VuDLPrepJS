@@ -1,116 +1,78 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DatastreamDublinCoreAddButtons renders with appropriate parent details (using full storage) 1`] = `
-<Fragment>
+[
   <h3>
     Add Blank Field:
-  </h3>
+  </h3>,
   <button
-    key="dcadd_dc_title"
     onClick={[Function]}
-  />
+  />,
   <button
-    key="dcadd_dc_description"
     onClick={[Function]}
-  />
+  />,
   <h3>
     Clone Metadata:
-  </h3>
-  <Component
-    parents={
-      Array [
-        Object {
-          "pid": "parent:123",
-          "title": "Parent",
-        },
-      ]
-    }
-    selected=""
-    setSelected={[Function]}
-  />
-</Fragment>
+  </h3>,
+  "PidPicker: {"selected":"","parents":[{"pid":"parent:123","title":"Parent"}]}",
+]
 `;
 
 exports[`DatastreamDublinCoreAddButtons renders with appropriate parent details (using shallow storage) 1`] = `
-<Fragment>
+[
   <h3>
     Add Blank Field:
-  </h3>
+  </h3>,
   <button
-    key="dcadd_dc_title"
     onClick={[Function]}
-  />
+  />,
   <button
-    key="dcadd_dc_description"
     onClick={[Function]}
-  />
+  />,
   <h3>
     Clone Metadata:
-  </h3>
-  <Component
-    parents={
-      Array [
-        Object {
-          "pid": "parent:123",
-          "title": "Parent",
-        },
-      ]
-    }
-    selected=""
-    setSelected={[Function]}
-  />
-</Fragment>
+  </h3>,
+  "PidPicker: {"selected":"","parents":[{"pid":"parent:123","title":"Parent"}]}",
+]
 `;
 
 exports[`DatastreamDublinCoreAddButtons renders with selected clone pid 1`] = `
-<Fragment>
+[
   <h3>
     Add Blank Field:
-  </h3>
+  </h3>,
   <button
-    key="dcadd_dc_title"
     onClick={[Function]}
-  />
+  />,
   <button
-    key="dcadd_dc_description"
     onClick={[Function]}
-  />
+  />,
   <h3>
     Clone Metadata:
-  </h3>
-  <Component
-    parents={Array []}
-    selected="foo"
-    setSelected={[Function]}
-  />
+  </h3>,
+  "PidPicker: {"selected":"foo","parents":[]}",
   <button
     onClick={[Function]}
   >
     Clone
-  </button>
-</Fragment>
+  </button>,
+]
 `;
 
 exports[`DatastreamDublinCoreAddButtons renders without selected clone pid 1`] = `
-<Fragment>
+[
   <h3>
     Add Blank Field:
-  </h3>
+  </h3>,
   <button
-    key="dcadd_dc_title"
     onClick={[Function]}
-  />
+  />,
   <button
-    key="dcadd_dc_description"
     onClick={[Function]}
-  />
+  />,
   <h3>
     Clone Metadata:
-  </h3>
-  <Component
-    parents={Array []}
-    selected=""
-    setSelected={[Function]}
-  />
-</Fragment>
+  </h3>,
+  "PidPicker: {"selected":"","parents":[]}",
+]
 `;

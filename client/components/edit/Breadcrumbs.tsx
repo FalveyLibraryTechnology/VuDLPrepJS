@@ -57,18 +57,18 @@ const Breadcrumbs = ({ pid = null, initiallyShallow = true }: BreadcrumbsProps):
             breadcrumbs.unshift(
                 <li key={"breadcrumb_expand_" + keySuffix}>
                     <button onClick={() => setShallow(false)}>...</button>
-                </li>
+                </li>,
             );
         }
         breadcrumbs.unshift(
             <li key={"breadcrumb_home_" + keySuffix}>
                 <Link href="/edit">Edit Home</Link>
-            </li>
+            </li>,
         );
         breadcrumbs.unshift(
             <li key={"breadcrumb_mainmenu_" + keySuffix}>
                 <Link href="/">Main Menu</Link>
-            </li>
+            </li>,
         );
         return (
             <ul className={styles.breadcrumb} key={"breadcrumbs_" + keySuffix}>

@@ -1,7 +1,8 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { render, shallow, mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import renderer from "react-test-renderer";
 import Category from "./Category";
 
 const mockjobList = jest.fn();
@@ -11,7 +12,7 @@ jest.mock(
         function JobList(props) {
             mockjobList(props);
             return <mock-JobList />;
-        }
+        },
 );
 
 describe("Category", () => {
@@ -34,31 +35,29 @@ describe("Category", () => {
     });
 
     it("renders", () => {
-        const wrapper = shallow(<Category {...props} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<Category {...props} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("renders no jobs", () => {
         props.data.jobs = [];
-        const wrapper = render(<Category {...props} />);
-        expect(wrapper.has("no jobs")).toBeTruthy();
+        render(<Category {...props} />);
+        expect(screen.queryAllByText("testCategory [no jobs]")).toHaveLength(1);
     });
 
-    it("calls setItem on toggle", () => {
-        const component = mount(<Category {...props} />);
+    it("calls setItem on toggle", async () => {
+        render(<Category {...props} />);
         expect(sessionStorage.setItem).toHaveBeenCalledWith("open-testCategory", "false");
         expect(mockjobList).not.toHaveBeenCalled();
 
-        component.find("button").simulate("click");
+        await userEvent.setup().click(screen.getByRole("button"));
 
         expect(sessionStorage.setItem).toHaveBeenCalledWith("open-testCategory", "true");
         expect(mockjobList).toHaveBeenCalledWith(
             expect.objectContaining({
                 category: props.data.category,
                 data: props.data.jobs,
-            })
+            }),
         );
-
-        component.unmount();
     });
 });

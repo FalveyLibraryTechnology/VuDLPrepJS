@@ -1,6 +1,6 @@
 import React, { Dispatch } from "react";
-import TreeItem from "@mui/lab/TreeItem";
-import TreeView from "@mui/lab/TreeView";
+import { TreeItem } from "@mui/x-tree-view/TreeItem";
+import { TreeView } from "@mui/x-tree-view/TreeView";
 
 interface CategoryTreeViewProps {
     models: Record<string, string>;

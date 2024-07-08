@@ -1,21 +1,22 @@
 {
-  "name": "vudlprepjs",
-  "version": "0.0.0",
+  "name": "vudl",
   "private": true,
+  "engine": {
+    "node": ">=18.0.0"
+  },
   "comments": {
-    "dev": "tsc can't be bundled into concurrently because it suppresses the logs of other processes. Still needs to be run separately.",
-    "api:wsl/queue:wsl": "These are for Chris since WSL causes listening weirdness in nodemon."
+    "dev": "tsc can't be bundled into concurrently because it suppresses the logs of other processes. Still needs to be run separately."
   },
   "scripts": {
     "api": "cd api && npm run start:server",
-    "api:build": "cd api && tsc",
+    "api:build": "cd api && npm run build",
     "api:dev": "cd api && npm run start:serverWatch",
-    "api:lint": "eslint api/*.js api/src/ --ext .ts,.js,.jsx",
+    "api:format": "cd api && npm run format",
+    "api:lint": "cd api && npm run lint",
     "api:saml:metadata": "cd api && npm run saml:metadata",
     "api:setup": "cd api && npm ci",
     "api:test": "cd api && npm test",
     "api:testWatch": "cd api && npm run testWatch",
-    "api:wsl": "nodemon --legacy-watch api/bin/www",
     "client": "cd client && npm run prod",
     "client:build": "cd client && npm run build",
     "client:dev": "cd client && npm run start",
@@ -27,33 +28,21 @@
     "client:testWatch": "cd client && npm run testWatch",
     "queue": "cd api && npm run start:worker",
     "queue:dev": "cd api && npm run start:workerWatch",
-    "queue:wsl": "nodemon --legacy-watch api/worker-start.js",
     "ingest": "node api/scripts/ingest.js",
     "backend": "concurrently npm:api npm:queue",
     "backend:dev": "concurrently npm:api:dev npm:queue:dev",
-    "backend:format": "prettier --check --write api/*.js api/src/**",
-    "backend:lint": "eslint api/*.js api/src/ --ext .ts,.js,.jsx --max-warnings 0",
-    "backend:wsl": "concurrently npm:api:wsl npm:queue:wsl",
     "build": "concurrently npm:api:build npm:client:build",
     "dev": "concurrently -c 'cyan,green,gray' npm:client:dev npm:api:dev npm:queue:dev",
-    "format": "concurrently npm:client:format npm:backend:format",
-    "lint": "concurrently npm:client:lint npm:backend:lint",
+    "format": "concurrently npm:client:format npm:api:format",
+    "lint": "concurrently npm:client:lint npm:api:lint",
     "setup": "concurrently npm:api:setup npm:client:setup",
     "start": "concurrently -c 'cyan,green,gray' npm:client npm:api npm:queue",
     "test": "concurrently npm:client:test npm:api:test",
-    "watch": "cd api && tsc --watch"
+    "watch": "cd api && npm run watch",
+    
+    "postinstall": "npm run setup"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.22.0",
-    "@typescript-eslint/parser": "^4.22.0",
-    "concurrently": "^6.0.2",
-    "eslint": "^7.25.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-jsdoc": "^32.3.1",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.23.2",
-    "nodemon": "^2.0.7",
-    "prettier": "^2.2.1",
-    "typescript": "^4.2.4"
+    "concurrently": "^8"
   }
 }

@@ -1,8 +1,8 @@
 import React from "react";
 import { act } from "react-dom/test-utils";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { mount, render } from "enzyme";
-import toJson from "enzyme-to-json";
+import { render } from "@testing-library/react";
+import renderer from "react-test-renderer";
 import JobPaginator from "./JobPaginator";
 import { FetchContextProvider } from "../../context/FetchContext";
 
@@ -38,22 +38,25 @@ describe("JobPaginator", () => {
     });
 
     it("renders", () => {
-        const wrapper = render(
-            <FetchContextProvider>
-                <JobPaginator {...props} />
-            </FetchContextProvider>
-        );
-        expect(wrapper.children().text().includes(props.initialCategory)).toBeTruthy();
-        expect(wrapper.children().text().includes(props.initialJob)).toBeTruthy();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer
+            .create(
+                <FetchContextProvider>
+                    <JobPaginator {...props} />
+                </FetchContextProvider>,
+            )
+            .toJSON();
+        const treeString = JSON.stringify(tree);
+        expect(treeString.includes(props.initialCategory)).toBeTruthy();
+        expect(treeString.includes(props.initialJob)).toBeTruthy();
+        expect(tree).toMatchSnapshot();
     });
 
     it("should loadJob from useEffect", async () => {
         await act(async () => {
-            await mount(
+            render(
                 <FetchContextProvider>
                     <JobPaginator {...props} />
-                </FetchContextProvider>
+                </FetchContextProvider>,
             );
         });
         expect(paginatorValues.action.loadJob).toHaveBeenCalledWith(props.initialCategory, props.initialJob);

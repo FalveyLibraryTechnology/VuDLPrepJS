@@ -1,8 +1,8 @@
 import React from "react";
 import { describe, beforeEach, expect, it, jest } from "@jest/globals";
-import { mount, shallow } from "enzyme";
+import { fireEvent, render, screen } from "@testing-library/react";
+import renderer from "react-test-renderer";
 import { act } from "react-dom/test-utils";
-import toJson from "enzyme-to-json";
 import DatastreamLicenseContent from "./DatastreamLicenseContent";
 
 jest.mock("@mui/material/RadioGroup", () => () => "RadioGroup");
@@ -12,6 +12,12 @@ jest.mock("../../../context/EditorContext", () => ({
         return mockUseEditorContext();
     },
 }));
+const mockUseGlobalContext = jest.fn();
+jest.mock("../../../context/GlobalContext", () => ({
+    useGlobalContext: () => {
+        return mockUseGlobalContext();
+    },
+}));
 const mockUseDatastreamOperation = jest.fn();
 jest.mock("../../../hooks/useDatastreamOperation", () => () => {
     return mockUseDatastreamOperation();
@@ -19,6 +25,7 @@ jest.mock("../../../hooks/useDatastreamOperation", () => () => {
 
 describe("DatastreamLicenseContent", () => {
     let editorValues;
+    let globalValues;
     let datastreamOperationValues;
     beforeEach(() => {
         editorValues = {
@@ -29,8 +36,10 @@ describe("DatastreamLicenseContent", () => {
                     },
                 },
             },
+        };
+        globalValues = {
             action: {
-                toggleDatastreamModal: jest.fn(),
+                closeModal: jest.fn(),
             },
         };
         datastreamOperationValues = {
@@ -38,23 +47,31 @@ describe("DatastreamLicenseContent", () => {
             getLicenseKey: jest.fn(),
         };
         mockUseEditorContext.mockReturnValue(editorValues);
+        mockUseGlobalContext.mockReturnValue(globalValues);
         mockUseDatastreamOperation.mockReturnValue(datastreamOperationValues);
     });
 
     it("renders", () => {
-        const wrapper = shallow(<DatastreamLicenseContent />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<DatastreamLicenseContent />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("calls uploadLicense on click", async () => {
         datastreamOperationValues.uploadLicense.mockResolvedValue("upload worked");
-        const wrapper = mount(<DatastreamLicenseContent />);
-
         await act(async () => {
-            wrapper.find("button.uploadLicenseButton").simulate("click");
-            wrapper.update();
+            await render(<DatastreamLicenseContent />);
+            await fireEvent.click(screen.getByRole("button", { name: "Save" }));
         });
         expect(datastreamOperationValues.getLicenseKey).toHaveBeenCalled();
         expect(datastreamOperationValues.uploadLicense).toHaveBeenCalled();
+    });
+
+    it("can be canceled", async () => {
+        await act(async () => {
+            await render(<DatastreamLicenseContent />);
+        });
+        await fireEvent.click(screen.getByText("Cancel"));
+        expect(datastreamOperationValues.uploadLicense).not.toHaveBeenCalled();
+        expect(globalValues.action.closeModal).toHaveBeenCalledWith("datastream");
     });
 });

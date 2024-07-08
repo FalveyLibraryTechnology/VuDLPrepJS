@@ -2,13 +2,17 @@
 
 exports[`DatastreamControls renders 1`] = `
 <div
-  class="datastreamControls MuiBox-root css-0"
+  className="datastreamControls MuiBox-root css-0"
 >
   <div
-    class="MuiButtonGroup-root MuiButtonGroup-text css-1or64il-MuiButtonGroup-root"
+    className="MuiButtonGroup-root MuiButtonGroup-text css-iv8nej-MuiButtonGroup-root"
     role="group"
   >
-    DatastreamControlButtonDatastreamControlButtonDatastreamControlButtonDatastreamControlButtonDatastreamControlButton
+    DatastreamControlButton: {"modalState":"Upload","disabled":false,"datastream":"test1"}
+    DatastreamControlButton: {"modalState":"View","disabled":false,"datastream":"test1"}
+    DatastreamControlButton: {"modalState":"Metadata","disabled":false,"datastream":"test1"}
+    DatastreamControlButton: {"modalState":"Download","disabled":false,"datastream":"test1"}
+    DatastreamControlButton: {"modalState":"Delete","disabled":false,"datastream":"test1"}
   </div>
 </div>
 `;

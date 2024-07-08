@@ -25,7 +25,8 @@ class TikaExtractor {
         fs.writeSync(tmpobj.fd, data);
         const javaPath = this.config.javaPath;
         const tikaPath = this.config.tikaPath;
-        const tikaCommand = javaPath + " -jar " + tikaPath + " --text -eUTF8 " + filename;
+        const tikaConfig = this.config.tikaConfigFile ? `--config=${this.config.tikaConfigFile} ` : "";
+        const tikaCommand = javaPath + " -jar " + tikaPath + " --text -eUTF8 " + tikaConfig + filename;
         const result = execSync(tikaCommand, { maxBuffer: Infinity }).toString();
         // Sometimes node.js hangs on to file handles longer than expected; let's empty
         // the file to free up disk space before deleting it, in case this happens:

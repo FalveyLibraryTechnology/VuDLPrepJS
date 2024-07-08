@@ -8,7 +8,7 @@ import FedoraObjectFactory from "../services/FedoraObjectFactory";
 import FedoraDataCollector from "../services/FedoraDataCollector";
 import { requireToken } from "./auth";
 import { datastreamSanitizer, pidSanitizer, pidSanitizeRegEx, sanitizeParameters } from "./sanitize";
-import * as formidable from "formidable";
+import { IncomingForm } from "formidable";
 import Solr from "../services/Solr";
 import FedoraDataCollection from "../models/FedoraDataCollection";
 import { FedoraObject } from "../models/FedoraObject";
@@ -41,6 +41,28 @@ edit.get("/catalog/dublinCoreFields", requireToken, function (req, res) {
 
 edit.get("/catalog/favoritePids", requireToken, async function (req, res) {
     res.json(await FedoraCatalog.getInstance().getFavoritePids());
+});
+
+edit.post("/query/solr", requireToken, bodyParser.json(), async function (req, res) {
+    const emptyResponse = { numFound: 0, start: 0, docs: [] };
+    const query = req?.body?.query ?? "";
+    if (query.length < 1) {
+        res.json(emptyResponse);
+        return;
+    }
+
+    const config = Config.getInstance();
+    const solr = Solr.getInstance();
+    const rows = parseInt(req?.body?.rows ?? "100").toString();
+    const start = parseInt(req?.body?.start ?? "0").toString();
+    const sort = req?.body?.sort ?? "title_sort asc";
+    const result = await solr.query(config.solrCore, query, { sort, fl: "id,title", rows, start });
+    if (result.statusCode !== 200) {
+        res.status(result.statusCode ?? 500).send("Unexpected Solr response code.");
+        return;
+    }
+    const response = result?.body?.response ?? emptyResponse;
+    res.json(response);
 });
 
 edit.post("/object/new", requireToken, bodyParser.json(), async function (req, res) {
@@ -116,7 +138,7 @@ async function getChildren(req, res) {
 
 function uploadFile(req, res, next) {
     const { pid, stream } = req.params;
-    const form = formidable({ multiples: true });
+    const form = new IncomingForm({ multiples: true, maxFileSize: Config.getInstance().maxUploadSize });
 
     form.parse(req, async (err, fields, files) => {
         if (err) {
@@ -129,6 +151,7 @@ function uploadFile(req, res, next) {
             await datastream.uploadFile(pid, stream, filepath, mimetype);
             res.status(200).send("Upload success");
         } catch (error) {
+            console.error(error);
             res.status(500).send(error.message);
         }
     });
@@ -150,7 +173,7 @@ edit.post(
             console.log("error", error);
             res.status(500).send(error.message);
         }
-    }
+    },
 );
 
 edit.get("/object/:pid/datastream/:stream/license", requireToken, datastreamSanitizer, async (req, res) => {
@@ -179,7 +202,7 @@ edit.post(
         } catch (error) {
             res.status(500).send(error.message);
         }
-    }
+    },
 );
 
 edit.post(
@@ -197,7 +220,7 @@ edit.post(
         } catch (error) {
             res.status(500).send(error.message);
         }
-    }
+    },
 );
 
 edit.post(
@@ -215,7 +238,7 @@ edit.post(
         } catch (error) {
             res.status(500).send(error.message);
         }
-    }
+    },
 );
 
 edit.get("/object/:pid/datastream/:stream/agents", requireToken, datastreamSanitizer, async (req, res) => {
@@ -291,13 +314,13 @@ edit.get(
     "/object/:pid/recursiveChildPids",
     requireToken,
     pidSanitizer,
-    getChildPidHandlerForField("hierarchy_all_parents_str_mv")
+    getChildPidHandlerForField("hierarchy_all_parents_str_mv"),
 );
 edit.get(
     "/object/:pid/directChildPids",
     requireToken,
     pidSanitizer,
-    getChildPidHandlerForField("fedora_parent_id_str_mv")
+    getChildPidHandlerForField("fedora_parent_id_str_mv"),
 );
 edit.get("/object/:pid/details", requireToken, pidSanitizer, async function (req, res) {
     try {
@@ -314,7 +337,7 @@ edit.get("/object/:pid/parents", pidSanitizer, requireToken, async function (req
     try {
         const fedoraData = await FedoraDataCollector.getInstance().getHierarchy(
             req.params.pid,
-            (req.query.shallow ?? "") == "1"
+            (req.query.shallow ?? "") == "1",
         );
         res.json(fedoraData.getParentTree());
     } catch (e) {
@@ -444,7 +467,7 @@ edit.put(
             console.error(error);
             res.status(500).send(error.message);
         }
-    }
+    },
 );
 edit.delete("/object/:pid/parent/:parentPid", requireToken, pidAndParentPidSanitizer, async function (req, res) {
     try {
@@ -516,7 +539,7 @@ edit.delete(
             console.error(error);
             res.status(500).send(error.message);
         }
-    }
+    },
 );
 edit.put(
     "/object/:pid/positionInParent/:parentPid",
@@ -550,6 +573,6 @@ edit.put(
             console.error(error);
             res.status(500).send(error.message);
         }
-    }
+    },
 );
 export default edit;

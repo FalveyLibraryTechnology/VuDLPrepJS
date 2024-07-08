@@ -76,7 +76,7 @@ class DatastreamManager {
     async uploadDublinCoreMetadata(
         pid: string,
         stream: string,
-        metadata: Record<string, Array<string>>
+        metadata: Record<string, Array<string>>,
     ): Promise<void> {
         const fedoraObject = FedoraObject.build(pid);
         // The metadata must always include the current PID:
@@ -130,14 +130,14 @@ class DatastreamManager {
             '<DIGIPROVMD:DIGIPROVMD xmlns:DIGIPROVMD="http://www.loc.gov/PMD">\n' +
             tasks +
             `    <DIGIPROVMD:process_creator>${xmlescape(
-                metadata.processCreator ?? ""
+                metadata.processCreator ?? "",
             )}</DIGIPROVMD:process_creator>\n` +
             `    <DIGIPROVMD:process_datetime>${xmlescape(
-                metadata.processDateTime ?? ""
+                metadata.processDateTime ?? "",
             )}</DIGIPROVMD:process_datetime>\n` +
             `    <DIGIPROVMD:process_label>${xmlescape(metadata.processLabel ?? "")}</DIGIPROVMD:process_label>\n` +
             `    <DIGIPROVMD:process_organization>${xmlescape(
-                metadata.processOrganization ?? ""
+                metadata.processOrganization ?? "",
             )}</DIGIPROVMD:process_organization>\n` +
             "</DIGIPROVMD:DIGIPROVMD>";
 

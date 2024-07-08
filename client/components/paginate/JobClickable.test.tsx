@@ -1,7 +1,6 @@
 import React from "react";
 import { beforeEach, describe, expect, it } from "@jest/globals";
-import { render } from "enzyme";
-import toJson from "enzyme-to-json";
+import renderer from "react-test-renderer";
 import JobClickable from "./JobClickable";
 
 describe("JobClickable", () => {
@@ -16,7 +15,7 @@ describe("JobClickable", () => {
     });
 
     it("renders", () => {
-        const wrapper = render(<JobClickable {...props} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<JobClickable {...props} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 });

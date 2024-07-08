@@ -1,7 +1,8 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { shallow, render, mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import renderer from "react-test-renderer";
 import ZoomToggleButton from "./ZoomToggleButton";
 
 describe("ZoomToggleButton", () => {
@@ -15,28 +16,28 @@ describe("ZoomToggleButton", () => {
     });
 
     it("renders", () => {
-        const wrapper = shallow(<ZoomToggleButton {...props} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<ZoomToggleButton {...props} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("renders correctly when zoom is off", () => {
-        const wrapper = render(<ZoomToggleButton {...props} />);
-        expect(wrapper.text().includes("Turn Zoom On")).toBeTruthy();
+        render(<ZoomToggleButton {...props} />);
+        expect(screen.queryAllByText("Turn Zoom On")).toHaveLength(1);
     });
 
     it("renders correctly when zoom is on", () => {
         props.zoom = true;
-        const wrapper = render(<ZoomToggleButton {...props} />);
-        expect(wrapper.text().includes("Turn Zoom Off")).toBeTruthy();
+        render(<ZoomToggleButton {...props} />);
+        expect(screen.queryAllByText("Turn Zoom Off")).toHaveLength(1);
     });
 
-    it("calls toggle zoom when button is clicked", () => {
+    it("calls toggle zoom when button is clicked", async () => {
         props.zoom = true;
-        const wrapper = mount(<ZoomToggleButton {...props} />);
+        render(<ZoomToggleButton {...props} />);
 
         expect(props.toggleZoom).not.toHaveBeenCalled();
 
-        wrapper.find("button").simulate("click");
+        await userEvent.setup().click(screen.getByRole("button"));
 
         expect(props.toggleZoom).toHaveBeenCalled();
     });

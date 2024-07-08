@@ -1,7 +1,8 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import renderer from "react-test-renderer";
 import * as EditorContextModule from "../../context/EditorContext";
 import ObjectPreviewButton from "./ObjectPreviewButton";
 
@@ -18,23 +19,23 @@ describe("ObjectPreviewButton", () => {
     });
 
     it("renders correctly without VuFind URL", async () => {
-        const wrapper = mount(<ObjectPreviewButton pid={pid} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<ObjectPreviewButton pid={pid} />).toJSON();
+        expect(tree).toBeNull();
     });
 
     it("renders correctly with VuFind URL", async () => {
         mockContext.state.vufindUrl = "http://localhost";
-        const wrapper = mount(<ObjectPreviewButton pid={pid} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<ObjectPreviewButton pid={pid} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("can open a VuFind preview URL", async () => {
         mockContext.state.vufindUrl = "http://localhost";
-        const wrapper = mount(<ObjectPreviewButton pid={pid} />);
-        const previewButton = wrapper.find("button");
-        expect(previewButton.text()).toEqual("Preview");
+        render(<ObjectPreviewButton pid={pid} />);
+        const previewButton = screen.getByRole("button");
+        expect(previewButton.textContent).toEqual("Preview");
         const openSpy = jest.spyOn(window, "open").mockImplementation(jest.fn());
-        previewButton.simulate("click");
+        await userEvent.setup().click(previewButton);
         expect(openSpy).toHaveBeenCalledWith("http://localhost/Item/" + pid);
     });
 });

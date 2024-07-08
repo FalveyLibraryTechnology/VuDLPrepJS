@@ -1,8 +1,8 @@
 import React from "react";
 import { act } from "react-dom/test-utils";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { render, mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { render } from "@testing-library/react";
+import renderer from "react-test-renderer";
 import JobSelector from "./JobSelector";
 import { FetchContextProvider } from "../../context/FetchContext";
 const mockCategory = jest.fn();
@@ -12,7 +12,7 @@ jest.mock(
         function Category(props) {
             mockCategory(props);
             return <mock-Category />;
-        }
+        },
 );
 jest.mock("../shared/BasicBreadcrumbs", () => () => "BasicBreadcrumbs");
 
@@ -38,23 +38,28 @@ describe("JobSelector", () => {
         };
     });
 
-    it("renders", () => {
-        const wrapper = render(
-            <FetchContextProvider>
-                <JobSelector />
-            </FetchContextProvider>
-        );
-        expect(toJson(wrapper)).toMatchSnapshot();
+    it("renders", async () => {
+        response.json.mockResolvedValueOnce({});
+        global.fetch.mockResolvedValueOnce(response);
+        let tree;
+        await renderer.act(() => {
+            tree = renderer.create(
+                <FetchContextProvider>
+                    <JobSelector />
+                </FetchContextProvider>,
+            );
+        });
+        expect(tree.toJSON()).toMatchSnapshot();
     });
 
     it("sets category components", async () => {
         response.json.mockResolvedValueOnce(data);
         global.fetch.mockResolvedValueOnce(response);
         await act(async () => {
-            await mount(
+            render(
                 <FetchContextProvider>
                     <JobSelector />
-                </FetchContextProvider>
+                </FetchContextProvider>,
             );
         });
 

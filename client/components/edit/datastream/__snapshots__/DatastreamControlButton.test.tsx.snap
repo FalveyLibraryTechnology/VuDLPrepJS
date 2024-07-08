@@ -1,20 +1,53 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DatastreamControlButton renders 1`] = `
-<ForwardRef(Tooltip)
-  title="Upload"
+<span
+  aria-label="Upload"
+  aria-labelledby={null}
+  className=""
+  data-mui-internal-clone-element={true}
+  onBlur={[Function]}
+  onFocus={[Function]}
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
+  onTouchEnd={[Function]}
+  onTouchStart={[Function]}
 >
-  <span>
-    <ForwardRef(LoadingButton)
-      aria-label="Upload"
-      className="datastreamControlButton"
-      disabled={false}
-      loading={false}
-      onClick={[Function]}
-      size="small"
+  <button
+    aria-label="Upload"
+    className="MuiButtonBase-root MuiButton-root MuiLoadingButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiLoadingButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary datastreamControlButton css-owonun-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root"
+    disabled={false}
+    id=":r1:"
+    onBlur={[Function]}
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="UploadFileIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
     >
-      <Memo(ForwardRef(UploadFileIcon)) />
-    </ForwardRef(LoadingButton)>
-  </span>
-</ForwardRef(Tooltip)>
+      <path
+        d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11z"
+      />
+    </svg>
+    <span
+      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+    />
+  </button>
+</span>
 `;

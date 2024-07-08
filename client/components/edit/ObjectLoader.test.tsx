@@ -1,7 +1,7 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { shallow, mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { render } from "@testing-library/react";
+import renderer from "react-test-renderer";
 import ObjectLoader from "./ObjectLoader";
 
 const mockUseEditorContext = jest.fn();
@@ -25,24 +25,24 @@ describe("ObjectLoader", () => {
         mockUseEditorContext.mockReturnValue(editorValues);
     });
     it("renders correctly for a pending object", () => {
-        const wrapper = shallow(<ObjectLoader pid="foo:123" />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<ObjectLoader pid="foo:123" />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("renders correctly for a loaded object", () => {
         editorValues.state.objectDetailsStorage["foo:123"] = { foo: "bar" };
-        const wrapper = shallow(<ObjectLoader pid="foo:123" />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<ObjectLoader pid="foo:123" />).toJSON();
+        expect(tree).toBeNull();
     });
 
     it("loads the object as needed when optional callback is omitted", () => {
-        mount(<ObjectLoader pid="foo:123" />);
+        render(<ObjectLoader pid="foo:123" />);
         expect(editorValues.action.loadObjectDetailsIntoStorage).toHaveBeenCalledWith("foo:123", null);
     });
 
     it("loads the object as needed when optional callback is provided", () => {
         const callback = jest.fn();
-        mount(<ObjectLoader pid="foo:123" errorCallback={callback} />);
+        render(<ObjectLoader pid="foo:123" errorCallback={callback} />);
         expect(editorValues.action.loadObjectDetailsIntoStorage).toHaveBeenCalledWith("foo:123", callback);
     });
 });

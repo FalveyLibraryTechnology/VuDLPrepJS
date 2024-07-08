@@ -1,7 +1,7 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { mount, shallow } from "enzyme";
-import toJson from "enzyme-to-json";
+import { render, screen } from "@testing-library/react";
+import renderer from "react-test-renderer";
 import JobPaginatorZoomToggle from "./JobPaginatorZoomToggle";
 
 const mockUseJobPaginatorContext = jest.fn();
@@ -34,29 +34,29 @@ describe("JobPaginatorZoomToggle", () => {
     });
 
     it("renders", () => {
-        const wrapper = shallow(<JobPaginatorZoomToggle />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<JobPaginatorZoomToggle />).toJSON();
+        expect(tree).toEqual("PaginatorZoomy");
     });
 
     it("renders preview not available", () => {
         paginatorValues.state.order = [];
-        const wrapper = shallow(<JobPaginatorZoomToggle />);
-        expect(toJson(wrapper)).toMatchSnapshot();
-        expect(wrapper.text().includes("Preview not available")).toBeTruthy();
+        const tree = renderer.create(<JobPaginatorZoomToggle />).toJSON();
+        expect(tree).toMatchSnapshot();
+        expect(JSON.stringify(tree).includes("Preview not available")).toBeTruthy();
     });
 
     it("renders PaginatorZoomy", () => {
-        const wrapper = mount(<JobPaginatorZoomToggle />);
+        render(<JobPaginatorZoomToggle />);
 
-        expect(wrapper.contains("PaginatorZoomy")).toBeTruthy();
+        expect(screen.queryAllByText("PaginatorZoomy")).toHaveLength(1);
         expect(paginatorValues.action.getJobImageUrl).toHaveBeenCalledWith(paginatorValues.state.order[0], "large");
     });
 
     it("renders PaginatorPreview", () => {
         paginatorValues.state.zoom = false;
-        const wrapper = mount(<JobPaginatorZoomToggle />);
+        render(<JobPaginatorZoomToggle />);
 
-        expect(wrapper.contains("PaginatorPreview")).toBeTruthy();
+        expect(screen.queryAllByText("PaginatorPreview")).toHaveLength(1);
         expect(paginatorValues.action.getJobImageUrl).toHaveBeenCalledWith(paginatorValues.state.order[0], "medium");
     });
 });

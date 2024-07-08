@@ -1,106 +1,220 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DatastreamDublinCoreFieldGroup renders locked fields 1`] = `
-<Fragment>
-  <h3 />
-  <ForwardRef(Grid)
-    container={true}
-    key="dc:identifier_0_0"
-    spacing={1}
+[
+  <h3 />,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
   >
-    <ForwardRef(Grid)
-      item={true}
-      xs={10}
+    <div
+      className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
     >
-      <DatastreamDublinCoreEditField
-        fieldType="locked"
-        legalValues={Array []}
-        setValue={[Function]}
-        value="foo"
-      />
-    </ForwardRef(Grid)>
-    <ForwardRef(Grid)
-      item={true}
-      xs={2}
-    />
-  </ForwardRef(Grid)>
-</Fragment>
+      <div
+        className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+        onClick={[Function]}
+      >
+        <input
+          aria-invalid={false}
+          autoFocus={false}
+          className="MuiInputBase-input MuiOutlinedInput-input Mui-disabled css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+          disabled={true}
+          id=":r2:"
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          required={false}
+          type="text"
+          value="foo"
+        />
+        <fieldset
+          aria-hidden={true}
+          className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            className="css-ihdtdm"
+          >
+            <span
+              className="notranslate"
+            >
+              ​
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+    </div>
+  </div>,
+]
 `;
 
 exports[`DatastreamDublinCoreFieldGroup renders unlocked fields 1`] = `
-<Fragment>
-  <h3 />
-  <ForwardRef(Grid)
-    container={true}
-    key="dc:title_0_0"
-    spacing={1}
+[
+  <h3 />,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
   >
-    <ForwardRef(Grid)
-      item={true}
-      xs={10}
+    <div
+      className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
     >
-      <DatastreamDublinCoreEditField
-        fieldType="text"
-        legalValues={Array []}
-        setValue={[Function]}
-        value="bar"
-      />
-    </ForwardRef(Grid)>
-    <ForwardRef(Grid)
-      item={true}
-      xs={2}
-    >
-      <ForwardRef(IconButton)
+      <div
+        className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
         onClick={[Function]}
       >
-        <Memo(ForwardRef(AddCircleIcon))
-          titleAccess="Add Below"
+        <input
+          aria-invalid={false}
+          autoFocus={false}
+          className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+          disabled={false}
+          id=":r0:"
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          required={false}
+          type="text"
+          value="bar"
         />
-      </ForwardRef(IconButton)>
-      <ForwardRef(IconButton)
-        onClick={[Function]}
-      >
-        <Memo(ForwardRef(DeleteIcon))
-          titleAccess="Delete Row"
-        />
-      </ForwardRef(IconButton)>
-    </ForwardRef(Grid)>
-  </ForwardRef(Grid)>
-  <ForwardRef(Grid)
-    container={true}
-    key="dc:title_1_0"
-    spacing={1}
+        <fieldset
+          aria-hidden={true}
+          className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            className="css-ihdtdm"
+          >
+            <span
+              className="notranslate"
+            >
+              ​
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+    </div>
+  </div>,
+  <button
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
   >
-    <ForwardRef(Grid)
-      item={true}
-      xs={10}
+    Add Below
+  </button>,
+  <button
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    Delete Row
+  </button>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    <div
+      className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
     >
-      <DatastreamDublinCoreEditField
-        fieldType="text"
-        legalValues={Array []}
-        setValue={[Function]}
-        value="baz"
-      />
-    </ForwardRef(Grid)>
-    <ForwardRef(Grid)
-      item={true}
-      xs={2}
-    >
-      <ForwardRef(IconButton)
+      <div
+        className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
         onClick={[Function]}
       >
-        <Memo(ForwardRef(AddCircleIcon))
-          titleAccess="Add Below"
+        <input
+          aria-invalid={false}
+          autoFocus={false}
+          className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+          disabled={false}
+          id=":r1:"
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          required={false}
+          type="text"
+          value="baz"
         />
-      </ForwardRef(IconButton)>
-      <ForwardRef(IconButton)
-        onClick={[Function]}
-      >
-        <Memo(ForwardRef(DeleteIcon))
-          titleAccess="Delete Row"
-        />
-      </ForwardRef(IconButton)>
-    </ForwardRef(Grid)>
-  </ForwardRef(Grid)>
-</Fragment>
+        <fieldset
+          aria-hidden={true}
+          className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            className="css-ihdtdm"
+          >
+            <span
+              className="notranslate"
+            >
+              ​
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+    </div>
+  </div>,
+  <button
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    Add Below
+  </button>,
+  <button
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    Delete Row
+  </button>,
+]
 `;

@@ -1,7 +1,8 @@
 import React from "react";
 import { describe, beforeEach, expect, it, jest } from "@jest/globals";
-import { shallow, mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import renderer from "react-test-renderer";
 import ParentList from "./ParentList";
 import { waitFor } from "@testing-library/dom";
 
@@ -23,6 +24,8 @@ jest.mock("../../../context/FetchContext", () => ({
         return mockUseFetchContext();
     },
 }));
+
+jest.mock("@mui/icons-material/Delete", () => (props) => props.titleAccess);
 
 describe("ParentList", () => {
     let globalValues;
@@ -96,7 +99,7 @@ describe("ParentList", () => {
 
     it("triggers a data load if necessary", () => {
         editorValues.state.parentDetailsStorage = {};
-        mount(<ParentList pid={pid} />);
+        render(<ParentList pid={pid} />);
         expect(editorValues.action.loadParentDetailsIntoStorage).toHaveBeenCalledWith(pid, true);
     });
 
@@ -108,29 +111,29 @@ describe("ParentList", () => {
                 },
             },
         };
-        const wrapper = shallow(<ParentList pid={pid} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<ParentList pid={pid} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("renders a populated parent list correctly (shallow mode)", () => {
-        const wrapper = shallow(<ParentList pid={pid} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<ParentList pid={pid} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("renders a populated parent list correctly (full mode)", () => {
-        const wrapper = shallow(<ParentList pid={pid} initiallyShallow={false} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<ParentList pid={pid} initiallyShallow={false} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("deletes parents on button click plus confirmation", async () => {
         const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
         fetchValues.action.fetchText.mockResolvedValue("ok");
-        const wrapper = mount(<ParentList pid={pid} />);
-        wrapper.find("button").at(0).simulate("click");
+        render(<ParentList pid={pid} />);
+        await userEvent.setup().click(screen.getByText("Delete parent foo:122"));
         expect(confirmSpy).toHaveBeenCalledWith("Are you sure you wish to remove this parent?");
         expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
             "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
-            { method: "DELETE" }
+            { method: "DELETE" },
         );
         await waitFor(() => expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenCalled());
         expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenCalledWith(pid);
@@ -143,10 +146,10 @@ describe("ParentList", () => {
         });
     });
 
-    it("does not delete parents if confirmation is canceled", () => {
+    it("does not delete parents if confirmation is canceled", async () => {
         const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(false);
-        const wrapper = mount(<ParentList pid={pid} />);
-        wrapper.find("button").at(0).simulate("click");
+        render(<ParentList pid={pid} />);
+        await userEvent.setup().click(screen.getByText("Delete parent foo:122"));
         expect(confirmSpy).toHaveBeenCalledWith("Are you sure you wish to remove this parent?");
         expect(fetchValues.action.fetchText).not.toHaveBeenCalled();
     });
@@ -154,12 +157,12 @@ describe("ParentList", () => {
     it("handles bad return statuses", async () => {
         const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
         fetchValues.action.fetchText.mockResolvedValue("not ok");
-        const wrapper = mount(<ParentList pid={pid} />);
-        wrapper.find("button").at(0).simulate("click");
+        render(<ParentList pid={pid} />);
+        await userEvent.setup().click(screen.getByText("Delete parent foo:122"));
         expect(confirmSpy).toHaveBeenCalledWith("Are you sure you wish to remove this parent?");
         expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
             "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
-            { method: "DELETE" }
+            { method: "DELETE" },
         );
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(editorValues.action.removeFromObjectDetailsStorage).not.toHaveBeenCalled();
@@ -177,12 +180,12 @@ describe("ParentList", () => {
         fetchValues.action.fetchText.mockImplementation(() => {
             throw new Error("boom");
         });
-        const wrapper = mount(<ParentList pid={pid} />);
-        wrapper.find("button").at(0).simulate("click");
+        render(<ParentList pid={pid} />);
+        await userEvent.setup().click(screen.getByText("Delete parent foo:122"));
         expect(confirmSpy).toHaveBeenCalledWith("Are you sure you wish to remove this parent?");
         expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
             "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
-            { method: "DELETE" }
+            { method: "DELETE" },
         );
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(editorValues.action.removeFromObjectDetailsStorage).not.toHaveBeenCalled();

@@ -1,8 +1,7 @@
 import React from "react";
 import { describe, beforeEach, expect, it, jest } from "@jest/globals";
-import { mount } from "enzyme";
-import { act } from "react-dom/test-utils";
-import toJson from "enzyme-to-json";
+import { waitFor } from "@testing-library/react";
+import renderer from "react-test-renderer";
 import DatastreamMetadataModalContent from "./DatastreamMetadataModalContent";
 
 const mockUseDatastreamOperation = jest.fn();
@@ -10,7 +9,7 @@ jest.mock("../../../hooks/useDatastreamOperation", () => () => mockUseDatastream
 const mockDatatypeContent = jest.fn();
 jest.mock("../../shared/DatatypeContent", () => (props) => {
     mockDatatypeContent(props);
-    return "DatatypeContent";
+    return "DatatypeContent: " + JSON.stringify(props);
 });
 describe("DatastreamMetadataModalContent", () => {
     let datastreamOperationValues;
@@ -38,13 +37,12 @@ describe("DatastreamMetadataModalContent", () => {
             mimeType: "test2",
         };
         datastreamOperationValues.viewMetadata.mockResolvedValue(response);
-        let wrapper;
-        await act(async () => {
-            wrapper = await mount(<DatastreamMetadataModalContent />);
+        let tree;
+        await renderer.act(async () => {
+            tree = renderer.create(<DatastreamMetadataModalContent />);
+            await waitFor(() => expect(datastreamOperationValues.viewMetadata).toHaveBeenCalled());
         });
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
-        expect(datastreamOperationValues.viewMetadata).toHaveBeenCalled();
+        expect(tree.toJSON()).toMatchSnapshot();
         expect(mockDatatypeContent).toHaveBeenCalledWith(response);
     });
 });

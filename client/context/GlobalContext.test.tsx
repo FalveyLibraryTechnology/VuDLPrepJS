@@ -1,5 +1,5 @@
-import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { renderHook, act } from "@testing-library/react-hooks";
+import { describe, expect, it } from "@jest/globals";
+import { renderHook, act } from "@testing-library/react";
 import { GlobalContextProvider, useGlobalContext } from "./GlobalContext";
 
 describe("useGlobalContext", () => {
@@ -26,6 +26,32 @@ describe("useGlobalContext", () => {
                 message: "oh no!",
                 severity: "error"
             });
+        });
+    });
+
+    describe("toggleModal", () => {
+        it("toggles the modal", async () => {
+            const { result } = await renderHook(() => useGlobalContext(), { wrapper: GlobalContextProvider });
+
+            expect(result.current.action.isModalOpen("foo")).toEqual(false);
+
+            await act(async () => {
+                await result.current.action.toggleModal("foo");
+            });
+
+            expect(result.current.action.isModalOpen("foo")).toEqual(true);
+
+            await act(async () => {
+                await result.current.action.toggleModal("foo");
+            });
+
+            expect(result.current.action.isModalOpen("foo")).toEqual(false);
+
+            await act(async () => {
+                await result.current.action.toggleModal("foo");
+            });
+
+            expect(result.current.action.isModalOpen("foo")).toEqual(true);
         });
     });
 });

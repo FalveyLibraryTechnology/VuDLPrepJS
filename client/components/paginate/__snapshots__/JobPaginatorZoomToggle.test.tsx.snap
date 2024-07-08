@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`JobPaginatorZoomToggle renders 1`] = `<Component />`;
-
 exports[`JobPaginatorZoomToggle renders preview not available 1`] = `
 <div>
   Preview not available.

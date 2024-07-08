@@ -2,13 +2,15 @@
 
 exports[`CreateObject renders appropriately with default settings 1`] = `
 <form
-  class="editor__create-object"
+  className="editor__create-object"
+  onSubmit={[Function]}
 >
   <label>
     Title
     <input
       name="title"
-      required=""
+      onChange={[Function]}
+      required={true}
       type="text"
       value=""
     />
@@ -17,7 +19,8 @@ exports[`CreateObject renders appropriately with default settings 1`] = `
     Parent ID
     <input
       name="parent"
-      required=""
+      onChange={[Function]}
+      required={true}
       type="text"
       value=""
     />
@@ -25,7 +28,9 @@ exports[`CreateObject renders appropriately with default settings 1`] = `
   <label>
     Active
     <input
+      checked={false}
       name="state"
+      onChange={[Function]}
       type="radio"
       value="Active"
     />
@@ -33,8 +38,9 @@ exports[`CreateObject renders appropriately with default settings 1`] = `
   <label>
     Inactive
     <input
-      checked=""
+      checked={true}
       name="state"
+      onChange={[Function]}
       type="radio"
       value="Inactive"
     />
@@ -42,7 +48,9 @@ exports[`CreateObject renders appropriately with default settings 1`] = `
   <label>
     Deleted
     <input
+      checked={false}
       name="state"
+      onChange={[Function]}
       type="radio"
       value="Deleted"
     />
@@ -51,18 +59,23 @@ exports[`CreateObject renders appropriately with default settings 1`] = `
     Select Model Type:
     <b />
   </label>
+  TreeItem
+  TreeItem
+  TreeItem
 </form>
 `;
 
 exports[`CreateObject renders appropriately with editing disabled 1`] = `
 <form
-  class="editor__create-object"
+  className="editor__create-object"
+  onSubmit={[Function]}
 >
   <label>
     Title
     <input
       name="title"
-      required=""
+      onChange={[Function]}
+      required={true}
       type="text"
       value=""
     />
@@ -70,7 +83,9 @@ exports[`CreateObject renders appropriately with editing disabled 1`] = `
   <label>
     Active
     <input
+      checked={false}
       name="state"
+      onChange={[Function]}
       type="radio"
       value="Active"
     />
@@ -78,8 +93,9 @@ exports[`CreateObject renders appropriately with editing disabled 1`] = `
   <label>
     Inactive
     <input
-      checked=""
+      checked={true}
       name="state"
+      onChange={[Function]}
       type="radio"
       value="Inactive"
     />
@@ -87,7 +103,9 @@ exports[`CreateObject renders appropriately with editing disabled 1`] = `
   <label>
     Deleted
     <input
+      checked={false}
       name="state"
+      onChange={[Function]}
       type="radio"
       value="Deleted"
     />
@@ -96,26 +114,32 @@ exports[`CreateObject renders appropriately with editing disabled 1`] = `
     Select Model Type:
     <b />
   </label>
+  TreeItem
+  TreeItem
+  TreeItem
 </form>
 `;
 
 exports[`CreateObject renders appropriately with noParent and parent change enabled 1`] = `
 <form
-  class="editor__create-object"
+  className="editor__create-object"
+  onSubmit={[Function]}
 >
   <label>
     Title
     <input
       name="title"
-      required=""
+      onChange={[Function]}
+      required={true}
       type="text"
       value=""
     />
   </label>
   <label>
     <input
-      checked=""
+      checked={true}
       name="noParent"
+      onChange={[Function]}
       type="checkbox"
       value="1"
     />
@@ -125,6 +149,8 @@ exports[`CreateObject renders appropriately with noParent and parent change enab
     Parent ID
     <input
       name="parent"
+      onChange={[Function]}
+      required={false}
       type="text"
       value=""
     />
@@ -132,7 +158,9 @@ exports[`CreateObject renders appropriately with noParent and parent change enab
   <label>
     Active
     <input
+      checked={false}
       name="state"
+      onChange={[Function]}
       type="radio"
       value="Active"
     />
@@ -140,8 +168,9 @@ exports[`CreateObject renders appropriately with noParent and parent change enab
   <label>
     Inactive
     <input
-      checked=""
+      checked={true}
       name="state"
+      onChange={[Function]}
       type="radio"
       value="Inactive"
     />
@@ -149,7 +178,9 @@ exports[`CreateObject renders appropriately with noParent and parent change enab
   <label>
     Deleted
     <input
+      checked={false}
       name="state"
+      onChange={[Function]}
       type="radio"
       value="Deleted"
     />
@@ -158,5 +189,8 @@ exports[`CreateObject renders appropriately with noParent and parent change enab
     Select Model Type:
     <b />
   </label>
+  TreeItem
+  TreeItem
+  TreeItem
 </form>
 `;

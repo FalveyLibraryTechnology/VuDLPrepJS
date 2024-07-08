@@ -39,7 +39,7 @@ const DatastreamDublinCoreAddButtons = (): React.ReactElement => {
             buttons.push(
                 <button key={"dcadd_" + key.replace(":", "_")} onClick={() => addValueAbove(key, 0, "")}>
                     {current.label}
-                </button>
+                </button>,
             );
         }
     }

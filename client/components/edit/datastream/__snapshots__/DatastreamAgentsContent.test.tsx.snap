@@ -1,94 +1,99 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DatastreamAgentsContent renders 1`] = `
-<Fragment>
-  <ForwardRef(Grid)
-    container={true}
-    spacing={1}
-    sx={
-      Object {
-        "padding": "20px 24px",
-      }
-    }
+exports[`DatastreamAgentsContent renders, and calls getAgents on render 1`] = `
+[
+  "Role",
+  "Type",
+  "Name",
+  "Actions",
+  <div
+    className="MuiDialogContent-root css-pvro84-MuiDialogContent-root"
   >
-    <ForwardRef(Grid)
-      container={true}
-      item={true}
-      xs={3}
-    >
-      Role
-    </ForwardRef(Grid)>
-    <ForwardRef(Grid)
-      container={true}
-      item={true}
-      xs={3}
-    >
-      Type
-    </ForwardRef(Grid)>
-    <ForwardRef(Grid)
-      container={true}
-      item={true}
-      xs={5}
-    >
-      Name
-    </ForwardRef(Grid)>
-    <ForwardRef(Grid)
-      container={true}
-      item={true}
-      xs={1}
-    >
-      Actions
-    </ForwardRef(Grid)>
-  </ForwardRef(Grid)>
-  <ForwardRef(DialogContent)
-    sx={
-      Object {
-        "minHeight": "50vh",
-        "width": "100%",
-      }
-    }
+    DatastreamAgentsAddContentRow
+  </div>,
+  <hr
+    className="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+  />,
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing css-1wawfzm-MuiDialogActions-root"
   >
-    <ForwardRef(Box)
-      alignItems="center"
-      display="flex"
-      justifyContent="center"
-      minHeight="50vh"
+    <h6
+      className="MuiTypography-root MuiTypography-subtitle1 css-1tvjuyl-MuiTypography-root"
     >
-      <ForwardRef(CircularProgress) />
-    </ForwardRef(Box)>
-  </ForwardRef(DialogContent)>
-  <ForwardRef(Divider) />
-  <ForwardRef(DialogActions)
-    sx={
-      Object {
-        "padding": "20px 24px",
-      }
-    }
-  >
-    <ForwardRef(Grid)
-      container={true}
-      justifyContent="flex-end"
-      spacing={1}
+      You possibly have unsaved changes. Please save them.
+    </h6>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary agentsSaveChangesButton css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
     >
-      <ForwardRef(Grid)
-        container={true}
-        item={true}
-        xs={6}
+      Save Changes
+      <span
+        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
       />
-      <ForwardRef(Grid)
-        container={true}
-        item={true}
-        justifyContent="flex-end"
-        xs={6}
-      >
-        <ForwardRef(Button)
-          className="agentsCancelButton"
-          onClick={[Function]}
-        >
-          Cancel
-        </ForwardRef(Button)>
-      </ForwardRef(Grid)>
-    </ForwardRef(Grid)>
-  </ForwardRef(DialogActions)>
-</Fragment>
+    </button>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary agentsSaveCloseButton css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      Save And Close
+      <span
+        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary agentsCancelButton css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      Cancel
+      <span
+        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>,
+]
 `;

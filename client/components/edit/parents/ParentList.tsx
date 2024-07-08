@@ -12,9 +12,7 @@ export interface ParentListProps {
 
 const ParentList = ({ pid, initiallyShallow = true }: ParentListProps): React.ReactElement => {
     const {
-        action: {
-            setSnackbarState,
-        },
+        action: { setSnackbarState },
     } = useGlobalContext();
     const {
         state: { parentDetailsStorage },

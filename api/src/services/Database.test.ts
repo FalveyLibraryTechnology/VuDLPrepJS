@@ -34,7 +34,7 @@ describe("Database", () => {
                     client: "fake",
                     connection: {},
                 },
-            })
+            }),
         );
         // Database code is currently "chatty" but we don't want the tests to be noisy
         jest.spyOn(console, "log").mockImplementation(jest.fn());

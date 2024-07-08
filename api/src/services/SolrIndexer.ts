@@ -5,6 +5,7 @@ import FedoraDataCollector from "./FedoraDataCollector";
 import http = require("needle");
 import { NeedleResponse } from "./interfaces";
 import Solr from "./Solr";
+import SolrCache from "./SolrCache";
 
 interface SolrFields {
     [key: string]: string | Array<string>;
@@ -15,11 +16,14 @@ class SolrIndexer {
     config: Config;
     fedoraDataCollector: FedoraDataCollector;
     solr: Solr;
+    solrCache: SolrCache;
+    lastIndexResults: SolrFields | null = null;
 
-    constructor(fedoraDataCollector: FedoraDataCollector, solr: Solr, config: Config) {
+    constructor(fedoraDataCollector: FedoraDataCollector, solr: Solr, solrCache: SolrCache, config: Config) {
         this.fedoraDataCollector = fedoraDataCollector;
         this.config = config;
         this.solr = solr;
+        this.solrCache = solrCache;
     }
 
     public static getInstance(): SolrIndexer {
@@ -27,7 +31,8 @@ class SolrIndexer {
             SolrIndexer.instance = new SolrIndexer(
                 FedoraDataCollector.getInstance(),
                 Solr.getInstance(),
-                Config.getInstance()
+                SolrCache.getInstance(),
+                Config.getInstance(),
             );
         }
         return SolrIndexer.instance;
@@ -68,8 +73,12 @@ class SolrIndexer {
     }
 
     async indexPid(pid: string): Promise<NeedleResponse> {
-        const fedoraFields = await this.getFields(pid);
-        return await this.solr.indexRecord(this.config.solrCore, fedoraFields);
+        // Clear cache to ensure we retrieve fresh data from Fedora:
+        this.solrCache.purgeFromCacheIfEnabled(pid);
+        // Fetch and store latest details:
+        this.lastIndexResults = await this.getFields(pid);
+        // Send to Solr:
+        return await this.solr.indexRecord(this.config.solrCore, this.lastIndexResults);
     }
 
     async getFields(pid: string): Promise<SolrFields> {
@@ -348,6 +357,10 @@ class SolrIndexer {
         }
 
         return fields;
+    }
+
+    public getLastIndexResults(): SolrFields | null {
+        return this.lastIndexResults;
     }
 }
 

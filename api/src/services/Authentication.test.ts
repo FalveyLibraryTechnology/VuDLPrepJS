@@ -9,7 +9,7 @@ describe("Authentication", () => {
                 Authentication: {
                     salt: "my-salt-value",
                 },
-            })
+            }),
         );
     });
 

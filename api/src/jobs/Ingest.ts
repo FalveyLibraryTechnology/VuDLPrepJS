@@ -12,6 +12,7 @@ import ImageFile from "../models/ImageFile";
 import Job from "../models/Job";
 import Page from "../models/Page";
 import QueueJobInterface from "./QueueJobInterface";
+import VideoFile from "../models/VideoFile";
 import winston = require("winston");
 import xmlescape = require("xml-escape");
 
@@ -35,7 +36,7 @@ export class IngestProcessor {
             level: "info",
             format: winston.format.combine(
                 winston.format.timestamp(),
-                winston.format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`)
+                winston.format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`),
             ),
             transports: [
                 new winston.transports.File({ filename: dir + "/ingest.log" }),
@@ -69,6 +70,28 @@ export class IngestProcessor {
         await audioData.addDatastreamFromFile(audio.derivative("MP3"), "MP3", "audio/mpeg");
         this.logger.info("Adding OGG");
         await audioData.addDatastreamFromFile(audio.derivative("OGG"), "OGG", "audio/ogg");
+    }
+
+    async addDatastreamsToVideo(video: VideoFile, videoData: FedoraObject): Promise<void> {
+        this.logger.info("Adding Primary Video");
+        const primaryVideo = this.job.dir + "/" + video.filename;
+        await videoData.addDatastreamFromFile(primaryVideo, "MASTER", video.mimeType);
+        // If the MASTER is already MP4, we don't need to add a separate MP4 stream.
+        if (video.mimeType !== "video/mp4") {
+            this.logger.info("Adding MP4");
+            await videoData.addDatastreamFromFile(video.derivative("MP4"), "MP4", "video/mp4");
+        }
+        // If we have VTT transcript and/or TXT transcript, add them.
+        const textTranscript = video.textTranscript;
+        if (textTranscript !== null) {
+            this.logger.info("Adding text transcript");
+            await videoData.addDatastreamFromFile(textTranscript, "TEXT-TRANSCRIPT", "text/plain");
+        }
+        const vtt = video.vtt;
+        if (vtt !== null) {
+            this.logger.info("Adding VTT transcript");
+            await videoData.addDatastreamFromFile(vtt, "VTT", "text/vtt");
+        }
     }
 
     async addPages(pageList: FedoraObject): Promise<void> {
@@ -113,13 +136,24 @@ export class IngestProcessor {
         }
     }
 
+    async addVideo(videoList: FedoraObject): Promise<void> {
+        const order = this.job.metadata.video.list;
+        for (const i in order) {
+            const video = order[i];
+            const number = parseInt(i) + 1;
+            this.logger.info("Adding " + number + " of " + order.length + " - " + video.filename);
+            const videoData = await this.buildVideo(videoList, video, number);
+            await this.addDatastreamsToVideo(video, videoData);
+        }
+    }
+
     async buildPage(pageList: FedoraObject, page: Page, number: number): Promise<FedoraObject> {
         const imageData = await this.objectFactory.build(
             "ImageData",
             String(page.label),
             "Inactive",
             pageList.pid,
-            this.logger
+            this.logger,
         );
         await imageData.addSequenceRelationship(pageList.pid, number);
         return imageData;
@@ -131,7 +165,7 @@ export class IngestProcessor {
             String(document.label),
             "Inactive",
             documentList.pid,
-            this.logger
+            this.logger,
         );
         await documentData.addSequenceRelationship(documentList.pid, number);
         return documentData;
@@ -143,10 +177,22 @@ export class IngestProcessor {
             String(audio.filename),
             "Inactive",
             audioList.pid,
-            this.logger
+            this.logger,
         );
         await audioData.addSequenceRelationship(audioList.pid, number);
         return audioData;
+    }
+
+    async buildVideo(videoList: FedoraObject, video: VideoFile, number: number): Promise<FedoraObject> {
+        const videoData = await this.objectFactory.build(
+            "VideoData",
+            String(video.filename),
+            "Inactive",
+            videoList.pid,
+            this.logger,
+        );
+        await videoData.addSequenceRelationship(videoList.pid, number);
+        return videoData;
     }
 
     async buildListCollection(resource: FedoraObject, title: string): Promise<FedoraObject> {
@@ -159,7 +205,7 @@ export class IngestProcessor {
             "Incomplete... / Processing...",
             "Inactive",
             holdingArea.pid,
-            this.logger
+            this.logger,
         );
         // Attach thumbnail to resource:
         if (this.job.metadata.order.pages.length > 0) {
@@ -210,7 +256,7 @@ export class IngestProcessor {
             fs.mkdirSync(targetParent, { recursive: true });
         }
         fs.renameSync(this.job.dir, target);
-        fs.unlinkSync(target + "/ingest.lock");
+        fs.rmSync(target + "/ingest.lock");
     }
 
     async doIngest(): Promise<void> {
@@ -238,6 +284,10 @@ export class IngestProcessor {
 
         if (this.job.metadata.audio.list.length > 0) {
             await this.addAudio(await this.buildListCollection(resource, "Audio List"));
+        }
+
+        if (this.job.metadata.video.list.length > 0) {
+            await this.addVideo(await this.buildListCollection(resource, "Video List"));
         }
 
         await this.finalizeTitle(resource);

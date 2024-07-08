@@ -19,8 +19,7 @@ import ObjectLoader from "./ObjectLoader";
 
 const StateModal = (): React.ReactElement => {
     const {
-        state: { isModalOpen },
-        action: { closeModal, setSnackbarState },
+        action: { closeModal, isModalOpen, setSnackbarState },
     } = useGlobalContext();
     const {
         state: { objectDetailsStorage, stateModalActivePid },
@@ -174,7 +173,7 @@ const StateModal = (): React.ReactElement => {
             </Grid>
         );
     return (
-        <Dialog className="stateModal" open={isModalOpen["state"]} onClose={closeStateModal} fullWidth={true}>
+        <Dialog className="stateModal" open={isModalOpen("state")} onClose={closeStateModal} fullWidth={true}>
             <DialogTitle>
                 <Grid container>
                     <Grid item xs={11}>

@@ -1,7 +1,6 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { shallow, mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import renderer from "react-test-renderer";
 import ObjectEditor from "./ObjectEditor";
 
 const mockUseEditorContext = jest.fn();
@@ -32,12 +31,14 @@ describe("ObjectEditor", () => {
         mockUseEditorContext.mockReturnValue(editorValues);
     });
     it("renders", () => {
-        const wrapper = shallow(<ObjectEditor pid="foo:123" />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<ObjectEditor pid="foo:123" />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("calls initializeCatalog", () => {
-        mount(<ObjectEditor pid="foo:123" />);
+        renderer.act(() => {
+            renderer.create(<ObjectEditor pid="foo:123" />);
+        });
         expect(editorValues.action.initializeCatalog).toHaveBeenCalled();
         expect(editorValues.action.setCurrentPid).toHaveBeenCalledWith("foo:123");
         expect(editorValues.action.loadCurrentObjectDetails).toHaveBeenCalled();

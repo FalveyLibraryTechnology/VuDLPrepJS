@@ -60,7 +60,8 @@ class PdfGenerator {
             fs.writeFileSync(pageFile, response.body);
             const img = pdfObj.openImage(pageFile);
             pdfObj.addPage({ size: [img.width, img.height] }).image(img, 0, 0);
-            fs.unlinkSync(pageFile);
+            fs.truncateSync(pageFile, 0);
+            fs.rmSync(pageFile);
         }
         pdfObj.end();
         // Wait for the PDF to finish generating (i.e. for the write stream to be closed):
@@ -112,7 +113,8 @@ class PdfGenerator {
         const largeJpegs = this.getLargeJpegs(manifest);
         const pdf = await this.generatePdf(largeJpegs);
         await this.addPdfToPid(pdf);
-        fs.unlinkSync(pdf);
+        fs.truncateSync(pdf, 0);
+        fs.rmSync(pdf);
     }
 }
 

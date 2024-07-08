@@ -1,8 +1,7 @@
 import React from "react";
 import { describe, afterEach, expect, it, jest } from "@jest/globals";
-import { mount, shallow } from "enzyme";
-import { act } from "react-dom/test-utils";
-import toJson from "enzyme-to-json";
+import { fireEvent, render, screen } from "@testing-library/react";
+import renderer from "react-test-renderer";
 import DatastreamAgentsContentRow from "./DatastreamAgentsContentRow";
 
 const mockDatastreamAgentsContentNotes = jest.fn();
@@ -58,43 +57,32 @@ describe("DatastreamAgentsContentRow", () => {
     });
 
     it("renders", () => {
-        const wrapper = shallow(<DatastreamAgentsContentRow {...props} />);
-
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<DatastreamAgentsContentRow {...props} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("changes a role", () => {
-        const wrapper = mount(<DatastreamAgentsContentRow {...props} />);
-        act(() => {
-            wrapper.find(".agentRoleSelect select").simulate("change", { target: { value: "test" } });
-            wrapper.update();
-        });
-
+        editorValues.state.agentsCatalog.roles.push("test");
+        render(<DatastreamAgentsContentRow {...props} />);
+        fireEvent.change(screen.getByRole("combobox", { name: "Select Role" }), { target: { value: "test" } });
         expect(props.onRoleChange).toHaveBeenCalledWith("test");
     });
 
     it("changes a type", () => {
-        const wrapper = mount(<DatastreamAgentsContentRow {...props} />);
-        act(() => {
-            wrapper.find(".agentTypeSelect select").simulate("change", { target: { value: "test" } });
-            wrapper.update();
-        });
-
+        editorValues.state.agentsCatalog.types.push("test");
+        render(<DatastreamAgentsContentRow {...props} />);
+        fireEvent.change(screen.getByRole("combobox", { name: "Select Type" }), { target: { value: "test" } });
         expect(props.onTypeChange).toHaveBeenCalledWith("test");
     });
 
     it("changes a name", () => {
-        const wrapper = mount(<DatastreamAgentsContentRow {...props} />);
-        act(() => {
-            wrapper.find(".agentNameTextField input").simulate("blur", { target: { value: "test" } });
-            wrapper.update();
-        });
-
+        render(<DatastreamAgentsContentRow {...props} />);
+        fireEvent.blur(screen.getByRole("textbox"), { target: { value: "test" } });
         expect(props.onNameChange).toHaveBeenCalledWith("test");
     });
 
     it("displays the content notes", () => {
-        mount(<DatastreamAgentsContentRow {...props} />);
+        render(<DatastreamAgentsContentRow {...props} />);
 
         expect(mockDatastreamAgentsContentNotes).toHaveBeenCalledWith({
             expanded: false,

@@ -1,226 +1,418 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PidPicker renders correctly with a selected PID 1`] = `
-<Fragment>
-  Selected pid: 
-  selected:123
-  . 
+[
+  "Selected pid: ",
+  "selected:123",
+  ". ",
   <button
     onClick={[Function]}
   >
     Clear
-  </button>
-</Fragment>
+  </button>,
+]
 `;
 
 exports[`PidPicker renders correctly with favorite PIDs 1`] = `
-<Fragment>
-  <ForwardRef(Accordion)>
-    <ForwardRef(AccordionSummary)
-      expandIcon={<Memo />}
+[
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
+  >
+    AccordionSummary: "Enter PID manually"
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
     >
-      Enter PID manually
-    </ForwardRef(AccordionSummary)>
-    <ForwardRef(AccordionDetails)>
-      <label>
-        Enter PID:
-         
-        <input
-          onChange={[Function]}
-          type="text"
-          value=""
-        />
-      </label>
-      <button
-        onClick={[Function]}
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
       >
-        Set
-      </button>
-    </ForwardRef(AccordionDetails)>
-  </ForwardRef(Accordion)>
-  <ForwardRef(Accordion)>
-    <ForwardRef(AccordionSummary)
-      expandIcon={<Memo />}
-    >
-      Choose PID from Tree
-    </ForwardRef(AccordionSummary)>
-    <ForwardRef(AccordionDetails)>
-      <Component
-        selectCallback={[MockFunction]}
-      />
-    </ForwardRef(AccordionDetails)>
-  </ForwardRef(Accordion)>
-  <ForwardRef(Accordion)>
-    <ForwardRef(AccordionSummary)
-      expandIcon={<Memo />}
-    >
-      Choose PID from Favorites
-    </ForwardRef(AccordionSummary)>
-    <ForwardRef(AccordionDetails)>
-      <ul>
-        <li
-          key="favorite_foo:123"
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
         >
-          <button
-            onClick={[Function]}
+          <div
+            className="MuiAccordion-region"
+            role="region"
           >
-            first test
-          </button>
-        </li>
-        <li
-          key="favorite_foo:124"
+            <div
+              className="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              <label>
+                Enter PID:
+                 
+                <input
+                  onChange={[Function]}
+                  type="text"
+                  value=""
+                />
+              </label>
+              <button
+                onClick={[Function]}
+              >
+                Set
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
+  >
+    AccordionSummary: "Choose PID from Tree"
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
+    >
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+      >
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
         >
-          <button
-            onClick={[Function]}
+          <div
+            className="MuiAccordion-region"
+            role="region"
           >
-            second test
-          </button>
-        </li>
-      </ul>
-    </ForwardRef(AccordionDetails)>
-  </ForwardRef(Accordion)>
-</Fragment>
+            <div
+              className="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              ChildList
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
+  >
+    AccordionSummary: "Choose PID from Favorites"
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
+    >
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+      >
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+        >
+          <div
+            className="MuiAccordion-region"
+            role="region"
+          >
+            <div
+              className="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              <ul>
+                <li>
+                  <button
+                    onClick={[Function]}
+                  >
+                    first test
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={[Function]}
+                  >
+                    second test
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+]
 `;
 
 exports[`PidPicker renders correctly with parents 1`] = `
-<Fragment>
-  <ForwardRef(Accordion)>
-    <ForwardRef(AccordionSummary)
-      expandIcon={<Memo />}
+[
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
+  >
+    AccordionSummary: "Enter PID manually"
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
     >
-      Enter PID manually
-    </ForwardRef(AccordionSummary)>
-    <ForwardRef(AccordionDetails)>
-      <label>
-        Enter PID:
-         
-        <input
-          onChange={[Function]}
-          type="text"
-          value=""
-        />
-      </label>
-      <button
-        onClick={[Function]}
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
       >
-        Set
-      </button>
-    </ForwardRef(AccordionDetails)>
-  </ForwardRef(Accordion)>
-  <ForwardRef(Accordion)>
-    <ForwardRef(AccordionSummary)
-      expandIcon={<Memo />}
-    >
-      Choose PID from Tree
-    </ForwardRef(AccordionSummary)>
-    <ForwardRef(AccordionDetails)>
-      <Component
-        selectCallback={[MockFunction]}
-      />
-    </ForwardRef(AccordionDetails)>
-  </ForwardRef(Accordion)>
-  <ForwardRef(Accordion)
-    key="clone_parent_foo"
-  >
-    <ForwardRef(AccordionSummary)
-      expandIcon={<Memo />}
-    >
-      Choose PID from Parent (
-      Foo
-      )
-    </ForwardRef(AccordionSummary)>
-    <ForwardRef(AccordionDetails)>
-      <Component
-        pid="foo"
-        selectCallback={[MockFunction]}
-      />
-    </ForwardRef(AccordionDetails)>
-  </ForwardRef(Accordion)>
-  <ForwardRef(Accordion)
-    key="clone_parent_bar"
-  >
-    <ForwardRef(AccordionSummary)
-      expandIcon={<Memo />}
-    >
-      Choose PID from Parent (
-      Bar
-      )
-    </ForwardRef(AccordionSummary)>
-    <ForwardRef(AccordionDetails)>
-      <Component
-        pid="bar"
-        selectCallback={[MockFunction]}
-      />
-    </ForwardRef(AccordionDetails)>
-  </ForwardRef(Accordion)>
-  <ForwardRef(Accordion)>
-    <ForwardRef(AccordionSummary)
-      expandIcon={<Memo />}
-    >
-      Choose PID from Favorites
-    </ForwardRef(AccordionSummary)>
-    <ForwardRef(AccordionDetails)>
-      <ul>
-        <li
-          key="favorite_foo:123"
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
         >
-          <button
-            onClick={[Function]}
+          <div
+            className="MuiAccordion-region"
+            role="region"
           >
-            first test
-          </button>
-        </li>
-        <li
-          key="favorite_foo:124"
+            <div
+              className="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              <label>
+                Enter PID:
+                 
+                <input
+                  onChange={[Function]}
+                  type="text"
+                  value=""
+                />
+              </label>
+              <button
+                onClick={[Function]}
+              >
+                Set
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
+  >
+    AccordionSummary: "Choose PID from Tree"
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
+    >
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+      >
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
         >
-          <button
-            onClick={[Function]}
+          <div
+            className="MuiAccordion-region"
+            role="region"
           >
-            second test
-          </button>
-        </li>
-      </ul>
-    </ForwardRef(AccordionDetails)>
-  </ForwardRef(Accordion)>
-</Fragment>
+            <div
+              className="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              ChildList
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
+  >
+    AccordionSummary: ["Choose PID from Parent (","Foo",")"]
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
+    >
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+      >
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+        >
+          <div
+            className="MuiAccordion-region"
+            role="region"
+          >
+            <div
+              className="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              ChildList
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
+  >
+    AccordionSummary: ["Choose PID from Parent (","Bar",")"]
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
+    >
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+      >
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+        >
+          <div
+            className="MuiAccordion-region"
+            role="region"
+          >
+            <div
+              className="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              ChildList
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
+  >
+    AccordionSummary: "Choose PID from Favorites"
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
+    >
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+      >
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+        >
+          <div
+            className="MuiAccordion-region"
+            role="region"
+          >
+            <div
+              className="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              <ul>
+                <li>
+                  <button
+                    onClick={[Function]}
+                  >
+                    first test
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={[Function]}
+                  >
+                    second test
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+]
 `;
 
 exports[`PidPicker renders correctly without favorite PIDs 1`] = `
-<Fragment>
-  <ForwardRef(Accordion)>
-    <ForwardRef(AccordionSummary)
-      expandIcon={<Memo />}
+[
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
+  >
+    AccordionSummary: "Enter PID manually"
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
     >
-      Enter PID manually
-    </ForwardRef(AccordionSummary)>
-    <ForwardRef(AccordionDetails)>
-      <label>
-        Enter PID:
-         
-        <input
-          onChange={[Function]}
-          type="text"
-          value=""
-        />
-      </label>
-      <button
-        onClick={[Function]}
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
       >
-        Set
-      </button>
-    </ForwardRef(AccordionDetails)>
-  </ForwardRef(Accordion)>
-  <ForwardRef(Accordion)>
-    <ForwardRef(AccordionSummary)
-      expandIcon={<Memo />}
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+        >
+          <div
+            className="MuiAccordion-region"
+            role="region"
+          >
+            <div
+              className="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              <label>
+                Enter PID:
+                 
+                <input
+                  onChange={[Function]}
+                  type="text"
+                  value=""
+                />
+              </label>
+              <button
+                onClick={[Function]}
+              >
+                Set
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
+  >
+    AccordionSummary: "Choose PID from Tree"
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
     >
-      Choose PID from Tree
-    </ForwardRef(AccordionSummary)>
-    <ForwardRef(AccordionDetails)>
-      <Component
-        selectCallback={[MockFunction]}
-      />
-    </ForwardRef(AccordionDetails)>
-  </ForwardRef(Accordion)>
-</Fragment>
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+      >
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+        >
+          <div
+            className="MuiAccordion-region"
+            role="region"
+          >
+            <div
+              className="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              ChildList
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+]
 `;

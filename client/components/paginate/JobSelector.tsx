@@ -19,12 +19,12 @@ const JobSelector = (): React.ReactElement => {
                 Object.values(data).reduce(
                     (categoryComponents, category) => {
                         categoryComponents[category.jobs.length > 0 ? 0 : 1].push(
-                            <Category key={category.category} data={category} />
+                            <Category key={category.category} data={category} />,
                         );
                         return categoryComponents;
                     },
-                    [[], []]
-                )
+                    [[], []],
+                ),
             );
         } catch (error) {
             console.error(error);

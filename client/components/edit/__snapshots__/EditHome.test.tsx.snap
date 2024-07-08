@@ -1,49 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EditHome renders 1`] = `
-<EditHome>
-  <div>
-    <Component>
-      Breadcrumbs
-    </Component>
-    <h1>
-      Editor
-    </h1>
-    <h2>
-      Tools
-    </h2>
-    <ul>
-      <li>
-        <Link
-          href="/edit/newChild"
-        >
-          <a
-            href="/edit/newChild"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-          >
-            Create New Top-Level Object
-          </a>
-        </Link>
-      </li>
-    </ul>
-    <h2>
-      Contents
-    </h2>
-    <Component>
-      ParentsModal
-    </Component>
-    <Component>
-      StateModal
-    </Component>
-    <Component
-      pid=""
-    >
-      ChildList
-    </Component>
-    <Component>
-      EditorSnackbar
-    </Component>
-  </div>
-</EditHome>
+<div>
+  Breadcrumbs
+  <h1>
+    Editor
+  </h1>
+  <h2>
+    Tools
+  </h2>
+  <ul>
+    <li>
+      <a
+        href="/edit/newChild"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Create New Top-Level Object
+      </a>
+    </li>
+  </ul>
+  <h2>
+    Contents
+  </h2>
+  ParentsModal
+  StateModal
+  ChildList
+  EditorSnackbar
+</div>
 `;

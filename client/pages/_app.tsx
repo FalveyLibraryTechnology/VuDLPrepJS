@@ -18,14 +18,10 @@ import ThemeMenu from "../components/ThemeMenu";
 function MyApp({ Component, pageProps }: { Component: React.ReactNode }): React.ReactElement {
     return (
         <GlobalContextProvider>
-            <div className="nav--right">
-                <ThemeMenu />
+            <PaginatorContextProvider>
                 <div className="logout">
                     <LogoutButton />
                 </div>
-            </div>
-
-            <PaginatorContextProvider>
                 <FetchContextProvider>
                     <Component {...pageProps} />
                 </FetchContextProvider>

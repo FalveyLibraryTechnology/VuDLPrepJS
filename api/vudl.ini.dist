@@ -16,6 +16,9 @@ base_url = "http://localhost:8080/rest"
 # The first number for the PID generator to use:
 fedora_initial_pid = "1"
 
+# The maximum number of times to retry a PUT to Fedora after receiving a 409 error
+max_409_retries = 3
+
 # Values to be indexed into commonly-used Solr facet fields:
 institution = "My University"
 collection = "Digital Library"
@@ -45,6 +48,11 @@ vufind_url = "https://myserver"
 solr_url = "http://localhost:8983/solr"
 solr_core = "biblio"
 
+# Directory where you can cache documents as they are sent to Solr; this cache can
+# then be used to quickly rebuild the Solr index without having to rebuild all of
+# the data from Fedora. Comment out to disable caching.
+#solr_document_cache_dir = /path/to/solr/cache/directory
+
 # Temp directory used for PDF generation
 pdf_directory = "/tmp/"
 
@@ -59,6 +67,9 @@ java_path = java
 
 # Settings for Tika (used for text extraction during Solr indexing)
 tika_path = /opt/tika/tika.jar
+
+# If you want to override defaults, you can specify a configuration file.
+#tika_config_file = /opt/tika/tika-config.xml
 
 # Settings for the textcleaner OCR preparation script. It can be downloaded
 # from http://www.fmwconcepts.com/imagemagick/textcleaner/index.php
@@ -247,6 +258,7 @@ Image = "vudl-system:ImageData"
 PDF = "vudl-system:PDFData"
 DOC = "vudl-system:DOCData"
 Audio = "vudl-system:AudioData"
+Video = "vudl-system:VideoData"
 XLS = "vudl-system:XLSData"
 Text = "vudl-system:TextData"
 
@@ -316,6 +328,17 @@ allowedSubtypes = "xml"
 [models.ResourceCollection.datastreams.PROCESS-MD.mimetype]
 allowedType = "text"
 allowedSubtypes = "xml"
+
+# VideoData
+[models.VideoData.datastreams.MP4.mimetype]
+allowedType = "video"
+allowedSubtypes = "mp4"
+[models.VideoData.datastreams.TEXT-TRANSCRIPT.mimetype]
+allowedType = "text"
+allowedSubtypes = "plain"
+[models.VideoData.datastreams.VTT.mimetype]
+allowedType = "text"
+allowedSubtypes = "vtt"
 
 # XLSData
 [models.XLSData.datastreams]
@@ -459,6 +482,7 @@ lockDuration = 30000
 #index = "vudl-light"
 #ingest = "vudl-heavy"
 #metadata = "vudl-medium"
+#reindex = "vudl-light"
 
 # This section controls how BullMQ connects to Redis.
 # See the ioredis documentation (https://ioredis.readthedocs.io/en/latest/API/) for available options.
@@ -466,3 +490,29 @@ lockDuration = 30000
 host = "localhost"
 port = 6379
 #password = "mypass"
+
+# These settings control the behavior of the indexer job processor
+[indexer]
+# Total number of times to check that the current job is the earliest running job for
+# its pid before giving up.
+lockRetries = 60
+# Time (in ms) to wait before re-checking the lock, when an earlier job processor
+# is working on the active processor's pid.
+lockWaitMs = 1000
+# Total number of times to try an index job before giving up due to exceptions
+exceptionRetries = 10
+# Time (in ms) to wait between retries after encountering an indexing exception
+exceptionWaitMs = 500
+
+# These settings control the Sharp image processing library
+[sharp]
+limitInputPixels = 268402689
+
+# These settings control file uploads
+[upload]
+# Upload limit in bytes (default = 200MB)
+sizeLimit = 209715200
+
+[notify]
+method = ntfy
+ntfy_defaultChannel = vudl-ntfy

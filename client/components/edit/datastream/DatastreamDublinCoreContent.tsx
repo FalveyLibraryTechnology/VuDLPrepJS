@@ -4,6 +4,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
 import { useEditorContext } from "../../../context/EditorContext";
+import { useGlobalContext } from "../../../context/GlobalContext";
 import { useDublinCoreMetadataContext } from "../../../context/DublinCoreMetadataContext";
 import useDatastreamOperation from "../../../hooks/useDatastreamOperation";
 import DatastreamDublinCoreValues from "./DatastreamDublinCoreValues";
@@ -13,8 +14,10 @@ import ObjectPreviewButton from "../ObjectPreviewButton";
 const DatastreamDublinCoreContent = (): React.ReactElement => {
     const {
         state: { currentPid, objectDetailsStorage },
-        action: { toggleDatastreamModal },
     } = useEditorContext();
+    const {
+        action: { closeModal },
+    } = useGlobalContext();
     const {
         state: { currentDublinCore },
         action: { setCurrentDublinCore },
@@ -52,7 +55,7 @@ const DatastreamDublinCoreContent = (): React.ReactElement => {
                 >
                     Save
                 </Button>
-                <Button onClick={toggleDatastreamModal}>Cancel</Button>
+                <Button onClick={() => closeModal("datastream")}>Cancel</Button>
             </DialogActions>
         </>
     );

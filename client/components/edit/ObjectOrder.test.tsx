@@ -1,9 +1,9 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { shallow, mount } from "enzyme";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import renderer from "react-test-renderer";
 import { act } from "react-dom/test-utils";
-import { waitFor } from "@testing-library/react";
-import toJson from "enzyme-to-json";
 import ObjectOrder from "./ObjectOrder";
 
 const mockUseEditorContext = jest.fn();
@@ -48,15 +48,18 @@ describe("ObjectOrder", () => {
         jest.resetAllMocks();
     });
 
+    function checkSnapshot() {
+        const tree = renderer.create(<ObjectOrder pid={pid} />).toJSON();
+        expect(tree).toMatchSnapshot();
+    }
+
     it("defaults to title order for a pending object", () => {
-        const wrapper = shallow(<ObjectOrder pid={pid} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        checkSnapshot();
     });
 
     it("displays a custom-sorted object correctly", () => {
         editorValues.state.objectDetailsStorage[pid] = { pid, sortOn: "custom" };
-        const wrapper = shallow(<ObjectOrder pid={pid} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        checkSnapshot();
     });
 
     it("can be aborted via confirmation dialog", async () => {
@@ -64,13 +67,8 @@ describe("ObjectOrder", () => {
         fetchContextValues.action.fetchJSON.mockResolvedValue({ numFound: 0 });
         fetchContextValues.action.fetchText.mockResolvedValue("ok");
         const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(false);
-        let wrapper;
-        await act(async () => {
-            wrapper = mount(<ObjectOrder pid={pid} />);
-        });
-        await act(async () => {
-            wrapper.find("button").simulate("click");
-        });
+        render(<ObjectOrder pid={pid} />);
+        await act(() => userEvent.setup().click(screen.getByRole("button")));
         expect(fetchContextValues.action.fetchText).not.toHaveBeenCalled();
         expect(confirmSpy).toHaveBeenCalledTimes(1);
         expect(editorValues.action.removeFromObjectDetailsStorage).not.toHaveBeenCalled();
@@ -82,18 +80,17 @@ describe("ObjectOrder", () => {
         fetchContextValues.action.fetchJSON.mockResolvedValue({ numFound: 0 });
         fetchContextValues.action.fetchText.mockResolvedValue("ok");
         const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
-        let wrapper;
-        await act(async () => {
-            wrapper = mount(<ObjectOrder pid={pid} />);
+        await act(() => {
+            render(<ObjectOrder pid={pid} />);
         });
-        await act(async () => {
-            wrapper.find("button").simulate("click");
+        await act(() => {
+            userEvent.setup().click(screen.getByRole("button"));
         });
         await waitFor(() =>
             expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
                 "http://localhost:9000/api/edit/object/foo%3A123/sortOn",
-                { body: "title", method: "PUT" }
-            )
+                { body: "title", method: "PUT" },
+            ),
         );
         expect(confirmSpy).toHaveBeenCalledTimes(1);
         expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenCalledWith(pid);
@@ -105,22 +102,20 @@ describe("ObjectOrder", () => {
         fetchContextValues.action.fetchJSON.mockResolvedValue({ numFound: 0 });
         fetchContextValues.action.fetchText.mockResolvedValue("kaboom");
         const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
-        let wrapper;
-        await act(async () => {
-            wrapper = mount(<ObjectOrder pid={pid} />);
+        await act(() => {
+            render(<ObjectOrder pid={pid} />);
         });
-        await act(async () => {
-            wrapper.find("button").simulate("click");
+        await act(() => {
+            userEvent.setup().click(screen.getByRole("button"));
         });
         await waitFor(() =>
             expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
                 "http://localhost:9000/api/edit/object/foo%3A123/sortOn",
-                { body: "title", method: "PUT" }
-            )
+                { body: "title", method: "PUT" },
+            ),
         );
         expect(confirmSpy).toHaveBeenCalledTimes(1);
-        wrapper.update();
-        expect(wrapper.text()).toEqual("Changing foo:123 sort to title -- unexpected error");
+        expect(screen.queryAllByText("Changing foo:123 sort to title -- unexpected error")).toHaveLength(1);
         expect(editorValues.action.removeFromObjectDetailsStorage).not.toHaveBeenCalled();
         expect(editorValues.action.clearPidFromChildListStorage).not.toHaveBeenCalled();
     });
@@ -131,24 +126,20 @@ describe("ObjectOrder", () => {
         fetchContextValues.action.fetchText.mockResolvedValueOnce("ok");
         fetchContextValues.action.fetchText.mockResolvedValueOnce("not ok");
         const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
-        let wrapper;
-        await act(async () => {
-            wrapper = mount(<ObjectOrder pid={pid} />);
+        await act(() => {
+            render(<ObjectOrder pid={pid} />);
         });
-        await act(async () => {
-            wrapper.find("button").simulate("click");
-        });
+        await userEvent.setup().click(screen.getByRole("button"));
         await waitFor(() =>
             expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
                 "http://localhost:9000/api/edit/object/foo%3A125/positionInParent/foo%3A123",
-                { body: 1, method: "PUT" }
-            )
+                { body: 1, method: "PUT" },
+            ),
         );
         expect(confirmSpy).toHaveBeenCalledTimes(1);
         expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenCalledWith(pid);
         expect(editorValues.action.clearPidFromChildListStorage).toHaveBeenCalledWith(pid);
-        wrapper.update();
-        expect(wrapper.text()).toEqual("Setting foo:125 to position 1 -- unexpected error");
+        expect(screen.queryAllByText("Setting foo:125 to position 1 -- unexpected error")).toHaveLength(1);
     });
 
     it("handles child save failure correctly when switching to title", async () => {
@@ -157,24 +148,20 @@ describe("ObjectOrder", () => {
         fetchContextValues.action.fetchText.mockResolvedValueOnce("ok");
         fetchContextValues.action.fetchText.mockResolvedValueOnce("not ok");
         const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
-        let wrapper;
-        await act(async () => {
-            wrapper = mount(<ObjectOrder pid={pid} />);
+        await act(() => {
+            render(<ObjectOrder pid={pid} />);
         });
-        await act(async () => {
-            wrapper.find("button").simulate("click");
-        });
+        await userEvent.setup().click(screen.getByRole("button"));
         await waitFor(() =>
             expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
                 "http://localhost:9000/api/edit/object/foo%3A125/positionInParent/foo%3A123",
-                { method: "DELETE" }
-            )
+                { method: "DELETE" },
+            ),
         );
         expect(confirmSpy).toHaveBeenCalledTimes(1);
         expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenCalledWith(pid);
         expect(editorValues.action.clearPidFromChildListStorage).toHaveBeenCalledWith(pid);
-        wrapper.update();
-        expect(wrapper.text()).toEqual("Clearing order for foo:125 -- unexpected error");
+        expect(screen.queryAllByText("Clearing order for foo:125 -- unexpected error")).toHaveLength(1);
     });
 
     it("successfully updates children", async () => {
@@ -182,25 +169,22 @@ describe("ObjectOrder", () => {
         fetchContextValues.action.fetchJSON.mockResolvedValue({ numFound: 1, docs: [{ id: "foo:125" }] });
         fetchContextValues.action.fetchText.mockResolvedValue("ok");
         const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
-        let wrapper;
-        await act(async () => {
-            wrapper = mount(<ObjectOrder pid={pid} />);
+        await act(() => {
+            render(<ObjectOrder pid={pid} />);
         });
-        await act(async () => {
-            wrapper.find("button").simulate("click");
-        });
+        await userEvent.setup().click(screen.getByRole("button"));
         await waitFor(() =>
             expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
                 "http://localhost:9000/api/edit/object/foo%3A125/positionInParent/foo%3A123",
-                { method: "DELETE" }
-            )
+                { method: "DELETE" },
+            ),
         );
         expect(confirmSpy).toHaveBeenCalledTimes(1);
         expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenCalledWith(pid);
         expect(editorValues.action.clearPidFromChildListStorage).toHaveBeenCalledWith(pid);
         expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
             "http://localhost:9000/api/edit/object/foo%3A123/sortOn",
-            { body: "title", method: "PUT" }
+            { body: "title", method: "PUT" },
         );
         expect(fetchContextValues.action.fetchText).toHaveBeenCalledTimes(2);
     });

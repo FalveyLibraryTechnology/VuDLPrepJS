@@ -1,58 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ParentPicker handles object loading errors gracefully 1`] = `
-<ParentPicker
-  pid="foo:123"
->
-  <Component
-    selected=""
-    setSelected={[Function]}
-  >
-    PidPicker
-  </Component>
-  <br />
-  Please select a valid PID.
-</ParentPicker>
+[
+  "PidPicker: {"selected":""}",
+  <br />,
+  "Please select a valid PID.",
+]
 `;
 
 exports[`ParentPicker renders correctly with a selected but unloaded parent 1`] = `
-<ParentPicker
-  pid="foo:123"
->
-  <Component
-    errorCallback={[Function]}
-    pid="foo:122"
-  >
-    ObjectLoader
-  </Component>
-  <Component
-    selected="foo:122"
-    setSelected={[Function]}
-  >
-    PidPicker
-  </Component>
-  <br />
-  Please select a valid PID.
-</ParentPicker>
+[
+  "ObjectLoader: {"pid":"foo:122"}",
+  "PidPicker: {"selected":"foo:122"}",
+  <br />,
+  "Please select a valid PID.",
+]
 `;
 
 exports[`ParentPicker renders correctly with a selected, loaded, custom-sorted parent 1`] = `
-<ParentPicker
-  pid="foo:123"
->
-  <Component
-    errorCallback={[Function]}
-    pid="foo:122"
-  >
-    ObjectLoader
-  </Component>
-  <Component
-    selected="foo:122"
-    setSelected={[Function]}
-  >
-    PidPicker
-  </Component>
-  <br />
+[
+  "ObjectLoader: {"pid":"foo:122"}",
+  "PidPicker: {"selected":"foo:122"}",
+  <br />,
   <div>
     <label>
       Position: 
@@ -67,43 +36,28 @@ exports[`ParentPicker renders correctly with a selected, loaded, custom-sorted p
     >
       Set to Last Position in Parent
     </button>
-  </div>
-  Please enter a position.
-</ParentPicker>
+  </div>,
+  "Please enter a position.",
+]
 `;
 
 exports[`ParentPicker renders correctly with a selected, loaded, title-sorted parent 1`] = `
-<ParentPicker
-  pid="foo:123"
->
-  <Component
-    errorCallback={[Function]}
-    pid="foo:122"
-  >
-    ObjectLoader
-  </Component>
-  <Component
-    selected="foo:122"
-    setSelected={[Function]}
-  >
-    PidPicker
-  </Component>
-  <br />
+[
+  "ObjectLoader: {"pid":"foo:122"}",
+  "PidPicker: {"selected":"foo:122"}",
+  <br />,
   <button
     onClick={[Function]}
   >
     Add
-  </button>
-</ParentPicker>
+  </button>,
+]
 `;
 
 exports[`ParentPicker renders correctly with no data loaded 1`] = `
-<Fragment>
-  <Component
-    selected=""
-    setSelected={[Function]}
-  />
-  <br />
-  Please select a valid PID.
-</Fragment>
+[
+  "PidPicker: {"selected":""}",
+  <br />,
+  "Please select a valid PID.",
+]
 `;

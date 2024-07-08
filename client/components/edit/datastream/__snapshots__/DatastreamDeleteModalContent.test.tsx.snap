@@ -1,25 +1,61 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DatastreamDeleteModalContent renders 1`] = `
-<Fragment>
-  <ForwardRef(DialogContent)>
-    <ForwardRef(DialogContentText)>
+[
+  <div
+    className="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
+  >
+    <p
+      className="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiDialogContentText-root css-qfso29-MuiTypography-root-MuiDialogContentText-root"
+    >
       Are you sure you want to delete the datastream?
-    </ForwardRef(DialogContentText)>
-  </ForwardRef(DialogContent)>
-  <ForwardRef(DialogActions)>
-    <ForwardRef(Button)
-      className="noButton"
-      onClick={[MockFunction]}
+    </p>
+  </div>,
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing css-knqc4i-MuiDialogActions-root"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary noButton css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
     >
       No
-    </ForwardRef(Button)>
-    <ForwardRef(Button)
-      className="yesButton"
+    </button>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary yesButton css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
       onClick={[MockFunction]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
     >
       Yes
-    </ForwardRef(Button)>
-  </ForwardRef(DialogActions)>
-</Fragment>
+    </button>
+  </div>,
+]
 `;

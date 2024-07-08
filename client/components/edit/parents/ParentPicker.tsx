@@ -12,17 +12,11 @@ interface ParentPickerProps {
 
 const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
     const {
-        action: {
-            setSnackbarState,
-        },
+        action: { setSnackbarState },
     } = useGlobalContext();
     const {
         state: { objectDetailsStorage },
-        action: {
-            clearPidFromChildListStorage,
-            removeFromObjectDetailsStorage,
-            removeFromParentDetailsStorage,
-        },
+        action: { clearPidFromChildListStorage, removeFromObjectDetailsStorage, removeFromParentDetailsStorage },
     } = useEditorContext();
     const {
         action: { fetchText },

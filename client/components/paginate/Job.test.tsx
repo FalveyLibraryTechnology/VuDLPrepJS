@@ -1,7 +1,6 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { render } from "enzyme";
-import toJson from "enzyme-to-json";
+import renderer from "react-test-renderer";
 import { FetchContextProvider } from "../../context/FetchContext";
 import Job from "./Job";
 
@@ -12,7 +11,7 @@ jest.mock(
         function JobClickable(props) {
             mockjobClickable(props);
             return "JobClickable";
-        }
+        },
 );
 
 describe("Job", () => {
@@ -28,11 +27,11 @@ describe("Job", () => {
     });
 
     it("renders", () => {
-        const wrapper = render(
+        const tree = renderer.create(
             <FetchContextProvider>
                 <Job {...props} />
-            </FetchContextProvider>
+            </FetchContextProvider>,
         );
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(tree.toJSON()).toMatchSnapshot();
     });
 });

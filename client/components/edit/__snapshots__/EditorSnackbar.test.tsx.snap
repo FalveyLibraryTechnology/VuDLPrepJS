@@ -1,30 +1,88 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EditorSnackbar renders 1`] = `
-<ForwardRef(Snackbar)
-  autoHideDuration={5000}
-  className="editorSnackbar"
+<div
+  className="MuiSnackbar-root MuiSnackbar-anchorOriginBottomLeft editorSnackbar css-cpgvjg-MuiSnackbar-root"
+  onBlur={[Function]}
+  onClick={[Function]}
   onClose={[Function]}
-  open={true}
+  onFocus={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  onTouchEnd={[Function]}
+  role="presentation"
 >
-  <ForwardRef(Alert)
-    action={
-      <ForwardRef(IconButton)
-        aria-label="close"
-        className="editorSnackBarAlertCloseButton"
-        color="inherit"
-        onClick={[Function]}
-        size="small"
-      >
-        <Memo
-          fontSize="inherit"
-        />
-      </ForwardRef(IconButton)>
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard editorSnackbarAlert css-hu7tqv-MuiPaper-root-MuiAlert-root"
+    direction="up"
+    role="alert"
+    style={
+      {
+        "opacity": 1,
+        "transform": "scale(1, 1)",
+        "visibility": undefined,
+      }
     }
-    className="editorSnackbarAlert"
-    severity="info"
   >
-    test1
-  </ForwardRef(Alert)>
-</ForwardRef(Snackbar)>
+    <div
+      className="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+    >
+      <svg
+        aria-hidden={true}
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+        data-testid="InfoOutlinedIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
+        />
+      </svg>
+    </div>
+    <div
+      className="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+    >
+      test1
+    </div>
+    <div
+      className="MuiAlert-action css-ki1hdl-MuiAlert-action"
+    >
+      <button
+        aria-label="close"
+        className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeSmall editorSnackBarAlertCloseButton css-1e0d89p-MuiButtonBase-root-MuiIconButton-root"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onContextMenu={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+          data-testid="CloseIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+          />
+        </svg>
+        <span
+          className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </div>
+</div>
 `;

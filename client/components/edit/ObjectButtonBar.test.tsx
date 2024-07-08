@@ -1,8 +1,9 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { waitFor } from "@testing-library/react";
-import { mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import renderer from "react-test-renderer";
 import * as EditorContextModule from "../../context/EditorContext";
 import ObjectButtonBar from "./ObjectButtonBar";
 
@@ -13,7 +14,7 @@ jest.mock(
     "@mui/icons-material/Refresh",
     () =>
         ({ titleAccess }: { titleAccess: string }) =>
-            titleAccess
+            titleAccess,
 );
 
 describe("ObjectButtonBar", () => {
@@ -32,15 +33,15 @@ describe("ObjectButtonBar", () => {
     });
 
     it("renders correctly", async () => {
-        const wrapper = mount(<ObjectButtonBar pid={pid} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<ObjectButtonBar pid={pid} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("can refresh a list of children", async () => {
-        const wrapper = mount(<ObjectButtonBar pid={pid} />);
-        const refreshIcon = wrapper.find("button").at(0);
-        expect(refreshIcon.text()).toEqual("Refresh children");
-        refreshIcon.simulate("click");
+        render(<ObjectButtonBar pid={pid} />);
+        const refreshIcon = screen.getByRole("button");
+        expect(refreshIcon.textContent).toEqual("Refresh children");
+        await userEvent.setup().click(refreshIcon);
         await waitFor(() => expect(mockContext.action.clearPidFromChildListStorage).toHaveBeenCalledTimes(1));
         expect(mockContext.action.clearPidFromChildListStorage).toHaveBeenCalledWith(pid);
     });

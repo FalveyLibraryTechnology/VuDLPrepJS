@@ -22,8 +22,8 @@ const PidRangeIndexer = ({ setResults }: PidRangeIndexerProps): React.ReactEleme
                         method: "POST",
                         body: JSON.stringify({ prefix, to, from }),
                     },
-                    { "Content-Type": "application/json" }
-                )
+                    { "Content-Type": "application/json" },
+                ),
             );
         } catch (error) {
             setResults((error as Error).message);

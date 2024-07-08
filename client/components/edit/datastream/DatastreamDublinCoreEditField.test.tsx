@@ -1,11 +1,32 @@
 import React from "react";
 import { describe, afterEach, expect, it, jest } from "@jest/globals";
-import { mount, shallow } from "enzyme";
 import { act } from "react-dom/test-utils";
-import toJson from "enzyme-to-json";
+import { fireEvent, render, screen } from "@testing-library/react";
+import renderer from "react-test-renderer";
 import DatastreamDublinCoreEditField from "./DatastreamDublinCoreEditField";
-import NativeSelect from "@mui/material/NativeSelect";
-import { Editor } from "@tinymce/tinymce-react";
+
+jest.mock(
+    "@mui/material/FormControl",
+    () =>
+        function FormControl({ disabled = false, children = null }: { disabled: boolean; children: unknown }) {
+            return (
+                <>
+                    {"FormControl" + (disabled ? " (disabled))" : "")}
+                    {children}
+                </>
+            );
+        },
+);
+jest.mock("../../shared/BlurSavingTextField", () => (props) => `BlurSavingTextField: ${JSON.stringify(props)}`);
+let tinyMceOnBlur: (a: unknown, b: unknown) => void;
+jest.mock("@tinymce/tinymce-react", () => {
+    return {
+        Editor: function TinyMCE(props) {
+            tinyMceOnBlur = props.onBlur;
+            return "TinyMCE";
+        },
+    };
+});
 
 describe("DatastreamDublinCoreEditField", () => {
     let setValue: () => void;
@@ -33,68 +54,61 @@ describe("DatastreamDublinCoreEditField", () => {
     });
 
     it("renders a text field", () => {
-        const wrapper = shallow(getField());
-
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(getField()).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("renders an html field", () => {
         fieldType = "html";
-        const wrapper = shallow(getField());
-
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(getField()).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("renders an unknown field", () => {
         fieldType = "unknown";
-        const wrapper = shallow(getField());
-
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(getField()).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("renders a locked field", () => {
         fieldType = "locked";
-        const wrapper = shallow(getField());
-
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(getField()).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("renders a dropdown field", () => {
         fieldType = "dropdown";
         legalValues = ["foo", "bar", "baz"];
-        const wrapper = shallow(getField());
-
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(getField()).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("changes the dropdown value", () => {
         fieldType = "dropdown";
         legalValues = ["foo", "bar", "baz"];
-        const wrapper = mount(getField());
-        const select = wrapper.find(NativeSelect);
-        expect(select.props().value).toEqual("foo");
+        render(getField());
+        const select = screen.getByRole("combobox");
         act(() => {
-            select.props().onChange({ target: { value: "baz" } });
+            fireEvent.change(select, { target: { value: "baz" } });
         });
         expect(setValue).toHaveBeenCalledWith("baz");
     });
 
     it("renders a dropdown field with an unexpected value", () => {
         fieldType = "dropdown";
-        const wrapper = shallow(getField());
-
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(getField()).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("saves the HTML editor output", () => {
         fieldType = "html";
-        const wrapper = mount(getField());
+        render(getField());
         const mockEditor = {
             getContent: jest.fn(),
         };
         mockEditor.getContent.mockReturnValue("baz");
         act(() => {
-            wrapper.find(Editor).props().onBlur({}, mockEditor);
+            tinyMceOnBlur({}, mockEditor);
         });
         expect(setValue).toHaveBeenCalledWith("baz");
     });

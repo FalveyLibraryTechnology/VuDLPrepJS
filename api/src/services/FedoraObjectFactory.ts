@@ -32,7 +32,7 @@ class FedoraObjectFactory {
         title: string,
         state = "Inactive",
         parentPid: string = null,
-        logger: winston.Logger = null
+        logger: winston.Logger = null,
     ): Promise<FedoraObject> {
         const pid = await this.database.getNextPid(this.config.pidNamespace);
         const object = await FedoraObject.build(pid, logger, this.config);

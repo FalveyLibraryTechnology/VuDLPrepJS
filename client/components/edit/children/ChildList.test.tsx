@@ -1,8 +1,7 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { waitFor } from "@testing-library/react";
-import { mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import renderer from "react-test-renderer";
 import { ChildListProps, ChildList } from "./ChildList";
 import { EditorContextProvider } from "../../../context/EditorContext";
 import { FetchContextProvider } from "../../../context/FetchContext";
@@ -12,12 +11,12 @@ jest.mock("./Child", () => () => "Child");
 jest.mock("./SelectableChild", () => () => "SelectableChild");
 
 function getMountedChildListComponent(props: ChildListProps) {
-    return mount(
+    return renderer.create(
         <FetchContextProvider>
             <EditorContextProvider>
                 <ChildList {...props} />
             </EditorContextProvider>
-        </FetchContextProvider>
+        </FetchContextProvider>,
     );
 }
 
@@ -42,30 +41,35 @@ describe("ChildList", () => {
     });
 
     it("renders using ajax-loaded root data", async () => {
-        const wrapper = getMountedChildListComponent(props);
-        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        let tree;
+        await renderer.act(async () => {
+            tree = getMountedChildListComponent(props);
+            await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        });
         expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/topLevelObjects?start=0&rows=10");
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(tree.toJSON()).toMatchSnapshot();
     });
 
     it("allows thumbnails to be toggled on", async () => {
-        const wrapper = getMountedChildListComponent(props);
-        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
-        expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/topLevelObjects?start=0&rows=10");
-        wrapper.update();
-        wrapper.find("button").simulate("click");
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        let tree;
+        await renderer.act(async () => {
+            tree = getMountedChildListComponent(props);
+            await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+            expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/topLevelObjects?start=0&rows=10");
+            tree.root.findByType("button").props.onClick();
+        });
+        expect(tree.toJSON()).toMatchSnapshot();
     });
 
     it("renders using SelectableChild when a callback is provided", async () => {
         props.selectCallback = jest.fn();
-        const wrapper = getMountedChildListComponent(props);
-        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        let tree;
+        await renderer.act(async () => {
+            tree = getMountedChildListComponent(props);
+            await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        });
         expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/topLevelObjects?start=0&rows=10");
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(tree.toJSON()).toMatchSnapshot();
     });
 
     it("displays a paginator when appropriate", async () => {
@@ -87,19 +91,23 @@ describe("ChildList", () => {
                 { id: "foo:133", title: "hello10" },
             ],
         };
-        const wrapper = getMountedChildListComponent(props);
-        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        let tree;
+        await renderer.act(async () => {
+            tree = getMountedChildListComponent(props);
+            await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        });
         expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/topLevelObjects?start=0&rows=10");
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(tree.toJSON()).toMatchSnapshot();
     });
 
     it("renders using ajax-loaded object data", async () => {
         props.pid = "foo:123";
-        const wrapper = getMountedChildListComponent(props);
-        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        let tree;
+        await renderer.act(async () => {
+            tree = getMountedChildListComponent(props);
+            await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        });
         expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/object/foo%3A123/children?start=0&rows=10");
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(tree.toJSON()).toMatchSnapshot();
     });
 });

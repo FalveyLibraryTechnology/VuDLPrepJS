@@ -1,215 +1,143 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SelectableChild can be expanded to show children 1`] = `
-<SelectableChild
-  initialTitle="initial title"
-  pid="foo:123"
-  selectCallback={[MockFunction]}
->
-  <span
-    onClick={[Function]}
-  >
-    <ForwardRef(IndeterminateCheckBoxIcon)
-      titleAccess="Collapse Tree"
-    >
-      <ForwardRef(SvgIcon)
-        data-testid="IndeterminateCheckBoxIcon"
-        titleAccess="Collapse Tree"
-      >
-        <MuiSvgIconRoot
-          as="svg"
-          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium"
-          data-testid="IndeterminateCheckBoxIcon"
-          focusable="false"
-          ownerState={
-            Object {
-              "children": <path
-                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z"
-              />,
-              "color": "inherit",
-              "component": "svg",
-              "data-testid": "IndeterminateCheckBoxIcon",
-              "fontSize": "medium",
-              "inheritViewBox": false,
-              "instanceFontSize": undefined,
-              "titleAccess": "Collapse Tree",
-              "viewBox": "0 0 24 24",
-            }
-          }
-          role="img"
-          viewBox="0 0 24 24"
-        >
-          <Insertion
-            cache={
-              Object {
-                "insert": [Function],
-                "inserted": Object {
-                  "i4bv87-MuiSvgIcon-root": true,
-                },
-                "key": "css",
-                "nonce": undefined,
-                "registered": Object {},
-                "sheet": StyleSheet {
-                  "_alreadyInsertedOrderInsensitiveRule": true,
-                  "_insertTag": [Function],
-                  "before": null,
-                  "container": <head>
-                    <style
-                      data-emotion="css"
-                      data-s=""
-                    >
-                      
-                      .css-i4bv87-MuiSvgIcon-root{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:1em;height:1em;display:inline-block;fill:currentColor;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;font-size:1.5rem;}
-                    </style>
-                  </head>,
-                  "ctr": 1,
-                  "insertionPoint": undefined,
-                  "isSpeedy": false,
-                  "key": "css",
-                  "nonce": undefined,
-                  "prepend": undefined,
-                  "tags": Array [
-                    <style
-                      data-emotion="css"
-                      data-s=""
-                    >
-                      
-                      .css-i4bv87-MuiSvgIcon-root{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:1em;height:1em;display:inline-block;fill:currentColor;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;font-size:1.5rem;}
-                    </style>,
-                  ],
-                },
-              }
-            }
-            isStringTag={true}
-            serialized={
-              Object {
-                "map": undefined,
-                "name": "i4bv87-MuiSvgIcon-root",
-                "next": undefined,
-                "styles": "label:MuiSvgIcon-root;user-select:none;width:1em;height:1em;display:inline-block;fill:currentColor;flex-shrink:0;transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;font-size:1.5rem;",
-                "toString": [Function],
-              }
-            }
-          />
-          <svg
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="IndeterminateCheckBoxIcon"
-            focusable="false"
-            role="img"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z"
-            />
-            <title>
-              Collapse Tree
-            </title>
-          </svg>
-        </MuiSvgIconRoot>
-      </ForwardRef(SvgIcon)>
-    </ForwardRef(IndeterminateCheckBoxIcon)>
-  </span>
-  <button
-    onClick={[Function]}
-  >
-    initial title [foo:123]
-  </button>
-  <Component
-    forceThumbs={false}
-    pageSize={10}
-    pid="foo:123"
-    selectCallback={[MockFunction]}
-  >
-    ChildList
-  </Component>
-</SelectableChild>
-`;
-
 exports[`SelectableChild handles empty initial titles appropriately 1`] = `
-<Fragment>
+[
   <span
     onClick={[Function]}
   >
-    <Memo(ForwardRef(AddBoxIcon))
-      titleAccess="Expand Tree"
-    />
-  </span>
+    <svg
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="AddBoxIcon"
+      focusable="false"
+      role="img"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
+      />
+      <title>
+        Expand Tree
+      </title>
+    </svg>
+  </span>,
   <button
     onClick={[Function]}
   >
     - [foo:123]
-  </button>
-</Fragment>
+  </button>,
+]
 `;
 
 exports[`SelectableChild handles missing object details storage title metadata correctly 1`] = `
-<Fragment>
+[
   <span
     onClick={[Function]}
   >
-    <Memo(ForwardRef(AddBoxIcon))
-      titleAccess="Expand Tree"
-    />
-  </span>
+    <svg
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="AddBoxIcon"
+      focusable="false"
+      role="img"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
+      />
+      <title>
+        Expand Tree
+      </title>
+    </svg>
+  </span>,
   <button
     onClick={[Function]}
   >
     - [foo:123]
-  </button>
-</Fragment>
+  </button>,
+]
 `;
 
 exports[`SelectableChild renders thumbnails 1`] = `
-<Fragment>
+[
   <span
     onClick={[Function]}
   >
-    <Memo(ForwardRef(AddBoxIcon))
-      titleAccess="Expand Tree"
-    />
-  </span>
+    <svg
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="AddBoxIcon"
+      focusable="false"
+      role="img"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
+      />
+      <title>
+        Expand Tree
+      </title>
+    </svg>
+  </span>,
   <button
     onClick={[Function]}
   >
     initial title [foo:123]
     <br />
-    <Component
-      pid="foo:123"
-    />
-  </button>
-</Fragment>
+    ObjectThumbnail
+  </button>,
+]
 `;
 
 exports[`SelectableChild renders using object details storage data 1`] = `
-<Fragment>
+[
   <span
     onClick={[Function]}
   >
-    <Memo(ForwardRef(AddBoxIcon))
-      titleAccess="Expand Tree"
-    />
-  </span>
+    <svg
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="AddBoxIcon"
+      focusable="false"
+      role="img"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
+      />
+      <title>
+        Expand Tree
+      </title>
+    </svg>
+  </span>,
   <button
     onClick={[Function]}
   >
     loaded title [foo:123]
-  </button>
-</Fragment>
+  </button>,
+]
 `;
 
 exports[`SelectableChild renders using provided default data 1`] = `
-<Fragment>
+[
   <span
     onClick={[Function]}
   >
-    <Memo(ForwardRef(AddBoxIcon))
-      titleAccess="Expand Tree"
-    />
-  </span>
+    <svg
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="AddBoxIcon"
+      focusable="false"
+      role="img"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
+      />
+      <title>
+        Expand Tree
+      </title>
+    </svg>
+  </span>,
   <button
     onClick={[Function]}
   >
     initial title [foo:123]
-  </button>
-</Fragment>
+  </button>,
+]
 `;

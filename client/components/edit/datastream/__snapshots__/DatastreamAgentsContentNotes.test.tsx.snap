@@ -1,91 +1,200 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DatastreamAgentsContentNotes renders 1`] = `
-<ForwardRef(Grid)
-  container={true}
-  item={true}
-  xs={12}
+<div
+  className="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-spompt-MuiGrid-root"
 >
-  <ForwardRef(FormControl)
-    fullWidth={true}
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
   >
-    <ForwardRef(Collapse)
-      in={false}
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
     >
-      <ForwardRef(Grid)
-        container={true}
-        item={true}
-        xs={12}
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
       >
-        <ForwardRef(FormControl)
-          fullWidth={true}
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
         >
-          <ForwardRef(Grid)
-            container={true}
-            spacing={1}
+          <div
+            className="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-spompt-MuiGrid-root"
           >
-            <ForwardRef(Grid)
-              container={true}
-              item={true}
-              key="0"
-              xs={12}
+            <div
+              className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
             >
-              <ForwardRef(TextField)
-                InputProps={
-                  Object {
-                    "endAdornment": <ForwardRef(InputAdornment)
-                      position="end"
+              <div
+                className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-a5rdam-MuiGrid-root"
+              >
+                <div
+                  className="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-spompt-MuiGrid-root"
+                >
+                  <div
+                    className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root noteModifyTextField css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                  >
+                    <label
+                      className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+                      data-shrink={true}
+                      htmlFor=":r0:"
+                      id=":r0:-label"
                     >
-                      <ForwardRef(IconButton)
-                        className="deleteNoteButton"
-                        edge="end"
-                        onClick={[Function]}
-                      >
-                        <Memo />
-                      </ForwardRef(IconButton)>
-                    </ForwardRef(InputAdornment)>,
-                  }
-                }
-                className="noteModifyTextField"
-                fullWidth={true}
-                label="Note"
-                onChange={[Function]}
-                value="test1"
-              />
-            </ForwardRef(Grid)>
-            <ForwardRef(Grid)
-              container={true}
-              item={true}
-              xs={12}
-            >
-              <ForwardRef(TextField)
-                InputProps={
-                  Object {
-                    "endAdornment": <ForwardRef(InputAdornment)
-                      position="end"
+                      Note
+                    </label>
+                    <div
+                      className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root"
+                      onClick={[Function]}
                     >
-                      <ForwardRef(IconButton)
-                        className="addNoteButton"
-                        edge="end"
-                        onClick={[Function]}
+                      <input
+                        aria-invalid={false}
+                        autoFocus={false}
+                        className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
+                        disabled={false}
+                        id=":r0:"
+                        onAnimationStart={[Function]}
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        required={false}
+                        type="text"
+                        value="test1"
+                      />
+                      <div
+                        className="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
                       >
-                        <Memo />
-                      </ForwardRef(IconButton)>
-                    </ForwardRef(InputAdornment)>,
-                  }
-                }
-                className="noteAddTextField"
-                fullWidth={true}
-                onChange={[Function]}
-                placeholder="Add Notes"
-                required={true}
-                value=""
-              />
-            </ForwardRef(Grid)>
-          </ForwardRef(Grid)>
-        </ForwardRef(FormControl)>
-      </ForwardRef(Grid)>
-    </ForwardRef(Collapse)>
-  </ForwardRef(FormControl)>
-</ForwardRef(Grid)>
+                        <button
+                          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium deleteNoteButton css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="DeleteIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                      <fieldset
+                        aria-hidden={true}
+                        className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                      >
+                        <legend
+                          className="css-14lo706"
+                        >
+                          <span>
+                            Note
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-spompt-MuiGrid-root"
+                >
+                  <div
+                    className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root noteAddTextField css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                  >
+                    <div
+                      className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root"
+                      onClick={[Function]}
+                    >
+                      <input
+                        aria-invalid={false}
+                        autoFocus={false}
+                        className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
+                        disabled={false}
+                        id=":r1:"
+                        onAnimationStart={[Function]}
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="Add Notes"
+                        required={true}
+                        type="text"
+                        value=""
+                      />
+                      <div
+                        className="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                      >
+                        <button
+                          className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium addNoteButton css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                          disabled={false}
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onContextMenu={[Function]}
+                          onDragLeave={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          tabIndex={0}
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden={true}
+                            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="SendIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                      <fieldset
+                        aria-hidden={true}
+                        className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                      >
+                        <legend
+                          className="css-ihdtdm"
+                        >
+                          <span
+                            className="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;

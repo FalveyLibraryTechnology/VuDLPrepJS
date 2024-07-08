@@ -1,19 +1,22 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { waitFor } from "@testing-library/react";
-import { mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import renderer from "react-test-renderer";
 import { ObjectStatusProps, ObjectStatus } from "./ObjectStatus";
 import { EditorContextProvider, ObjectDetails } from "../../context/EditorContext";
 import { FetchContextProvider } from "../../context/FetchContext";
+import { GlobalContextProvider } from "../../context/GlobalContext";
 
 function getMountedObjectStatusComponent(props: ObjectStatusProps) {
-    return mount(
-        <FetchContextProvider>
-            <EditorContextProvider>
-                <ObjectStatus {...props} />
-            </EditorContextProvider>
-        </FetchContextProvider>
+    return renderer.create(
+        <GlobalContextProvider>
+            <FetchContextProvider>
+                <EditorContextProvider>
+                    <ObjectStatus {...props} />
+                </EditorContextProvider>
+            </FetchContextProvider>
+            ,
+        </GlobalContextProvider>,
     );
 }
 
@@ -38,19 +41,23 @@ describe("ObjectStatus", () => {
     });
 
     it("defaults to unknown state", async () => {
-        const wrapper = getMountedObjectStatusComponent(props);
-        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        let tree;
+        await renderer.act(async () => {
+            tree = getMountedObjectStatusComponent(props);
+            await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        });
         expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/object/foo%3A123/details");
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(tree.toJSON()).toMatchSnapshot();
     });
 
     it("displays the state found in the response", async () => {
         response.state = "Inactive";
-        const wrapper = getMountedObjectStatusComponent(props);
-        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        let tree;
+        await renderer.act(async () => {
+            tree = getMountedObjectStatusComponent(props);
+            await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        });
         expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/object/foo%3A123/details");
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(tree.toJSON()).toMatchSnapshot();
     });
 });

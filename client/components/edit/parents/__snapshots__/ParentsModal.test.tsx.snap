@@ -1,128 +1,130 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ParentsModal renders correctly for a loaded PID 1`] = `
-<ForwardRef(Dialog)
-  className="parentsModal"
-  fullWidth={true}
-  onClose={[MockFunction]}
-  open={true}
->
-  <ForwardRef(DialogTitle)>
-    <ForwardRef(Grid)
-      container={true}
+[
+  "Parents Editor (",
+  "foo:123",
+  ")",
+  <button
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium closeButton css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="CloseIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
     >
-      <ForwardRef(Grid)
-        item={true}
-        xs={11}
-      >
-        Parents Editor (
-        foo:123
-        )
-      </ForwardRef(Grid)>
-      <ForwardRef(Grid)
-        item={true}
-        xs={1}
-      >
-        <ForwardRef(IconButton)
-          className="closeButton"
-          onClick={[MockFunction]}
-        >
-          <Memo(ForwardRef(CloseIcon)) />
-        </ForwardRef(IconButton)>
-      </ForwardRef(Grid)>
-    </ForwardRef(Grid)>
-  </ForwardRef(DialogTitle)>
-  <ForwardRef(DialogContent)>
-    <Component
-      pid="foo:123"
+      <path
+        d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+      />
+    </svg>
+    <span
+      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
     />
-    <h3>
-      Add New Parent:
-    </h3>
-    <Component
-      pid="foo:123"
-    />
-    <h3>
-      Parents
-    </h3>
-    <Component
-      pid="foo:123"
-    />
-  </ForwardRef(DialogContent)>
-</ForwardRef(Dialog)>
+  </button>,
+  "ObjectLoader: {"pid":"foo:123"}",
+  <h3>
+    Add New Parent:
+  </h3>,
+  "ParentPicker: {"pid":"foo:123"}",
+  <h3>
+    Parents
+  </h3>,
+  "ParentList: {"pid":"foo:123"}",
+]
 `;
 
 exports[`ParentsModal renders correctly for a non-loaded PID 1`] = `
-<ForwardRef(Dialog)
-  className="parentsModal"
-  fullWidth={true}
-  onClose={[MockFunction]}
-  open={true}
->
-  <ForwardRef(DialogTitle)>
-    <ForwardRef(Grid)
-      container={true}
+[
+  "Parents Editor (",
+  "foo:123",
+  ")",
+  <button
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium closeButton css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="CloseIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
     >
-      <ForwardRef(Grid)
-        item={true}
-        xs={11}
-      >
-        Parents Editor (
-        foo:123
-        )
-      </ForwardRef(Grid)>
-      <ForwardRef(Grid)
-        item={true}
-        xs={1}
-      >
-        <ForwardRef(IconButton)
-          className="closeButton"
-          onClick={[MockFunction]}
-        >
-          <Memo(ForwardRef(CloseIcon)) />
-        </ForwardRef(IconButton)>
-      </ForwardRef(Grid)>
-    </ForwardRef(Grid)>
-  </ForwardRef(DialogTitle)>
-  <ForwardRef(DialogContent)>
-    <Component
-      pid="foo:123"
-    />
-  </ForwardRef(DialogContent)>
-</ForwardRef(Dialog)>
+      <path
+        d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+      />
+    </svg>
+  </button>,
+  "ObjectLoader: {"pid":"foo:123"}",
+]
 `;
 
 exports[`ParentsModal renders correctly when PID is unset 1`] = `
-<ForwardRef(Dialog)
-  className="parentsModal"
-  fullWidth={true}
-  onClose={[MockFunction]}
-  open={true}
->
-  <ForwardRef(DialogTitle)>
-    <ForwardRef(Grid)
-      container={true}
+[
+  "Parents Editor (",
+  ")",
+  <button
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium closeButton css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+      data-testid="CloseIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
     >
-      <ForwardRef(Grid)
-        item={true}
-        xs={11}
-      >
-        Parents Editor (
-        )
-      </ForwardRef(Grid)>
-      <ForwardRef(Grid)
-        item={true}
-        xs={1}
-      >
-        <ForwardRef(IconButton)
-          className="closeButton"
-          onClick={[MockFunction]}
-        >
-          <Memo(ForwardRef(CloseIcon)) />
-        </ForwardRef(IconButton)>
-      </ForwardRef(Grid)>
-    </ForwardRef(Grid)>
-  </ForwardRef(DialogTitle)>
-  <ForwardRef(DialogContent) />
-</ForwardRef(Dialog)>
+      <path
+        d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+      />
+    </svg>
+  </button>,
+]
 `;

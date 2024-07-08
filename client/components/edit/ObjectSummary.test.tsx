@@ -1,7 +1,6 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import renderer from "react-test-renderer";
 import ObjectSummary from "./ObjectSummary";
 
 const mockUseEditorContext = jest.fn();
@@ -33,9 +32,11 @@ describe("ObjectSummary", () => {
     it("displays loading message when appropriate", async () => {
         jest.spyOn(editorValues.action, "extractFirstMetadataValue").mockReturnValue("");
         const loadSpy = jest.spyOn(editorValues.action, "loadCurrentObjectDetails");
-        const wrapper = mount(<ObjectSummary />);
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        let tree;
+        renderer.act(() => {
+            tree = renderer.create(<ObjectSummary />);
+        });
+        expect(tree.toJSON()).toMatchSnapshot();
         expect(loadSpy).toHaveBeenCalledTimes(1);
     });
 
@@ -50,11 +51,10 @@ describe("ObjectSummary", () => {
             .spyOn(editorValues.action, "extractFirstMetadataValue")
             .mockReturnValueOnce("My title")
             .mockReturnValueOnce("<p>Hello <b>world</b>!</p>");
-        const wrapper = mount(<ObjectSummary />);
-        wrapper.update();
+        const tree = renderer.create(<ObjectSummary />).toJSON();
         expect(metaSpy).toHaveBeenCalledTimes(2);
         expect(metaSpy).toHaveBeenNthCalledWith(1, "dc:title", "Title not available");
         expect(metaSpy).toHaveBeenNthCalledWith(2, "dc:description", "");
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(tree).toMatchSnapshot();
     });
 });

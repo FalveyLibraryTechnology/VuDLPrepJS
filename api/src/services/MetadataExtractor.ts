@@ -46,7 +46,7 @@ class MetadataExtractor {
     protected extractRDFXML(
         xml: Document,
         namespaces: Record<string, string>,
-        xpathQuery: string
+        xpathQuery: string,
     ): Record<string, Array<string>> {
         const rdfXPath = xpath.useNamespaces(namespaces);
         const relations: Record<string, Array<string>> = {};
@@ -121,7 +121,7 @@ class MetadataExtractor {
                     rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
                     ldp: "http://www.w3.org/ns/ldp#",
                 },
-                "//ldp:contains"
+                "//ldp:contains",
             )["contains"] ?? [];
         return raw.map((ds) => {
             return ds.split("/").pop();
@@ -163,7 +163,7 @@ class MetadataExtractor {
                 rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
                 METS: "http://www.loc.gov/METS/",
             },
-            "//METS:agent/*"
+            "//METS:agent/*",
         );
     }
     /**
@@ -230,7 +230,7 @@ class MetadataExtractor {
                 });
                 return acc;
             },
-            { createDate: "", modifiedDate: "", recordStatus: "" }
+            { createDate: "", modifiedDate: "", recordStatus: "" },
         );
     }
 
@@ -286,7 +286,7 @@ class MetadataExtractor {
                 }
                 return acc;
             },
-            { tasks, processCreator: "", processDateTime: "", processLabel: "", processOrganization: "" }
+            { tasks, processCreator: "", processDateTime: "", processLabel: "", processOrganization: "" },
         );
     }
 
@@ -305,7 +305,7 @@ class MetadataExtractor {
         const details = this.extractRDFXML(
             RDF_XML,
             namespaces,
-            "//fits:fileinfo/fits:size|//fits:imageWidth|//fits:imageHeight"
+            "//fits:fileinfo/fits:size|//fits:imageWidth|//fits:imageHeight",
         );
         details.mimetype = [];
         const fitsXPath = xpath.useNamespaces(namespaces);
@@ -329,7 +329,7 @@ class MetadataExtractor {
                 rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
                 premis: "http://www.loc.gov/premis/rdf/v1#",
             },
-            "//premis:*"
+            "//premis:*",
         );
     }
 
@@ -340,7 +340,7 @@ class MetadataExtractor {
             {
                 ebucore: "http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#",
             },
-            xpathQuery
+            xpathQuery,
         );
     }
 }

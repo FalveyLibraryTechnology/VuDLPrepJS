@@ -40,7 +40,7 @@ const DatastreamProcessMetadataTask = ({
                 toolMake: tool.make ?? "",
                 toolVersion: tool.version ?? "",
             },
-            true
+            true,
         );
     };
     const toolPresetKeys = Object.keys(toolPresets);

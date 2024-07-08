@@ -11,6 +11,7 @@ interface JobStatus {
     ingesting: boolean;
     documents: number;
     audio: number;
+    video: number;
     ingest_info: string;
 }
 
@@ -62,14 +63,15 @@ const useJob = ({ category, children }: JobProps) => {
         return ["derivatives: " + percentDone.toFixed(2) + "% built"];
     };
 
-    const getJobStatusText = ({ derivatives, documents, audio, ingesting, published }) => {
-        if (derivatives.expected === 0 && documents === 0 && audio === 0) {
+    const getJobStatusText = ({ derivatives, documents, audio, video, ingesting, published }) => {
+        if (derivatives.expected === 0 && documents === 0 && audio === 0 && video === 0) {
             return ["empty job"];
         }
         const pageCount = parseInt(derivatives.expected / derivativeTypeCount);
         return [
             ...(documents > 0 ? [`${documents} document${documents > 1 ? "s" : ""}`] : []),
             ...(audio > 0 ? [`${audio} audio`] : []),
+            ...(video > 0 ? [`${video} video`] : []),
             `${pageCount} page${pageCount > 1 ? "s" : ""}`,
             ...getPublishedStatusText({ derivatives, ingesting, published }),
         ];
@@ -79,6 +81,7 @@ const useJob = ({ category, children }: JobProps) => {
         minutes_since_upload,
         documents,
         audio,
+        video,
         ingesting,
         published
     }: JobStatus) => {
@@ -92,7 +95,7 @@ const useJob = ({ category, children }: JobProps) => {
             }
             return [
                 getAgeString(minutes_since_upload),
-                ...getJobStatusText({ derivatives, documents, audio, ingesting, published }),
+                ...getJobStatusText({ derivatives, documents, audio, video, ingesting, published }),
             ];
         }
         return ["loading..."];

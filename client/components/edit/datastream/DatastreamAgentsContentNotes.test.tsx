@@ -1,8 +1,8 @@
 import React from "react";
 import { describe, afterEach, expect, it, jest } from "@jest/globals";
-import { mount, shallow } from "enzyme";
-import { act } from "react-dom/test-utils";
-import toJson from "enzyme-to-json";
+import { fireEvent, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import renderer from "react-test-renderer";
 import DatastreamAgentsContentNotes from "./DatastreamAgentsContentNotes";
 
 describe("DatastreamAgentsContentNotes", () => {
@@ -18,38 +18,30 @@ describe("DatastreamAgentsContentNotes", () => {
     });
 
     it("renders", () => {
-        const wrapper = shallow(<DatastreamAgentsContentNotes expanded={false} notes={notes} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<DatastreamAgentsContentNotes expanded={false} notes={notes} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("edits a note", () => {
-        const wrapper = mount(<DatastreamAgentsContentNotes expanded={false} notes={notes} setNotes={setNotes} />);
-        act(() => {
-            wrapper.find(".noteModifyTextField input").simulate("change", { target: { value: "test2" } });
-            wrapper.update();
-        });
+        render(<DatastreamAgentsContentNotes expanded={false} notes={notes} setNotes={setNotes} />);
+        const inputs = screen.getAllByRole("textbox", { hidden: true });
+        fireEvent.change(inputs[0], { target: { value: "test2" } });
 
         expect(setNotes).toHaveBeenCalledWith(notes);
         expect(notes[0]).toEqual("test2");
     });
 
-    it("deletes a note", () => {
-        const wrapper = mount(<DatastreamAgentsContentNotes expanded={false} notes={notes} setNotes={setNotes} />);
-        act(() => {
-            wrapper.find(".deleteNoteButton button").simulate("click");
-            wrapper.update();
-        });
+    it("deletes a note", async () => {
+        render(<DatastreamAgentsContentNotes expanded={false} notes={notes} setNotes={setNotes} />);
+        await userEvent.setup().click(screen.getByTestId("DeleteIcon"));
 
         expect(setNotes).toHaveBeenCalledWith(notes);
         expect(notes).toHaveLength(0);
     });
 
-    it("adds a note", () => {
-        const wrapper = mount(<DatastreamAgentsContentNotes expanded={false} notes={notes} setNotes={setNotes} />);
-        act(() => {
-            wrapper.find(".addNoteButton button").simulate("click");
-            wrapper.update();
-        });
+    it("adds a note", async () => {
+        render(<DatastreamAgentsContentNotes expanded={false} notes={notes} setNotes={setNotes} />);
+        await userEvent.setup().click(screen.getByTestId("SendIcon"));
 
         expect(setNotes).toHaveBeenCalledWith(notes);
         expect(notes).toHaveLength(2);

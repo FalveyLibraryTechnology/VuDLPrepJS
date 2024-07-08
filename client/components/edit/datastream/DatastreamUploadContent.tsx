@@ -9,7 +9,7 @@ const DatastreamUploadContent = (): React.ReactElement => {
     };
     return (
         <DialogContent>
-            <input className="uploadFileButton" type="file" onChange={onChange} />
+            <input className="uploadFileButton" aria-label="Upload File" type="file" onChange={onChange} />
         </DialogContent>
     );
 };

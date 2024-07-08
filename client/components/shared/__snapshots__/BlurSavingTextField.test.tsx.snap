@@ -1,31 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BlurSavingTextField renders using the initial value 1`] = `
-<BlurSavingTextField
-  setValue={[Function]}
-  value="foo"
->
-  <Component
-    onBlur={[Function]}
-    onChange={[Function]}
-    value="foo"
-  >
-    TextField
-  </Component>
-</BlurSavingTextField>
-`;
+exports[`BlurSavingTextField renders using the initial value 1`] = `"TextField: {"value":"foo"}"`;
 
-exports[`BlurSavingTextField updates the temporary internal value appropriately 1`] = `
-<BlurSavingTextField
-  setValue={[Function]}
-  value="foo"
->
-  <Component
-    onBlur={[Function]}
-    onChange={[Function]}
-    value="bar"
-  >
-    TextField
-  </Component>
-</BlurSavingTextField>
-`;
+exports[`BlurSavingTextField updates the temporary internal value appropriately 1`] = `"TextField: {"value":"bar"}"`;

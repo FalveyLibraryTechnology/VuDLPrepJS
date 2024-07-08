@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { renderHook, act } from "@testing-library/react-hooks";
+import { renderHook, act } from "@testing-library/react";
 import * as JobPaginatorState from "./JobPaginatorState";
 import * as routes from "../util/routes";
 import { FetchContextProvider } from "./FetchContext";
@@ -36,6 +36,10 @@ describe("usePaginatorContext", () => {
             },
             writable: true,
         });
+    });
+
+    afterEach(() => {
+        jest.restoreAllMocks();
     });
 
     it("increments and decrements the currentPage", async () => {
@@ -162,6 +166,7 @@ describe("usePaginatorContext", () => {
 
     describe("save", () => {
         it("saves magic labels", () => {
+            const labelSpy = jest.spyOn(JobPaginatorState, "getLabel");
             const userMustReviewMoreLabelsMock = jest
                 .spyOn(JobPaginatorState, "userMustReviewMoreLabels")
                 .mockReturnValue(true);
@@ -189,8 +194,8 @@ describe("usePaginatorContext", () => {
             expect(result.current.state.order[1].label).toBeNull();
 
             userMustReviewMoreLabelsMock.mockReturnValue(false);
-            JobPaginatorState.getLabel.mockReturnValueOnce("1");
-            JobPaginatorState.getLabel.mockReturnValueOnce(null);
+            labelSpy.mockReturnValueOnce("1");
+            labelSpy.mockReturnValueOnce(null);
             act(() => {
                 result.current.action.save(false);
             });
@@ -322,6 +327,43 @@ describe("usePaginatorContext", () => {
             });
             expect(result.current.action.getJobImageUrl({ filename: "image.png" }, 2, 2)).toBeFalsy();
             expect(getImageUrlSpy).toHaveBeenCalledWith("testCategory", "testJob", "image.png", 2);
+        });
+    });
+
+    describe("updatePagesByStatus", () => {
+        it("reports anomalies", async () => {
+            const { result } = await renderHook(() => usePaginatorContext(), { wrapper });
+
+            json.mockResolvedValueOnce({
+                order: [
+                {
+                    filename: "test1",
+                    label: null,
+                },
+                {
+                    filename: "test2",
+                    label: null,
+                },
+            ]});
+            json.mockResolvedValueOnce({
+                file_problems: { deleted: ["test1"], added: ["test3"] }
+            });
+
+            await act(async () => {
+                await result.current.action.loadJob("foo", "bar");
+            });
+
+            expect(window.alert).toHaveBeenCalledWith("1 file(s) have been removed from the job since the last edit.\n1 file(s) have been added to the job since the last edit.\n");
+            expect(result.current.state.order).toEqual([
+                {
+                    filename: "test2",
+                    label: null,
+                },
+                {
+                    filename: "test3",
+                    label: null,
+                },
+            ]);
         });
     });
 });

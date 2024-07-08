@@ -1,7 +1,8 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { shallow, mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import renderer from "react-test-renderer";
 import EditorSnackbar from "./EditorSnackbar";
 
 const mockUseGlobalContext = jest.fn();
@@ -31,14 +32,20 @@ describe("EditorSnackbar", () => {
     });
 
     it("renders", () => {
-        const wrapper = shallow(<EditorSnackbar />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer
+            .create(<EditorSnackbar />, {
+                createNodeMock: (node: Node) => {
+                    return document.createElement(node.type);
+                },
+            })
+            .toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
-    it("closes", () => {
-        const component = mount(<EditorSnackbar />);
+    it("closes", async () => {
+        render(<EditorSnackbar />);
 
-        component.find("button.editorSnackBarAlertCloseButton").simulate("click");
+        await userEvent.setup().click(screen.getByRole("button"));
 
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             open: false,

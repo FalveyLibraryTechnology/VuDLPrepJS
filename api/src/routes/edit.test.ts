@@ -14,8 +14,10 @@ import FedoraDataCollection from "../models/FedoraDataCollection";
 import { FedoraObject } from "../models/FedoraObject";
 import Solr from "../services/Solr";
 import { NeedleResponse } from "../services/interfaces";
+import { IncomingForm } from "formidable";
 
 jest.mock("../services/DatastreamManager");
+jest.mock("formidable");
 
 describe("edit", () => {
     let config;
@@ -223,6 +225,77 @@ describe("edit", () => {
             expect(dataSpy).toHaveBeenCalledWith("pid:123");
             expect(factorySpy).toHaveBeenCalledTimes(1);
             expect(factorySpy).toHaveBeenCalledWith("foo", "bar", "Active", "pid:123");
+        });
+    });
+
+    describe("post /object/:pid/datastream/:stream", () => {
+        let datastreamManager;
+        const filepath = "/foo/bar";
+        const mimetype = "text/fake";
+        beforeEach(() => {
+            datastreamManager = {
+                uploadFile: jest.fn(),
+            };
+            datastream = "THUMBNAIL";
+            jest.spyOn(Database.getInstance(), "confirmToken").mockResolvedValue(true);
+            jest.spyOn(DatastreamManager, "getInstance").mockReturnValue(datastreamManager);
+        });
+
+        it("accepts an arbitrary upload", async () => {
+            let lastOptions = {};
+            IncomingForm.mockImplementation((options) => {
+                lastOptions = options;
+                return {
+                    parse: (req, callback) => {
+                        callback(
+                            false,
+                            {},
+                            {
+                                file: { filepath, mimetype },
+                            },
+                        );
+                    },
+                };
+            });
+            datastreamManager.uploadFile.mockResolvedValue({});
+            await request(app)
+                .post(`/edit/object/${pid}/datastream/${datastream}`)
+                .set("Authorization", "Bearer test")
+                .send()
+                .set("Accept", "application/json")
+                .expect(StatusCodes.OK);
+            expect(lastOptions).toEqual({ multiples: true, maxFileSize: 200 * 1024 * 1024 });
+            expect(datastreamManager.uploadFile).toHaveBeenCalledWith(pid, datastream, filepath, mimetype);
+        });
+
+        it("handles exceptions", async () => {
+            IncomingForm.mockImplementation(() => {
+                return {
+                    parse: (req, callback) => {
+                        callback(
+                            false,
+                            {},
+                            {
+                                file: { filepath, mimetype },
+                            },
+                        );
+                    },
+                };
+            });
+            const kaboom = new Error("kaboom");
+            datastreamManager.uploadFile.mockImplementation(() => {
+                throw kaboom;
+            });
+            const consoleSpy = jest.spyOn(console, "error").mockImplementation(jest.fn());
+            const response = await request(app)
+                .post(`/edit/object/${pid}/datastream/${datastream}`)
+                .set("Authorization", "Bearer test")
+                .send()
+                .set("Accept", "application/json")
+                .expect(StatusCodes.INTERNAL_SERVER_ERROR);
+
+            expect(response.error.text).toEqual("kaboom");
+            expect(consoleSpy).toHaveBeenCalledWith(kaboom);
         });
     });
 
@@ -1147,6 +1220,68 @@ describe("edit", () => {
                 .send("2")
                 .expect(StatusCodes.OK);
             expect(sequenceSpy).toHaveBeenCalledWith(pid, parentPid, 2);
+        });
+    });
+
+    describe("post /query/solr", () => {
+        let querySpy;
+        let solrResponse = {};
+        beforeEach(() => {
+            solrResponse = { statusCode: 200, body: { response: { foo: "bar" } } };
+            querySpy = jest.spyOn(Solr.getInstance(), "query").mockResolvedValue(solrResponse as NeedleResponse);
+        });
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+        it("will return an empty response if no query is provided", async () => {
+            const response = await request(app)
+                .post(`/edit/query/solr`)
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.OK);
+            expect(response.text).toEqual('{"numFound":0,"start":0,"docs":[]}');
+        });
+        it("will run an appropriate Solr query with default params", async () => {
+            const response = await request(app)
+                .post(`/edit/query/solr`)
+                .send({ query: "foo" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.OK);
+            expect(querySpy).toHaveBeenCalledWith("biblio", "foo", {
+                fl: "id,title",
+                rows: "100",
+                sort: "title_sort asc",
+                start: "0",
+            });
+            expect(response.text).toEqual('{"foo":"bar"}');
+        });
+        it("allows sort, start and rows to be overridden", async () => {
+            const response = await request(app)
+                .post(`/edit/query/solr`)
+                .send({ query: "foo", rows: 5, start: 3, sort: "title_sort desc" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.OK);
+            expect(querySpy).toHaveBeenCalledWith("biblio", "foo", {
+                fl: "id,title",
+                rows: "5",
+                sort: "title_sort desc",
+                start: "3",
+            });
+            expect(response.text).toEqual('{"foo":"bar"}');
+        });
+        it("handles Solr errors", async () => {
+            (solrResponse as Record<string, unknown>).statusCode = 500;
+            const response = await request(app)
+                .post(`/edit/query/solr`)
+                .send({ query: "foo" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.INTERNAL_SERVER_ERROR);
+            expect(querySpy).toHaveBeenCalledWith("biblio", "foo", {
+                fl: "id,title",
+                rows: "100",
+                sort: "title_sort asc",
+                start: "0",
+            });
+            expect(response.text).toEqual("Unexpected Solr response code.");
         });
     });
 });

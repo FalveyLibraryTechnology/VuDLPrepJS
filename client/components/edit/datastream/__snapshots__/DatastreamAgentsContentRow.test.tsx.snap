@@ -1,147 +1,198 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DatastreamAgentsContentRow renders 1`] = `
-<Fragment>
-  <ForwardRef(Grid)
-    container={true}
-    item={true}
-    xs={3}
+[
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-3 css-bm8k05-MuiGrid-root"
   >
-    <ForwardRef(Paper)
-      sx={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "padding": "0 14px",
-          "width": "100%",
-        }
-      }
-      variant="outlined"
+    <div
+      className="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-1v1quuu-MuiPaper-root"
     >
-      <ForwardRef(FormControl)
-        fullWidth={true}
+      <div
+        className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
       >
-        <ForwardRef(NativeSelect)
-          className="agentRoleSelect"
-          error={false}
-          onChange={[Function]}
-          value="test1"
+        <div
+          className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiNativeSelect-root agentRoleSelect css-1eed5fa-MuiInputBase-root-MuiInput-root"
+          onClick={[Function]}
         >
-          <option
-            value=""
-          />
-          <option
-            key="0"
-            value="role1"
+          <select
+            aria-invalid={false}
+            aria-label="Select Role"
+            className="MuiNativeSelect-select MuiNativeSelect-outlined MuiInputBase-input MuiInput-input css-19ygod6-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            value="test1"
           >
-            role1
-          </option>
-        </ForwardRef(NativeSelect)>
-      </ForwardRef(FormControl)>
-    </ForwardRef(Paper)>
-  </ForwardRef(Grid)>
-  <ForwardRef(Grid)
-    container={true}
-    item={true}
-    xs={3}
-  >
-    <ForwardRef(Paper)
-      sx={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "padding": "0 14px",
-          "width": "100%",
-        }
-      }
-      variant="outlined"
-    >
-      <ForwardRef(FormControl)
-        fullWidth={true}
-      >
-        <ForwardRef(NativeSelect)
-          className="agentTypeSelect"
-          error={false}
-          onChange={[Function]}
-          value="test2"
-        >
-          <option
-            value=""
-          />
-          <option
-            key="0"
-            value="type1"
+            <option
+              value=""
+            />
+            <option
+              value="role1"
+            >
+              role1
+            </option>
+          </select>
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined css-1g12qau-MuiSvgIcon-root-MuiNativeSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
           >
-            type1
-          </option>
-        </ForwardRef(NativeSelect)>
-      </ForwardRef(FormControl)>
-    </ForwardRef(Paper)>
-  </ForwardRef(Grid)>
-  <ForwardRef(Grid)
-    container={true}
-    item={true}
-    xs={5}
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-3 css-bm8k05-MuiGrid-root"
   >
-    <ForwardRef(FormControl)
-      fullWidth={true}
+    <div
+      className="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-1v1quuu-MuiPaper-root"
     >
-      <BlurSavingTextField
-        options={
-          Object {
-            "className": "agentNameTextField",
-            "error": false,
-            "label": "",
-          }
-        }
-        setValue={[Function]}
-        value="test3"
-      />
-    </ForwardRef(FormControl)>
-  </ForwardRef(Grid)>
-  <ForwardRef(Grid)
-    container={true}
-    item={true}
-    xs={1}
-  >
-    <ForwardRef(Paper)
-      sx={
-        Object {
-          "alignItems": "center",
-          "display": "flex",
-          "width": "100%",
-        }
-      }
-      variant="outlined"
-    >
-      <ForwardRef(FormControl)
-        fullWidth={true}
+      <div
+        className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
       >
-        <ForwardRef(ButtonGroup)
-          sx={
-            Object {
-              "display": "flex",
-              "justifyContent": "center",
-            }
-          }
+        <div
+          className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiNativeSelect-root agentTypeSelect css-1eed5fa-MuiInputBase-root-MuiInput-root"
+          onClick={[Function]}
         >
-          <ForwardRef(IconButton)
+          <select
+            aria-invalid={false}
+            aria-label="Select Type"
+            className="MuiNativeSelect-select MuiNativeSelect-outlined MuiInputBase-input MuiInput-input css-19ygod6-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
+            disabled={false}
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            value="test2"
+          >
+            <option
+              value=""
+            />
+            <option
+              value="type1"
+            >
+              type1
+            </option>
+          </select>
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined css-1g12qau-MuiSvgIcon-root-MuiNativeSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-5 css-1e830u-MuiGrid-root"
+  >
+    <div
+      className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+    >
+      <div
+        className="MuiFormControl-root MuiTextField-root agentNameTextField css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+          onClick={[Function]}
+        >
+          <input
+            aria-invalid={false}
+            autoFocus={false}
+            className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled={false}
+            id=":r0:"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={false}
+            type="text"
+            value="test3"
+          />
+          <fieldset
+            aria-hidden={true}
+            className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              className="css-ihdtdm"
+            >
+              <span
+                className="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-1 css-1yzby0e-MuiGrid-root"
+  >
+    <div
+      className="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-1jqvn0k-MuiPaper-root"
+    >
+      <div
+        className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+      >
+        <div
+          className="MuiButtonGroup-root MuiButtonGroup-outlined css-1gvj8qq-MuiButtonGroup-root"
+          role="group"
+        >
+          <button
+            className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+            disabled={false}
+            onBlur={[Function]}
             onClick={[Function]}
+            onContextMenu={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="button"
           >
-            <Memo(ForwardRef(ExpandCircleDownIcon)) />
-          </ForwardRef(IconButton)>
-        </ForwardRef(ButtonGroup)>
-      </ForwardRef(FormControl)>
-    </ForwardRef(Paper)>
-  </ForwardRef(Grid)>
-  <Component
-    expanded={false}
-    notes={
-      Array [
-        "test4",
-      ]
-    }
-    setNotes={[Function]}
-  />
-</Fragment>
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="ExpandCircleDownIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 13.5L7.5 11l1.42-1.41L12 12.67l3.08-3.08L16.5 11 12 15.5z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "DatastreamAgentsContentNotes",
+]
 `;

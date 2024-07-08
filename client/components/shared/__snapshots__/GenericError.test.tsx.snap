@@ -1,51 +1,53 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`GenericError renders 1`] = `
-<ForwardRef(Box)
-  alignItems="center"
-  display="flex"
-  flexDirection="row"
-  justifyContent="center"
-  minHeight="100vh"
+<div
+  className="MuiBox-root css-1ot2opo"
 >
-  <Memo(ForwardRef(SentimentVeryDissatisfiedIcon))
-    sx={
-      Object {
-        "color": "red",
-        "fontSize": "100px",
-      }
-    }
-  />
-  <br />
-  <ForwardRef(Box)
-    width="300px"
+  <svg
+    aria-hidden={true}
+    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-exsomj-MuiSvgIcon-root"
+    data-testid="SentimentVeryDissatisfiedIcon"
+    focusable="false"
+    viewBox="0 0 24 24"
   >
-    <ForwardRef(Box)
-      sx={
-        Object {
-          "fontSize": "24px",
-          "padding": "4px",
-        }
-      }
+    <circle
+      cx="15.5"
+      cy="9.5"
+      r="1.5"
+    />
+    <circle
+      cx="8.5"
+      cy="9.5"
+      r="1.5"
+    />
+    <path
+      d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm0-6c-2.33 0-4.32 1.45-5.12 3.5h1.67c.69-1.19 1.97-2 3.45-2s2.75.81 3.45 2h1.67c-.8-2.05-2.79-3.5-5.12-3.5z"
+    />
+  </svg>
+  <br />
+  <div
+    className="MuiBox-root css-1v5z18m"
+  >
+    <div
+      className="MuiBox-root css-1tq9rpv"
     >
       A generic error occurred. Please return 
-      <Link
+      <a
         href="/"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         home.
-      </Link>
-    </ForwardRef(Box)>
-    <ForwardRef(Box)
-      sx={
-        Object {
-          "fontSize": "16px",
-          "padding": "4px",
-        }
-      }
+      </a>
+    </div>
+    <div
+      className="MuiBox-root css-14ocvhn"
     >
       Error details: 
       Test error
-    </ForwardRef(Box)>
-  </ForwardRef(Box)>
-</ForwardRef(Box)>
+    </div>
+  </div>
+</div>
 `;

@@ -3,6 +3,9 @@
 exports[`JobClickable renders 1`] = `
 <a
   href="/paginate/testCategory/testChildren"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onTouchStart={[Function]}
 >
   testChildren
 </a>

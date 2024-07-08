@@ -27,7 +27,7 @@ class FedoraDataCollection {
         fedora: Fedora,
         extractor: MetadataExtractor,
         tika: TikaExtractor,
-        config: Config
+        config: Config,
     ) {
         this.pid = pid;
         this.metadata = metadata;
@@ -45,7 +45,7 @@ class FedoraDataCollection {
         fedora: Fedora = null,
         extractor: MetadataExtractor = null,
         tika: TikaExtractor = null,
-        config: Config = null
+        config: Config = null,
     ): FedoraDataCollection {
         return new FedoraDataCollection(
             pid,
@@ -55,7 +55,7 @@ class FedoraDataCollection {
             fedora ?? Fedora.getInstance(),
             extractor ?? MetadataExtractor.getInstance(),
             tika ?? TikaExtractor.getInstance(),
-            config ?? Config.getInstance()
+            config ?? Config.getInstance(),
         );
     }
 

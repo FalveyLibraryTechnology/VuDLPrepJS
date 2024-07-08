@@ -1,12 +1,11 @@
 import React from "react";
 import { describe, expect, it } from "@jest/globals";
-import { shallow } from "enzyme";
-import toJson from "enzyme-to-json";
+import renderer from "react-test-renderer";
 import MainMenu from "./MainMenu";
 
 describe("MainMenu", () => {
     it("renders", () => {
-        const wrapper = shallow(<MainMenu />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<MainMenu />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 });

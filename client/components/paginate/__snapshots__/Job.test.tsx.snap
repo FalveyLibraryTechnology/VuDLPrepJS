@@ -2,7 +2,8 @@
 
 exports[`Job renders 1`] = `
 <li>
-  JobClickable [] 
+  JobClickable
+   [] 
   <br />
 </li>
 `;

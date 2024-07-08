@@ -1,7 +1,8 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { shallow, mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import renderer from "react-test-renderer";
 import PaginatorControlGroup from "./PaginatorControlGroup";
 
 describe("PaginatorControlGroup", () => {
@@ -16,17 +17,14 @@ describe("PaginatorControlGroup", () => {
     });
 
     it("renders", () => {
-        const wrapper = shallow(<PaginatorControlGroup {...props} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<PaginatorControlGroup {...props} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
-    it("calls callback on child click", () => {
-        const wrapper = mount(<PaginatorControlGroup {...props} />);
-
+    it("calls callback on child click", async () => {
+        render(<PaginatorControlGroup {...props} />);
         expect(props.callback).not.toHaveBeenCalledWith("testChild");
-
-        wrapper.find("button").simulate("click");
-
+        await userEvent.setup().click(screen.getByRole("button"));
         expect(props.callback).toHaveBeenCalledWith("testChild");
     });
 });

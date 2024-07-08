@@ -1,8 +1,12 @@
 import React from "react";
 import { describe, afterEach, expect, it, jest } from "@jest/globals";
-import { shallow } from "enzyme";
-import toJson from "enzyme-to-json";
+import renderer from "react-test-renderer";
 import DatastreamDublinCoreValues from "./DatastreamDublinCoreValues";
+
+jest.mock("./DatastreamDublinCoreFieldGroup", () => (props) => {
+    // Mock the field group so it just returns the value of its field property:
+    return props.field;
+});
 
 const mockUseEditorContext = jest.fn();
 jest.mock("../../../context/EditorContext", () => ({
@@ -48,9 +52,8 @@ describe("DatastreamDublinCoreValues", () => {
         jest.clearAllMocks();
     });
 
-    it("renders", () => {
-        const wrapper = shallow(<DatastreamDublinCoreValues />);
-
-        expect(toJson(wrapper)).toMatchSnapshot();
+    it("renders a field group for each field type in the current Dublin Core", () => {
+        const tree = renderer.create(<DatastreamDublinCoreValues />).toJSON();
+        expect(tree).toEqual(["dc:identifier", "dc:title"]);
     });
 });

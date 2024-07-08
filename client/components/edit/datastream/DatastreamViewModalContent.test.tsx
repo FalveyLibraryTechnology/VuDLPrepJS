@@ -1,8 +1,6 @@
 import React from "react";
 import { describe, beforeEach, expect, it, jest } from "@jest/globals";
-import { mount } from "enzyme";
-import { act } from "react-dom/test-utils";
-import toJson from "enzyme-to-json";
+import renderer from "react-test-renderer";
 import DatastreamViewModalContent from "./DatastreamViewModalContent";
 import { waitFor } from "@testing-library/react";
 
@@ -18,7 +16,7 @@ jest.mock("../../../hooks/useDatastreamOperation", () => () => mockUseDatastream
 const mockDatatypeContent = jest.fn();
 jest.mock("../../shared/DatatypeContent", () => (props) => {
     mockDatatypeContent(props);
-    return "DatatypeContent";
+    return "DatatypeContent: " + JSON.stringify(props);
 });
 describe("DatastreamViewModalContent", () => {
     let datastreamOperationValues;
@@ -56,13 +54,12 @@ describe("DatastreamViewModalContent", () => {
             mimeType: "test2",
         };
         datastreamOperationValues.viewDatastream.mockResolvedValue(response);
-        let wrapper;
-        await act(async () => {
-            wrapper = await mount(<DatastreamViewModalContent />);
+        let tree;
+        await renderer.act(async () => {
+            tree = renderer.create(<DatastreamViewModalContent />);
+            await waitFor(() => expect(datastreamOperationValues.viewDatastream).toHaveBeenCalled());
         });
-        await waitFor(() => expect(datastreamOperationValues.viewDatastream).toHaveBeenCalled());
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(tree.toJSON()).toMatchSnapshot();
         expect(mockDatatypeContent).toHaveBeenCalledWith(response);
     });
 
@@ -72,13 +69,12 @@ describe("DatastreamViewModalContent", () => {
             mimeType: "image/tiff",
         };
         datastreamOperationValues.viewDatastream.mockResolvedValue(response);
-        let wrapper;
-        await act(async () => {
-            wrapper = await mount(<DatastreamViewModalContent />);
+        let tree;
+        await renderer.act(async () => {
+            tree = renderer.create(<DatastreamViewModalContent />);
+            await waitFor(() => expect(datastreamOperationValues.viewDatastream).toHaveBeenCalled());
         });
-        await waitFor(() => expect(datastreamOperationValues.viewDatastream).toHaveBeenCalled());
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(tree.toJSON()).toMatchSnapshot();
         expect(mockDatatypeContent).not.toHaveBeenCalled();
     });
 });

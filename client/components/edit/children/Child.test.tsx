@@ -1,18 +1,19 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { waitFor } from "@testing-library/react";
-import { mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { render, screen, waitFor } from "@testing-library/react";
+import renderer from "react-test-renderer";
+import { act } from "react-dom/test-utils";
+import userEvent from "@testing-library/user-event";
 import { ChildProps, Child } from "./Child";
 import { EditorContextProvider, ObjectDetails } from "../../../context/EditorContext";
 import { FetchContextProvider } from "../../../context/FetchContext";
 
 jest.mock("./ChildList", () => () => "ChildList");
-jest.mock("../ObjectButtonBar", () => () => "ObjectButtonBar");
-jest.mock("../ObjectThumbnail", () => () => "ObjectThumbnail");
+jest.mock("../ObjectButtonBar", () => (props) => "ObjectButtonBar:" + JSON.stringify(props));
+jest.mock("../ObjectThumbnail", () => (props) => "ObjectThumbnail: " + JSON.stringify(props));
 
-function getMountedChildComponent(props: ChildProps) {
-    return mount(
+function getChildComponent(props: ChildProps) {
+    return (
         <FetchContextProvider>
             <EditorContextProvider>
                 <Child {...props} />
@@ -51,42 +52,58 @@ describe("Child", () => {
         });
     });
 
+    afterEach(() => {
+        jest.resetAllMocks();
+    });
+
     it("renders using ajax-loaded data", async () => {
-        const wrapper = getMountedChildComponent(props);
+        let tree;
+        await renderer.act(async () => {
+            tree = renderer.create(getChildComponent(props));
+        });
         await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
         expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/object/foo%3A123/details");
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(tree.toJSON()).toMatchSnapshot();
     });
 
     it("renders a thumbnail", async () => {
         props.thumbnail = true;
-        const wrapper = getMountedChildComponent(props);
+        let tree;
+        await renderer.act(async () => {
+            tree = renderer.create(getChildComponent(props));
+        });
         await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
         expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/object/foo%3A123/details");
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(tree.toJSON()).toMatchSnapshot();
     });
 
     it("handles empty titles appropriately", async () => {
         props.initialTitle = "";
         response.metadata = {};
-        const wrapper = getMountedChildComponent(props);
+        let tree;
+        await renderer.act(async () => {
+            tree = renderer.create(getChildComponent(props));
+        });
         await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
-        expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/object/foo%3A123/details");
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(tree.toJSON()).toMatchSnapshot();
     });
 
     it("can be expanded to show children", async () => {
-        const wrapper = getMountedChildComponent(props);
+        await act(async () => {
+            render(getChildComponent(props));
+        });
+        await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+        // There should initially be an expand button and no children:
+        const expandIcon = screen.getByRole("img", { name: "Expand Tree" });
+        expect(screen.queryAllByText("ChildList")).toHaveLength(0);
+        // Click expand:
+        await act(async () => {
+            await userEvent.setup().click(expandIcon);
+        });
         await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
-        const expandIcon = wrapper.find("svg title").at(0);
-        expect(expandIcon.text()).toEqual("Expand Tree");
-        expandIcon.simulate("click");
-        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        // There should now be a collapse button and children:
+        screen.getByRole("img", { name: "Collapse Tree" });
+        expect(screen.queryAllByText("ChildList")).toHaveLength(1);
         expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/object/foo%3A123/details");
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
     });
 });

@@ -1,42 +1,74 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DatastreamDublinCoreContent  renders 1`] = `
-<Fragment>
-  <ForwardRef(DialogContent)>
-    <ForwardRef(Grid)
-      container={true}
-      spacing={1}
+[
+  <div
+    className="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
+  >
+    <div
+      className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-a5rdam-MuiGrid-root"
     >
-      <ForwardRef(Grid)
-        item={true}
-        xs={8}
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
       >
-        <Component />
-      </ForwardRef(Grid)>
-      <ForwardRef(Grid)
-        item={true}
-        xs={4}
+        DatastreamDublinCoreValues
+      </div>
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
       >
-        <Component />
+        DatastreamDublinCoreAddButtons
         <h3>
           Other Tools
         </h3>
-        <Component
-          pid="foo"
-        />
-      </ForwardRef(Grid)>
-    </ForwardRef(Grid)>
-  </ForwardRef(DialogContent)>
-  <ForwardRef(DialogActions)>
-    <ForwardRef(Button)
-      className="uploadDublinCoreButton"
+        ObjectPreviewButton
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing css-knqc4i-MuiDialogActions-root"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary uploadDublinCoreButton css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
       onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
     >
       Save
-    </ForwardRef(Button)>
-    <ForwardRef(Button)>
+    </button>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
       Cancel
-    </ForwardRef(Button)>
-  </ForwardRef(DialogActions)>
-</Fragment>
+    </button>
+  </div>,
+]
 `;

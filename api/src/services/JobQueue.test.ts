@@ -53,7 +53,7 @@ describe("JobQueue", () => {
 
     it("creates an appropriate error callback", () => {
         const errorSpy = jest.spyOn(console, "error").mockImplementation(jest.fn());
-        onCallback({}, "foo");
+        onCallback({}, new Error("foo"), "prev");
         expect(errorSpy).toHaveBeenCalledWith("Job failed; reason: foo");
         expect(onEventName).toEqual("failed");
     });

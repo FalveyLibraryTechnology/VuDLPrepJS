@@ -1,7 +1,6 @@
 import React from "react";
 import { describe, beforeEach, expect, it } from "@jest/globals";
-import { mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import renderer from "react-test-renderer";
 import DatatypeContent from "./DatatypeContent";
 
 describe("DatatypeContent", () => {
@@ -16,36 +15,36 @@ describe("DatatypeContent", () => {
     it("renders img on image primaryType", () => {
         props.data = "test1";
         props.mimeType = "image/jpeg";
-        const wrapper = mount(<DatatypeContent {...props} />);
+        const tree = renderer.create(<DatatypeContent {...props} />);
 
-        expect(toJson(wrapper)).toMatchSnapshot();
-        expect(wrapper.find("img.viewContentImage").exists()).toBeTruthy();
+        expect(tree.toJSON()).toMatchSnapshot();
+        expect(tree.root.findByType("img")).toBeTruthy();
     });
 
     it("renders textarea on text primaryType", () => {
         props.data = "testXml";
         props.mimeType = "text/xml";
-        const wrapper = mount(<DatatypeContent {...props} />);
+        const tree = renderer.create(<DatatypeContent {...props} />);
 
-        expect(toJson(wrapper)).toMatchSnapshot();
-        expect(wrapper.find("div.viewContentText").text()).toContain(props.data);
+        expect(tree.toJSON()).toMatchSnapshot();
+        expect(tree.root.findByType("div").props.children).toContain(props.data);
     });
 
     it("renders object on application/pdf", () => {
         props.data = "testPdf";
         props.mimeType = "application/pdf";
-        const wrapper = mount(<DatatypeContent {...props} />);
+        const tree = renderer.create(<DatatypeContent {...props} />);
 
-        expect(toJson(wrapper)).toMatchSnapshot();
-        expect(wrapper.find("object.viewContentObject").exists()).toBeTruthy();
+        expect(tree.toJSON()).toMatchSnapshot();
+        expect(tree.root.findByType("object")).toBeTruthy();
     });
 
     it("renders audio tag on audio primaryType", () => {
         props.data = "testAudio";
         props.mimeType = "audio/mpeg3";
-        const wrapper = mount(<DatatypeContent {...props} />);
+        const tree = renderer.create(<DatatypeContent {...props} />);
 
-        expect(toJson(wrapper)).toMatchSnapshot();
-        expect(wrapper.find("div.viewContentAudio").exists()).toBeTruthy();
+        expect(tree.toJSON()).toMatchSnapshot();
+        expect(tree.root.findByType("audio")).toBeTruthy();
     });
 });

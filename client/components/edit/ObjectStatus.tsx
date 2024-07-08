@@ -10,11 +10,11 @@ export interface ObjectStatusProps {
 
 export const ObjectStatus = ({ pid }: ObjectStatusProps): React.ReactElement => {
     const {
-        action: { toggleModal },
+        action: { openModal },
     } = useGlobalContext();
     const {
         state: { objectDetailsStorage },
-        action: { setStateModalActivePid, toggleStateModal },
+        action: { setStateModalActivePid },
     } = useEditorContext();
     const loaded = Object.prototype.hasOwnProperty.call(objectDetailsStorage, pid);
     const details = loaded ? objectDetailsStorage[pid] : {};
@@ -22,7 +22,7 @@ export const ObjectStatus = ({ pid }: ObjectStatusProps): React.ReactElement => 
     const stateTxt = details.state ?? "Unknown";
     const clickAction = () => {
         setStateModalActivePid(pid);
-        toggleModal("state");
+        openModal("state");
     };
     const stateMsg = loaded ? (
         <button onClick={clickAction} className={styles[stateTxt.toLowerCase()]}>

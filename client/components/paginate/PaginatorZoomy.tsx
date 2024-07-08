@@ -18,7 +18,7 @@ const PaginatorZoomy = ({ img }: PaginatorZoomyProps): React.ReactElement => {
                 Zoomy.resize();
                 Zoomy.center();
                 status.current.className = "hidden";
-            }.bind(this)
+            }.bind(this),
         );
     };
 

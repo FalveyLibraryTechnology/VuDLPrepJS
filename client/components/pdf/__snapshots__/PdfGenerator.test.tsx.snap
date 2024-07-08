@@ -10,12 +10,14 @@ exports[`PdfGenerator renders 1`] = `
     PID: 
     <input
       id="pdfGeneratePid"
+      onChange={[Function]}
       type="text"
       value=""
     />
   </label>
   <button
     id="pdfGenerateButton"
+    onClick={[Function]}
   >
     Generate
   </button>

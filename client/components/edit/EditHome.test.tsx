@@ -1,7 +1,7 @@
 import React from "react";
 import { describe, expect, it } from "@jest/globals";
-import { mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { waitFor } from "@testing-library/react";
+import renderer from "react-test-renderer";
 import EditHome from "./EditHome";
 
 const mockUseEditorContext = jest.fn();
@@ -27,9 +27,14 @@ describe("EditHome", () => {
         };
         mockUseEditorContext.mockReturnValue(editorValues);
     });
-    it("renders", () => {
-        const wrapper = mount(<EditHome />);
-        expect(editorValues.action.initializeCatalog).toHaveBeenCalled();
-        expect(toJson(wrapper)).toMatchSnapshot();
+    it("renders", async () => {
+        let tree;
+        await renderer.act(async () => {
+            tree = renderer.create(<EditHome />);
+
+            await waitFor(() => expect(editorValues.action.initializeCatalog).toHaveBeenCalled());
+        });
+
+        expect(tree.toJSON()).toMatchSnapshot();
     });
 });

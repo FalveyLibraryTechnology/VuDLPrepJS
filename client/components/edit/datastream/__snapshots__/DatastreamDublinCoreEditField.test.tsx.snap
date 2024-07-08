@@ -1,89 +1,132 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DatastreamDublinCoreEditField renders a dropdown field 1`] = `
-<ForwardRef(FormControl)
-  fullWidth={true}
->
-  <ForwardRef(NativeSelect)
-    onChange={[Function]}
-    value="foo"
+[
+  "FormControl",
+  <div
+    className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-bz5ng3-MuiInputBase-root-MuiInput-root"
+    onClick={[Function]}
   >
-    <option
-      key="foo_0"
+    <select
+      className="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
+      onAnimationStart={[Function]}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
       value="foo"
     >
-      foo
-    </option>
-    <option
-      key="bar_1"
-      value="bar"
+      <option
+        value="foo"
+      >
+        foo
+      </option>
+      <option
+        value="bar"
+      >
+        bar
+      </option>
+      <option
+        value="baz"
+      >
+        baz
+      </option>
+    </select>
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconStandard css-10bey84-MuiSvgIcon-root-MuiNativeSelect-icon"
+      data-testid="ArrowDropDownIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
     >
-      bar
-    </option>
-    <option
-      key="baz_2"
-      value="baz"
-    >
-      baz
-    </option>
-  </ForwardRef(NativeSelect)>
-</ForwardRef(FormControl)>
+      <path
+        d="M7 10l5 5 5-5z"
+      />
+    </svg>
+  </div>,
+]
 `;
 
 exports[`DatastreamDublinCoreEditField renders a dropdown field with an unexpected value 1`] = `
-<ForwardRef(FormControl)
-  fullWidth={true}
->
-  <ForwardRef(NativeSelect)
-    onChange={[Function]}
-    value="foo"
+[
+  "FormControl",
+  <div
+    className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-bz5ng3-MuiInputBase-root-MuiInput-root"
+    onClick={[Function]}
   >
-    <option
-      key="foo_0"
+    <select
+      className="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
+      onAnimationStart={[Function]}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
       value="foo"
     >
-      foo
-    </option>
-  </ForwardRef(NativeSelect)>
-</ForwardRef(FormControl)>
+      <option
+        value="foo"
+      >
+        foo
+      </option>
+    </select>
+    <svg
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconStandard css-10bey84-MuiSvgIcon-root-MuiNativeSelect-icon"
+      data-testid="ArrowDropDownIcon"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M7 10l5 5 5-5z"
+      />
+    </svg>
+  </div>,
+]
 `;
 
 exports[`DatastreamDublinCoreEditField renders a locked field 1`] = `
-<ForwardRef(FormControl)
-  fullWidth={true}
->
-  <ForwardRef(TextField)
-    disabled={true}
-    type="text"
-    value="foo"
-  />
-</ForwardRef(FormControl)>
+[
+  "FormControl",
+  "FormControl (disabled))",
+  <div
+    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+    onClick={[Function]}
+  >
+    <input
+      autoFocus={false}
+      className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+      id=":r0:"
+      onAnimationStart={[Function]}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      type="text"
+      value="foo"
+    />
+    <fieldset
+      aria-hidden={true}
+      className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+    >
+      <legend
+        className="css-ihdtdm"
+      >
+        <span
+          className="notranslate"
+        >
+          ​
+        </span>
+      </legend>
+    </fieldset>
+  </div>,
+]
 `;
 
 exports[`DatastreamDublinCoreEditField renders a text field 1`] = `
-<ForwardRef(FormControl)
-  fullWidth={true}
->
-  <BlurSavingTextField
-    setValue={[MockFunction]}
-    value="foo"
-  />
-</ForwardRef(FormControl)>
+[
+  "FormControl",
+  "BlurSavingTextField: {"value":"foo"}",
+]
 `;
 
-exports[`DatastreamDublinCoreEditField renders an html field 1`] = `
-<Editor
-  cloudChannel="6"
-  init={
-    Object {
-      "plugins": "code link",
-    }
-  }
-  initialValue="foo"
-  onBlur={[Function]}
-  tinymceScriptSrc="/tinymce/tinymce.min.js"
-/>
-`;
+exports[`DatastreamDublinCoreEditField renders an html field 1`] = `"TinyMCE"`;
 
 exports[`DatastreamDublinCoreEditField renders an unknown field 1`] = `
 <p>

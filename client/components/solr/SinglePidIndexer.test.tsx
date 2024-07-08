@@ -1,8 +1,8 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { act } from "react-dom/test-utils";
-import { mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { fireEvent, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import renderer from "react-test-renderer";
 import SinglePidIndexer from "./SinglePidIndexer";
 
 const mockUseFetchContext = jest.fn();
@@ -14,7 +14,6 @@ jest.mock("../../context/FetchContext", () => ({
 
 describe("SinglePidIndexer", () => {
     let fetchContextValues;
-    let wrapper;
     let setResults;
     beforeEach(() => {
         fetchContextValues = {
@@ -24,34 +23,35 @@ describe("SinglePidIndexer", () => {
         };
         mockUseFetchContext.mockReturnValue(fetchContextValues);
         setResults = jest.fn();
-        wrapper = mount(<SinglePidIndexer setResults={setResults} />);
     });
 
     it("renders", () => {
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<SinglePidIndexer setResults={setResults} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("changes the pid input", () => {
-        wrapper.find("#solrIndexPid").simulate("change", {
+        render(<SinglePidIndexer setResults={setResults} />);
+        const input = screen.getByRole("textbox");
+        fireEvent.change(input, {
             target: {
                 value: "testPid",
             },
         });
-        expect(wrapper.find("#solrIndexPid").instance().value).toEqual("testPid");
+        expect(input.getAttribute("value")).toEqual("testPid");
     });
 
     it("fetches the preview text", async () => {
         fetchContextValues.action.fetchText.mockResolvedValue("testText");
+        render(<SinglePidIndexer setResults={setResults} />);
 
-        await act(async () => {
-            wrapper.find("#solrIndexPid").simulate("change", {
-                target: {
-                    value: "testPid",
-                },
-            });
-            await wrapper.update();
-            wrapper.find("#solrIndexPreviewButton").simulate("click");
+        const input = screen.getByRole("textbox");
+        fireEvent.change(input, {
+            target: {
+                value: "testPid",
+            },
         });
+        await userEvent.setup().click(screen.getByText("Preview"));
 
         expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(expect.stringMatching(/solrindex/), {
             method: "GET",
@@ -61,16 +61,15 @@ describe("SinglePidIndexer", () => {
 
     it("fetches the post text", async () => {
         fetchContextValues.action.fetchText.mockResolvedValue("testText");
+        render(<SinglePidIndexer setResults={setResults} />);
 
-        await act(async () => {
-            wrapper.find("#solrIndexPid").simulate("change", {
-                target: {
-                    value: "testPid",
-                },
-            });
-            await wrapper.update();
-            wrapper.find("#solrIndexIndexButton").simulate("click");
+        const input = screen.getByRole("textbox");
+        fireEvent.change(input, {
+            target: {
+                value: "testPid",
+            },
         });
+        await userEvent.setup().click(screen.getByText("Index"));
 
         expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(expect.stringMatching(/solrindex/), {
             method: "POST",
@@ -82,15 +81,15 @@ describe("SinglePidIndexer", () => {
         fetchContextValues.action.fetchText.mockRejectedValue({
             message: "testError",
         });
+        render(<SinglePidIndexer setResults={setResults} />);
 
-        await act(async () => {
-            wrapper.find("#solrIndexPid").simulate("change", {
-                target: {
-                    value: "testPid",
-                },
-            });
-            wrapper.find("#solrIndexPreviewButton").simulate("click");
+        const input = screen.getByRole("textbox");
+        fireEvent.change(input, {
+            target: {
+                value: "testPid",
+            },
         });
+        await userEvent.setup().click(screen.getByText("Preview"));
 
         expect(fetchContextValues.action.fetchText).toHaveBeenCalled();
         expect(setResults).toHaveBeenCalledWith("testError");

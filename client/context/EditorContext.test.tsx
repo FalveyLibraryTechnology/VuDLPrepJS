@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { renderHook, act } from "@testing-library/react-hooks";
+import { renderHook, act, waitFor } from "@testing-library/react";
 import { EditorContextProvider, useEditorContext } from "./EditorContext";
 
 const mockUseFetchContext = jest.fn();
@@ -50,34 +50,6 @@ describe("useEditorContext", () => {
             });
 
             expect(result.current.state.currentPid).toEqual("test1");
-        });
-    });
-
-    describe("toggleDatastreamModal", () => {
-        it("toggles the modal", async () => {
-            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
-
-            expect(result.current.state.isDatastreamModalOpen).toBeFalsy();
-
-            await act(async () => {
-                await result.current.action.toggleDatastreamModal();
-            });
-
-            expect(result.current.state.isDatastreamModalOpen).toBeTruthy();
-        });
-    });
-
-    describe("toggleParentsModal", () => {
-        it("toggles the modal", async () => {
-            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
-
-            expect(result.current.state.isParentsModalOpen).toBeFalsy();
-
-            await act(async () => {
-                await result.current.action.toggleParentsModal();
-            });
-
-            expect(result.current.state.isParentsModalOpen).toBeTruthy();
         });
     });
 
@@ -250,8 +222,9 @@ describe("useEditorContext", () => {
             const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
             await act(async () => {
                 await result.current.action.setCurrentPid("test:123");
-                await result.current.action.loadCurrentObjectDetails();
             });
+            await result.current.action.loadCurrentObjectDetails();
+            await waitFor(() => expect(fetchValues.action.fetchJSON).toHaveBeenCalled());
             expect(result.current.action.extractFirstMetadataValue("field", "default")).toEqual("foo");
         });
     });
@@ -352,20 +325,6 @@ describe("useEditorContext", () => {
                 await result.current.action.clearPidFromChildListStorage("test:123");
             });
             expect(Object.keys(result.current.state.childListStorage)).toEqual(["test:1234_1_10"]);
-        });
-    });
-
-    describe("toggleStateModal ", () => {
-        it("toggles the modal", async () => {
-            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
-
-            expect(result.current.state.isStateModalOpen).toBeFalsy();
-
-            await act(async () => {
-                await result.current.action.toggleStateModal();
-            });
-
-            expect(result.current.state.isStateModalOpen).toBeTruthy();
         });
     });
 

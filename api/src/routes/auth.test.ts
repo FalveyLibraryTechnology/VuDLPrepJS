@@ -42,7 +42,7 @@ describe("index", () => {
                 Authentication: {
                     require_passwords: "false",
                 },
-            })
+            }),
         );
         const response = await request(app).get("/auth/login").expect(StatusCodes.OK);
         expect(response.text).not.toContain("Login failed; please try again.");

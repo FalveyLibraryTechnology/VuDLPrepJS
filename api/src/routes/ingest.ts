@@ -115,8 +115,8 @@ ingest.delete(
             } else {
                 res.status(404).json({ status: "image missing" });
             }
-        }
-    )
+        },
+    ),
 );
 
 export default ingest;

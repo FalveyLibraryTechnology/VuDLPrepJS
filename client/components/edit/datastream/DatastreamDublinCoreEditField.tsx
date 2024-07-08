@@ -58,6 +58,7 @@ const DatastreamDublinCoreEditField = ({
                     init={{ plugins: "code link" }}
                     tinymceScriptSrc="/tinymce/tinymce.min.js"
                     onBlur={saveHtmlFromTinyMCE}
+                    licenseKey="gpl"
                     initialValue={value.length > 0 ? value : "<div></div>"}
                 />
             );

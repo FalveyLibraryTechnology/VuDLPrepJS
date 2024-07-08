@@ -5,31 +5,42 @@ exports[`JobPaginator renders 1`] = `
   id="paginator"
 >
   <div
-    class="row"
+    className="row"
   >
     <div
-      class="six col"
+      className="six col"
     >
       JobPaginatorZoomToggle
     </div>
     <div
-      class="six col"
+      className="six col"
     >
       <p>
         <a
           href="/"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           Main Menu
         </a>
          &gt; 
         <a
           href="/paginate"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
           Paginator
         </a>
-         &gt; testCategory &gt; testJob
+         &gt; 
+        testCategory
+         
+        &gt; 
+        testJob
       </p>
-      PaginatorControlsPaginatorList
+      PaginatorControls
+      PaginatorList
     </div>
   </div>
 </div>

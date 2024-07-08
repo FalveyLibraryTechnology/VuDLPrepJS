@@ -5,16 +5,12 @@ exports[`ParentList renders a populated parent list correctly (full mode) 1`] = 
   border="1"
 >
   <tbody>
-    <tr
-      key="parentlist_foo:123_foo:122"
-    >
+    <tr>
       <td>
         <button
           onClick={[Function]}
         >
-          <Memo(ForwardRef(DeleteIcon))
-            titleAccess="Delete parent foo:122"
-          />
+          Delete parent foo:122
         </button>
       </td>
       <td>
@@ -36,16 +32,12 @@ exports[`ParentList renders a populated parent list correctly (shallow mode) 1`]
   border="1"
 >
   <tbody>
-    <tr
-      key="parentlist_foo:123_foo:122"
-    >
+    <tr>
       <td>
         <button
           onClick={[Function]}
         >
-          <Memo(ForwardRef(DeleteIcon))
-            titleAccess="Delete parent foo:122"
-          />
+          Delete parent foo:122
         </button>
       </td>
       <td>
@@ -71,9 +63,7 @@ exports[`ParentList renders an empty list correctly 1`] = `
   border="1"
 >
   <tbody>
-    <tr
-      key="parentlist_foo:123_null"
-    >
+    <tr>
       <td>
         No parents defined.
       </td>

@@ -1,7 +1,7 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { shallow, mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { render } from "@testing-library/react";
+import renderer from "react-test-renderer";
 import PaginatorZoomy from "./PaginatorZoomy";
 
 const mockInit = jest.fn();
@@ -23,12 +23,12 @@ describe("PaginatorZoomy", () => {
     });
 
     it("renders", () => {
-        const wrapper = shallow(<PaginatorZoomy {...props} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<PaginatorZoomy {...props} />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("calls zoomy functions on initial state", () => {
-        mount(<PaginatorZoomy {...props} />);
+        render(<PaginatorZoomy {...props} />);
 
         expect(mockInit).toHaveBeenCalled();
         expect(mockLoad).toHaveBeenCalledWith(props.img, expect.any(Function));

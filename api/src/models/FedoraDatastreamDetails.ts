@@ -79,6 +79,11 @@ class FedoraDatastreamDetails {
             if (this.data.fedoraDatastreams.includes("OCR-DIRTY")) {
                 this.fullText.ocrDirty = [await this.fedora.getDatastreamAsString(this.data.pid, "OCR-DIRTY")];
             }
+            if (this.data.fedoraDatastreams.includes("TEXT-TRANSCRIPT")) {
+                this.fullText.transcript = [await this.fedora.getDatastreamAsString(this.data.pid, "TEXT-TRANSCRIPT")];
+            } else if (this.data.fedoraDatastreams.includes("VTT")) {
+                this.fullText.transcript = [await this.fedora.getDatastreamAsString(this.data.pid, "VTT")];
+            }
             if (this.data.models.includes("vudl-system:DOCData") || this.data.models.includes("vudl-system:PDFData")) {
                 const file = (await this.fedora.getDatastream(this.data.pid, "MASTER")).body;
                 this.fullText.fromDocument = [this.tika.extractText(file)];

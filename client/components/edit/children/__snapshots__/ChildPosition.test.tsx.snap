@@ -1,20 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ChildPosition renders correctly when a sequence exists and parent is custom sorted 1`] = `
-<ForwardRef(TextField)
+<div
   aria-label="Position in foo:122"
-  defaultValue={73}
-  onBlur={[Function]}
-  size="small"
-  sx={
-    Object {
-      "marginRight": 1,
-      "width": "5em",
-    }
-  }
-/>
+  className="MuiFormControl-root MuiTextField-root css-laf9zm-MuiFormControl-root-MuiTextField-root"
+>
+  <div
+    className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+    onClick={[Function]}
+  >
+    <input
+      aria-invalid={false}
+      autoFocus={false}
+      className="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+      defaultValue={73}
+      disabled={false}
+      id=":r0:"
+      onAnimationStart={[Function]}
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      required={false}
+      type="text"
+    />
+    <fieldset
+      aria-hidden={true}
+      className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+    >
+      <legend
+        className="css-ihdtdm"
+      >
+        <span
+          className="notranslate"
+        >
+          ​
+        </span>
+      </legend>
+    </fieldset>
+  </div>
+</div>
 `;
-
-exports[`ChildPosition renders correctly when a sequence exists and parent is not custom sorted 1`] = `<Fragment />`;
-
-exports[`ChildPosition renders correctly when no sort or sequence exists 1`] = `<Fragment />`;

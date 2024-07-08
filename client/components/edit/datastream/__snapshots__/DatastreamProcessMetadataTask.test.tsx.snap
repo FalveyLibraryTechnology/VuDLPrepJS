@@ -1,460 +1,250 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DatastreamProcessMetadataTask renders with tool presets 1`] = `
-<Fragment>
+[
   <hr
     style={
-      Object {
+      {
         "marginBottom": "20px",
       }
     }
-  />
-  <ForwardRef(Grid)
-    container={true}
-    spacing={1}
+  />,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
   >
-    <ForwardRef(Grid)
-      item={true}
-      xs={11}
-    >
-      <ForwardRef(Grid)
-        container={true}
-        spacing={1}
-        style={
-          Object {
-            "marginBottom": "10px",
-          }
-        }
+    BlurSavingTextField: {"options":{"label":"Task Sequence"},"value":"seq"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Task Label"},"value":"lab"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Task Description"},"value":"des"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Task Individual"},"value":"ind"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    <label>
+      Select a preset tool:
+      <div
+        className="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiNativeSelect-root css-1eed5fa-MuiInputBase-root-MuiInput-root"
+        onClick={[Function]}
       >
-        <ForwardRef(Grid)
-          item={true}
-          xs={3}
+        <select
+          aria-invalid={false}
+          className="MuiNativeSelect-select MuiNativeSelect-outlined MuiInputBase-input MuiInput-input css-19ygod6-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
+          disabled={false}
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          required={false}
+          value="0"
         >
-          <ForwardRef(FormControl)
-            fullWidth={true}
+          <option
+            value="0"
           >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Task Sequence",
-                }
-              }
-              setValue={[Function]}
-              value="seq"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={3}
+            My Tool
+          </option>
+        </select>
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconOutlined css-1g12qau-MuiSvgIcon-root-MuiNativeSelect-icon"
+          data-testid="ArrowDropDownIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
         >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Task Label",
-                }
-              }
-              setValue={[Function]}
-              value="lab"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={3}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Task Description",
-                }
-              }
-              setValue={[Function]}
-              value="des"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={3}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Task Individual",
-                }
-              }
-              setValue={[Function]}
-              value="ind"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={7}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <label>
-              Select a preset tool:
-              <ForwardRef(NativeSelect)
-                onChange={[Function]}
-                value="0"
-              >
-                <option
-                  key="tool_preset_0"
-                  value="0"
-                >
-                  My Tool
-                </option>
-              </ForwardRef(NativeSelect)>
-            </label>
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={5}
-        >
-          <button
-            onClick={[Function]}
-          >
-            Apply Preset
-          </button>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={3}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Task Tool",
-                }
-              }
-              setValue={[Function]}
-              value="tool-lab"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={3}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Tool Description",
-                }
-              }
-              setValue={[Function]}
-              value="tool-des"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={2}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Tool Make",
-                }
-              }
-              setValue={[Function]}
-              value="tool-mak"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={2}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Tool Version",
-                }
-              }
-              setValue={[Function]}
-              value="tool-ver"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={2}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Tool Serial Number",
-                }
-              }
-              setValue={[Function]}
-              value="tool-ser"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-      </ForwardRef(Grid)>
-    </ForwardRef(Grid)>
-    <ForwardRef(Grid)
-      item={true}
-      xs={1}
-    >
-      <ForwardRef(IconButton)
-        onClick={[MockFunction]}
-      >
-        <Memo(ForwardRef(AddCircleIcon))
-          titleAccess="Add Below"
-        />
-      </ForwardRef(IconButton)>
-      <ForwardRef(IconButton)
-        onClick={[MockFunction]}
-      >
-        <Memo(ForwardRef(DeleteIcon))
-          titleAccess="Delete Task"
-        />
-      </ForwardRef(IconButton)>
-    </ForwardRef(Grid)>
-  </ForwardRef(Grid)>
-</Fragment>
+          <path
+            d="M7 10l5 5 5-5z"
+          />
+        </svg>
+      </div>
+    </label>
+  </div>,
+  <button
+    onClick={[Function]}
+  >
+    Apply Preset
+  </button>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Task Tool"},"value":"tool-lab"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Tool Description"},"value":"tool-des"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Tool Make"},"value":"tool-mak"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Tool Version"},"value":"tool-ver"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Tool Serial Number"},"value":"tool-ser"}
+  </div>,
+  <button
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[MockFunction]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    Add Below
+    <span
+      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+    />
+  </button>,
+  <button
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[MockFunction]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    Delete Task
+    <span
+      className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+    />
+  </button>,
+]
 `;
 
 exports[`DatastreamProcessMetadataTask renders without tool presets 1`] = `
-<Fragment>
+[
   <hr
     style={
-      Object {
+      {
         "marginBottom": "20px",
       }
     }
-  />
-  <ForwardRef(Grid)
-    container={true}
-    spacing={1}
+  />,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
   >
-    <ForwardRef(Grid)
-      item={true}
-      xs={11}
-    >
-      <ForwardRef(Grid)
-        container={true}
-        spacing={1}
-        style={
-          Object {
-            "marginBottom": "10px",
-          }
-        }
-      >
-        <ForwardRef(Grid)
-          item={true}
-          xs={3}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Task Sequence",
-                }
-              }
-              setValue={[Function]}
-              value="seq"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={3}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Task Label",
-                }
-              }
-              setValue={[Function]}
-              value="lab"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={3}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Task Description",
-                }
-              }
-              setValue={[Function]}
-              value="des"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={3}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Task Individual",
-                }
-              }
-              setValue={[Function]}
-              value="ind"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={3}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Task Tool",
-                }
-              }
-              setValue={[Function]}
-              value="tool-lab"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={3}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Tool Description",
-                }
-              }
-              setValue={[Function]}
-              value="tool-des"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={2}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Tool Make",
-                }
-              }
-              setValue={[Function]}
-              value="tool-mak"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={2}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Tool Version",
-                }
-              }
-              setValue={[Function]}
-              value="tool-ver"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-        <ForwardRef(Grid)
-          item={true}
-          xs={2}
-        >
-          <ForwardRef(FormControl)
-            fullWidth={true}
-          >
-            <BlurSavingTextField
-              options={
-                Object {
-                  "label": "Tool Serial Number",
-                }
-              }
-              setValue={[Function]}
-              value="tool-ser"
-            />
-          </ForwardRef(FormControl)>
-        </ForwardRef(Grid)>
-      </ForwardRef(Grid)>
-    </ForwardRef(Grid)>
-    <ForwardRef(Grid)
-      item={true}
-      xs={1}
-    >
-      <ForwardRef(IconButton)
-        onClick={[MockFunction]}
-      >
-        <Memo(ForwardRef(AddCircleIcon))
-          titleAccess="Add Below"
-        />
-      </ForwardRef(IconButton)>
-      <ForwardRef(IconButton)
-        onClick={[MockFunction]}
-      >
-        <Memo(ForwardRef(DeleteIcon))
-          titleAccess="Delete Task"
-        />
-      </ForwardRef(IconButton)>
-    </ForwardRef(Grid)>
-  </ForwardRef(Grid)>
-</Fragment>
+    BlurSavingTextField: {"options":{"label":"Task Sequence"},"value":"seq"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Task Label"},"value":"lab"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Task Description"},"value":"des"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Task Individual"},"value":"ind"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Task Tool"},"value":"tool-lab"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Tool Description"},"value":"tool-des"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Tool Make"},"value":"tool-mak"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Tool Version"},"value":"tool-ver"}
+  </div>,
+  <div
+    className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+  >
+    BlurSavingTextField: {"options":{"label":"Tool Serial Number"},"value":"tool-ser"}
+  </div>,
+  <button
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[MockFunction]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    Add Below
+  </button>,
+  <button
+    className="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+    disabled={false}
+    onBlur={[Function]}
+    onClick={[MockFunction]}
+    onContextMenu={[Function]}
+    onDragLeave={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onMouseDown={[Function]}
+    onMouseLeave={[Function]}
+    onMouseUp={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
+    tabIndex={0}
+    type="button"
+  >
+    Delete Task
+  </button>,
+]
 `;

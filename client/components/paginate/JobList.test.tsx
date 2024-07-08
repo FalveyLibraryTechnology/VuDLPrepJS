@@ -1,7 +1,6 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { render } from "enzyme";
-import toJson from "enzyme-to-json";
+import renderer from "react-test-renderer";
 import JobList from "./JobList";
 
 const mockJob = jest.fn();
@@ -11,7 +10,7 @@ jest.mock(
         function Job(props) {
             mockJob(props);
             return <mock-job />;
-        }
+        },
 );
 
 describe("JobList", () => {
@@ -25,13 +24,13 @@ describe("JobList", () => {
     });
 
     it("renders", () => {
-        const wrapper = render(<JobList {...props} />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<JobList {...props} />).toJSON();
+        expect(tree).toMatchSnapshot();
         expect(mockJob).toHaveBeenCalledWith(
             expect.objectContaining({
                 category: props.category,
                 children: "testJob",
-            })
+            }),
         );
     });
 });

@@ -113,6 +113,10 @@ class Config {
         return this.ini["java_path"] ?? "java";
     }
 
+    get tikaConfigFile(): string {
+        return this.ini["tika_config_file"] ?? null;
+    }
+
     get tikaPath(): string {
         return this.ini["tika_path"];
     }
@@ -123,6 +127,10 @@ class Config {
 
     get solrUrl(): string {
         return this.ini["solr_url"] ?? "http://localhost:8983/solr";
+    }
+
+    get solrDocumentCacheDir(): boolean | string {
+        return this.ini["solr_document_cache_dir"] ?? false;
     }
 
     get allowedOrigins(): string[] {
@@ -271,6 +279,47 @@ class Config {
 
     get toolPresets(): Array<Record<string, string>> {
         return this.ini?.["tool_presets"] ?? [];
+    }
+
+    get sharpOptions(): Record<string, unknown> {
+        const pixelLimit = this.ini?.["sharp"]?.["limitInputPixels"] ?? "268402689";
+        return {
+            limitInputPixels: parseInt(pixelLimit),
+        };
+    }
+
+    get max409Retries(): number {
+        return this.ini["max_409_retries"] ?? 3;
+    }
+
+    get maxUploadSize(): number {
+        return this.ini?.["upload"]?.["sizeLimit"] ?? 200 * 1024 * 1024;
+    }
+
+    get notifyMethod(): string {
+        return this.ini?.["notify"]?.["method"] ?? "ntfy";
+    }
+
+    get ntfyConfig(): Record<string, string> {
+        return {
+            defaultChannel: this.ini?.["notify"]?.["ntfy_defaultChannel"] ?? "vudl-ntfy",
+        };
+    }
+
+    get indexerLockRetries(): number {
+        return parseInt(this.ini?.["indexer"]?.["lockRetries"] ?? 60);
+    }
+
+    get indexerLockWaitMs(): number {
+        return parseInt(this.ini?.["indexer"]?.["lockWaitMs"] ?? 1000);
+    }
+
+    get indexerExceptionRetries(): number {
+        return parseInt(this.ini?.["indexer"]?.["exceptionRetries"] ?? 10);
+    }
+
+    get indexerExceptionWaitMs(): number {
+        return parseInt(this.ini?.["indexer"]?.["exceptionWaitMs"] ?? 500);
     }
 }
 

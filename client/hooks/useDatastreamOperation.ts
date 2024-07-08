@@ -16,6 +16,9 @@ import {
 
 const useDatastreamOperation = () => {
     const {
+        action: { setSnackbarState, closeModal },
+    } = useGlobalContext();
+    const {
         action: { fetchBlob, fetchJSON, fetchText },
     } = useFetchContext();
     const {
@@ -55,15 +58,14 @@ const useDatastreamOperation = () => {
                 message: text,
                 severity: "success",
             });
-            toggleModal();
         } catch (err) {
             setSnackbarState({
                 open: true,
                 message: err.message,
                 severity: "error",
             });
-            toggleModal();
         }
+        closeModal("datastream");
     };
 
     const uploadAgents = async (agents) => {
@@ -110,7 +112,7 @@ const useDatastreamOperation = () => {
                 severity: "error",
             });
         }
-        toggleModal();
+        closeModal("datastream");
     };
 
     const uploadLicense = async (licenseKey) => {
@@ -134,7 +136,7 @@ const useDatastreamOperation = () => {
                 severity: "error",
             });
         }
-        toggleModal();
+        closeModal("datastream");
     };
 
     const uploadProcessMetadata = async (processMetadata) => {
@@ -158,7 +160,7 @@ const useDatastreamOperation = () => {
                 severity: "error",
             });
         }
-        toggleModal();
+        closeModal("datastream");
     };
 
     const deleteDatastream = async () => {
@@ -179,7 +181,7 @@ const useDatastreamOperation = () => {
                 severity: "error",
             });
         }
-        toggleModal();
+        closeModal("datastream");
     };
 
     const downloadDatastream = async (datastream) => {

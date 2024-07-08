@@ -1,9 +1,8 @@
 import React from "react";
 import { describe, afterEach, expect, it, jest } from "@jest/globals";
-import { mount, shallow } from "enzyme";
-import { act } from "react-dom/test-utils";
-import toJson from "enzyme-to-json";
+import renderer from "react-test-renderer";
 import DatastreamDublinCoreAddButtons from "./DatastreamDublinCoreAddButtons";
+import { waitFor } from "@testing-library/react";
 
 const mockUseEditorContext = jest.fn();
 jest.mock("../../../context/EditorContext", () => ({
@@ -19,7 +18,7 @@ jest.mock("../../../context/DublinCoreMetadataContext", () => ({
     },
 }));
 
-jest.mock("../PidPicker", () => () => "PidPicker");
+jest.mock("../PidPicker", () => (props) => "PidPicker: " + JSON.stringify(props));
 
 describe("DatastreamDublinCoreAddButtons", () => {
     let dcValues;
@@ -57,19 +56,17 @@ describe("DatastreamDublinCoreAddButtons", () => {
     });
 
     it("renders without selected clone pid", () => {
-        const wrapper = shallow(<DatastreamDublinCoreAddButtons />);
-
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<DatastreamDublinCoreAddButtons />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("renders with selected clone pid", () => {
         editorValues.state.objectDetailsStorage["foo"] = {};
-        const wrapper = shallow(<DatastreamDublinCoreAddButtons />);
-        act(() => {
-            wrapper.children().at(4).props().setSelected("foo");
+        const tree = renderer.create(<DatastreamDublinCoreAddButtons />);
+        renderer.act(() => {
+            tree.root.children[4].props.setSelected("foo");
         });
-        wrapper.update();
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(tree.toJSON()).toMatchSnapshot();
     });
 
     it("renders with appropriate parent details (using shallow storage)", () => {
@@ -78,9 +75,8 @@ describe("DatastreamDublinCoreAddButtons", () => {
                 parents: [{ pid: "parent:123", title: "Parent" }],
             },
         };
-        const wrapper = shallow(<DatastreamDublinCoreAddButtons />);
-
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<DatastreamDublinCoreAddButtons />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("renders with appropriate parent details (using full storage)", () => {
@@ -89,23 +85,23 @@ describe("DatastreamDublinCoreAddButtons", () => {
                 parents: [{ pid: "parent:123", title: "Parent" }],
             },
         };
-        const wrapper = shallow(<DatastreamDublinCoreAddButtons />);
-
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<DatastreamDublinCoreAddButtons />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("adds new fields on click", () => {
-        const wrapper = mount(<DatastreamDublinCoreAddButtons />);
-        act(() => {
-            wrapper.find("button").at(1).props().onClick();
+        const tree = renderer.create(<DatastreamDublinCoreAddButtons />);
+        renderer.act(() => {
+            tree.root.findAllByType("button")[1].props.onClick();
         });
         expect(dcValues.action.addValueAbove).toHaveBeenCalledWith("dc:description", 0, "");
     });
 
     it("loads details for cloned pids", async () => {
-        const wrapper = mount(<DatastreamDublinCoreAddButtons />);
-        await act(async () => {
-            await wrapper.children().at(4).props().setSelected("foo");
+        const tree = renderer.create(<DatastreamDublinCoreAddButtons />);
+        await renderer.act(async () => {
+            tree.root.children[4].props.setSelected("foo");
+            await waitFor(() => expect(editorValues.action.loadObjectDetailsIntoStorage).toHaveBeenCalled());
         });
         expect(editorValues.action.loadObjectDetailsIntoStorage).toHaveBeenCalledWith("foo", expect.anything());
     });
@@ -114,13 +110,12 @@ describe("DatastreamDublinCoreAddButtons", () => {
         editorValues.state.objectDetailsStorage["foo"] = {
             metadata: { "dc:identifier": ["foo"], "dc:title": ["added"], "dc:description": ["bar"] },
         };
-        const wrapper = mount(<DatastreamDublinCoreAddButtons />);
-        act(() => {
-            wrapper.children().at(4).props().setSelected("foo");
+        const tree = renderer.create(<DatastreamDublinCoreAddButtons />);
+        renderer.act(() => {
+            tree.root.children[4].props.setSelected("foo");
         });
-        wrapper.update();
-        act(() => {
-            wrapper.find("button").at(2).props().onClick();
+        renderer.act(() => {
+            tree.root.findAllByType("button")[2].props.onClick();
         });
         expect(dcValues.action.mergeValues).toHaveBeenCalledWith({
             "dc:title": ["added"],

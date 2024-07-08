@@ -18,18 +18,24 @@ exports[`MainMenu renders 1`] = `
     className="main-menu-core-functions-list"
   >
     <li>
-      <Link
+      <a
         href="/paginate"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Job Paginator
-      </Link>
+      </a>
     </li>
     <li>
-      <Link
+      <a
         href="/edit"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Object Editor
-      </Link>
+      </a>
     </li>
   </ul>
   <h2
@@ -48,18 +54,34 @@ exports[`MainMenu renders 1`] = `
       </a>
     </li>
     <li>
-      <Link
-        href="/pdf"
+      <a
+        href="/bulk"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
-        PDF Generator
-      </Link>
+        Bulk Editor
+      </a>
     </li>
     <li>
-      <Link
+      <a
+        href="/pdf"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        PDF Generator
+      </a>
+    </li>
+    <li>
+      <a
         href="/solr"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
       >
         Solr Indexer
-      </Link>
+      </a>
     </li>
   </ul>
 </div>

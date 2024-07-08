@@ -2,57 +2,58 @@
 
 exports[`ObjectEditor renders 1`] = `
 <div>
-  <Component
-    pid="foo:123"
-  />
+  Breadcrumbs
   <h1>
     Editor: Object 
     foo:123
   </h1>
-  <Component />
-  <ForwardRef(Grid)
-    container={true}
+  ObjectSummary
+  <div
+    className="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
   >
-    <ForwardRef(Grid)
-      item={true}
-      xs={4}
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
     >
-      <ForwardRef(Box)>
+      <div
+        className="MuiBox-root css-0"
+      >
         <h3>
           Object Tools
         </h3>
         <ul>
           <li>
-            <Link
+            <a
               href="/edit/object/foo:123/newChild"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
             >
               Create New Child Object
-            </Link>
+            </a>
           </li>
         </ul>
-      </ForwardRef(Box)>
-    </ForwardRef(Grid)>
-    <ForwardRef(Grid)
-      item={true}
-      xs={4}
+      </div>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
     >
-      <ForwardRef(Box)>
+      <div
+        className="MuiBox-root css-0"
+      >
         <h3>
           Datastreams
         </h3>
-        <Component />
-      </ForwardRef(Box)>
-    </ForwardRef(Grid)>
-  </ForwardRef(Grid)>
-  <Component />
-  <Component />
-  <Component />
+        DatastreamList
+      </div>
+    </div>
+  </div>
+  DatastreamModal
+  ParentsModal
+  StateModal
   <h2>
     Contents
   </h2>
-  <Component
-    pid="foo:123"
-  />
-  <Component />
+  ChildList
+  EditorSnackbar
 </div>
 `;

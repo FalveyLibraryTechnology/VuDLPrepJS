@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer, Dispatch, ReactNode } from "react";
 
 interface SnackbarState {
     open: boolean,
     message: string,
     severity: string
 }
+
 
 export enum ThemeOption {
     system = "system",
@@ -14,7 +15,7 @@ export enum ThemeOption {
 
 interface GlobalState {
     // Modal control
-    isModalOpen: Record<string, boolean>;
+    modalOpenStates: Record<string, boolean>;
     // Snackbar
     snackbarState: SnackbarState;
     // User theme
@@ -25,9 +26,9 @@ interface GlobalState {
  * Pass a shared entity to react components,
  * specifically a way to make api requests.
  */
-const globalContextParams: GlobalState = {
+const initalGlobalState: GlobalState = {
     // Modal control
-    isModalOpen: {},
+    modalOpenStates: {},
     // Snackbar
     snackbarState: {
         open: false,
@@ -38,64 +39,77 @@ const globalContextParams: GlobalState = {
     userTheme: localLoadUserTheme(),
 };
 
-const reducerMapping: Record<string, string> = {
-    // Snackbar
-    SET_SNACKBAR_STATE: "snackbarState",
-    // User theme
-    SET_USER_THEME: "userTheme",
-};
+type Action =
+    | { type: 'OPEN_MODAL'; payload: string }
+    | { type: 'CLOSE_MODAL'; payload: string }
+    | { type: 'SET_SNACKBAR_STATE'; payload: SnackbarState }
+    | { type: 'SET_USER_THEME'; payload: ThemeOption };
 
 /**
  * Update the shared states of react components.
  */
-const globalReducer = (state: GlobalState, { type, payload }: { type: string, payload: unknown}) => {
-    if (type == "OPEN_MODAL") {
-        return {
-            ...state,
-            isModalOpen: { [payload]: true }
-        };
-    }
-    if (type == "CLOSE_MODAL") {
-        return {
-            ...state,
-            isModalOpen: { [payload]: false }
-        };
-    }
-
-    if (Object.keys(reducerMapping).includes(type)){
-        return {
-            ...state,
-            [reducerMapping[type]]: payload
-        };
-    } else {
-        console.error(`global action type: ${type} does not exist`);
-        return state;
+const globalReducer = (state: GlobalState, action: Action): GlobalState => {
+    switch (action.type) {
+        case 'OPEN_MODAL':
+            return {
+                ...state,
+                modalOpenStates: {
+                    ...state.modalOpenStates,
+                    [action.payload]: true,
+                },
+            };
+        case 'CLOSE_MODAL':
+            return {
+                ...state,
+                modalOpenStates: {
+                    ...state.modalOpenStates,
+                    [action.payload]: false,
+                },
+            };
+        case 'SET_SNACKBAR_STATE':
+            return {
+                ...state,
+                snackbarState: action.payload,
+            };
+        default:
+            return state;
     }
 };
 
-const GlobalContext = createContext({});
+/**
+ * Context to provide global state and dispatch function.
+ */
+interface GlobalContextProps {
+    state: GlobalState;
+    dispatch: Dispatch<Action>;
+}
 
-export const GlobalContextProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(globalReducer, globalContextParams);
-    const value = { state, dispatch };
-    return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
+const GlobalContext = createContext<GlobalContextProps | undefined>(undefined);
+
+/**
+ * GlobalContextProvider to wrap around the application.
+ */
+export const GlobalContextProvider = ({ children }: { children: ReactNode }) => {
+    const [state, dispatch] = useReducer(globalReducer, initalGlobalState);
+    return (
+        <GlobalContext.Provider value={{ state, dispatch }}>
+            {children}
+        </GlobalContext.Provider>
+    );
 };
 
 export const useGlobalContext = () => {
-    const {
-        state: {
-            // Modal control
-            isModalOpen,
-            // Snackbar
-            snackbarState,
-            // User theme
-            userTheme,
-        },
-        dispatch,
-    } = useContext(GlobalContext);
+    const context = useContext(GlobalContext);
+
+    if (!context) {
+        throw new Error("useGlobalContext must be used within a GlobalContextProvider");
+    }
+
+    const { state, dispatch } = context;
 
     // Modal control
 
+    const isModalOpen = (modal: string) => state.modalOpenStates[modal] ?? false;
     const openModal = (modal: string) => {
         dispatch({
             type: "OPEN_MODAL",
@@ -109,7 +123,7 @@ export const useGlobalContext = () => {
         });
     };
     const toggleModal = (modal: string) => {
-        if (isModalOpen[modal]) {
+        if (isModalOpen(modal)) {
             closeModal(modal);
         } else {
             openModal(modal);
@@ -138,15 +152,14 @@ export const useGlobalContext = () => {
 
     return {
         state: {
-            // Modal control
-            isModalOpen,
-            // Snackbar
-            snackbarState,
-            // User theme
-            userTheme,
+            // only return limited state
+            // to create "private" attributes
+            snackbarState: state.snackbarState,
+            userTheme: state.userTheme,
         },
         action: {
             // Modal control
+            isModalOpen,
             openModal,
             closeModal,
             toggleModal,
@@ -166,20 +179,22 @@ export default {
 /* User Theme */
 
 // Get system theme from CSS media queries
-function systemTheme() {
+function systemTheme(): ThemeOption {
+    let defaultTheme = "light" as ThemeOption;
+
     if (typeof window != "undefined") {
-        if (window.matchMedia("(prefers-color-scheme)").mediaTheme == "not all") {
-            return "light"
+        if (window.matchMedia("(prefers-color-scheme)").media == "not all") {
+            return defaultTheme;
         }
 
         const isDark = !window.matchMedia("(prefers-color-scheme: light)").matches;
-        return isDark ? "dark" : "light";
+        return (isDark ? "dark" : "light")  as ThemeOption;
     }
 
-    return "light";
+    return defaultTheme;
 }
 
-function applyUserThemeToBody(userTheme) {
+function applyUserThemeToBody(userTheme: ThemeOption) {
     if (typeof window != "undefined") {
         document.body.setAttribute(
             "color-scheme",
@@ -189,19 +204,21 @@ function applyUserThemeToBody(userTheme) {
 }
 
 // Get page theme from localStorage
-function localSaveUserTheme(mediaTheme) {
+function localSaveUserTheme(mediaTheme: ThemeOption) {
     if (typeof window != "undefined") {
         localStorage.setItem("vudl-theme", mediaTheme);
     }
 }
 
 // Save page theme from localStorage
-function localLoadUserTheme() {
+function localLoadUserTheme(): ThemeOption {
     if (typeof window != "undefined") {
-        let mediaTheme = localStorage.getItem("vudl-theme") ?? "system";
+        let mediaTheme = (localStorage.getItem("vudl-theme") ?? "system") as ThemeOption;
 
         applyUserThemeToBody(mediaTheme);
 
         return mediaTheme;
     }
+
+    return "system" as ThemeOption;
 }

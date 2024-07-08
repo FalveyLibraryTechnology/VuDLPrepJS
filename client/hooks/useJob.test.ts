@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { renderHook, act } from "@testing-library/react-hooks";
+import { renderHook, act } from "@testing-library/react";
 import useJob from "./useJob";
 import { FetchContextProvider } from "../context/FetchContext";
 
@@ -18,6 +18,7 @@ describe("useJob", () => {
             minutes_since_upload: 0,
             documents: 0,
             audio: 0,
+            video: 0,
             ingesting: false,
             published: false,
         };

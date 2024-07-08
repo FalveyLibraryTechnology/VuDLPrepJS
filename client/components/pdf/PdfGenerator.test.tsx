@@ -1,8 +1,9 @@
 import React from "react";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { act } from "react-dom/test-utils";
-import { render, mount } from "enzyme";
-import toJson from "enzyme-to-json";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import renderer from "react-test-renderer";
 import PdfGenerator from "./PdfGenerator";
 
 const mockUseFetchContext = jest.fn();
@@ -25,37 +26,36 @@ describe("PdfGenerator", () => {
     });
 
     it("renders", () => {
-        const wrapper = render(<PdfGenerator />);
-        expect(toJson(wrapper)).toMatchSnapshot();
+        const tree = renderer.create(<PdfGenerator />).toJSON();
+        expect(tree).toMatchSnapshot();
     });
 
     it("changes the pid input", () => {
-        const wrapper = mount(<PdfGenerator />);
-        wrapper.find("#pdfGeneratePid").simulate("change", {
+        render(<PdfGenerator />);
+        const input = screen.getByRole("textbox");
+        fireEvent.change(input, {
             target: {
                 value: "testPid",
             },
         });
-        expect(wrapper.find("#pdfGeneratePid").instance().value).toEqual("testPid");
+        expect(input.getAttribute("value")).toEqual("testPid");
     });
 
     it("fetches the text", async () => {
         fetchContextValues.action.fetchText.mockResolvedValue("testText");
 
-        const wrapper = mount(<PdfGenerator />);
-        await act(async () => {
-            wrapper.find("#pdfGeneratePid").simulate("change", {
-                target: {
-                    value: "testPid",
-                },
-            });
-            wrapper.find("#pdfGenerateButton").simulate("click");
+        render(<PdfGenerator />);
+        const input = screen.getByRole("textbox");
+        fireEvent.change(input, {
+            target: {
+                value: "testPid",
+            },
         });
-
-        await Promise.resolve();
-
-        expect(fetchContextValues.action.fetchText).toHaveBeenCalled();
-        expect(wrapper.find("#pdfGenerateResults").text()).toEqual("testText");
+        await act(async () => {
+            userEvent.setup().click(screen.getByRole("button"));
+        });
+        await waitFor(() => expect(fetchContextValues.action.fetchText).toHaveBeenCalled());
+        expect(screen.queryAllByText("testText")).toHaveLength(1);
     });
 
     it("throws an error on api call", async () => {
@@ -63,19 +63,17 @@ describe("PdfGenerator", () => {
             message: "testError",
         });
 
-        const wrapper = mount(<PdfGenerator />);
-        await act(async () => {
-            wrapper.find("#pdfGeneratePid").simulate("change", {
-                target: {
-                    value: "testPid",
-                },
-            });
-            wrapper.find("#pdfGenerateButton").simulate("click");
+        render(<PdfGenerator />);
+        const input = screen.getByRole("textbox");
+        fireEvent.change(input, {
+            target: {
+                value: "testPid",
+            },
         });
-
-        await Promise.resolve();
-
-        expect(fetchContextValues.action.fetchText).toHaveBeenCalled();
-        expect(wrapper.find("#pdfGenerateResults").text()).toEqual("testError");
+        await act(async () => {
+            userEvent.setup().click(screen.getByRole("button"));
+        });
+        await waitFor(() => expect(fetchContextValues.action.fetchText).toHaveBeenCalled());
+        expect(screen.queryAllByText("testError")).toHaveLength(1);
     });
 });

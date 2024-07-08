@@ -1,22 +1,54 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Datastream renders 1`] = `
-Array [
-  null,
+[
+  <style
+    dangerouslySetInnerHTML={
+      {
+        "__html": ".css-1rki8sg-MuiListItem-root{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;-webkit-justify-content:flex-start;justify-content:flex-start;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;position:relative;-webkit-text-decoration:none;text-decoration:none;width:100%;box-sizing:border-box;text-align:left;padding-top:8px;padding-bottom:8px;padding-left:16px;padding-right:48px;}.css-1rki8sg-MuiListItem-root>.MuiListItemButton-root{padding-right:48px;}.css-1rki8sg-MuiListItem-root.Mui-focusVisible{background-color:rgba(0, 0, 0, 0.12);}.css-1rki8sg-MuiListItem-root.Mui-selected{background-color:rgba(25, 118, 210, 0.08);}.css-1rki8sg-MuiListItem-root.Mui-selected.Mui-focusVisible{background-color:rgba(25, 118, 210, 0.2);}.css-1rki8sg-MuiListItem-root.Mui-disabled{opacity:0.38;}",
+      }
+    }
+    data-emotion="css 1rki8sg-MuiListItem-root"
+  />,
   <li
-    class="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-1rki8sg-MuiListItem-root"
+    className="MuiListItem-root MuiListItem-gutters MuiListItem-padding css-1rki8sg-MuiListItem-root"
+    disabled={false}
   >
+    <style
+      dangerouslySetInnerHTML={
+        {
+          "__html": ".css-tlelie-MuiListItemText-root{-webkit-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;min-width:0;margin-top:4px;margin-bottom:4px;}",
+        }
+      }
+      data-emotion="css tlelie-MuiListItemText-root"
+    />
     <div
-      class="MuiListItemText-root css-tlelie-MuiListItemText-root"
+      className="MuiListItemText-root css-tlelie-MuiListItemText-root"
     >
+      <style
+        dangerouslySetInnerHTML={
+          {
+            "__html": ".css-10hburv-MuiTypography-root{margin:0;font-family:"Roboto","Helvetica","Arial",sans-serif;font-weight:400;font-size:1rem;line-height:1.5;letter-spacing:0.00938em;display:block;}",
+          }
+        }
+        data-emotion="css 10hburv-MuiTypography-root"
+      />
       <span
-        class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+        className="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
       >
         test1
       </span>
     </div>
+    <style
+      dangerouslySetInnerHTML={
+        {
+          "__html": ".css-518kzi-MuiListItemSecondaryAction-root{position:absolute;right:16px;top:50%;-webkit-transform:translateY(-50%);-moz-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);}",
+        }
+      }
+      data-emotion="css 518kzi-MuiListItemSecondaryAction-root"
+    />
     <div
-      class="MuiListItemSecondaryAction-root css-518kzi-MuiListItemSecondaryAction-root"
+      className="MuiListItemSecondaryAction-root css-518kzi-MuiListItemSecondaryAction-root"
     >
       DatastreamControls
     </div>

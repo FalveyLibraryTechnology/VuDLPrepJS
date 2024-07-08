@@ -1,323 +1,153 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ChildList allows thumbnails to be toggled on 1`] = `
-<FetchContextProvider>
-  <EditorContextProvider>
-    <ChildList
-      pageSize={10}
-      pid=""
-    >
-      <button
-        onClick={[Function]}
-        style={
-          Object {
-            "float": "right",
-            "marginTop": "-2em",
-          }
-        }
-      >
-        Hide Thumbnails
-      </button>
-      <ul
-        className="childlist"
-      >
-        <li
-          key="_child_foo:124"
-        >
-          <Component
-            initialTitle="hello"
-            parentPid=""
-            pid="foo:124"
-            thumbnail={true}
-          >
-            Child
-          </Component>
-        </li>
-      </ul>
-    </ChildList>
-  </EditorContextProvider>
-</FetchContextProvider>
+[
+  <button
+    onClick={[Function]}
+    style={
+      {
+        "float": "right",
+        "marginTop": "-2em",
+      }
+    }
+  >
+    Hide Thumbnails
+  </button>,
+  <ul
+    className="childlist"
+  >
+    <li>
+      Child
+    </li>
+  </ul>,
+]
 `;
 
 exports[`ChildList displays a paginator when appropriate 1`] = `
-<FetchContextProvider>
-  <EditorContextProvider>
-    <ChildList
-      pageSize={10}
-      pid=""
-    >
-      <button
-        onClick={[Function]}
-        style={
-          Object {
-            "float": "right",
-            "marginTop": "-2em",
-          }
-        }
-      >
-        Show Thumbnails
-      </button>
-      <p>
-        Showing 
-        1
-         - 
-        10
-         of
-         
-        10000
-      </p>
-      <Component
-        boundaryCount={2}
-        count={1000}
-        onChange={[Function]}
-        page={1}
-        siblingCount={2}
-      >
-        Pagination
-      </Component>
-      <ul
-        className="childlist"
-      >
-        <li
-          key="_child_foo:124"
-        >
-          <Component
-            initialTitle="hello1"
-            parentPid=""
-            pid="foo:124"
-            thumbnail={false}
-          >
-            Child
-          </Component>
-        </li>
-        <li
-          key="_child_foo:125"
-        >
-          <Component
-            initialTitle="hello2"
-            parentPid=""
-            pid="foo:125"
-            thumbnail={false}
-          >
-            Child
-          </Component>
-        </li>
-        <li
-          key="_child_foo:126"
-        >
-          <Component
-            initialTitle="hello3"
-            parentPid=""
-            pid="foo:126"
-            thumbnail={false}
-          >
-            Child
-          </Component>
-        </li>
-        <li
-          key="_child_foo:127"
-        >
-          <Component
-            initialTitle="hello4"
-            parentPid=""
-            pid="foo:127"
-            thumbnail={false}
-          >
-            Child
-          </Component>
-        </li>
-        <li
-          key="_child_foo:128"
-        >
-          <Component
-            initialTitle="hello5"
-            parentPid=""
-            pid="foo:128"
-            thumbnail={false}
-          >
-            Child
-          </Component>
-        </li>
-        <li
-          key="_child_foo:129"
-        >
-          <Component
-            initialTitle="hello6"
-            parentPid=""
-            pid="foo:129"
-            thumbnail={false}
-          >
-            Child
-          </Component>
-        </li>
-        <li
-          key="_child_foo:130"
-        >
-          <Component
-            initialTitle="hello7"
-            parentPid=""
-            pid="foo:130"
-            thumbnail={false}
-          >
-            Child
-          </Component>
-        </li>
-        <li
-          key="_child_foo:131"
-        >
-          <Component
-            initialTitle="hello8"
-            parentPid=""
-            pid="foo:131"
-            thumbnail={false}
-          >
-            Child
-          </Component>
-        </li>
-        <li
-          key="_child_foo:132"
-        >
-          <Component
-            initialTitle="hello9"
-            parentPid=""
-            pid="foo:132"
-            thumbnail={false}
-          >
-            Child
-          </Component>
-        </li>
-        <li
-          key="_child_foo:133"
-        >
-          <Component
-            initialTitle="hello10"
-            parentPid=""
-            pid="foo:133"
-            thumbnail={false}
-          >
-            Child
-          </Component>
-        </li>
-      </ul>
-    </ChildList>
-  </EditorContextProvider>
-</FetchContextProvider>
+[
+  <button
+    onClick={[Function]}
+    style={
+      {
+        "float": "right",
+        "marginTop": "-2em",
+      }
+    }
+  >
+    Show Thumbnails
+  </button>,
+  <p>
+    Showing 
+    1
+     - 
+    10
+     of
+     
+    10000
+  </p>,
+  "Pagination",
+  <ul
+    className="childlist"
+  >
+    <li>
+      Child
+    </li>
+    <li>
+      Child
+    </li>
+    <li>
+      Child
+    </li>
+    <li>
+      Child
+    </li>
+    <li>
+      Child
+    </li>
+    <li>
+      Child
+    </li>
+    <li>
+      Child
+    </li>
+    <li>
+      Child
+    </li>
+    <li>
+      Child
+    </li>
+    <li>
+      Child
+    </li>
+  </ul>,
+]
 `;
 
 exports[`ChildList renders using SelectableChild when a callback is provided 1`] = `
-<FetchContextProvider>
-  <EditorContextProvider>
-    <ChildList
-      pageSize={10}
-      pid=""
-      selectCallback={[MockFunction]}
-    >
-      <button
-        onClick={[Function]}
-        style={
-          Object {
-            "float": "right",
-            "marginTop": "-2em",
-          }
-        }
-      >
-        Show Thumbnails
-      </button>
-      <ul
-        className="childlist"
-      >
-        <li
-          key="_child_foo:124"
-        >
-          <Component
-            initialTitle="hello"
-            pid="foo:124"
-            selectCallback={[MockFunction]}
-            thumbnail={false}
-          >
-            SelectableChild
-          </Component>
-        </li>
-      </ul>
-    </ChildList>
-  </EditorContextProvider>
-</FetchContextProvider>
+[
+  <button
+    onClick={[Function]}
+    style={
+      {
+        "float": "right",
+        "marginTop": "-2em",
+      }
+    }
+  >
+    Show Thumbnails
+  </button>,
+  <ul
+    className="childlist"
+  >
+    <li>
+      SelectableChild
+    </li>
+  </ul>,
+]
 `;
 
 exports[`ChildList renders using ajax-loaded object data 1`] = `
-<FetchContextProvider>
-  <EditorContextProvider>
-    <ChildList
-      pageSize={10}
-      pid="foo:123"
-    >
-      <button
-        onClick={[Function]}
-        style={
-          Object {
-            "float": "right",
-            "marginTop": "-2em",
-          }
-        }
-      >
-        Show Thumbnails
-      </button>
-      <ul
-        className="childlist"
-      >
-        <li
-          key="foo:123_child_foo:124"
-        >
-          <Component
-            initialTitle="hello"
-            parentPid="foo:123"
-            pid="foo:124"
-            thumbnail={false}
-          >
-            Child
-          </Component>
-        </li>
-      </ul>
-    </ChildList>
-  </EditorContextProvider>
-</FetchContextProvider>
+[
+  <button
+    onClick={[Function]}
+    style={
+      {
+        "float": "right",
+        "marginTop": "-2em",
+      }
+    }
+  >
+    Show Thumbnails
+  </button>,
+  <ul
+    className="childlist"
+  >
+    <li>
+      Child
+    </li>
+  </ul>,
+]
 `;
 
 exports[`ChildList renders using ajax-loaded root data 1`] = `
-<FetchContextProvider>
-  <EditorContextProvider>
-    <ChildList
-      pageSize={10}
-      pid=""
-    >
-      <button
-        onClick={[Function]}
-        style={
-          Object {
-            "float": "right",
-            "marginTop": "-2em",
-          }
-        }
-      >
-        Show Thumbnails
-      </button>
-      <ul
-        className="childlist"
-      >
-        <li
-          key="_child_foo:124"
-        >
-          <Component
-            initialTitle="hello"
-            parentPid=""
-            pid="foo:124"
-            thumbnail={false}
-          >
-            Child
-          </Component>
-        </li>
-      </ul>
-    </ChildList>
-  </EditorContextProvider>
-</FetchContextProvider>
+[
+  <button
+    onClick={[Function]}
+    style={
+      {
+        "float": "right",
+        "marginTop": "-2em",
+      }
+    }
+  >
+    Show Thumbnails
+  </button>,
+  <ul
+    className="childlist"
+  >
+    <li>
+      Child
+    </li>
+  </ul>,
+]
 `;
