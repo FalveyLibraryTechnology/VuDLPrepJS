@@ -6,6 +6,5 @@ exports[`JobSelector renders 1`] = `
   <div
     id="jobSelector"
   />,
-  ";",
 ]
 `;

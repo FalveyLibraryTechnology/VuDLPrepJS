@@ -37,7 +37,7 @@ const JobSelector = (): React.ReactElement => {
     return (
         <>
             <BasicBreadcrumbs />
-            <div id="jobSelector">{[...categoryComponents[0], ...categoryComponents[1]]}</div>;
+            <div id="jobSelector">{[...categoryComponents[0], ...categoryComponents[1]]}</div>
         </>
     );
 };
