@@ -25,9 +25,6 @@ const useDatastreamOperation = () => {
         state: { currentPid, activeDatastream, datastreamsCatalog, currentDatastreams, processMetadataDefaults },
         action: { loadCurrentObjectDetails },
     } = useEditorContext();
-    const {
-        action: { setSnackbarState, toggleModal },
-    } = useGlobalContext();
 
     const isAllowedMimeType = (mimeType) => {
         if (!datastreamsCatalog[activeDatastream]) {
