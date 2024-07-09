@@ -13,13 +13,6 @@ jest.mock("../../context/GlobalContext", () => ({
     },
 }));
 
-const mockUseGlobalContext = jest.fn();
-jest.mock("../../context/GlobalContext", () => ({
-    useGlobalContext: () => {
-        return mockUseGlobalContext();
-    },
-}));
-
 const mockUseEditorContext = jest.fn();
 jest.mock("../../context/EditorContext", () => ({
     useEditorContext: () => {
