@@ -17,7 +17,7 @@ interface GlobalState {
  * Pass a shared entity to react components,
  * specifically a way to make api requests.
  */
-const initalGlobalState: GlobalState = {
+const initialGlobalState: GlobalState = {
     // Modal control
     modalOpenStates: {},
     // Snackbar
@@ -78,7 +78,7 @@ const GlobalContext = createContext<GlobalContextProps | undefined>(undefined);
  * GlobalContextProvider to wrap around the application.
  */
 export const GlobalContextProvider = ({ children }: { children: ReactNode }) => {
-    const [state, dispatch] = useReducer(globalReducer, initalGlobalState);
+    const [state, dispatch] = useReducer(globalReducer, initialGlobalState);
     return (
         <GlobalContext.Provider value={{ state, dispatch }}>
             {children}
