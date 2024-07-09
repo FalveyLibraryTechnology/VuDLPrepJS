@@ -203,14 +203,14 @@ function applyUserThemeToBody(userTheme: ThemeOption) {
     }
 }
 
-// Get page theme from localStorage
+// Save page theme to localStorage
 function localSaveUserTheme(mediaTheme: ThemeOption) {
     if (typeof window != "undefined") {
         localStorage.setItem("vudl-theme", mediaTheme);
     }
 }
 
-// Save page theme from localStorage
+// Get page theme from localStorage
 function localLoadUserTheme(): ThemeOption {
     if (typeof window != "undefined") {
         let mediaTheme = (localStorage.getItem("vudl-theme") ?? "system") as ThemeOption;
