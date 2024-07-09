@@ -182,7 +182,7 @@ export default {
 function systemTheme(): ThemeOption {
     let defaultTheme = "light" as ThemeOption;
 
-    if (typeof window != "undefined") {
+    if (typeof window != "undefined" && typeof window.matchMedia != "undefined") {
         if (window.matchMedia("(prefers-color-scheme)").media == "not all") {
             return defaultTheme;
         }

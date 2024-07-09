@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useReducer } from "react";
 import { editObjectCatalogUrl, getObjectChildrenUrl, getObjectDetailsUrl, getObjectParentsUrl } from "../util/routes";
-import { useGlobalContext } from "./GlobalContext";
 import { useFetchContext } from "./FetchContext";
 import { extractFirstMetadataValue as utilExtractFirstMetadataValue } from "../util/metadata";
 import { TreeNode } from "../util/Breadcrumbs";
@@ -207,11 +206,6 @@ export const EditorContextProvider = ({ children }) => {
 };
 
 export const useEditorContext = () => {
-    const {
-        action: {
-            toggleModal
-        }
-    } = useGlobalContext();
     const {
         action: {
             fetchJSON
