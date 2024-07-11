@@ -362,9 +362,12 @@ uri = "http://creativecommons.org/licenses/by-nc-sa/4.0/"
 [licenses.ATTRIBUTION_NON_COMMERCIAL_NO_DERIVS]
 name = "Attribution-NonCommercial-NoDerivs"
 uri = "http://creativecommons.org/licenses/by-nc-nd/4.0/"
-[licenses.PUBLIC_DOMAIN]
+[licenses.CC0]
 name = "CC0 1.0 Universal (Public Domain)"
 uri = "https://creativecommons.org/publicdomain/zero/1.0/"
+[licenses.PUBLIC_DOMAIN]
+name = "Public Domain Mark"
+uri = "https://creativecommons.org/public-domain/pdm/"
 
 # Agent
 [agent]
