@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.2 - TBD
+## 2.2 - 2024-07-11
 
 ### Added
 
 - Bulk edit tool (currently only able to change licenses).
+- Public domain mark option in example license configuration.
 
 ### Changed
 
