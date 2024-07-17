@@ -54,7 +54,34 @@ describe("PdfGenerator", () => {
         await act(async () => {
             userEvent.setup().click(screen.getByRole("button"));
         });
-        await waitFor(() => expect(fetchContextValues.action.fetchText).toHaveBeenCalled());
+        await waitFor(() =>
+            expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
+                "http://localhost:9000/messenger/pdfgenerator/testPid",
+                { method: "POST" },
+            ),
+        );
+        expect(screen.queryAllByText("testText")).toHaveLength(1);
+    });
+
+    it("trims whitespace from PIDs when fetching the text", async () => {
+        fetchContextValues.action.fetchText.mockResolvedValue("testText");
+
+        render(<PdfGenerator />);
+        const input = screen.getByRole("textbox");
+        fireEvent.change(input, {
+            target: {
+                value: " testPid ",
+            },
+        });
+        await act(async () => {
+            userEvent.setup().click(screen.getByRole("button"));
+        });
+        await waitFor(() =>
+            expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
+                "http://localhost:9000/messenger/pdfgenerator/testPid",
+                { method: "POST" },
+            ),
+        );
         expect(screen.queryAllByText("testText")).toHaveLength(1);
     });
 

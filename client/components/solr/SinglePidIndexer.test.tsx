@@ -53,7 +53,25 @@ describe("SinglePidIndexer", () => {
         });
         await userEvent.setup().click(screen.getByText("Preview"));
 
-        expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(expect.stringMatching(/solrindex/), {
+        expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(expect.stringMatching(/solrindex\/testPid$/), {
+            method: "GET",
+        });
+        expect(setResults).toHaveBeenCalledWith("testText");
+    });
+
+    it("trims the user input appropriately", async () => {
+        fetchContextValues.action.fetchText.mockResolvedValue("testText");
+        render(<SinglePidIndexer setResults={setResults} />);
+
+        const input = screen.getByRole("textbox");
+        fireEvent.change(input, {
+            target: {
+                value: " testPid ",
+            },
+        });
+        await userEvent.setup().click(screen.getByText("Preview"));
+
+        expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(expect.stringMatching(/solrindex\/testPid$/), {
             method: "GET",
         });
         expect(setResults).toHaveBeenCalledWith("testText");

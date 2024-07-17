@@ -12,7 +12,9 @@ const PdfGenerator = (): React.ReactElement => {
 
     const doApiCall = async (method: string) => {
         try {
-            setResults(await fetchText(`${baseUrl}/messenger/pdfgenerator/${encodeURIComponent(pid)}`, { method }));
+            setResults(
+                await fetchText(`${baseUrl}/messenger/pdfgenerator/${encodeURIComponent(pid.trim())}`, { method }),
+            );
         } catch (error) {
             setResults(error.message);
         }
