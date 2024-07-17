@@ -8,6 +8,7 @@ import http = require("needle");
 import PDFDocument = require("pdfkit");
 import QueueJobInterface from "./QueueJobInterface";
 import tmp = require("tmp");
+import FedoraDataCollector from "../services/FedoraDataCollector";
 
 class PdfGenerator {
     protected pid: string;
@@ -81,14 +82,14 @@ class PdfGenerator {
         return pdf;
     }
 
-    private async addPdfToPid(pdf: string): Promise<void> {
-        const documentList = await this.objectFactory.build("ListCollection", "Document List", "Active", this.pid);
-        const pdfObject = await this.buildDocument(documentList, 1);
+    private async addPdfToPid(pdf: string, state: string): Promise<void> {
+        const documentList = await this.objectFactory.build("ListCollection", "Document List", state, this.pid);
+        const pdfObject = await this.buildDocument(documentList, 1, state);
         await this.addDatastreamsToDocument(pdf, pdfObject);
     }
 
-    private async buildDocument(documentList: FedoraObject, number: number): Promise<FedoraObject> {
-        const documentData = await this.objectFactory.build("PDFData", "PDF", "Active", documentList.pid);
+    private async buildDocument(documentList: FedoraObject, number: number, state: string): Promise<FedoraObject> {
+        const documentData = await this.objectFactory.build("PDFData", "PDF", state, documentList.pid);
         await documentData.addSequenceRelationship(documentList.pid, number);
         return documentData;
     }
@@ -112,7 +113,9 @@ class PdfGenerator {
         }
         const largeJpegs = this.getLargeJpegs(manifest);
         const pdf = await this.generatePdf(largeJpegs);
-        await this.addPdfToPid(pdf);
+        // Look up parent object state so newly-generated objects can match it:
+        const fedoraData = await FedoraDataCollector.getInstance().getObjectData(this.pid);
+        await this.addPdfToPid(pdf, fedoraData.state);
         fs.truncateSync(pdf, 0);
         fs.rmSync(pdf);
     }
