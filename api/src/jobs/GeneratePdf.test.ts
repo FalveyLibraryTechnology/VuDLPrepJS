@@ -44,7 +44,7 @@ describe("GeneratePdf", () => {
             expect(thrown).not.toBeNull();
         });
 
-        it("fails if there is already a PDF", async () => {
+        it("short-circuits if there is already a PDF", async () => {
             const manifest = {
                 sequences: [{ rendering: [{ format: "application/pdf" }] }],
             };
