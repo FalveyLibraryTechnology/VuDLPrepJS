@@ -62,6 +62,38 @@ describe("PidRangeIndexer", () => {
         expect(setResults).toHaveBeenCalledWith("testText");
     });
 
+    it("trims whitespace and submits appropriate JSON", async () => {
+        fetchContextValues.action.fetchText.mockResolvedValue("testText");
+        render(<PidRangeIndexer setResults={setResults} />);
+
+        fireEvent.change(screen.getByRole("textbox", { name: "Prefix:" }), {
+            target: {
+                value: " foo: ",
+            },
+        });
+        fireEvent.change(screen.getByRole("textbox", { name: "From (number):" }), {
+            target: {
+                value: " 1 ",
+            },
+        });
+        fireEvent.change(screen.getByRole("textbox", { name: "To (number):" }), {
+            target: {
+                value: " 5 ",
+            },
+        });
+        await userEvent.setup().click(screen.getByRole("button"));
+
+        expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
+            expect.stringMatching(/messenger\/queuesolrindex/),
+            {
+                method: "POST",
+                body: '{"prefix":"foo:","to":"5","from":"1"}',
+            },
+            { "Content-Type": "application/json" },
+        );
+        expect(setResults).toHaveBeenCalledWith("testText");
+    });
+
     it("throws an error on api call", async () => {
         fetchContextValues.action.fetchText.mockRejectedValue({
             message: "testError",
