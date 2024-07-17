@@ -10,19 +10,31 @@ import QueueJobInterface from "./QueueJobInterface";
 import tmp = require("tmp");
 import FedoraDataCollector from "../services/FedoraDataCollector";
 
-class PdfGenerator {
+export class PdfGenerator {
     protected pid: string;
     protected config: Config;
     protected objectFactory: FedoraObjectFactory;
+    protected fedoraDataCollector: FedoraDataCollector;
 
-    constructor(pid: string, config: Config, objectFactory: FedoraObjectFactory) {
+    constructor(
+        pid: string,
+        config: Config,
+        objectFactory: FedoraObjectFactory,
+        fedoraDataCollector: FedoraDataCollector,
+    ) {
         this.pid = pid;
         this.config = config;
         this.objectFactory = objectFactory;
+        this.fedoraDataCollector = fedoraDataCollector;
     }
 
     public static build(pid: string): PdfGenerator {
-        return new PdfGenerator(pid, Config.getInstance(), FedoraObjectFactory.getInstance());
+        return new PdfGenerator(
+            pid,
+            Config.getInstance(),
+            FedoraObjectFactory.getInstance(),
+            FedoraDataCollector.getInstance(),
+        );
     }
 
     private hasPdfAlready(manifest): boolean {
@@ -118,7 +130,7 @@ class PdfGenerator {
         }
         const pdf = await this.generatePdf(largeJpegs);
         // Look up parent object state so newly-generated objects can match it:
-        const fedoraData = await FedoraDataCollector.getInstance().getObjectData(this.pid);
+        const fedoraData = await this.fedoraDataCollector.getObjectData(this.pid);
         await this.addPdfToPid(pdf, fedoraData.state);
         fs.truncateSync(pdf, 0);
         fs.rmSync(pdf);
