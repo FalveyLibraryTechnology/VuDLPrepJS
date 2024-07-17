@@ -22,6 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
+- Generated PDFs now match the active/inactive state of the object within which they are generated.
 - PDF generator and Solr indexer tools now trim unnecessary whitespace from user input.
 
 ## 2.2 - 2024-07-11
