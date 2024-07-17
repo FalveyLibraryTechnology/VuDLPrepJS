@@ -43,5 +43,17 @@ describe("GeneratePdf", () => {
             expect(consoleSpy).toHaveBeenCalledWith("Unexpected 500 status for http://foo/Item/test:123/Manifest");
             expect(thrown).not.toBeNull();
         });
+
+        it("fails if there is already a PDF", async () => {
+            const manifest = {
+                sequences: [{ rendering: [{ format: "application/pdf" }] }],
+            };
+            http.mockResolvedValueOnce({ statusCode: 200, body: manifest });
+            const consoleSpy = jest.spyOn(console, "log").mockImplementation(jest.fn());
+            await generatePdf.run(job);
+            expect(http).toHaveBeenCalledWith("get", "http://foo/Item/test:123/Manifest");
+            expect(consoleSpy).toHaveBeenCalledTimes(1);
+            expect(consoleSpy).toHaveBeenCalledWith("test:123 already has a PDF; exiting early.");
+        });
     });
 });
