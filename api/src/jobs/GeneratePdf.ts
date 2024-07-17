@@ -112,6 +112,10 @@ class PdfGenerator {
             return;
         }
         const largeJpegs = this.getLargeJpegs(manifest);
+        if (largeJpegs.length == 0) {
+            console.log(this.pid + " contains no images; exiting early.");
+            return;
+        }
         const pdf = await this.generatePdf(largeJpegs);
         // Look up parent object state so newly-generated objects can match it:
         const fedoraData = await FedoraDataCollector.getInstance().getObjectData(this.pid);

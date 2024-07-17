@@ -55,5 +55,15 @@ describe("GeneratePdf", () => {
             expect(consoleSpy).toHaveBeenCalledTimes(1);
             expect(consoleSpy).toHaveBeenCalledWith("test:123 already has a PDF; exiting early.");
         });
+
+        it("short-circuits if there are no pages", async () => {
+            const manifest = {};
+            http.mockResolvedValueOnce({ statusCode: 200, body: manifest });
+            const consoleSpy = jest.spyOn(console, "log").mockImplementation(jest.fn());
+            await generatePdf.run(job);
+            expect(http).toHaveBeenCalledWith("get", "http://foo/Item/test:123/Manifest");
+            expect(consoleSpy).toHaveBeenCalledTimes(1);
+            expect(consoleSpy).toHaveBeenCalledWith("test:123 contains no images; exiting early.");
+        });
     });
 });
