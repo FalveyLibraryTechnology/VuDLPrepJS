@@ -33,6 +33,8 @@ exports[`Child handles empty titles appropriately 1`] = `
     >
       - [foo:123]
     </a>
+     
+    CopyPidButton
   </div>
   <div
     className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
@@ -75,6 +77,8 @@ exports[`Child renders a thumbnail 1`] = `
     >
       ajax-loaded title [foo:123]
     </a>
+     
+    CopyPidButton
   </div>
   <div
     className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
@@ -122,6 +126,8 @@ exports[`Child renders using ajax-loaded data 1`] = `
     >
       ajax-loaded title [foo:123]
     </a>
+     
+    CopyPidButton
   </div>
   <div
     className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"

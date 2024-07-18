@@ -10,6 +10,7 @@ import { extractFirstMetadataValue } from "../../../util/metadata";
 import ObjectLoader from "../ObjectLoader";
 import ObjectButtonBar from "../ObjectButtonBar";
 import ObjectThumbnail from "../ObjectThumbnail";
+import CopyPidButton from "../CopyPidButton";
 
 export interface ChildProps {
     pid: string;
@@ -44,7 +45,8 @@ export const Child = ({ pid, parentPid = "", initialTitle, thumbnail = false }: 
                 <Grid item xs={thumbnail ? 7 : 8}>
                     {expandControl}
                     {loaded && parentPid ? <ChildPosition pid={pid} parentPid={parentPid} /> : ""}
-                    <Link href={"/edit/object/" + pid}>{(title.length > 0 ? title : "-") + " [" + pid + "]"}</Link>
+                    <Link href={"/edit/object/" + pid}>{(title.length > 0 ? title : "-") + ` [${pid}]`}</Link>{" "}
+                    <CopyPidButton pid={pid} />
                 </Grid>
                 <Grid item xs={4}>
                     {loaded ? <ObjectButtonBar pid={pid} /> : ""}

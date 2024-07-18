@@ -1,4 +1,5 @@
 import styles from "./ObjectSummary.module.css";
+import CopyPidButton from "./CopyPidButton";
 import React, { useEffect } from "react";
 import HtmlReactParser from "html-react-parser";
 import { useEditorContext } from "../../context/EditorContext";
@@ -31,6 +32,7 @@ const ObjectSummary = (): React.ReactElement => {
             <div>{HtmlReactParser(description)}</div>
             {loaded ? <ObjectButtonBar pid={currentPid} /> : ""}
             {loaded ? <ObjectOrder pid={currentPid} /> : ""}
+            PID: {currentPid} <CopyPidButton pid={currentPid} />
             <br style={{ clear: "both" }} />
         </div>
     );

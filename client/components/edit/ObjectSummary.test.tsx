@@ -9,6 +9,7 @@ jest.mock("../../context/EditorContext", () => ({
         return mockUseEditorContext();
     },
 }));
+jest.mock("./CopyPidButton", () => () => "CopyPidButton");
 jest.mock("./ObjectButtonBar", () => () => "ObjectButtonBar");
 jest.mock("./ObjectOrder", () => () => "ObjectOrder");
 jest.mock("./ObjectThumbnail", () => () => "ObjectThumbnail");

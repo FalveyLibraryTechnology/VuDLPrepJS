@@ -9,6 +9,7 @@ import { EditorContextProvider, ObjectDetails } from "../../../context/EditorCon
 import { FetchContextProvider } from "../../../context/FetchContext";
 
 jest.mock("./ChildList", () => () => "ChildList");
+jest.mock("../CopyPidButton", () => () => "CopyPidButton");
 jest.mock("../ObjectButtonBar", () => (props) => "ObjectButtonBar:" + JSON.stringify(props));
 jest.mock("../ObjectThumbnail", () => (props) => "ObjectThumbnail: " + JSON.stringify(props));
 
