@@ -4,24 +4,6 @@ exports[`CopyPidButton renders 1`] = `
 <button
   onClick={[Function]}
 >
-  <svg
-    className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-    data-testid="ContentCopyIcon"
-    focusable="false"
-    role="img"
-    style={
-      {
-        "height": "14px",
-      }
-    }
-    viewBox="0 0 24 24"
-  >
-    <path
-      d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
-    />
-    <title>
-      Copy PID (foo) to clipboard
-    </title>
-  </svg>
+  Copy PID (foo) to clipboard
 </button>
 `;
