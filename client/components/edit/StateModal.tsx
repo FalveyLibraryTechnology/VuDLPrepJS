@@ -70,8 +70,8 @@ const StateModal = (): React.ReactElement => {
         });
     };
 
-    const updateStatus = async (pid: string): Promise<string> => {
-        setStatusMessage(`Saving status for ${pid}...`);
+    const updateStatus = async (pid: string, remaining: number = 0): Promise<string> => {
+        setStatusMessage(`Saving status for ${pid} (${remaining} more remaining)...`);
         const target = getObjectStateUrl(pid);
         const result = await fetchText(target, { method: "PUT", body: selectedValue });
         if (result === "ok") {
@@ -81,9 +81,9 @@ const StateModal = (): React.ReactElement => {
         return result;
     };
 
-    const saveChildPage = async (response): Promise<boolean> => {
+    const saveChildPage = async (response, found: number, total: number): Promise<boolean> => {
         for (let i = 0; i < response.docs.length; i++) {
-            const result = await updateStatus(response.docs[i].id);
+            const result = await updateStatus(response.docs[i].id, total - (found + i));
             if (result !== "ok") {
                 showSnackbarMessage(`Status failed to save; "${result}"`, "error");
                 closeStateModal();
@@ -99,7 +99,7 @@ const StateModal = (): React.ReactElement => {
         let found = 0;
         let nextResponse = childPidResponse;
         while (found < expectedTotal) {
-            if (!(await saveChildPage(nextResponse))) {
+            if (!(await saveChildPage(nextResponse, found, expectedTotal))) {
                 return false;
             }
             found += nextResponse.docs.length;

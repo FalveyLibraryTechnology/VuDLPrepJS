@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Added
 
 - "Copy PID" button.
+- Countdown in status message when updating multiple object states.
 
 ### Changed
 
