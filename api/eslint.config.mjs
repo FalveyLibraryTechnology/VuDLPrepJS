@@ -14,15 +14,19 @@ const compat = new FlatCompat({
     allConfig: js.configs.all
 });
 
-export default [...compat.extends("plugin:@typescript-eslint/recommended"), {
-    files: ["**/*.ts", "**/*.js", "**/*.jsx"],
+export default [
+    // jsdoc configuration, currently disabled until we're ready to enforce it:
+    //jsdoc.configs['flat/recommended'],
+    ...compat.extends("plugin:@typescript-eslint/recommended"), {
+        files: ["**/*.ts", "**/*.js", "**/*.jsx"],
 
-    plugins: {
-        "@typescript-eslint": typescriptEslint,
-        jsdoc,
-    },
+        plugins: {
+            "@typescript-eslint": typescriptEslint,
+            jsdoc,
+        },
 
-    languageOptions: {
-        parser: tsParser,
-    },
-}];
+        languageOptions: {
+            parser: tsParser,
+        },
+    }
+];
