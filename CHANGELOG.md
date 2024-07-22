@@ -25,6 +25,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Generated PDFs now match the active/inactive state of the object within which they are generated.
 - PDF generator and Solr indexer tools now trim unnecessary whitespace from user input.
+- "Scroll to thumbnail" in the paginator now works even after switching between jobs.
 
 ## 2.2 - 2024-07-11
 

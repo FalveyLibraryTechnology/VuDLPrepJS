@@ -16,11 +16,13 @@ const PaginatorList = (): React.ReactElement => {
     };
     const pages = [];
     let pageIndex;
+    let refIndex = 0;
     for (pageIndex = 0; pageIndex < pageCount; pageIndex++) {
         pages[pageIndex] = (
             <Thumbnail
                 ref={(thumbRef) => {
-                    thumbRefs.current.push(thumbRef);
+                    thumbRefs.current[refIndex] = thumbRef;
+                    refIndex++;
                 }}
                 scrollTo={scrollTo}
                 selected={pageIndex === currentPage}
