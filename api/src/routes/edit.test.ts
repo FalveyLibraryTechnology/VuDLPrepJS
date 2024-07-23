@@ -693,6 +693,58 @@ describe("edit", () => {
         });
     });
 
+    describe("get /object/:pid/childCounts", () => {
+        let querySpy;
+        const solrResponse = { statusCode: 200, body: { response: { numFound: 0 } } };
+        beforeEach(() => {
+            querySpy = jest.spyOn(Solr.getInstance(), "query").mockResolvedValue(solrResponse as NeedleResponse);
+        });
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+        it("will run appropriate Solr queries", async () => {
+            const response1 = JSON.parse(JSON.stringify(solrResponse));
+            response1.body.response.numFound = 5;
+            const response2 = JSON.parse(JSON.stringify(solrResponse));
+            response2.body.response.numFound = 100;
+            querySpy.mockResolvedValueOnce(response1);
+            querySpy.mockResolvedValueOnce(response2);
+            const response = await request(app)
+                .get(`/edit/object/${pid}/childCounts`)
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.OK);
+            expect(querySpy).toHaveBeenCalledTimes(2);
+            expect(querySpy).toHaveBeenCalledWith("biblio", 'fedora_parent_id_str_mv:"foo:123"', {
+                rows: "0",
+            });
+            expect(querySpy).toHaveBeenCalledWith("biblio", 'hierarchy_all_parents_str_mv:"foo:123"', {
+                rows: "0",
+            });
+            expect(response.text).toEqual('{"directChildren":5,"totalDescendants":100}');
+        });
+        it("handles Solr errors in the first query", async () => {
+            const response1 = JSON.parse(JSON.stringify(solrResponse));
+            response1.statusCode = 500;
+            querySpy.mockResolvedValueOnce(response1);
+            const response = await request(app)
+                .get(`/edit/object/${pid}/childCounts`)
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.INTERNAL_SERVER_ERROR);
+        });
+        it("handles Solr errors in the second query", async () => {
+            const response1 = JSON.parse(JSON.stringify(solrResponse));
+            response1.body.response.numFound = 5;
+            const response2 = JSON.parse(JSON.stringify(solrResponse));
+            response2.statusCode = 500;
+            querySpy.mockResolvedValueOnce(response1);
+            querySpy.mockResolvedValueOnce(response2);
+            const response = await request(app)
+                .get(`/edit/object/${pid}/childCounts`)
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.INTERNAL_SERVER_ERROR);
+        });
+    });
+
     describe("get /object/:pid/children", () => {
         let querySpy;
         beforeEach(() => {
