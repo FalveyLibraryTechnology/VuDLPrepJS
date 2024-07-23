@@ -726,7 +726,7 @@ describe("edit", () => {
             const response1 = JSON.parse(JSON.stringify(solrResponse));
             response1.statusCode = 500;
             querySpy.mockResolvedValueOnce(response1);
-            const response = await request(app)
+            await request(app)
                 .get(`/edit/object/${pid}/childCounts`)
                 .set("Authorization", "Bearer test")
                 .expect(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -738,7 +738,7 @@ describe("edit", () => {
             response2.statusCode = 500;
             querySpy.mockResolvedValueOnce(response1);
             querySpy.mockResolvedValueOnce(response2);
-            const response = await request(app)
+            await request(app)
                 .get(`/edit/object/${pid}/childCounts`)
                 .set("Authorization", "Bearer test")
                 .expect(StatusCodes.INTERNAL_SERVER_ERROR);
