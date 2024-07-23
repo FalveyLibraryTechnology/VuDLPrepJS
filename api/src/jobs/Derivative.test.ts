@@ -47,6 +47,7 @@ describe("Derivative", () => {
             expect(imageDerivSpy).toHaveBeenCalledWith("LARGE");
             expect(fs.rmSync).toHaveBeenCalledWith("/foo/bar/derivatives.lock");
             expect(consoleLogSpy).toHaveBeenCalledWith(": build derivatives done");
+            expect(consoleErrorSpy).not.toHaveBeenCalled();
         });
     });
 });
