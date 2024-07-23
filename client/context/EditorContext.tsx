@@ -186,7 +186,7 @@ const editorReducer = (state: EditorState, { type, payload }: { type: string, pa
     } else if (type === "ADD_TO_CHILD_COUNTS_STORAGE") {
         const { key, counts }  = payload as { key: string, counts: ChildCounts };
         const childCountsStorage = {
-            ...state.childCountStorage,
+            ...state.childCountsStorage,
         };
         childCountsStorage[key] = counts;
         return {

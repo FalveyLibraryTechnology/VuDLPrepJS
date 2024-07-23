@@ -10,6 +10,7 @@ export interface ChildListProps {
     pid?: string;
     selectCallback?: boolean | ((pid: string) => void);
     pageSize?: number;
+    forceChildCounts?: boolean | null;
     forceThumbs?: boolean | null;
 }
 
@@ -17,6 +18,7 @@ export const ChildList = ({
     pid = "",
     selectCallback = false,
     pageSize = 10,
+    forceChildCounts = null,
     forceThumbs = null,
 }: ChildListProps): React.ReactElement => {
     const {
@@ -24,6 +26,7 @@ export const ChildList = ({
         action: { getChildListStorageKey, loadChildrenIntoStorage },
     } = useEditorContext();
     const [page, setPage] = useState<number>(1);
+    const [showChildCounts, setShowChildCounts] = useState<boolean>(false);
     const [showThumbs, setShowThumbs] = useState<boolean>(false);
     const key = getChildListStorageKey(pid, page, pageSize);
     const loaded = Object.prototype.hasOwnProperty.call(childListStorage, key);
@@ -41,6 +44,17 @@ export const ChildList = ({
     }
     const children = childListStorage[key];
     const childDocs = children.docs;
+    const childButton = 
+        forceChildCounts === null ? (
+            <button
+                style={{ float: "right", marginTop: "-2em" }}
+                onClick={() => {
+                    setShowChildCounts(!showChildCounts);
+                }}
+            >
+                {showChildCounts ? "Hide Child Counts" : "Show Child Counts"}
+            </button>
+        ) : null;
     const thumbsButton =
         forceThumbs === null ? (
             <button
@@ -63,6 +77,7 @@ export const ChildList = ({
                                 parentPid={pid}
                                 initialTitle={child.title ?? "-"}
                                 thumbnail={forceThumbs ?? showThumbs}
+                                showChildCounts={forceChildCounts ?? showChildCounts}
                             />
                         ) : (
                             <SelectableChild
@@ -105,6 +120,7 @@ export const ChildList = ({
     return (
         <>
             {thumbsButton}
+            {childButton}
             {paginatorLabel}
             {paginator}
             <ul className={styles.childlist}>{contents}</ul>
