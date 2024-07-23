@@ -156,7 +156,7 @@ async function getChildCounts(req, res) {
     const response = {
         directChildren: childResult?.body?.response?.numFound ?? 0,
         totalDescendants: descendantResult?.body?.response?.numFound ?? 0,
-    }
+    };
     res.json(response);
 }
 
