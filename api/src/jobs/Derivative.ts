@@ -6,7 +6,6 @@ import JobMetadata from "../models/JobMetadata";
 import PageOrder from "../models/PageOrder";
 import QueueJob from "./QueueJobInterface";
 
-// TODO: Abstract Job?
 class Derivative implements QueueJob {
     async run(job: Job): Promise<void> {
         console.log(": build derivatives: " + job.data.dir);
