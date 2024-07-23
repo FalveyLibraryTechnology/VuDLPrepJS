@@ -6,6 +6,7 @@ import { useEditorContext } from "../../context/EditorContext";
 import ObjectButtonBar from "./ObjectButtonBar";
 import ObjectOrder from "./ObjectOrder";
 import ObjectThumbnail from "./ObjectThumbnail";
+import ObjectChildCounts from "./ObjectChildCounts";
 
 const ObjectSummary = (): React.ReactElement => {
     const {
@@ -32,6 +33,7 @@ const ObjectSummary = (): React.ReactElement => {
             <div>{HtmlReactParser(description)}</div>
             {loaded ? <ObjectButtonBar pid={currentPid} /> : ""}
             {loaded ? <ObjectOrder pid={currentPid} /> : ""}
+            {loaded ? <ObjectChildCounts pid={currentPid} /> : ""}
             PID: {currentPid} <CopyPidButton pid={currentPid} />
             <br style={{ clear: "both" }} />
         </div>

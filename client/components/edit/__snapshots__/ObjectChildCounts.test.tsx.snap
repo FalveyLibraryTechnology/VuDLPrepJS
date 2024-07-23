@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObjectChildCounts displays the data found in the response 1`] = `
+[
+  "{"pid":"foo:123"}",
+  <div>
+    5
+     children, 
+    100
+     descendants
+  </div>,
+  ",",
+]
+`;

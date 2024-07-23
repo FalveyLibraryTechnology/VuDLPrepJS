@@ -58,6 +58,7 @@ exports[`ObjectSummary renders information from metadata when available 1`] = `
   </div>
   ObjectButtonBar
   ObjectOrder
+  ObjectChildCounts
   PID: 
   foo:123
    

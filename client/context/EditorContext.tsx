@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { editObjectCatalogUrl, getObjectChildrenUrl, getObjectDetailsUrl, getObjectParentsUrl } from "../util/routes";
+import { editObjectCatalogUrl, getObjectChildCountsUrl, getObjectChildrenUrl, getObjectDetailsUrl, getObjectParentsUrl } from "../util/routes";
 import { useFetchContext } from "./FetchContext";
 import { extractFirstMetadataValue as utilExtractFirstMetadataValue } from "../util/metadata";
 import { TreeNode } from "../util/Breadcrumbs";
@@ -35,6 +35,11 @@ export interface License {
     uri: string;
 }
 
+export interface ChildCounts {
+    directChildren: number;
+    totalDescendants: number;
+}
+
 interface EditorState {
     modelsCatalog: Record<string, FedoraModel>;
     licensesCatalog: Record<string, License>;
@@ -55,6 +60,7 @@ interface EditorState {
     stateModalActivePid: string | null;
     objectDetailsStorage: Record<string, ObjectDetails>;
     parentDetailsStorage: Record<string, Record<string, TreeNode>>;
+    childCountsStorage: Record<string, ChildCounts>;
     childListStorage: Record<string, ChildrenResultPage>;
     topLevelPids: Array<string>;
 }
@@ -83,6 +89,7 @@ const editorContextParams: EditorState = {
     stateModalActivePid: null,
     objectDetailsStorage: {},
     parentDetailsStorage: {},
+    childCountsStorage: {},
     childListStorage: {},
     topLevelPids: [],
 };
@@ -176,6 +183,16 @@ const editorReducer = (state: EditorState, { type, payload }: { type: string, pa
             ...state,
             childListStorage
         };
+    } else if (type === "ADD_TO_CHILD_COUNTS_STORAGE") {
+        const { key, counts }  = payload as { key: string, counts: ChildCounts };
+        const childCountsStorage = {
+            ...state.childCountsStorage,
+        };
+        childCountsStorage[key] = counts;
+        return {
+            ...state,
+            childCountsStorage
+        };
     } else if (type === "CLEAR_PID_FROM_CHILD_LIST_STORAGE") {
         const { pid } = payload as { pid: string };
         const childListStorage: Record<string, ChildrenResultPage> = {};
@@ -187,6 +204,18 @@ const editorReducer = (state: EditorState, { type, payload }: { type: string, pa
         return {
             ...state,
             childListStorage
+        };
+    } else if (type === "CLEAR_PID_FROM_CHILD_COUNTS_STORAGE") {
+        const { pid } = payload as { pid: string };
+        const childCountsStorage: Record<string, ChildCounts> = {};
+        for (const key in state.childCountsStorage) {
+            if (key !== pid) {
+                childCountsStorage[key] = state.childCountsStorage[key];
+            }
+        }
+        return {
+            ...state,
+            childCountsStorage
         };
     } else if(Object.keys(reducerMapping).includes(type)){
         return {
@@ -229,6 +258,7 @@ export const useEditorContext = () => {
             modelsCatalog,
             objectDetailsStorage,
             parentDetailsStorage,
+            childCountsStorage,
             childListStorage,
             topLevelPids,
         },
@@ -313,6 +343,13 @@ export const useEditorContext = () => {
         });
     };
 
+    const addToChildCountsStorage = (key: string, counts: ChildCounts) => {
+        dispatch({
+            type: "ADD_TO_CHILD_COUNTS_STORAGE",
+            payload: { key, counts },
+        });
+    };
+
     const getChildListStorageKey = (pid: string, page: number, pageSize: number): string => {
         return `${pid}_${page}_${pageSize}`;
     };
@@ -356,6 +393,13 @@ export const useEditorContext = () => {
         });
     }
 
+    const clearPidFromChildCountsStorage = (pid: string) => {
+        dispatch({
+            type: "CLEAR_PID_FROM_CHILD_COUNTS_STORAGE",
+            payload: { pid },
+        });
+    }
+
     const loadChildrenIntoStorage = async (pid: string, page: number, pageSize: number) => {
         const key = getChildListStorageKey(pid, page, pageSize);
         const url = getObjectChildrenUrl(pid, (page - 1) * pageSize, pageSize);
@@ -363,6 +407,15 @@ export const useEditorContext = () => {
             addToChildListStorage(key, await fetchJSON(url));
         } catch (e) {
             console.error("Problem fetching tree data from " + url);
+        }
+    };
+
+    const loadChildCountsIntoStorage = async (pid: string) => {
+        const url = getObjectChildCountsUrl(pid);
+        try {
+            addToChildCountsStorage(pid, await fetchJSON(url));
+        } catch (e) {
+            console.error("Problem fetching child count data from " + url);
         }
     };
 
@@ -497,6 +550,7 @@ export const useEditorContext = () => {
             licensesCatalog,
             objectDetailsStorage,
             parentDetailsStorage,
+            childCountsStorage,
             childListStorage,
             topLevelPids,
         },
@@ -513,9 +567,11 @@ export const useEditorContext = () => {
             getChildListStorageKey,
             loadObjectDetailsIntoStorage,
             loadParentDetailsIntoStorage,
+            loadChildCountsIntoStorage,
             loadChildrenIntoStorage,
             removeFromObjectDetailsStorage,
             removeFromParentDetailsStorage,
+            clearPidFromChildCountsStorage,
             clearPidFromChildListStorage,
         },
     };
