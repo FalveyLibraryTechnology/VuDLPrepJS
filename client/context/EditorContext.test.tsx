@@ -287,6 +287,30 @@ describe("useEditorContext", () => {
         });
     });
 
+    describe("loadChildCountsIntoStorage", () => {
+        it("successfully calls fetch", async () => {
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            expect(Object.keys(result.current.state.childCountsStorage)).toEqual([]);
+            await act(async () => {
+                await result.current.action.loadChildCountsIntoStorage("test:123");
+            });
+            expect(Object.keys(result.current.state.childCountsStorage)).toEqual(["test:123"]);
+            expect(fetchValues.action.fetchJSON).toHaveBeenCalledTimes(1);
+            expect(fetchValues.action.fetchJSON).toHaveBeenCalledWith("http://localhost:9000/api/edit/object/test%3A123/childCounts");
+        });
+
+        it("handles exceptions", async () => {
+            const fetchSpy = jest.spyOn(fetchValues.action, "fetchJSON").mockImplementation(() => { throw new Error("kaboom"); });
+            const consoleSpy = jest.spyOn(console, "error").mockImplementation(jest.fn());
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            await act(async () => {
+                await result.current.action.loadChildCountsIntoStorage("test:123");
+            });
+            expect(fetchSpy).toHaveBeenCalledTimes(1);
+            expect(consoleSpy).toHaveBeenCalledWith("Problem fetching child count data from http://localhost:9000/api/edit/object/test%3A123/childCounts");
+        });
+    });
+
     describe("loadChildrenIntoStorage", () => {
         it("successfully calls fetch", async () => {
             const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
@@ -325,6 +349,22 @@ describe("useEditorContext", () => {
                 await result.current.action.clearPidFromChildListStorage("test:123");
             });
             expect(Object.keys(result.current.state.childListStorage)).toEqual(["test:1234_1_10"]);
+        });
+    });
+
+    describe("clearPidFromChildCountsStorage", () => {
+        it("removes all pages of appropriate data", async () => {
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            expect(Object.keys(result.current.state.childCountsStorage)).toEqual([]);
+            await act(async () => {
+                await result.current.action.loadChildCountsIntoStorage("test:123");
+                await result.current.action.loadChildCountsIntoStorage("test:124");
+            });
+            expect(Object.keys(result.current.state.childCountsStorage)).toEqual(["test:123", "test:124"]);
+            await act(async () => {
+                await result.current.action.clearPidFromChildCountsStorage("test:123");
+            });
+            expect(Object.keys(result.current.state.childCountsStorage)).toEqual(["test:124"]);
         });
     });
 

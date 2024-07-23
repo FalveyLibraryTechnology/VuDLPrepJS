@@ -209,7 +209,7 @@ const editorReducer = (state: EditorState, { type, payload }: { type: string, pa
         const { pid } = payload as { pid: string };
         const childCountsStorage: Record<string, ChildCounts> = {};
         for (const key in state.childCountsStorage) {
-            if (!key.startsWith(pid + "_")) {
+            if (key !== pid) {
                 childCountsStorage[key] = state.childCountsStorage[key];
             }
         }

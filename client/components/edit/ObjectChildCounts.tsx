@@ -18,7 +18,9 @@ export const ObjectChildCounts = ({ pid }: ObjectChildCountsProps): React.ReactE
     const details: ChildCounts = loaded ? childCountsStorage[pid] : { directChildren: 0, totalDescendants: 0 };
 
     const stateMsg = loaded ? (
-        <div>{details.directChildren} children, {details.totalDescendants} descendants</div>
+        <div>
+            {details.directChildren} children, {details.totalDescendants} descendants
+        </div>
     ) : (
         ""
     );

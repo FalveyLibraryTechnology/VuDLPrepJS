@@ -44,7 +44,7 @@ export const ChildList = ({
     }
     const children = childListStorage[key];
     const childDocs = children.docs;
-    const childButton = 
+    const childButton =
         forceChildCounts === null ? (
             <button
                 style={{ float: "right", marginTop: "-2em" }}

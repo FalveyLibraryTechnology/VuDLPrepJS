@@ -21,7 +21,13 @@ export interface ChildProps {
     showChildCounts?: boolean;
 }
 
-export const Child = ({ pid, parentPid = "", initialTitle, thumbnail = false, showChildCounts = false }: ChildProps): React.ReactElement => {
+export const Child = ({
+    pid,
+    parentPid = "",
+    initialTitle,
+    thumbnail = false,
+    showChildCounts = false,
+}: ChildProps): React.ReactElement => {
     const {
         state: { objectDetailsStorage },
     } = useEditorContext();
@@ -35,11 +41,15 @@ export const Child = ({ pid, parentPid = "", initialTitle, thumbnail = false, sh
             {expanded ? <IndeterminateCheckBox titleAccess="Collapse Tree" /> : <AddBox titleAccess="Expand Tree" />}
         </span>
     );
-    const childList = expanded ? <ChildList pid={pid} pageSize={10} forceChildCounts={showChildCounts} forceThumbs={thumbnail} /> : "";
+    const childList = expanded ? (
+        <ChildList pid={pid} pageSize={10} forceChildCounts={showChildCounts} forceThumbs={thumbnail} />
+    ) : (
+        ""
+    );
     const hasExtraTools = thumbnail || showChildCounts;
     const extraTools = hasExtraTools ? (
         <Grid item xs={1}>
-            {thumbnail ? <ObjectThumbnail pid={pid} /> : "" }
+            {thumbnail ? <ObjectThumbnail pid={pid} /> : ""}
             {showChildCounts ? <ObjectChildCounts pid={pid} /> : ""}
         </Grid>
     ) : null;
