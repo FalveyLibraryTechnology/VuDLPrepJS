@@ -34,6 +34,10 @@ const getPidActionUrl = (pid: string, action: string): string => {
     return `${editObjectUrl}/${encodeURIComponent(pid)}/${action}`;
 }
 
+const getObjectChildCountsUrl = (pid: string): string => {
+    return getPidActionUrl(pid, "childCounts");
+}
+
 const getObjectChildrenUrl = (pid: string, start = 0, rows = 10): string => {
     const base = pid.length > 0 ? getPidActionUrl(pid, "children") : `${apiUrl}/edit/topLevelObjects`;
     return `${base}?start=${start}&rows=${rows}`;
@@ -136,6 +140,7 @@ export {
     getDerivUrl,
     getIngestUrl,
     getStatusUrl,
+    getObjectChildCountsUrl,
     getObjectChildrenUrl,
     getObjectDetailsUrl,
     getObjectLastChildPositionUrl,

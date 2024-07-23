@@ -136,6 +136,30 @@ async function getChildren(req, res) {
     res.json(response);
 }
 
+async function getChildCounts(req, res) {
+    const config = Config.getInstance();
+    const solr = Solr.getInstance();
+
+    const cleanPid = req.params.pid.replace(/["]/g, "");
+    const childQuery = `fedora_parent_id_str_mv:"${cleanPid}"`;
+    const childResult = await solr.query(config.solrCore, childQuery, { rows: "0" });
+    if (childResult.statusCode !== 200) {
+        res.status(childResult.statusCode ?? 500).send("Unexpected Solr response code.");
+        return;
+    }
+    const descendantQuery = `hierarchy_all_parents_str_mv:"${cleanPid}"`;
+    const descendantResult = await solr.query(config.solrCore, descendantQuery, { rows: "0" });
+    if (descendantResult.statusCode !== 200) {
+        res.status(descendantResult.statusCode ?? 500).send("Unexpected Solr response code.");
+        return;
+    }
+    const response = {
+        directChildren: childResult?.body?.response?.numFound ?? 0,
+        totalDescendants: descendantResult?.body?.response?.numFound ?? 0,
+    }
+    res.json(response);
+}
+
 function uploadFile(req, res, next) {
     const { pid, stream } = req.params;
     const form = new IncomingForm({ multiples: true, maxFileSize: Config.getInstance().maxUploadSize });
@@ -276,6 +300,7 @@ edit.get("/object/:pid/datastream/:stream/processMetadata", requireToken, datast
 
 edit.get("/topLevelObjects", requireToken, getChildren);
 edit.get("/object/:pid/children", requireToken, pidSanitizer, getChildren);
+edit.get("/object/:pid/childCounts", requireToken, pidSanitizer, getChildCounts);
 edit.get("/object/:pid/lastChildPosition", requireToken, pidSanitizer, async (req, res) => {
     const cleanPid = req.params.pid.replace(/["]/g, "");
     const query = `fedora_parent_id_str_mv:"${cleanPid}"`;
