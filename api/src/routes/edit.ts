@@ -65,21 +65,73 @@ edit.post("/query/solr", requireToken, bodyParser.json(), async function (req, r
     res.json(response);
 });
 
+/**
+ * Validate parent and child models to be sure the objects can be legally related.
+ * @param parentPid    Parent PID being checked (used for messages)
+ * @param parentModels All models of parent PID
+ * @param childModels  All models of child PID
+ * @returns Error message if a problem is found, null if the relationship is valid
+ */
+function checkForParentModelErrors(
+    parentPid: string,
+    parentModels: Array<string>,
+    childModels: Array<string>,
+): string | null {
+    if (!parentModels.includes("vudl-system:CollectionModel")) {
+        return `Illegal parent ${parentPid}; not a collection!`;
+    }
+    if (childModels.includes("vudl-system:DataModel") && !parentModels.includes("vudl-system:ListCollection")) {
+        return "DataModel objects must be contained by a ListCollection";
+    }
+    if (
+        childModels.includes("vudl-system:ListCollection") &&
+        !parentModels.includes("vudl-system:ResourceCollection")
+    ) {
+        return "ListCollection objects must be contained by a ResourceCollection";
+    }
+    if (
+        childModels.includes("vudl-system:ResourceCollection") &&
+        !parentModels.includes("vudl-system:FolderCollection")
+    ) {
+        return "ResourceCollection objects must be contained by a FolderCollection";
+    }
+    if (
+        childModels.includes("vudl-system:FolderCollection") &&
+        !parentModels.includes("vudl-system:FolderCollection")
+    ) {
+        return "FolderCollection objects must be contained by a FolderCollection";
+    }
+    return null;
+}
+
 edit.post("/object/new", requireToken, bodyParser.json(), async function (req, res) {
     let parentPid = req?.body?.parent;
     if (parentPid !== null && !parentPid?.length) {
         parentPid = null;
     }
+    // Validate model parameter:
     const model = req.body?.model;
     if (!model) {
         res.status(400).send("Missing model parameter.");
         return;
     }
+    const childModels = ["vudl-system:CoreModel", model];
+    const config = Config.getInstance();
+    if (Object.values(config.collectionModels).indexOf(model) > -1) {
+        childModels.push("vudl-system:CollectionModel");
+    } else if (Object.values(config.dataModels).indexOf(model) > -1) {
+        childModels.push("vudl-system:DataModel");
+    } else {
+        res.status(400).send(`Unrecognized model ${model}.`);
+        return;
+    }
+    // Validate title parameter:
     const title = req.body?.title;
     if (!title) {
         res.status(400).send("Missing title parameter.");
         return;
     }
+    // Validate state parameter:
     const state = req.body?.state;
     if (!state) {
         res.status(400).send("Missing state parameter.");
@@ -96,9 +148,10 @@ edit.post("/object/new", requireToken, bodyParser.json(), async function (req, r
             res.status(404).send("Error loading parent PID: " + parentPid);
             return;
         }
-        // Parents must be collections; validate!
-        if (!parent.models.includes("vudl-system:CollectionModel")) {
-            res.status(400).send("Illegal parent " + parentPid + "; not a collection!");
+        // Validate whether parent relationship is legal:
+        const relationshipError = checkForParentModelErrors(parentPid, parent.models, childModels);
+        if (relationshipError !== null) {
+            res.status(400).send(relationshipError);
             return;
         }
     }
@@ -476,8 +529,10 @@ edit.put(
                 res.status(400).send("Object cannot be its own grandparent.");
                 return;
             }
-            if (!parentData.models.includes("vudl-system:CollectionModel")) {
-                res.status(400).send(`Illegal parent ${parentPid}; not a collection!`);
+            const childData = await FedoraDataCollector.getInstance().getObjectData(pid);
+            const relationshipError = checkForParentModelErrors(parentPid, parentData.models, childData.models);
+            if (relationshipError !== null) {
+                res.status(400).send(relationshipError);
                 return;
             }
 
