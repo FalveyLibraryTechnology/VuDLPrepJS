@@ -83,9 +83,7 @@ describe("DatastreamProcessMetadataContent", () => {
                 objectDetailsStorage: {},
             },
             action: {
-                getChildListStorageKey: (pid: string, page: number, pageSize: number): string => {
-                    return `${pid}_${page}_${pageSize}`;
-                },
+                getChildListStorageKey: jest.fn(),
                 loadChildrenIntoStorage: jest.fn(),
                 loadObjectDetailsIntoStorage: jest.fn(),
             },
