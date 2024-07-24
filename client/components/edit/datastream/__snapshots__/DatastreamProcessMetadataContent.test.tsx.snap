@@ -5,20 +5,7 @@ exports[`DatastreamProcessMetadataContent renders a form when empty data is load
   <div
     className="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
   >
-    <div
-      className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
-      style={
-        {
-          "marginBottom": "10px",
-        }
-      }
-    >
-      <label
-        className="MuiFormLabel-root MuiFormLabel-colorPrimary css-u4tvz2-MuiFormLabel-root"
-      >
-        Digital Provenance
-      </label>
-    </div>
+    Digital Provenance
     <button
       className="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-cjctlb-MuiButtonBase-root-MuiTab-root"
       disabled={false}
@@ -76,147 +63,93 @@ exports[`DatastreamProcessMetadataContent renders a form when empty data is load
         }
       }
     >
+      Process Label
       <div
-        className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+        className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+        onClick={[Function]}
       >
-        <div
-          className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+        <input
+          autoFocus={false}
+          className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+          id=":r3:"
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          type="text"
+          value=""
+        />
+        <fieldset
+          aria-hidden={true}
+          className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
         >
-          <label
-            className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
-            data-shrink={false}
-            htmlFor=":r3:"
-            id=":r3:-label"
+          <legend
+            className="css-yjsfm1"
           >
-            Process Label
-          </label>
-          <div
-            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
-            onClick={[Function]}
-          >
-            <input
-              aria-invalid={false}
-              autoFocus={false}
-              className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-              disabled={false}
-              id=":r3:"
-              onAnimationStart={[Function]}
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              required={false}
-              type="text"
-              value=""
-            />
-            <fieldset
-              aria-hidden={true}
-              className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                className="css-yjsfm1"
-              >
-                <span>
-                  Process Label
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-        </div>
+            <span>
+              Process Label
+            </span>
+          </legend>
+        </fieldset>
       </div>
+      Process Creator
       <div
-        className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+        className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+        onClick={[Function]}
       >
-        <div
-          className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+        <input
+          autoFocus={false}
+          className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+          id=":r4:"
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          type="text"
+          value=""
+        />
+        <fieldset
+          aria-hidden={true}
+          className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
         >
-          <label
-            className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
-            data-shrink={false}
-            htmlFor=":r4:"
-            id=":r4:-label"
+          <legend
+            className="css-yjsfm1"
           >
-            Process Creator
-          </label>
-          <div
-            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
-            onClick={[Function]}
-          >
-            <input
-              aria-invalid={false}
-              autoFocus={false}
-              className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-              disabled={false}
-              id=":r4:"
-              onAnimationStart={[Function]}
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              required={false}
-              type="text"
-              value=""
-            />
-            <fieldset
-              aria-hidden={true}
-              className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                className="css-yjsfm1"
-              >
-                <span>
-                  Process Creator
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-        </div>
+            <span>
+              Process Creator
+            </span>
+          </legend>
+        </fieldset>
       </div>
       LocalizationProvider
+      Process Organization
       <div
-        className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+        className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+        onClick={[Function]}
       >
-        <div
-          className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+        <input
+          autoFocus={false}
+          className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+          id=":r5:"
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          type="text"
+          value=""
+        />
+        <fieldset
+          aria-hidden={true}
+          className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
         >
-          <label
-            className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
-            data-shrink={false}
-            htmlFor=":r5:"
-            id=":r5:-label"
+          <legend
+            className="css-yjsfm1"
           >
-            Process Organization
-          </label>
-          <div
-            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
-            onClick={[Function]}
-          >
-            <input
-              aria-invalid={false}
-              autoFocus={false}
-              className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-              disabled={false}
-              id=":r5:"
-              onAnimationStart={[Function]}
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              required={false}
-              type="text"
-              value=""
-            />
-            <fieldset
-              aria-hidden={true}
-              className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                className="css-yjsfm1"
-              >
-                <span>
-                  Process Organization
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-        </div>
+            <span>
+              Process Organization
+            </span>
+          </legend>
+        </fieldset>
       </div>
       <button
         onClick={[Function]}
@@ -477,20 +410,7 @@ exports[`DatastreamProcessMetadataContent renders a form when non-empty data is 
   <div
     className="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
   >
-    <div
-      className="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
-      style={
-        {
-          "marginBottom": "10px",
-        }
-      }
-    >
-      <label
-        className="MuiFormLabel-root MuiFormLabel-colorPrimary css-u4tvz2-MuiFormLabel-root"
-      >
-        Digital Provenance
-      </label>
-    </div>
+    Digital Provenance
     <button
       className="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-cjctlb-MuiButtonBase-root-MuiTab-root"
       disabled={false}
@@ -548,147 +468,93 @@ exports[`DatastreamProcessMetadataContent renders a form when non-empty data is 
         }
       }
     >
+      Process Label
       <div
-        className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+        className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+        onClick={[Function]}
       >
-        <div
-          className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+        <input
+          autoFocus={false}
+          className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+          id=":r6:"
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          type="text"
+          value="label"
+        />
+        <fieldset
+          aria-hidden={true}
+          className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
         >
-          <label
-            className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
-            data-shrink={true}
-            htmlFor=":r6:"
-            id=":r6:-label"
+          <legend
+            className="css-yjsfm1"
           >
-            Process Label
-          </label>
-          <div
-            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
-            onClick={[Function]}
-          >
-            <input
-              aria-invalid={false}
-              autoFocus={false}
-              className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-              disabled={false}
-              id=":r6:"
-              onAnimationStart={[Function]}
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              required={false}
-              type="text"
-              value="label"
-            />
-            <fieldset
-              aria-hidden={true}
-              className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                className="css-14lo706"
-              >
-                <span>
-                  Process Label
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-        </div>
+            <span>
+              Process Label
+            </span>
+          </legend>
+        </fieldset>
       </div>
+      Process Creator
       <div
-        className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+        className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+        onClick={[Function]}
       >
-        <div
-          className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+        <input
+          autoFocus={false}
+          className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+          id=":r7:"
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          type="text"
+          value="creator"
+        />
+        <fieldset
+          aria-hidden={true}
+          className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
         >
-          <label
-            className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
-            data-shrink={true}
-            htmlFor=":r7:"
-            id=":r7:-label"
+          <legend
+            className="css-yjsfm1"
           >
-            Process Creator
-          </label>
-          <div
-            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
-            onClick={[Function]}
-          >
-            <input
-              aria-invalid={false}
-              autoFocus={false}
-              className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-              disabled={false}
-              id=":r7:"
-              onAnimationStart={[Function]}
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              required={false}
-              type="text"
-              value="creator"
-            />
-            <fieldset
-              aria-hidden={true}
-              className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                className="css-14lo706"
-              >
-                <span>
-                  Process Creator
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-        </div>
+            <span>
+              Process Creator
+            </span>
+          </legend>
+        </fieldset>
       </div>
       LocalizationProvider
+      Process Organization
       <div
-        className="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+        className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+        onClick={[Function]}
       >
-        <div
-          className="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+        <input
+          autoFocus={false}
+          className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+          id=":r8:"
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          type="text"
+          value="organization"
+        />
+        <fieldset
+          aria-hidden={true}
+          className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
         >
-          <label
-            className="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
-            data-shrink={true}
-            htmlFor=":r8:"
-            id=":r8:-label"
+          <legend
+            className="css-yjsfm1"
           >
-            Process Organization
-          </label>
-          <div
-            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
-            onClick={[Function]}
-          >
-            <input
-              aria-invalid={false}
-              autoFocus={false}
-              className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-              disabled={false}
-              id=":r8:"
-              onAnimationStart={[Function]}
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              required={false}
-              type="text"
-              value="organization"
-            />
-            <fieldset
-              aria-hidden={true}
-              className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                className="css-14lo706"
-              >
-                <span>
-                  Process Organization
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-        </div>
+            <span>
+              Process Organization
+            </span>
+          </legend>
+        </fieldset>
       </div>
     </div>
     <div

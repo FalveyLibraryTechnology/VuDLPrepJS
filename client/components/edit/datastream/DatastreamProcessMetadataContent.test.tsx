@@ -45,6 +45,8 @@ jest.mock("@mui/x-date-pickers", () => ({
 }));
 
 jest.mock("@mui/material/Box", () => (props) => props.children);
+jest.mock("@mui/material/FormControl", () => (props) => props.children);
+jest.mock("@mui/material/FormLabel", () => (props) => props.children);
 jest.mock("@mui/material/Tabs", () => (props) => props.children);
 jest.mock("@mui/material/Grid", () => (props) => props.children);
 
