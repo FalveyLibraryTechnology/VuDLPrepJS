@@ -108,7 +108,7 @@ const DatastreamAgentsContent = (): React.ReactElement => {
             setIsLoading(true);
             await callGetAgents(clonePid, true);
         } else {
-            alert(`${clonePid} does not contain a AGENTS datastream.`);
+            alert(`${clonePid} does not contain an AGENTS datastream.`);
         }
         setTab(EDIT_TAB);
         setClonePid("");
