@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObjectModels renders models 1`] = `
+<div>
+  <b>
+    Models:
+  </b>
+  <ul>
+    <li
+      style={
+        {
+          "border": 0,
+        }
+      }
+    >
+      CollectionModel
+    </li>
+    <li
+      style={
+        {
+          "border": 0,
+        }
+      }
+    >
+      CoreModel
+    </li>
+    <li
+      style={
+        {
+          "border": 0,
+        }
+      }
+    >
+      FolderCollection
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`ObjectModels renders nothing when data is missing 1`] = `<div />`;
