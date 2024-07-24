@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import HtmlReactParser from "html-react-parser";
 import { useEditorContext } from "../../context/EditorContext";
 import ObjectButtonBar from "./ObjectButtonBar";
+import ObjectModels from "./ObjectModels";
 import ObjectOrder from "./ObjectOrder";
 import ObjectThumbnail from "./ObjectThumbnail";
 import ObjectChildCounts from "./ObjectChildCounts";
@@ -28,6 +29,7 @@ const ObjectSummary = (): React.ReactElement => {
         <div className={styles.infobox}>
             <div style={{ float: "right" }}>
                 <ObjectThumbnail pid={currentPid} />
+                {loaded ? <ObjectModels pid={currentPid} /> : ""}
             </div>
             <h2>{title}</h2>
             <div>{HtmlReactParser(description)}</div>

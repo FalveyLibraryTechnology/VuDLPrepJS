@@ -11,6 +11,7 @@ export interface ChildListProps {
     selectCallback?: boolean | ((pid: string) => void);
     pageSize?: number;
     forceChildCounts?: boolean | null;
+    forceModels?: boolean | null;
     forceThumbs?: boolean | null;
 }
 
@@ -19,6 +20,7 @@ export const ChildList = ({
     selectCallback = false,
     pageSize = 10,
     forceChildCounts = null,
+    forceModels = null,
     forceThumbs = null,
 }: ChildListProps): React.ReactElement => {
     const {
@@ -27,6 +29,7 @@ export const ChildList = ({
     } = useEditorContext();
     const [page, setPage] = useState<number>(1);
     const [showChildCounts, setShowChildCounts] = useState<boolean>(false);
+    const [showModels, setShowModels] = useState<boolean>(false);
     const [showThumbs, setShowThumbs] = useState<boolean>(false);
     const key = getChildListStorageKey(pid, page, pageSize);
     const loaded = Object.prototype.hasOwnProperty.call(childListStorage, key);
@@ -44,10 +47,11 @@ export const ChildList = ({
     }
     const children = childListStorage[key];
     const childDocs = children.docs;
+    const buttonStyles = { float: "right", marginTop: "-2em" };
     const childButton =
         forceChildCounts === null ? (
             <button
-                style={{ float: "right", marginTop: "-2em" }}
+                style={buttonStyles}
                 onClick={() => {
                     setShowChildCounts(!showChildCounts);
                 }}
@@ -55,10 +59,21 @@ export const ChildList = ({
                 {showChildCounts ? "Hide Child Counts" : "Show Child Counts"}
             </button>
         ) : null;
+    const modelsButton =
+        forceModels === null ? (
+            <button
+                style={buttonStyles}
+                onClick={() => {
+                    setShowModels(!showModels);
+                }}
+            >
+                {showModels ? "Hide Models" : "Show Models"}
+            </button>
+        ) : null;
     const thumbsButton =
         forceThumbs === null ? (
             <button
-                style={{ float: "right", marginTop: "-2em" }}
+                style={buttonStyles}
                 onClick={() => {
                     setShowThumbs(!showThumbs);
                 }}
@@ -77,6 +92,7 @@ export const ChildList = ({
                                 parentPid={pid}
                                 initialTitle={child.title ?? "-"}
                                 thumbnail={forceThumbs ?? showThumbs}
+                                models={forceModels ?? showModels}
                                 showChildCounts={forceChildCounts ?? showChildCounts}
                             />
                         ) : (
@@ -120,6 +136,7 @@ export const ChildList = ({
     return (
         <>
             {thumbsButton}
+            {modelsButton}
             {childButton}
             {paginatorLabel}
             {paginator}

@@ -22,6 +22,17 @@ exports[`ChildList allows child counts to be toggled on 1`] = `
       }
     }
   >
+    Show Models
+  </button>,
+  <button
+    onClick={[Function]}
+    style={
+      {
+        "float": "right",
+        "marginTop": "-2em",
+      }
+    }
+  >
     Hide Child Counts
   </button>,
   <ul
@@ -56,6 +67,17 @@ exports[`ChildList allows thumbnails to be toggled on 1`] = `
       }
     }
   >
+    Show Models
+  </button>,
+  <button
+    onClick={[Function]}
+    style={
+      {
+        "float": "right",
+        "marginTop": "-2em",
+      }
+    }
+  >
     Show Child Counts
   </button>,
   <ul
@@ -80,6 +102,17 @@ exports[`ChildList displays a paginator when appropriate 1`] = `
     }
   >
     Show Thumbnails
+  </button>,
+  <button
+    onClick={[Function]}
+    style={
+      {
+        "float": "right",
+        "marginTop": "-2em",
+      }
+    }
+  >
+    Show Models
   </button>,
   <button
     onClick={[Function]}
@@ -161,6 +194,17 @@ exports[`ChildList renders using SelectableChild when a callback is provided 1`]
       }
     }
   >
+    Show Models
+  </button>,
+  <button
+    onClick={[Function]}
+    style={
+      {
+        "float": "right",
+        "marginTop": "-2em",
+      }
+    }
+  >
     Show Child Counts
   </button>,
   <ul
@@ -195,6 +239,17 @@ exports[`ChildList renders using ajax-loaded object data 1`] = `
       }
     }
   >
+    Show Models
+  </button>,
+  <button
+    onClick={[Function]}
+    style={
+      {
+        "float": "right",
+        "marginTop": "-2em",
+      }
+    }
+  >
     Show Child Counts
   </button>,
   <ul
@@ -219,6 +274,17 @@ exports[`ChildList renders using ajax-loaded root data 1`] = `
     }
   >
     Show Thumbnails
+  </button>,
+  <button
+    onClick={[Function]}
+    style={
+      {
+        "float": "right",
+        "marginTop": "-2em",
+      }
+    }
+  >
+    Show Models
   </button>,
   <button
     onClick={[Function]}

@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - Child/descendant count displays in object editor.
 - "Copy PID" button.
 - Countdown in status message when updating multiple object states.
+- Models are visible in the object editor.
 
 ### Changed
 

@@ -12,12 +12,14 @@ import ObjectButtonBar from "../ObjectButtonBar";
 import ObjectThumbnail from "../ObjectThumbnail";
 import CopyPidButton from "../CopyPidButton";
 import ObjectChildCounts from "../ObjectChildCounts";
+import ObjectModels from "../ObjectModels";
 
 export interface ChildProps {
     pid: string;
     parentPid?: string;
     initialTitle: string;
     thumbnail?: boolean;
+    models?: boolean;
     showChildCounts?: boolean;
 }
 
@@ -26,6 +28,7 @@ export const Child = ({
     parentPid = "",
     initialTitle,
     thumbnail = false,
+    models = false,
     showChildCounts = false,
 }: ChildProps): React.ReactElement => {
     const {
@@ -42,15 +45,22 @@ export const Child = ({
         </span>
     );
     const childList = expanded ? (
-        <ChildList pid={pid} pageSize={10} forceChildCounts={showChildCounts} forceThumbs={thumbnail} />
+        <ChildList
+            pid={pid}
+            pageSize={10}
+            forceChildCounts={showChildCounts}
+            forceModels={models}
+            forceThumbs={thumbnail}
+        />
     ) : (
         ""
     );
-    const hasExtraTools = thumbnail || showChildCounts;
+    const hasExtraTools = thumbnail || models || showChildCounts;
     const extraTools = hasExtraTools ? (
         <Grid item xs={1}>
             {thumbnail ? <ObjectThumbnail pid={pid} /> : ""}
             {showChildCounts ? <ObjectChildCounts pid={pid} /> : ""}
+            {models ? <ObjectModels pid={pid} /> : ""}
         </Grid>
     ) : null;
     return (
