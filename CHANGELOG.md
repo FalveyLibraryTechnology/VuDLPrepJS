@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - "Copy PID" button.
 - Countdown in status message when updating multiple object states.
 - Models are visible in the object editor.
+- Recent PIDs are now available in the PID selector.
 
 ### Changed
 

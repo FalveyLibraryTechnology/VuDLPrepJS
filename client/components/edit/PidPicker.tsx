@@ -5,6 +5,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useEditorContext } from "../../context/EditorContext";
+import { getRecentPidsCatalog } from "../../util/RecentPidsCatalog";
 
 export interface Parent {
     pid: string;
@@ -36,6 +37,25 @@ const PidPicker = ({ selected, setSelected, parents = [] }: PidPickerProps): Rea
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>Choose PID from Favorites</AccordionSummary>
                 <AccordionDetails>
                     <ul>{favorites}</ul>
+                </AccordionDetails>
+            </Accordion>
+        ) : null;
+
+    const recentPidsCatalog = getRecentPidsCatalog();
+    const recents = [];
+    for (const pid in recentPidsCatalog) {
+        recents[recents.length] = (
+            <li key={`recent_${pid}`}>
+                <button onClick={() => setSelected(pid)}>{recentPidsCatalog[pid]}</button>
+            </li>
+        );
+    }
+    const recentAccordion =
+        recents.length > 0 ? (
+            <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>Choose PID from Recently Viewed</AccordionSummary>
+                <AccordionDetails>
+                    <ul>{recents}</ul>
                 </AccordionDetails>
             </Accordion>
         ) : null;
@@ -77,6 +97,7 @@ const PidPicker = ({ selected, setSelected, parents = [] }: PidPickerProps): Rea
             </Accordion>
             {parentAccordions}
             {favoritesAccordion}
+            {recentAccordion}
         </>
     );
 };
