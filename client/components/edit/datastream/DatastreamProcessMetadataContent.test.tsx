@@ -101,8 +101,6 @@ describe("DatastreamProcessMetadataContent", () => {
                 objectDetailsStorage: {},
             },
             action: {
-                getChildListStorageKey: jest.fn(),
-                loadChildrenIntoStorage: jest.fn(),
                 loadObjectDetailsIntoStorage: jest.fn(),
             },
         };

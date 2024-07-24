@@ -32,7 +32,19 @@ const mockUseDatastreamOperation = jest.fn();
 jest.mock("../../../hooks/useDatastreamOperation", () => () => {
     return mockUseDatastreamOperation();
 });
+
+let tabChangeFunction: ((tab: number) => void) | null = null;
+jest.mock("@mui/material/Tabs", () => (props) => {
+    tabChangeFunction = props.onChange;
+    return props.children;
+});
+jest.mock("@mui/material/Tab", () => (props) => `Tab: ${props.label}`);
 jest.mock("@mui/material/Grid", () => (props) => props.children);
+let pidPickerFunction: ((pid: string) => void) | null = null;
+jest.mock("../PidPicker", () => (props) => {
+    pidPickerFunction = props.setSelected;
+    return "PidPicker: " + JSON.stringify(props);
+});
 
 describe("DatastreamAgentsContent", () => {
     let editorValues;

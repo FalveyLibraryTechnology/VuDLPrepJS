@@ -2,14 +2,39 @@
 
 exports[`DatastreamAgentsContent renders, and calls getAgents on render 1`] = `
 [
-  "Role",
-  "Type",
-  "Name",
-  "Actions",
   <div
     className="MuiDialogContent-root css-pvro84-MuiDialogContent-root"
   >
-    DatastreamAgentsAddContentRow
+    <div
+      className="MuiBox-root css-1hjmj0z"
+    >
+      Tab: Editor
+      Tab: Clone
+    </div>
+    <div
+      style={
+        {
+          "display": "block",
+        }
+      }
+    >
+      Role
+      Type
+      Name
+      Actions
+      DatastreamAgentsAddContentRow
+    </div>
+    <div
+      style={
+        {
+          "display": "none",
+        }
+      }
+    >
+      <div>
+        PidPicker: {"selected":""}
+      </div>
+    </div>
   </div>,
   <hr
     className="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
