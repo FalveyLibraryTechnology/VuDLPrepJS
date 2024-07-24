@@ -23,6 +23,8 @@ const ObjectSummary = (): React.ReactElement => {
         if (!loaded) {
             loadCurrentObjectDetails();
         } else {
+            // The display of object summary is the easiest way of detecting a "recent view"
+            // of a PID, so this is where we update the recent PIDs catalog.
             updateRecentPidsCatalog(currentPid, title);
         }
     }, [currentPid, loaded]);
