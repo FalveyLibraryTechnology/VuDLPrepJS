@@ -50,6 +50,7 @@ jest.mock("@mui/material/FormLabel", () => (props) => props.children);
 jest.mock("@mui/material/Tabs", () => (props) => props.children);
 jest.mock("@mui/material/Tab", () => (props) => `Tab: ${props.label}`);
 jest.mock("@mui/material/Grid", () => (props) => props.children);
+jest.mock("../PidPicker", () => (props) => "PidPicker: " + JSON.stringify(props));
 
 describe("DatastreamProcessMetadataContent", () => {
     let datastreamOperationValues;
