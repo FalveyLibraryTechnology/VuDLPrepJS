@@ -13,6 +13,13 @@ jest.mock("../../../context/GlobalContext", () => ({
     },
 }));
 
+const mockUseEditorContext = jest.fn();
+jest.mock("../../../context/EditorContext", () => ({
+    useEditorContext: () => {
+        return mockUseEditorContext();
+    },
+}));
+
 const mockUseProcessMetadataContext = jest.fn();
 jest.mock("../../../context/ProcessMetadataContext", () => ({
     useProcessMetadataContext: () => {
@@ -37,8 +44,13 @@ jest.mock("@mui/x-date-pickers", () => ({
     LocalizationProvider: () => "LocalizationProvider",
 }));
 
+jest.mock("@mui/material/Box", () => (props) => props.children);
+jest.mock("@mui/material/Tabs", () => (props) => props.children);
+jest.mock("@mui/material/Grid", () => (props) => props.children);
+
 describe("DatastreamProcessMetadataContent", () => {
     let datastreamOperationValues;
+    let editorContext;
     let globalValues;
     let processMetadataValues;
 
@@ -65,6 +77,20 @@ describe("DatastreamProcessMetadataContent", () => {
     };
 
     beforeEach(() => {
+        editorContext = {
+            state: {
+                childListStorage: {},
+                objectDetailsStorage: {},
+            },
+            action: {
+                getChildListStorageKey: (pid: string, page: number, pageSize: number): string => {
+                    return `${pid}_${page}_${pageSize}`;
+                },
+                loadChildrenIntoStorage: jest.fn(),
+                loadObjectDetailsIntoStorage: jest.fn(),
+            },
+        };
+        mockUseEditorContext.mockReturnValue(editorContext);
         datastreamOperationValues = {
             uploadProcessMetadata: jest.fn(),
             getProcessMetadata: jest.fn(),

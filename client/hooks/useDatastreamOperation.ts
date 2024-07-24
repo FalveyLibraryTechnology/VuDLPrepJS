@@ -273,10 +273,10 @@ const useDatastreamOperation = () => {
         }
         return  "";
     };
-    const getProcessMetadata = async (): Promise<object> => {
-        if(currentDatastreams.includes(activeDatastream)) {
+    const getProcessMetadata = async (overridePid: string | null = null, force = false): Promise<object> => {
+        if(force || currentDatastreams.includes(activeDatastream)) {
             try {
-                return await fetchJSON(objectDatastreamProcessMetadataUrl(currentPid, activeDatastream));
+                return await fetchJSON(objectDatastreamProcessMetadataUrl(overridePid ?? currentPid, activeDatastream));
             } catch(err) {
                 setSnackbarState({
                     open: true,
