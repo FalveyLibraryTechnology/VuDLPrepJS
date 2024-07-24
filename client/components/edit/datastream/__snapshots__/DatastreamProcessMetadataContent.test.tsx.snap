@@ -199,7 +199,7 @@ exports[`DatastreamProcessMetadataContent renders a form when non-empty data is 
         <input
           autoFocus={false}
           className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-          id=":r6:"
+          id=":r9:"
           onAnimationStart={[Function]}
           onBlur={[Function]}
           onChange={[Function]}
@@ -228,7 +228,7 @@ exports[`DatastreamProcessMetadataContent renders a form when non-empty data is 
         <input
           autoFocus={false}
           className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-          id=":r7:"
+          id=":ra:"
           onAnimationStart={[Function]}
           onBlur={[Function]}
           onChange={[Function]}
@@ -258,7 +258,7 @@ exports[`DatastreamProcessMetadataContent renders a form when non-empty data is 
         <input
           autoFocus={false}
           className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
-          id=":r8:"
+          id=":rb:"
           onAnimationStart={[Function]}
           onBlur={[Function]}
           onChange={[Function]}
@@ -353,4 +353,180 @@ exports[`DatastreamProcessMetadataContent renders a loading message if content i
 >
   Loading...
 </div>
+`;
+
+exports[`DatastreamProcessMetadataContent supports tab switching 1`] = `
+[
+  <div
+    className="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
+  >
+    Digital Provenance
+    Tab: Editor
+    Tab: Clone
+    <div
+      style={
+        {
+          "display": "none",
+        }
+      }
+    >
+      Process Label
+      <div
+        className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+        onClick={[Function]}
+      >
+        <input
+          autoFocus={false}
+          className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+          id=":r6:"
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          type="text"
+          value=""
+        />
+        <fieldset
+          aria-hidden={true}
+          className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            className="css-yjsfm1"
+          >
+            <span>
+              Process Label
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+      Process Creator
+      <div
+        className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+        onClick={[Function]}
+      >
+        <input
+          autoFocus={false}
+          className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+          id=":r7:"
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          type="text"
+          value=""
+        />
+        <fieldset
+          aria-hidden={true}
+          className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            className="css-yjsfm1"
+          >
+            <span>
+              Process Creator
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+      LocalizationProvider
+      Process Organization
+      <div
+        className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+        onClick={[Function]}
+      >
+        <input
+          autoFocus={false}
+          className="MuiInputBase-input MuiOutlinedInput-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+          id=":r8:"
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          type="text"
+          value=""
+        />
+        <fieldset
+          aria-hidden={true}
+          className="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            className="css-yjsfm1"
+          >
+            <span>
+              Process Organization
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+      <button
+        onClick={[Function]}
+      >
+        Add Task
+      </button>
+    </div>
+    <div
+      style={
+        {
+          "display": "block",
+        }
+      }
+    >
+      <div>
+        PidPicker: {"selected":""}
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiDialogActions-root MuiDialogActions-spacing css-knqc4i-MuiDialogActions-root"
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary uploadProcessMetadataButton css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      Save
+      <span
+        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onContextMenu={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      Cancel
+      <span
+        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>,
+]
 `;
