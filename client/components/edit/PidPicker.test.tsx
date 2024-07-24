@@ -5,6 +5,7 @@ import userEvent from "@testing-library/user-event";
 import renderer from "react-test-renderer";
 import PidPicker from "./PidPicker";
 import { Parent } from "./PidPicker";
+import { getRecentPidsCatalog } from "../../util/RecentPidsCatalog";
 
 const mockUseEditorContext = jest.fn();
 jest.mock("../../context/EditorContext", () => ({
@@ -15,6 +16,7 @@ jest.mock("../../context/EditorContext", () => ({
 jest.mock("./children/ChildList", () => () => "ChildList");
 jest.mock("@mui/material/AccordionSummary", () => (props) => "AccordionSummary: " + JSON.stringify(props.children));
 jest.mock("@mui/icons-material/ExpandMore", () => () => "Icon");
+jest.mock("../../util/RecentPidsCatalog");
 
 describe("PidPicker", () => {
     let callback: () => void;
@@ -31,6 +33,7 @@ describe("PidPicker", () => {
     };
 
     beforeEach(() => {
+        getRecentPidsCatalog.mockReturnValue({});
         callback = jest.fn();
         favoritePidsCatalog = { "foo:123": "first test", "foo:124": "second test" };
         editorValues = {
@@ -48,6 +51,14 @@ describe("PidPicker", () => {
         await userEvent.setup().click(screen.getByText("first test"));
 
         expect(callback).toHaveBeenCalledWith("foo:123");
+    });
+
+    it("sets selected PID when you click a recent button", async () => {
+        getRecentPidsCatalog.mockReturnValue({ "foo:125": "recent test" });
+        render(getPicker());
+        await userEvent.setup().click(screen.getByText("recent test"));
+
+        expect(callback).toHaveBeenCalledWith("foo:125");
     });
 
     it("sets selected PID when you use manual entry", async () => {
@@ -75,6 +86,11 @@ describe("PidPicker", () => {
         await userEvent.setup().click(screen.getByText("Clear"));
 
         expect(callback).toHaveBeenCalledWith("");
+    });
+
+    it("renders correctly with recent PIDs", () => {
+        getRecentPidsCatalog.mockReturnValue(editorValues.state.favoritePidsCatalog);
+        checkSnapshot();
     });
 
     it("renders correctly without favorite PIDs", () => {
