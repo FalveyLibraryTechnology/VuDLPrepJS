@@ -172,6 +172,14 @@ describe("edit", () => {
                 .expect(StatusCodes.BAD_REQUEST);
             expect(response.text).toEqual("Missing model parameter.");
         });
+        it("requires a valid model parameter", async () => {
+            const response = await request(app)
+                .post("/edit/object/new")
+                .send({ model: "vudl-system:UnsupportedValue" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.BAD_REQUEST);
+            expect(response.text).toEqual("Unrecognized model vudl-system:UnsupportedValue.");
+        });
         it("requires a title parameter", async () => {
             const response = await request(app)
                 .post("/edit/object/new")
@@ -200,6 +208,138 @@ describe("edit", () => {
             expect(response.text).toEqual("Illegal parent pid:123; not a collection!");
             expect(dataSpy).toHaveBeenCalledTimes(1);
             expect(dataSpy).toHaveBeenCalledWith("pid:123");
+        });
+        it("will fail if data is added to a non-list model", async () => {
+            const mockData = FedoraDataCollection.build("pid:123");
+            mockData.fedoraDetails = {
+                hasModel: [
+                    "http://localhost:8080/rest/vudl-system:FolderCollection",
+                    "http://localhost:8080/rest/vudl-system:CoreModel",
+                    "http://localhost:8080/rest/vudl-system:CollectionModel",
+                ],
+            };
+            const collector = FedoraDataCollector.getInstance();
+            const dataSpy = jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
+            const response = await request(app)
+                .post("/edit/object/new")
+                .send({ model: "vudl-system:ImageData", title: "bar", state: "Active", parent: "pid:123" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.BAD_REQUEST);
+            expect(response.text).toEqual("DataModel objects must be contained by a ListCollection");
+            expect(dataSpy).toHaveBeenCalledTimes(1);
+            expect(dataSpy).toHaveBeenCalledWith("pid:123");
+        });
+        it("will fail if list is added to a non-resource model", async () => {
+            const mockData = FedoraDataCollection.build("pid:123");
+            mockData.fedoraDetails = {
+                hasModel: [
+                    "http://localhost:8080/rest/vudl-system:FolderCollection",
+                    "http://localhost:8080/rest/vudl-system:CoreModel",
+                    "http://localhost:8080/rest/vudl-system:CollectionModel",
+                ],
+            };
+            const collector = FedoraDataCollector.getInstance();
+            const dataSpy = jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
+            const response = await request(app)
+                .post("/edit/object/new")
+                .send({ model: "vudl-system:ListCollection", title: "bar", state: "Active", parent: "pid:123" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.BAD_REQUEST);
+            expect(response.text).toEqual("ListCollection objects must be contained by a ResourceCollection");
+            expect(dataSpy).toHaveBeenCalledTimes(1);
+            expect(dataSpy).toHaveBeenCalledWith("pid:123");
+        });
+        it("will fail if resource is added to a non-folder model", async () => {
+            const mockData = FedoraDataCollection.build("pid:123");
+            mockData.fedoraDetails = {
+                hasModel: [
+                    "http://localhost:8080/rest/vudl-system:ResourceCollection",
+                    "http://localhost:8080/rest/vudl-system:CoreModel",
+                    "http://localhost:8080/rest/vudl-system:CollectionModel",
+                ],
+            };
+            const collector = FedoraDataCollector.getInstance();
+            const dataSpy = jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
+            const response = await request(app)
+                .post("/edit/object/new")
+                .send({ model: "vudl-system:ResourceCollection", title: "bar", state: "Active", parent: "pid:123" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.BAD_REQUEST);
+            expect(response.text).toEqual("ResourceCollection objects must be contained by a FolderCollection");
+            expect(dataSpy).toHaveBeenCalledTimes(1);
+            expect(dataSpy).toHaveBeenCalledWith("pid:123");
+        });
+        it("will fail if folder is added to a non-folder model", async () => {
+            const mockData = FedoraDataCollection.build("pid:123");
+            mockData.fedoraDetails = {
+                hasModel: [
+                    "http://localhost:8080/rest/vudl-system:ResourceCollection",
+                    "http://localhost:8080/rest/vudl-system:CoreModel",
+                    "http://localhost:8080/rest/vudl-system:CollectionModel",
+                ],
+            };
+            const collector = FedoraDataCollector.getInstance();
+            const dataSpy = jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
+            const response = await request(app)
+                .post("/edit/object/new")
+                .send({ model: "vudl-system:FolderCollection", title: "bar", state: "Active", parent: "pid:123" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.BAD_REQUEST);
+            expect(response.text).toEqual("FolderCollection objects must be contained by a FolderCollection");
+            expect(dataSpy).toHaveBeenCalledTimes(1);
+            expect(dataSpy).toHaveBeenCalledWith("pid:123");
+        });
+        it("handles data retrieval exceptions", async () => {
+            const mockData = FedoraDataCollection.build("pid:123");
+            mockData.fedoraDetails = {
+                hasModel: [
+                    "http://localhost:8080/rest/vudl-system:FolderCollection",
+                    "http://localhost:8080/rest/vudl-system:CoreModel",
+                    "http://localhost:8080/rest/vudl-system:CollectionModel",
+                ],
+            };
+            const collector = FedoraDataCollector.getInstance();
+            const kaboom = new Error("kaboom!");
+            const dataSpy = jest.spyOn(collector, "getObjectData").mockImplementation(() => {
+                throw kaboom;
+            });
+            const response = await request(app)
+                .post("/edit/object/new")
+                .send({ model: "vudl-system:FolderCollection", title: "bar", state: "Active", parent: "pid:123" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.NOT_FOUND);
+            expect(response.text).toEqual("Error loading parent PID: pid:123");
+            expect(dataSpy).toHaveBeenCalledTimes(1);
+            expect(dataSpy).toHaveBeenCalledWith("pid:123");
+        });
+        it("handles build exceptions", async () => {
+            const mockData = FedoraDataCollection.build("pid:123");
+            mockData.fedoraDetails = {
+                hasModel: [
+                    "http://localhost:8080/rest/vudl-system:FolderCollection",
+                    "http://localhost:8080/rest/vudl-system:CoreModel",
+                    "http://localhost:8080/rest/vudl-system:CollectionModel",
+                ],
+            };
+            const collector = FedoraDataCollector.getInstance();
+            const dataSpy = jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
+            const factory = FedoraObjectFactory.getInstance();
+            const kaboom = new Error("kaboom!");
+            const factorySpy = jest.spyOn(factory, "build").mockImplementation(() => {
+                throw kaboom;
+            });
+            const consoleSpy = jest.spyOn(console, "error").mockImplementation(jest.fn());
+            const response = await request(app)
+                .post("/edit/object/new")
+                .send({ model: "vudl-system:FolderCollection", title: "bar", state: "Active", parent: "pid:123" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.BAD_REQUEST);
+            expect(response.text).toEqual("kaboom!");
+            expect(consoleSpy).toHaveBeenCalledWith(kaboom);
+            expect(dataSpy).toHaveBeenCalledTimes(1);
+            expect(dataSpy).toHaveBeenCalledWith("pid:123");
+            expect(factorySpy).toHaveBeenCalledTimes(1);
+            expect(factorySpy).toHaveBeenCalledWith("FolderCollection", "bar", "Active", "pid:123");
         });
         it("will succeed if parent has collection model", async () => {
             const mockData = FedoraDataCollection.build("pid:123");
@@ -747,8 +887,8 @@ describe("edit", () => {
 
     describe("get /object/:pid/children", () => {
         let querySpy;
+        const solrResponse = { statusCode: 200, body: { response: { foo: "bar" } } };
         beforeEach(() => {
-            const solrResponse = { statusCode: 200, body: { response: { foo: "bar" } } };
             querySpy = jest.spyOn(Solr.getInstance(), "query").mockResolvedValue(solrResponse as NeedleResponse);
         });
         afterEach(() => {
@@ -780,6 +920,16 @@ describe("edit", () => {
                 start: "200",
             });
             expect(response.text).toEqual('{"foo":"bar"}');
+        });
+        it("handles Solr errors in the query", async () => {
+            const response1 = JSON.parse(JSON.stringify(solrResponse));
+            response1.statusCode = 500;
+            querySpy.mockResolvedValueOnce(response1);
+            await request(app)
+                .get(`/edit/object/${pid}/children`)
+                .query({ rows: "100", start: "200" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.INTERNAL_SERVER_ERROR);
         });
     });
 
