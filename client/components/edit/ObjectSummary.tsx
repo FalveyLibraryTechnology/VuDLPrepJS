@@ -8,6 +8,7 @@ import ObjectModels from "./ObjectModels";
 import ObjectOrder from "./ObjectOrder";
 import ObjectThumbnail from "./ObjectThumbnail";
 import ObjectChildCounts from "./ObjectChildCounts";
+import { updateRecentPidsCatalog } from "../../util/RecentPidsCatalog";
 
 const ObjectSummary = (): React.ReactElement => {
     const {
@@ -16,14 +17,16 @@ const ObjectSummary = (): React.ReactElement => {
     } = useEditorContext();
 
     const loaded = Object.prototype.hasOwnProperty.call(objectDetailsStorage, currentPid);
+    const title = !loaded ? "Loading..." : extractFirstMetadataValue("dc:title", "Title not available");
 
     useEffect(() => {
         if (!loaded) {
             loadCurrentObjectDetails();
+        } else {
+            updateRecentPidsCatalog(currentPid, title);
         }
     }, [currentPid, loaded]);
 
-    const title = !loaded ? "Loading..." : extractFirstMetadataValue("dc:title", "Title not available");
     const description = extractFirstMetadataValue("dc:description", "");
     return (
         <div className={styles.infobox}>

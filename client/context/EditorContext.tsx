@@ -46,6 +46,7 @@ interface EditorState {
     agentsCatalog: Record<string, Object>;
     dublinCoreFieldCatalog: Record<string, Record<string, string>>;
     favoritePidsCatalog: Record<string, string>;
+    recentPidsCatalog: Record<string, string>;
     processMetadataDefaults: Record<string, string>;
     toolPresets: Array<Record<string, string>>;
     vufindUrl: string;
@@ -75,6 +76,7 @@ const editorContextParams: EditorState = {
     agentsCatalog: {},
     dublinCoreFieldCatalog: {},
     favoritePidsCatalog: {},
+    recentPidsCatalog: {},
     processMetadataDefaults: {},
     toolPresets: [],
     vufindUrl: "",
@@ -109,6 +111,7 @@ const reducerMapping: Record<string, string> = {
     SET_AGENTS_CATALOG: "agentsCatalog",
     SET_DUBLIN_CORE_FIELD_CATALOG: "dublinCoreFieldCatalog",
     SET_FAVORITE_PIDS_CATALOG: "favoritePidsCatalog",
+    SET_RECENT_PIDS_CATALOG: "recentPidsCatalog",
     SET_PROCESS_METADATA_DEFAULTS: "processMetadataDefaults",
     SET_TOOL_PRESETS: "toolPresets",
     SET_VUFIND_URL: "vufindUrl",
@@ -251,6 +254,7 @@ export const useEditorContext = () => {
             agentsCatalog,
             dublinCoreFieldCatalog,
             favoritePidsCatalog,
+            recentPidsCatalog,
             processMetadataDefaults,
             toolPresets,
             vufindUrl,
@@ -426,6 +430,17 @@ export const useEditorContext = () => {
         });
     }
 
+    const rememberRecentPid = (pid: string, title: string) => {
+        const newRecentPidsCatalog = {
+            ...recentPidsCatalog,
+            pid: title,
+        };
+        dispatch({
+            type: "SET_RECENT_PIDS_CATALOG",
+            payload: newRecentPidsCatalog
+        });
+    }
+
     const setProcessMetadataDefaults = (defaults: Record<string, string>) => {
         dispatch({
             type: "SET_PROCESS_METADATA_DEFAULTS",
@@ -543,6 +558,7 @@ export const useEditorContext = () => {
             agentsCatalog,
             dublinCoreFieldCatalog,
             favoritePidsCatalog,
+            recentPidsCatalog,
             processMetadataDefaults,
             toolPresets,
             vufindUrl,
@@ -559,6 +575,7 @@ export const useEditorContext = () => {
             setCurrentAgents,
             setCurrentPid,
             loadCurrentObjectDetails,
+            rememberRecentPid,
             setActiveDatastream,
             setDatastreamModalState,
             setParentsModalActivePid,
