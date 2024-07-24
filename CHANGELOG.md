@@ -28,6 +28,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - Generated PDFs now match the active/inactive state of the object within which they are generated.
 - It is no longer possible to create illegal containment relationships.
 - PDF generator and Solr indexer tools now trim unnecessary whitespace from user input.
+- PID validation is stricter to prevent bad data from being sent to Fedora.
 - "Scroll to thumbnail" in the paginator now works even after switching between jobs.
 
 ## 2.2 - 2024-07-11
