@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
+- Agent metadata can be cloned.
 - Child/descendant count displays in object editor.
 - "Copy PID" button.
 - Countdown in status message when updating multiple object states.
