@@ -48,6 +48,7 @@ jest.mock("@mui/material/Box", () => (props) => props.children);
 jest.mock("@mui/material/FormControl", () => (props) => props.children);
 jest.mock("@mui/material/FormLabel", () => (props) => props.children);
 jest.mock("@mui/material/Tabs", () => (props) => props.children);
+jest.mock("@mui/material/Tab", () => (props) => `Tab: ${props.label}`);
 jest.mock("@mui/material/Grid", () => (props) => props.children);
 
 describe("DatastreamProcessMetadataContent", () => {

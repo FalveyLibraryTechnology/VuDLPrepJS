@@ -6,56 +6,8 @@ exports[`DatastreamProcessMetadataContent renders a form when empty data is load
     className="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
   >
     Digital Provenance
-    <button
-      className="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-cjctlb-MuiButtonBase-root-MuiTab-root"
-      disabled={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onContextMenu={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      role="tab"
-      tabIndex={-1}
-      type="button"
-    >
-      Editor
-      <span
-        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
-    </button>
-    <button
-      className="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-cjctlb-MuiButtonBase-root-MuiTab-root"
-      disabled={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onContextMenu={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      role="tab"
-      tabIndex={-1}
-      type="button"
-    >
-      Clone
-      <span
-        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
-    </button>
+    Tab: Editor
+    Tab: Clone
     <div
       style={
         {
@@ -411,56 +363,8 @@ exports[`DatastreamProcessMetadataContent renders a form when non-empty data is 
     className="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
   >
     Digital Provenance
-    <button
-      className="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-cjctlb-MuiButtonBase-root-MuiTab-root"
-      disabled={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onContextMenu={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      role="tab"
-      tabIndex={-1}
-      type="button"
-    >
-      Editor
-      <span
-        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
-    </button>
-    <button
-      className="MuiButtonBase-root MuiTab-root MuiTab-textColorInherit css-cjctlb-MuiButtonBase-root-MuiTab-root"
-      disabled={false}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onContextMenu={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      role="tab"
-      tabIndex={-1}
-      type="button"
-    >
-      Clone
-      <span
-        className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
-    </button>
+    Tab: Editor
+    Tab: Clone
     <div
       style={
         {
