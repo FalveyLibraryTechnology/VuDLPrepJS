@@ -12,6 +12,7 @@ jest.mock("./ChildList", () => () => "ChildList");
 jest.mock("../CopyPidButton", () => () => "CopyPidButton");
 jest.mock("../ObjectButtonBar", () => (props) => "ObjectButtonBar:" + JSON.stringify(props));
 jest.mock("../ObjectChildCounts", () => (props) => "ObjectChildCounts:" + JSON.stringify(props));
+jest.mock("../ObjectModels", () => (props) => "ObjectModels:" + JSON.stringify(props));
 jest.mock("../ObjectThumbnail", () => (props) => "ObjectThumbnail: " + JSON.stringify(props));
 
 function getChildComponent(props: ChildProps) {

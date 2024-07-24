@@ -65,6 +65,21 @@ describe("ChildList", () => {
         expect(tree.toJSON()).toMatchSnapshot();
     });
 
+    it("allows models to be toggled on", async () => {
+        let tree;
+        await renderer.act(async () => {
+            tree = getMountedChildListComponent(props);
+            await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+            expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/topLevelObjects?start=0&rows=10");
+            tree.root
+                .find((element) => {
+                    return element?.children[0] === "Show Models";
+                })
+                .props.onClick();
+        });
+        expect(tree.toJSON()).toMatchSnapshot();
+    });
+
     it("allows child counts to be toggled on", async () => {
         let tree;
         await renderer.act(async () => {

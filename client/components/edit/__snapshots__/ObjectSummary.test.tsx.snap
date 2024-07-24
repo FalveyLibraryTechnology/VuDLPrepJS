@@ -43,6 +43,7 @@ exports[`ObjectSummary renders information from metadata when available 1`] = `
     }
   >
     ObjectThumbnail
+    ObjectModels
   </div>
   <h2>
     My title
