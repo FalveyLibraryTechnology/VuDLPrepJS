@@ -45,6 +45,51 @@ exports[`ChildList allows child counts to be toggled on 1`] = `
 ]
 `;
 
+exports[`ChildList allows models to be toggled on 1`] = `
+[
+  <button
+    onClick={[Function]}
+    style={
+      {
+        "float": "right",
+        "marginTop": "-2em",
+      }
+    }
+  >
+    Show Thumbnails
+  </button>,
+  <button
+    onClick={[Function]}
+    style={
+      {
+        "float": "right",
+        "marginTop": "-2em",
+      }
+    }
+  >
+    Hide Models
+  </button>,
+  <button
+    onClick={[Function]}
+    style={
+      {
+        "float": "right",
+        "marginTop": "-2em",
+      }
+    }
+  >
+    Show Child Counts
+  </button>,
+  <ul
+    className="childlist"
+  >
+    <li>
+      Child
+    </li>
+  </ul>,
+]
+`;
+
 exports[`ChildList allows thumbnails to be toggled on 1`] = `
 [
   <button
