@@ -146,11 +146,27 @@ class Config {
     }
 
     get dataModels(): Record<string, string> {
-        return this.ini["data_models"];
+        return (
+            this.ini["data_models"] ?? {
+                Image: "vudl-system:ImageData",
+                PDF: "vudl-system:PDFData",
+                DOC: "vudl-system:DOCData",
+                Audio: "vudl-system:AudioData",
+                Video: "vudl-system:VideoData",
+                XLS: "vudl-system:XLSData",
+                Text: "vudl-system:TextData",
+            }
+        );
     }
 
     get collectionModels(): Record<string, string> {
-        return this.ini["collection_models"];
+        return (
+            this.ini["collection_models"] ?? {
+                List: "vudl-system:ListCollection",
+                Resource: "vudl-system:ResourceCollection",
+                Folder: "vudl-system:FolderCollection",
+            }
+        );
     }
 
     get institution(): string {
