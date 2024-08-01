@@ -67,13 +67,12 @@ describe("StateModal", () => {
                 objectDetailsStorage: {},
             },
             action: {
-                removeFromObjectDetailsStorage: jest.fn(),
+                updateObjectState: jest.fn(),
             },
         };
         fetchContextValues = {
             action: {
                 fetchJSON: jest.fn(),
-                fetchText: jest.fn(),
             },
         };
         mockUseGlobalContext.mockReturnValue(globalValues);
@@ -131,8 +130,8 @@ describe("StateModal", () => {
 
     it("saves data correctly", async () => {
         editorValues.state.objectDetailsStorage[pid] = { pid, state: "Inactive" };
+        editorValues.action.updateObjectState.mockResolvedValue(["Status saved successfully.", "success"]);
         fetchContextValues.action.fetchJSON.mockResolvedValue({ numFound: 0 });
-        fetchContextValues.action.fetchText.mockResolvedValue("ok");
         await act(async () => {
             render(<StateModal />);
         });
@@ -142,9 +141,11 @@ describe("StateModal", () => {
         await user.click(screen.getByText("Active"));
         await user.click(screen.getByText("Save"));
         await waitFor(() =>
-            expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
-                "http://localhost:9000/api/edit/object/foo%3A123/state",
-                { body: "Active", method: "PUT" },
+            expect(editorValues.action.updateObjectState).toHaveBeenCalledWith(
+                "foo:123",
+                "Active",
+                0,
+                expect.anything(),
             ),
         );
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
@@ -152,14 +153,12 @@ describe("StateModal", () => {
             open: true,
             severity: "success",
         });
-        expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenCalledWith(pid);
         expect(globalValues.action.closeModal).toHaveBeenCalledWith("state");
     });
 
     it("does not save when nothing changes", async () => {
         editorValues.state.objectDetailsStorage[pid] = { pid, state: "Inactive" };
         fetchContextValues.action.fetchJSON.mockResolvedValue({ numFound: 0 });
-        fetchContextValues.action.fetchText.mockResolvedValue("ok");
         await act(async () => {
             render(<StateModal />);
         });
@@ -173,15 +172,16 @@ describe("StateModal", () => {
                 severity: "info",
             }),
         );
-        expect(fetchContextValues.action.fetchText).not.toHaveBeenCalled();
-        expect(editorValues.action.removeFromObjectDetailsStorage).not.toHaveBeenCalled();
+        expect(editorValues.action.updateObjectState).not.toHaveBeenCalled();
         expect(globalValues.action.openModal).not.toHaveBeenCalled();
     });
 
     it("handles save failure gracefully", async () => {
         editorValues.state.objectDetailsStorage[pid] = { pid, state: "Inactive" };
         fetchContextValues.action.fetchJSON.mockResolvedValue({ numFound: 0 });
-        fetchContextValues.action.fetchText.mockResolvedValue("not ok");
+        editorValues.action.updateObjectState.mockImplementation(() => {
+            throw new Error('Status failed to save; "not ok"');
+        });
         await act(async () => {
             render(<StateModal />);
         });
@@ -191,9 +191,11 @@ describe("StateModal", () => {
         await user.click(screen.getByText("Active"));
         await user.click(screen.getByText("Save"));
         await waitFor(() =>
-            expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
-                "http://localhost:9000/api/edit/object/foo%3A123/state",
-                { body: "Active", method: "PUT" },
+            expect(editorValues.action.updateObjectState).toHaveBeenCalledWith(
+                "foo:123",
+                "Active",
+                0,
+                expect.anything(),
             ),
         );
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
@@ -201,42 +203,13 @@ describe("StateModal", () => {
             open: true,
             severity: "error",
         });
-        expect(editorValues.action.removeFromObjectDetailsStorage).not.toHaveBeenCalled();
-        expect(globalValues.action.closeModal).toHaveBeenCalledWith("state");
-    });
-
-    it("handles child save failure gracefully", async () => {
-        editorValues.state.objectDetailsStorage[pid] = { pid, state: "Inactive" };
-        fetchContextValues.action.fetchJSON.mockResolvedValue({ numFound: 1, docs: [{ id: "foo:125" }] });
-        fetchContextValues.action.fetchText.mockResolvedValue("not ok");
-        await act(async () => {
-            render(<StateModal />);
-        });
-        await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
-        expect(globalValues.action.isModalOpen).toHaveBeenCalledWith("state");
-        const user = userEvent.setup();
-        await user.click(screen.getByText("Active"));
-        await user.click(screen.getByText("Update 1 children to match"));
-        await user.click(screen.getByText("Save"));
-        await waitFor(() =>
-            expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
-                "http://localhost:9000/api/edit/object/foo%3A125/state",
-                { body: "Active", method: "PUT" },
-            ),
-        );
-        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
-            message: 'Status failed to save; "not ok"',
-            open: true,
-            severity: "error",
-        });
-        expect(editorValues.action.removeFromObjectDetailsStorage).not.toHaveBeenCalled();
         expect(globalValues.action.closeModal).toHaveBeenCalledWith("state");
     });
 
     it("updates children correctly", async () => {
         editorValues.state.objectDetailsStorage[pid] = { pid, state: "Inactive" };
         fetchContextValues.action.fetchJSON.mockResolvedValue({ numFound: 1, docs: [{ id: "foo:125" }] });
-        fetchContextValues.action.fetchText.mockResolvedValue("ok");
+        editorValues.action.updateObjectState.mockResolvedValue(["Status saved successfully.", "success"]);
         await act(async () => {
             render(<StateModal />);
         });
@@ -247,9 +220,11 @@ describe("StateModal", () => {
         await user.click(screen.getByText("Update 1 children to match"));
         await user.click(screen.getByText("Save"));
         await waitFor(() =>
-            expect(fetchContextValues.action.fetchText).toHaveBeenCalledWith(
-                "http://localhost:9000/api/edit/object/foo%3A123/state",
-                { body: "Active", method: "PUT" },
+            expect(editorValues.action.updateObjectState).toHaveBeenCalledWith(
+                "foo:123",
+                "Active",
+                1,
+                expect.anything(),
             ),
         );
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
@@ -257,14 +232,6 @@ describe("StateModal", () => {
             open: true,
             severity: "success",
         });
-        expect(fetchContextValues.action.fetchText).toHaveBeenNthCalledWith(
-            1,
-            "http://localhost:9000/api/edit/object/foo%3A125/state",
-            { body: "Active", method: "PUT" },
-        );
-        expect(fetchContextValues.action.fetchText).toHaveBeenCalledTimes(2);
-        expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenNthCalledWith(1, "foo:125");
-        expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenNthCalledWith(2, pid);
         expect(globalValues.action.closeModal).toHaveBeenCalledWith("state");
     });
 });

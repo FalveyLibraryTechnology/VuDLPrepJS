@@ -500,7 +500,11 @@ edit.put("/object/:pid/state", requireToken, pidSanitizer, bodyParser.text(), as
             res.status(400).send(`Illegal state: ${state}`);
             return;
         }
-        await fedora.modifyObjectState(pid, state);
+        // Only update state if it's different from the existing one:
+        const existing = await FedoraDataCollector.getInstance().getObjectData(pid);
+        if (existing.state !== state) {
+            await fedora.modifyObjectState(pid, state);
+        }
         res.status(200).send("ok");
     } catch (error) {
         console.error(error);

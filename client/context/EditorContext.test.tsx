@@ -14,7 +14,8 @@ describe("useEditorContext", () => {
     beforeEach(() => {
         fetchValues =  {
             action: {
-                fetchJSON: jest.fn()
+                fetchJSON: jest.fn(),
+                fetchText: jest.fn(),
             }
         };
         mockUseFetchContext.mockReturnValue(
@@ -393,7 +394,7 @@ describe("useEditorContext", () => {
             });
             expect(Object.keys(result.current.state.parentDetailsStorage)).toEqual(["test:123", "test:125"]);
         });
-    
+
         it("handles errors", async () => {
             const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
             const callback = jest.fn();
@@ -421,6 +422,82 @@ describe("useEditorContext", () => {
                 await result.current.action.removeFromParentDetailsStorage("test:124");
             });
             expect(Object.keys(result.current.state.parentDetailsStorage)).toEqual(["test:123", "test:125"]);
+        });
+    });
+
+    describe("updateObjectState", () => {
+        const pid = "test:123";
+
+        it("saves data correctly", async () => {
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            // Load an object into storage so we can test that it gets cleared out after updates:
+            const fakeObjectDetails = { foo: "bar" };
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeObjectDetails);
+            await act(async() => {
+                await result.current.action.loadObjectDetailsIntoStorage(pid);
+            });
+            expect(result.current.state.objectDetailsStorage[pid]).toEqual(fakeObjectDetails);
+            const statusCallback = jest.fn();
+            fetchValues.action.fetchText.mockResolvedValue("ok");
+            let updateResult;
+            await act(async () => {
+                updateResult = await result.current.action.updateObjectState(pid, "Active", 0, statusCallback);
+            });
+            expect(statusCallback).toHaveBeenCalledWith("Saving status for test:123 (0 more remaining)...");
+            expect(fetchValues.action.fetchText).toHaveBeenCalledWith("http://localhost:9000/api/edit/object/test%3A123/state", {"body": "Active", "method": "PUT"});
+            expect(updateResult).toEqual(["Status saved successfully.", "success"]);
+            // Object storage should now be empty due to clearing of changed data:
+            expect(result.current.state.objectDetailsStorage).toEqual({});
+        });
+
+        it("handles save failure gracefully", async () => {
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            const statusCallback = jest.fn();
+            fetchValues.action.fetchText.mockResolvedValue("not ok");
+            let updateResult;
+            await act(async () => {
+                updateResult = await result.current.action.updateObjectState(pid, "Active", 0, statusCallback);
+            });
+            expect(statusCallback).toHaveBeenCalledWith("Saving status for test:123 (0 more remaining)...");
+            expect(fetchValues.action.fetchText).toHaveBeenCalledWith("http://localhost:9000/api/edit/object/test%3A123/state", {"body": "Active", "method": "PUT"});
+            expect(updateResult).toEqual(["Status failed to save; \"not ok\"", "error"]);
+        });
+
+        it("handles child save failure gracefully", async () => {
+            fetchValues.action.fetchJSON.mockResolvedValue({ numFound: 1, docs: [{ id: "foo:125" }] });
+            fetchValues.action.fetchText.mockResolvedValue("not ok");
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            const statusCallback = jest.fn();
+            fetchValues.action.fetchText.mockResolvedValue("not ok");
+            let updateResult;
+            await act(async () => {
+                try {
+                    await result.current.action.updateObjectState(pid, "Active", 1, statusCallback);
+                } catch (e) {
+                    updateResult = e;
+                }
+            });
+            expect(statusCallback).toHaveBeenCalledTimes(1);
+            expect(statusCallback).toHaveBeenCalledWith("Saving status for foo:125 (1 more remaining)...");
+            expect(updateResult.message).toEqual("Status failed to save; \"not ok\"");
+        });
+
+        it("updates children correctly", async () => {
+            fetchValues.action.fetchJSON.mockResolvedValue({ numFound: 1, docs: [{ id: "foo:125" }] });
+            fetchValues.action.fetchText.mockResolvedValue("ok");
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            const statusCallback = jest.fn();
+            let updateResult;
+            await act(async () => {
+                updateResult = await result.current.action.updateObjectState(pid, "Active", 1, statusCallback);
+            });
+            expect(statusCallback).toHaveBeenCalledTimes(2);
+            expect(statusCallback).toHaveBeenCalledWith("Saving status for foo:125 (1 more remaining)...");
+            expect(statusCallback).toHaveBeenCalledWith("Saving status for test:123 (0 more remaining)...");
+            expect(fetchValues.action.fetchText).toHaveBeenCalledWith("http://localhost:9000/api/edit/object/test%3A123/state", {"body": "Active", "method": "PUT"});
+            expect(updateResult).toEqual(["Status saved successfully.", "success"]);
+            // Object storage should now be empty due to clearing of changed data:
+            expect(result.current.state.objectDetailsStorage).toEqual({});
         });
     });
 });

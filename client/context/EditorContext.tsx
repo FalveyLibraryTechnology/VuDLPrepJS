@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { editObjectCatalogUrl, getObjectChildCountsUrl, getObjectChildrenUrl, getObjectDetailsUrl, getObjectParentsUrl } from "../util/routes";
+import { editObjectCatalogUrl, getObjectChildCountsUrl, getObjectChildrenUrl, getObjectDetailsUrl, getObjectParentsUrl, getObjectRecursiveChildPidsUrl, getObjectStateUrl } from "../util/routes";
 import { useFetchContext } from "./FetchContext";
 import { extractFirstMetadataValue as utilExtractFirstMetadataValue } from "../util/metadata";
 import { TreeNode } from "../util/Breadcrumbs";
@@ -237,7 +237,7 @@ export const EditorContextProvider = ({ children }) => {
 export const useEditorContext = () => {
     const {
         action: {
-            fetchJSON
+            fetchJSON, fetchText
         }
     }= useFetchContext();
     const {
@@ -529,6 +529,56 @@ export const useEditorContext = () => {
         return utilExtractFirstMetadataValue(currentMetadata, field, defaultValue);
     }
 
+    const updateSingleObjectState = async (pid: string, newState: string, setStatusMessage: (msg: string) => void, remaining: number = 0): Promise<string> => {
+        setStatusMessage(`Saving status for ${pid} (${remaining} more remaining)...`);
+        const target = getObjectStateUrl(pid);
+        const result = await fetchText(target, { method: "PUT", body: newState });
+        if (result === "ok") {
+            // Clear and reload the cached object, since it has now changed!
+            removeFromObjectDetailsStorage(pid);
+        }
+        return result;
+    };
+
+    const saveObjectStateForChildPage = async (response, newState: string, found: number, total: number, setStatusMessage: (msg: string) => void): Promise<boolean> => {
+        for (let i = 0; i < response.docs.length; i++) {
+            const result = await updateSingleObjectState(response.docs[i].id, newState, setStatusMessage, total - (found + i));
+            if (result !== "ok") {
+                throw new Error(`Status failed to save; "${result}"`);
+            }
+        }
+    };
+
+    const applyObjectStateToChildren = async (pid: string, newState: string, expectedTotal: number, setStatusMessage: (msg: string) => void): Promise<boolean> => {
+        const childPageSize = 1000;
+        let found = 0;
+        while (found < expectedTotal) {
+            const url = getObjectRecursiveChildPidsUrl(pid, found, childPageSize);
+            const nextResponse = await fetchJSON(url);
+            await saveObjectStateForChildPage(nextResponse, newState, found, expectedTotal, setStatusMessage);
+            found += nextResponse.docs.length;
+        }
+        return true;
+    };
+
+    /**
+     * Update an object's state (and, optionally, the states of its children).
+     * @param pid                The PID to update
+     * @param newState           The new state to set
+     * @param expectedChildCount The number of children to update (either the actual number of known children, or 0 to skip child updates)
+     * @param setStatusMessage   Callback function to display status messages as we work
+     * @returns An array for updating snackbar messages (first element = message, second element = level)
+     */
+    const updateObjectState = async function (pid: string, newState: string, expectedChildCount: number = 0, setStatusMessage: (msg: string) => void): Promise<Array<string>> {
+        if (expectedChildCount > 0) {
+            await applyObjectStateToChildren(pid, newState, expectedChildCount, setStatusMessage);
+        }
+        const result = await updateSingleObjectState(pid, newState, setStatusMessage);
+        return (result === "ok")
+            ? ["Status saved successfully.", "success"]
+            : [`Status failed to save; "${result}"`, "error"];
+    }
+
     return {
         state: {
             currentAgents,
@@ -573,6 +623,7 @@ export const useEditorContext = () => {
             removeFromParentDetailsStorage,
             clearPidFromChildCountsStorage,
             clearPidFromChildListStorage,
+            updateObjectState,
         },
     };
 }
