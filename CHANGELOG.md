@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## Next Release - TBD
+
+### Added
+
+- Formal trash support using the trash_pid setting in vudl.ini.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 2.3 - 2024-07-24
 
 ### Added
