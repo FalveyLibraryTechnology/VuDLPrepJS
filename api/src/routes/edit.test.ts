@@ -1167,13 +1167,15 @@ describe("edit", () => {
     describe("put /object/:pid/parent/:parentPid", () => {
         let parentPid: string;
         let mockData: FedoraDataCollection;
+        let mockParentData: FedoraDataCollection;
         let mockObject;
         let buildSpy;
         beforeEach(() => {
             parentPid = "foo:100";
-            mockData = FedoraDataCollection.build(parentPid);
+            mockData = FedoraDataCollection.build(pid);
+            mockParentData = FedoraDataCollection.build(parentPid);
             const collector = FedoraDataCollector.getInstance();
-            jest.spyOn(collector, "getHierarchy").mockResolvedValue(mockData);
+            jest.spyOn(collector, "getHierarchy").mockResolvedValue(mockParentData);
             jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
             mockObject = {
                 addParentRelationship: jest.fn(),
@@ -1185,6 +1187,7 @@ describe("edit", () => {
             jest.clearAllMocks();
         });
         it("will not make an object its own parent", async () => {
+            jest.spyOn(FedoraDataCollector.getInstance(), "getHierarchy").mockResolvedValue(mockData);
             const response = await request(app)
                 .put(`/edit/object/${pid}/parent/${pid}`)
                 .set("Authorization", "Bearer test")
@@ -1196,7 +1199,7 @@ describe("edit", () => {
         });
 
         it("will not make an object its own grandparent", async () => {
-            mockData.addParent(FedoraDataCollection.build(pid));
+            mockParentData.addParent(FedoraDataCollection.build(pid));
             const response = await request(app)
                 .put(`/edit/object/${pid}/parent/${parentPid}`)
                 .set("Authorization", "Bearer test")
@@ -1219,7 +1222,7 @@ describe("edit", () => {
         });
 
         it("adds parent when appropriate preconditions are met", async () => {
-            jest.spyOn(mockData, "models", "get").mockReturnValue(["vudl-system:CollectionModel"]);
+            jest.spyOn(mockParentData, "models", "get").mockReturnValue(["vudl-system:CollectionModel"]);
             await request(app)
                 .put(`/edit/object/${pid}/parent/${parentPid}`)
                 .set("Authorization", "Bearer test")
@@ -1233,8 +1236,8 @@ describe("edit", () => {
         });
 
         it("adds parent and sequence when appropriate preconditions are met", async () => {
-            jest.spyOn(mockData, "models", "get").mockReturnValue(["vudl-system:CollectionModel"]);
-            jest.spyOn(mockData, "sortOn", "get").mockReturnValue("custom");
+            jest.spyOn(mockParentData, "models", "get").mockReturnValue(["vudl-system:CollectionModel"]);
+            jest.spyOn(mockParentData, "sortOn", "get").mockReturnValue("custom");
             await request(app)
                 .put(`/edit/object/${pid}/parent/${parentPid}`)
                 .set("Authorization", "Bearer test")
