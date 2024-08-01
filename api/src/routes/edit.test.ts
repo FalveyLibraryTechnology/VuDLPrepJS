@@ -1049,6 +1049,20 @@ describe("edit", () => {
     });
 
     describe("put /object/:pid/state", () => {
+        let getObjectSpy;
+        let stateSpy;
+
+        beforeEach(() => {
+            const collector = FedoraDataCollector.getInstance();
+            getObjectSpy = jest.spyOn(collector, "getObjectData").mockImplementation(jest.fn());
+            const fedora = Fedora.getInstance();
+            stateSpy = jest.spyOn(fedora, "modifyObjectState").mockImplementation(jest.fn());
+        });
+
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
         it("will reject invalid states", async () => {
             const response = await request(app)
                 .put(`/edit/object/${pid}/state`)
@@ -1057,12 +1071,12 @@ describe("edit", () => {
                 .send("Illegal")
                 .expect(StatusCodes.BAD_REQUEST);
             expect(response.error.text).toEqual("Illegal state: Illegal");
+            expect(getObjectSpy).not.toHaveBeenCalled();
+            expect(stateSpy).not.toHaveBeenCalled();
         });
 
         it("will accept a valid state", async () => {
-            const fedora = Fedora.getInstance();
-            const stateSpy = jest.spyOn(fedora, "modifyObjectState").mockImplementation(jest.fn());
-
+            getObjectSpy.mockResolvedValue(FedoraDataCollection.build(pid));
             await request(app)
                 .put(`/edit/object/${pid}/state`)
                 .set("Authorization", "Bearer test")
@@ -1070,7 +1084,38 @@ describe("edit", () => {
                 .send("Active")
                 .expect(StatusCodes.OK);
 
+            expect(getObjectSpy).toHaveBeenCalledWith(pid);
             expect(stateSpy).toHaveBeenCalledWith(pid, "Active");
+        });
+
+        it("will handle unexpected errors", async () => {
+            const kaboom = new Error("kaboom");
+            getObjectSpy.mockImplementation(() => {
+                throw kaboom;
+            });
+            const consoleSpy = jest.spyOn(console, "error").mockImplementation(jest.fn());
+            const response = await request(app)
+                .put(`/edit/object/${pid}/state`)
+                .set("Authorization", "Bearer test")
+                .set("Content-Type", "text/plain")
+                .send("Active")
+                .expect(StatusCodes.INTERNAL_SERVER_ERROR);
+
+            expect(consoleSpy).toHaveBeenCalledWith(kaboom);
+            expect(response.text).toEqual("kaboom");
+        });
+
+        it("will not write an existing state to Fedora", async () => {
+            getObjectSpy.mockResolvedValue(FedoraDataCollection.build(pid, {}, { state: ["Active"] }));
+            await request(app)
+                .put(`/edit/object/${pid}/state`)
+                .set("Authorization", "Bearer test")
+                .set("Content-Type", "text/plain")
+                .send("Active")
+                .expect(StatusCodes.OK);
+
+            expect(getObjectSpy).toHaveBeenCalledWith(pid);
+            expect(stateSpy).not.toHaveBeenCalled();
         });
     });
 
