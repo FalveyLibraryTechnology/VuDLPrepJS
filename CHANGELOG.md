@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## Next Release - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Changing the state of an object with mixed-state children no longer causes duplicate Fedora writes, and is no longer blocked if the desired state is the same as the existing top-level object state.
+
 ## 2.3 - 2024-07-24
 
 ### Added
