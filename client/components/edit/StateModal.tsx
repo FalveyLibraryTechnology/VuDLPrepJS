@@ -70,7 +70,9 @@ const StateModal = (): React.ReactElement => {
     };
 
     const save = async () => {
-        if (selectedValue !== details.state) {
+        // Don't allow the user to set the state to the existing state (unless)
+        // children are involved, since it may be necessary to update mixed-status items.
+        if (selectedValue !== details.state || includeChildren) {
             try {
                 const result = await updateObjectState(
                     stateModalActivePid,
