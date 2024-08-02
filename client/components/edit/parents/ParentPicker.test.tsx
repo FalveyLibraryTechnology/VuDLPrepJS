@@ -58,9 +58,7 @@ describe("ParentPicker", () => {
                 objectDetailsStorage: {},
             },
             action: {
-                clearPidFromChildListStorage: jest.fn(),
-                removeFromObjectDetailsStorage: jest.fn(),
-                removeFromParentDetailsStorage: jest.fn(),
+                attachObjectToParent: jest.fn(),
             },
         };
         fetchValues = {
@@ -102,7 +100,7 @@ describe("ParentPicker", () => {
     });
 
     it("adds a title-sorted parent", async () => {
-        fetchValues.action.fetchText.mockResolvedValue("ok");
+        editorValues.action.attachObjectToParent.mockResolvedValue("ok");
         editorValues.state.objectDetailsStorage[parentPid] = {
             sortOn: "title",
         };
@@ -110,13 +108,7 @@ describe("ParentPicker", () => {
         await act(() => setSelected(parentPid));
         await userEvent.setup().click(screen.getByRole("button"));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
-        expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
-            "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
-            { body: "", method: "PUT" },
-        );
-        expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenCalledWith(pid);
-        expect(editorValues.action.removeFromParentDetailsStorage).toHaveBeenCalledWith(pid);
-        expect(editorValues.action.clearPidFromChildListStorage).toHaveBeenCalledWith(parentPid);
+        expect(editorValues.action.attachObjectToParent).toHaveBeenCalledWith(pid, parentPid, "");
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: "Successfully added foo:123 to foo:122",
             open: true,
@@ -124,10 +116,8 @@ describe("ParentPicker", () => {
         });
     });
 
-    it("handles save failure (exception) gracefully", async () => {
-        fetchValues.action.fetchText.mockImplementation(() => {
-            throw new Error("kaboom");
-        });
+    it("handles save failure gracefully", async () => {
+        editorValues.action.attachObjectToParent.mockResolvedValue("not ok");
         editorValues.state.objectDetailsStorage[parentPid] = {
             sortOn: "title",
         };
@@ -135,36 +125,6 @@ describe("ParentPicker", () => {
         await act(() => setSelected(parentPid));
         await userEvent.setup().click(screen.getByRole("button"));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
-        expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
-            "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
-            { body: "", method: "PUT" },
-        );
-        expect(editorValues.action.removeFromObjectDetailsStorage).not.toHaveBeenCalled();
-        expect(editorValues.action.removeFromParentDetailsStorage).not.toHaveBeenCalled();
-        expect(editorValues.action.clearPidFromChildListStorage).not.toHaveBeenCalled();
-        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
-            message: "kaboom",
-            open: true,
-            severity: "error",
-        });
-    });
-
-    it("handles save failure (bad response) gracefully", async () => {
-        fetchValues.action.fetchText.mockResolvedValue("not ok");
-        editorValues.state.objectDetailsStorage[parentPid] = {
-            sortOn: "title",
-        };
-        render(<ParentPicker pid={pid} />);
-        await act(() => setSelected(parentPid));
-        await userEvent.setup().click(screen.getByRole("button"));
-        await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
-        expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
-            "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
-            { body: "", method: "PUT" },
-        );
-        expect(editorValues.action.removeFromObjectDetailsStorage).not.toHaveBeenCalled();
-        expect(editorValues.action.removeFromParentDetailsStorage).not.toHaveBeenCalled();
-        expect(editorValues.action.clearPidFromChildListStorage).not.toHaveBeenCalled();
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: "not ok",
             open: true,
@@ -184,7 +144,7 @@ describe("ParentPicker", () => {
     });
 
     it("adds a custom-sorted parent with manual position entry", async () => {
-        fetchValues.action.fetchText.mockResolvedValue("ok");
+        editorValues.action.attachObjectToParent.mockResolvedValue("ok");
         editorValues.state.objectDetailsStorage[parentPid] = {
             sortOn: "custom",
         };
@@ -195,13 +155,7 @@ describe("ParentPicker", () => {
         });
         await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
-        expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
-            "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
-            { body: "100", method: "PUT" },
-        );
-        expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenCalledWith(pid);
-        expect(editorValues.action.removeFromParentDetailsStorage).toHaveBeenCalledWith(pid);
-        expect(editorValues.action.clearPidFromChildListStorage).toHaveBeenCalledWith(parentPid);
+        expect(editorValues.action.attachObjectToParent).toHaveBeenCalledWith(pid, parentPid, "100");
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: "Successfully added foo:123 to foo:122",
             open: true,
@@ -211,7 +165,7 @@ describe("ParentPicker", () => {
 
     it("adds a custom-sorted parent using the 'last position' button", async () => {
         fetchValues.action.fetchText.mockResolvedValueOnce("999");
-        fetchValues.action.fetchText.mockResolvedValue("ok");
+        editorValues.action.attachObjectToParent.mockResolvedValue("ok");
         editorValues.state.objectDetailsStorage[parentPid] = {
             sortOn: "custom",
         };
@@ -221,19 +175,11 @@ describe("ParentPicker", () => {
         await waitFor(() => expect(fetchValues.action.fetchText).toHaveBeenCalled());
         await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
-        expect(fetchValues.action.fetchText).toHaveBeenNthCalledWith(
-            1,
+        expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
             "http://localhost:9000/api/edit/object/foo%3A122/lastChildPosition",
             { method: "GET" },
         );
-        expect(fetchValues.action.fetchText).toHaveBeenNthCalledWith(
-            2,
-            "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
-            { body: 1000, method: "PUT" },
-        );
-        expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenCalledWith(pid);
-        expect(editorValues.action.removeFromParentDetailsStorage).toHaveBeenCalledWith(pid);
-        expect(editorValues.action.clearPidFromChildListStorage).toHaveBeenCalledWith(parentPid);
+        expect(editorValues.action.attachObjectToParent).toHaveBeenCalledWith(pid, parentPid, "1000");
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: "Successfully added foo:123 to foo:122",
             open: true,
@@ -245,7 +191,7 @@ describe("ParentPicker", () => {
         fetchValues.action.fetchText.mockImplementationOnce(() => {
             throw new Error("kaboom");
         });
-        fetchValues.action.fetchText.mockResolvedValue("ok");
+        editorValues.action.attachObjectToParent.mockResolvedValue("ok");
         editorValues.state.objectDetailsStorage[parentPid] = {
             sortOn: "custom",
         };
@@ -255,19 +201,11 @@ describe("ParentPicker", () => {
         await waitFor(() => expect(fetchValues.action.fetchText).toHaveBeenCalled());
         await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
-        expect(fetchValues.action.fetchText).toHaveBeenNthCalledWith(
-            1,
+        expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
             "http://localhost:9000/api/edit/object/foo%3A122/lastChildPosition",
             { method: "GET" },
         );
-        expect(fetchValues.action.fetchText).toHaveBeenNthCalledWith(
-            2,
-            "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
-            { body: 1, method: "PUT" },
-        );
-        expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenCalledWith(pid);
-        expect(editorValues.action.removeFromParentDetailsStorage).toHaveBeenCalledWith(pid);
-        expect(editorValues.action.clearPidFromChildListStorage).toHaveBeenCalledWith(parentPid);
+        expect(editorValues.action.attachObjectToParent).toHaveBeenCalledWith(pid, parentPid, "1");
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: "Successfully added foo:123 to foo:122",
             open: true,

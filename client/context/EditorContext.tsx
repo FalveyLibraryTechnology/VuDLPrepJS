@@ -589,12 +589,38 @@ export const useEditorContext = () => {
     }
 
     /**
+     * Attach a child object to the specified parent.
+     * @param pid       Child PID
+     * @param parentPid Parent PID
+     * @param position  Position value (blank string for no position, number-as-string otherwise)
+     * @returns A status string ("ok" on success, error message otherwise)
+     */
+    const attachObjectToParent = async function (pid: string, parentPid: string, position: string): Promise<string> {
+        const target = getParentUrl(pid, parentPid);
+        let result: string;
+        try {
+            result = await fetchText(target, { method: "PUT", body: position });
+        } catch (e) {
+            result = (e as Error).message ?? "Unexpected error";
+        }
+        if (result === "ok") {
+            // Clear and reload the cached object and its parents, since these have now changed!
+            removeFromObjectDetailsStorage(pid);
+            removeFromParentDetailsStorage(pid);
+            // Clear any cached lists belonging to the parent PID, because the
+            // order has potentially changed!
+            clearPidFromChildListStorage(parentPid);
+        }
+        return result;
+    };
+
+    /**
      * Detach a child object from the specified parent.
      * @param pid       Child PID
      * @param parentPid Parent PID
      * @returns A status string ("ok" on success, error message otherwise)
      */
-    const detachObjectFromParent = async function (pid: string, parentPid: string): string {
+    const detachObjectFromParent = async function (pid: string, parentPid: string): Promise<string> {
         const target = getParentUrl(pid, parentPid);
         let result: string;
         try {
@@ -657,6 +683,7 @@ export const useEditorContext = () => {
             removeFromParentDetailsStorage,
             clearPidFromChildCountsStorage,
             clearPidFromChildListStorage,
+            attachObjectToParent,
             detachObjectFromParent,
             updateObjectState,
         },
