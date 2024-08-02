@@ -44,7 +44,7 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
     const addParent = async () => {
         setStatusMessage("Saving...");
         const result = await attachObjectToParent(pid, selectedParentPid, position);
-        (result === "ok")
+        result === "ok"
             ? showSnackbarMessage(`Successfully added ${pid} to ${selectedParentPid}`, "info")
             : showSnackbarMessage(result, "error");
         setStatusMessage("");
