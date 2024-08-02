@@ -27,6 +27,7 @@ export const ChildList = ({
         state: { childListStorage },
         action: { getChildListStorageKey, loadChildrenIntoStorage },
     } = useEditorContext();
+    // Use session storage to remember the last page viewed across pages/history:
     const pageStorageKey = "child_page_" + pid;
     const initialPage: string | null = sessionStorage.getItem(pageStorageKey);
     const [page, setPage] = useState<number>(parseInt(initialPage ?? "1"));
