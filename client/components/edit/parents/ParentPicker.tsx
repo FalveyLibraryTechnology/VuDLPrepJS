@@ -4,7 +4,7 @@ import PidPicker from "../PidPicker";
 import { useGlobalContext } from "../../../context/GlobalContext";
 import { useEditorContext } from "../../../context/EditorContext";
 import { useFetchContext } from "../../../context/FetchContext";
-import { getObjectLastChildPositionUrl, getParentUrl } from "../../../util/routes";
+import { getObjectLastChildPositionUrl } from "../../../util/routes";
 
 interface ParentPickerProps {
     pid: string;
@@ -16,7 +16,7 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
     } = useGlobalContext();
     const {
         state: { objectDetailsStorage },
-        action: { clearPidFromChildListStorage, removeFromObjectDetailsStorage, removeFromParentDetailsStorage },
+        action: { attachObjectToParent },
     } = useEditorContext();
     const {
         action: { fetchText },
@@ -43,24 +43,10 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
 
     const addParent = async () => {
         setStatusMessage("Saving...");
-        const target = getParentUrl(pid, selectedParentPid);
-        let result: string;
-        try {
-            result = await fetchText(target, { method: "PUT", body: position });
-        } catch (e) {
-            result = (e as Error).message ?? "Unexpected error";
-        }
-        if (result === "ok") {
-            // Clear and reload the cached object and its parents, since these have now changed!
-            removeFromObjectDetailsStorage(pid);
-            removeFromParentDetailsStorage(pid);
-            // Clear any cached lists belonging to the parent PID, because the
-            // order has potentially changed!
-            clearPidFromChildListStorage(selectedParentPid);
-            showSnackbarMessage(`Successfully added ${pid} to ${selectedParentPid}`, "info");
-        } else {
-            showSnackbarMessage(result, "error");
-        }
+        const result = await attachObjectToParent(pid, selectedParentPid, position);
+        result === "ok"
+            ? showSnackbarMessage(`Successfully added ${pid} to ${selectedParentPid}`, "info")
+            : showSnackbarMessage(result, "error");
         setStatusMessage("");
     };
 
@@ -72,7 +58,7 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
         } catch (e) {
             result = "0";
         }
-        setPosition(parseInt(result) + 1);
+        setPosition((parseInt(result) + 1).toString());
     };
 
     const positionRequired = details && (details.sortOn ?? "") == "custom";

@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
+- The application now remembers the last page you accessed in each child list, so when you return to a list from another page, you will be on the last page viewed.
 - Formal trash support using the trash_pid setting in vudl.ini.
 
 ### Changed
@@ -23,6 +24,7 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Fixed
 
 - Changing the state of an object with mixed-state children no longer causes duplicate Fedora writes, and is no longer blocked if the desired state is the same as the existing top-level object state.
+- The logout button no longer appears inappropriately when the user is not logged in.
 
 ## 2.3 - 2024-07-24
 

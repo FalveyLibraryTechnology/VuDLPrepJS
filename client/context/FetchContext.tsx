@@ -16,6 +16,12 @@ const FetchContext = createContext({});
  */
 const fetchReducer = (state, { type, payload }) => {
     switch (type) {
+        case "CLEAR_TOKEN":
+            sessionStorage.removeItem("token");
+            return {
+                ...state,
+                token: null,
+            };
         case "UPDATE_TOKEN":
             sessionStorage.setItem("token", payload);
             return {
@@ -72,6 +78,16 @@ export const useFetchContext = () => {
         window.location.href = `${loginUrl}?referer=${encodeURIComponent(window.location.href)}`;
         return false;
     };
+
+    /**
+     * Clear the login token.
+     */
+    const clearToken = () => {
+        dispatch({
+            type: "CLEAR_TOKEN",
+            payload: null,
+        });
+    }
 
     /**
      * Return a customizable response when making a request.
@@ -156,6 +172,7 @@ export const useFetchContext = () => {
             token,
         },
         action: {
+            clearToken,
             fetchBlob,
             fetchJSON,
             fetchText,

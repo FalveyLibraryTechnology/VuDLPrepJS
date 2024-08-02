@@ -36,7 +36,7 @@ describe("useFetchContext", () => {
             expect(global.fetch).toHaveBeenCalledWith(url, expect.objectContaining(fetchParams));
         });
 
-        it("calls refresh token", async () => {
+        it("calls refresh token and can clear the token", async () => {
             response.ok = false;
             response.status = 401;
             global.fetch.mockResolvedValueOnce(response);
@@ -56,6 +56,12 @@ describe("useFetchContext", () => {
             expect(global.fetch).toHaveBeenCalledWith(url, expect.objectContaining(fetchParams));
             expect(expectedResponse).toEqual("testResponseAgain");
             expect(result.current.state.token).toEqual(token);
+
+            // Now clear the token
+            await act(async() => {
+                result.current.action.clearToken();
+            });
+            expect(result.current.state.token).toEqual(null);
         });
     });
 

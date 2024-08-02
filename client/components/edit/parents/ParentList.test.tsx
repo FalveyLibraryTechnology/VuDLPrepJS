@@ -18,19 +18,11 @@ jest.mock("../../../context/EditorContext", () => ({
         return mockUseEditorContext();
     },
 }));
-const mockUseFetchContext = jest.fn();
-jest.mock("../../../context/FetchContext", () => ({
-    useFetchContext: () => {
-        return mockUseFetchContext();
-    },
-}));
-
 jest.mock("@mui/icons-material/Delete", () => (props) => props.titleAccess);
 
 describe("ParentList", () => {
     let globalValues;
     let editorValues;
-    let fetchValues;
     let pid: string;
     beforeEach(() => {
         pid = "foo:123";
@@ -77,20 +69,12 @@ describe("ParentList", () => {
                 },
             },
             action: {
-                clearPidFromChildListStorage: jest.fn(),
+                detachObjectFromParent: jest.fn(),
                 loadParentDetailsIntoStorage: jest.fn(),
-                removeFromObjectDetailsStorage: jest.fn(),
-                removeFromParentDetailsStorage: jest.fn(),
-            },
-        };
-        fetchValues = {
-            action: {
-                fetchText: jest.fn(),
             },
         };
         mockUseGlobalContext.mockReturnValue(globalValues);
         mockUseEditorContext.mockReturnValue(editorValues);
-        mockUseFetchContext.mockReturnValue(fetchValues);
     });
 
     afterEach(() => {
@@ -127,18 +111,12 @@ describe("ParentList", () => {
 
     it("deletes parents on button click plus confirmation", async () => {
         const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
-        fetchValues.action.fetchText.mockResolvedValue("ok");
+        editorValues.action.detachObjectFromParent.mockResolvedValue("ok");
         render(<ParentList pid={pid} />);
         await userEvent.setup().click(screen.getByText("Delete parent foo:122"));
         expect(confirmSpy).toHaveBeenCalledWith("Are you sure you wish to remove this parent?");
-        expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
-            "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
-            { method: "DELETE" },
-        );
-        await waitFor(() => expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenCalled());
-        expect(editorValues.action.removeFromObjectDetailsStorage).toHaveBeenCalledWith(pid);
-        expect(editorValues.action.removeFromParentDetailsStorage).toHaveBeenCalledWith(pid);
-        expect(editorValues.action.clearPidFromChildListStorage).toHaveBeenCalledWith("foo:122");
+        await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
+        expect(editorValues.action.detachObjectFromParent).toHaveBeenCalledWith(pid, "foo:122");
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: "Successfully removed foo:123 from foo:122",
             open: true,
@@ -151,48 +129,19 @@ describe("ParentList", () => {
         render(<ParentList pid={pid} />);
         await userEvent.setup().click(screen.getByText("Delete parent foo:122"));
         expect(confirmSpy).toHaveBeenCalledWith("Are you sure you wish to remove this parent?");
-        expect(fetchValues.action.fetchText).not.toHaveBeenCalled();
+        expect(editorValues.action.detachObjectFromParent).not.toHaveBeenCalled();
     });
 
     it("handles bad return statuses", async () => {
         const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
-        fetchValues.action.fetchText.mockResolvedValue("not ok");
+        editorValues.action.detachObjectFromParent.mockResolvedValue("not ok");
         render(<ParentList pid={pid} />);
         await userEvent.setup().click(screen.getByText("Delete parent foo:122"));
         expect(confirmSpy).toHaveBeenCalledWith("Are you sure you wish to remove this parent?");
-        expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
-            "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
-            { method: "DELETE" },
-        );
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
-        expect(editorValues.action.removeFromObjectDetailsStorage).not.toHaveBeenCalled();
-        expect(editorValues.action.removeFromParentDetailsStorage).not.toHaveBeenCalled();
-        expect(editorValues.action.clearPidFromChildListStorage).not.toHaveBeenCalled();
+        expect(editorValues.action.detachObjectFromParent).toHaveBeenCalledWith(pid, "foo:122");
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: "not ok",
-            open: true,
-            severity: "error",
-        });
-    });
-
-    it("handles exceptions on fetchText call", async () => {
-        const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
-        fetchValues.action.fetchText.mockImplementation(() => {
-            throw new Error("boom");
-        });
-        render(<ParentList pid={pid} />);
-        await userEvent.setup().click(screen.getByText("Delete parent foo:122"));
-        expect(confirmSpy).toHaveBeenCalledWith("Are you sure you wish to remove this parent?");
-        expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
-            "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
-            { method: "DELETE" },
-        );
-        await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
-        expect(editorValues.action.removeFromObjectDetailsStorage).not.toHaveBeenCalled();
-        expect(editorValues.action.removeFromParentDetailsStorage).not.toHaveBeenCalled();
-        expect(editorValues.action.clearPidFromChildListStorage).not.toHaveBeenCalled();
-        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
-            message: "boom",
             open: true,
             severity: "error",
         });

@@ -27,7 +27,14 @@ export const ChildList = ({
         state: { childListStorage },
         action: { getChildListStorageKey, loadChildrenIntoStorage },
     } = useEditorContext();
-    const [page, setPage] = useState<number>(1);
+    // Use session storage to remember the last page viewed across pages/history:
+    const pageStorageKey = "child_page_" + pid;
+    const initialPage: string | null =
+        typeof sessionStorage !== "undefined" ? sessionStorage.getItem(pageStorageKey) : null;
+    const [page, setPage] = useState<number>(parseInt(initialPage ?? "1"));
+    if (typeof sessionStorage !== "undefined") {
+        sessionStorage.setItem(pageStorageKey, page.toString());
+    }
     const [showChildCounts, setShowChildCounts] = useState<boolean>(false);
     const [showModels, setShowModels] = useState<boolean>(false);
     const [showThumbs, setShowThumbs] = useState<boolean>(false);
