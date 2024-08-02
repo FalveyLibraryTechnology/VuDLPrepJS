@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- The application now remembers the last page you accessed in each child list, so when you return to a list from another page, you will be on the last page viewed.
 
 ### Changed
 
