@@ -1,5 +1,14 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { editObjectCatalogUrl, getObjectChildCountsUrl, getObjectChildrenUrl, getObjectDetailsUrl, getObjectParentsUrl, getObjectRecursiveChildPidsUrl, getObjectStateUrl } from "../util/routes";
+import {
+    editObjectCatalogUrl,
+    getObjectChildCountsUrl,
+    getObjectChildrenUrl,
+    getObjectDetailsUrl,
+    getObjectParentsUrl,
+    getObjectRecursiveChildPidsUrl,
+    getObjectStateUrl,
+    getParentUrl,
+} from "../util/routes";
 import { useFetchContext } from "./FetchContext";
 import { extractFirstMetadataValue as utilExtractFirstMetadataValue } from "../util/metadata";
 import { TreeNode } from "../util/Breadcrumbs";
@@ -579,6 +588,31 @@ export const useEditorContext = () => {
             : [`Status failed to save; "${result}"`, "error"];
     }
 
+    /**
+     * Detach a child object from the specified parent.
+     * @param pid       Child PID
+     * @param parentPid Parent PID
+     * @returns A status string ("ok" on success, error message otherwise)
+     */
+    const detachObjectFromParent = async function (pid: string, parentPid: string): string {
+        const target = getParentUrl(pid, parentPid);
+        let result: string;
+        try {
+            result = await fetchText(target, { method: "DELETE" });
+        } catch (e) {
+            result = (e as Error).message ?? "Unexpected error";
+        }
+        if (result === "ok") {
+            // Clear and reload the cached object and its parents, since these have now changed!
+            removeFromObjectDetailsStorage(pid);
+            removeFromParentDetailsStorage(pid);
+            // Clear any cached lists belonging to the parent PID, because the
+            // order has potentially changed!
+            clearPidFromChildListStorage(parentPid);
+        }
+        return result;
+    };
+
     return {
         state: {
             currentAgents,
@@ -623,6 +657,7 @@ export const useEditorContext = () => {
             removeFromParentDetailsStorage,
             clearPidFromChildCountsStorage,
             clearPidFromChildListStorage,
+            detachObjectFromParent,
             updateObjectState,
         },
     };
