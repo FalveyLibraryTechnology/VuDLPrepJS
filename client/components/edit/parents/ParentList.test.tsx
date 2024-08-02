@@ -18,19 +18,11 @@ jest.mock("../../../context/EditorContext", () => ({
         return mockUseEditorContext();
     },
 }));
-const mockUseFetchContext = jest.fn();
-jest.mock("../../../context/FetchContext", () => ({
-    useFetchContext: () => {
-        return mockUseFetchContext();
-    },
-}));
-
 jest.mock("@mui/icons-material/Delete", () => (props) => props.titleAccess);
 
 describe("ParentList", () => {
     let globalValues;
     let editorValues;
-    let fetchValues;
     let pid: string;
     beforeEach(() => {
         pid = "foo:123";
@@ -81,14 +73,8 @@ describe("ParentList", () => {
                 loadParentDetailsIntoStorage: jest.fn(),
             },
         };
-        fetchValues = {
-            action: {
-                fetchText: jest.fn(),
-            },
-        };
         mockUseGlobalContext.mockReturnValue(globalValues);
         mockUseEditorContext.mockReturnValue(editorValues);
-        mockUseFetchContext.mockReturnValue(fetchValues);
     });
 
     afterEach(() => {
