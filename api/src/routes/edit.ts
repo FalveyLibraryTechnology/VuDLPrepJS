@@ -491,10 +491,7 @@ edit.put(
 
             // Validate the input
             const parentData = await FedoraDataCollector.getInstance().getHierarchy(parentPid);
-            const relationshipError = await ContainmentValidator.getInstance().checkForErrors(
-                pid,
-                parentData,
-            );
+            const relationshipError = await ContainmentValidator.getInstance().checkForErrors(pid, parentData);
             if (relationshipError !== null) {
                 res.status(400).send(relationshipError);
                 return;
