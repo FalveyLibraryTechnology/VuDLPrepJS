@@ -2,6 +2,7 @@ import express = require("express");
 import bodyParser = require("body-parser");
 import Config from "../models/Config";
 import Fedora from "../services/Fedora";
+import ContainmentValidator from "../services/ContainmentValidator";
 import FedoraCatalog from "../services/FedoraCatalog";
 import DatastreamManager from "../services/DatastreamManager";
 import FedoraObjectFactory from "../services/FedoraObjectFactory";
@@ -65,45 +66,6 @@ edit.post("/query/solr", requireToken, bodyParser.json(), async function (req, r
     res.json(response);
 });
 
-/**
- * Validate parent and child models to be sure the objects can be legally related.
- * @param parentPid    Parent PID being checked (used for messages)
- * @param parentModels All models of parent PID
- * @param childModels  All models of child PID
- * @returns Error message if a problem is found, null if the relationship is valid
- */
-function checkForParentModelErrors(
-    parentPid: string,
-    parentModels: Array<string>,
-    childModels: Array<string>,
-): string | null {
-    if (!parentModels.includes("vudl-system:CollectionModel")) {
-        return `Illegal parent ${parentPid}; not a collection!`;
-    }
-    if (childModels.includes("vudl-system:DataModel") && !parentModels.includes("vudl-system:ListCollection")) {
-        return "DataModel objects must be contained by a ListCollection";
-    }
-    if (
-        childModels.includes("vudl-system:ListCollection") &&
-        !parentModels.includes("vudl-system:ResourceCollection")
-    ) {
-        return "ListCollection objects must be contained by a ResourceCollection";
-    }
-    if (
-        childModels.includes("vudl-system:ResourceCollection") &&
-        !parentModels.includes("vudl-system:FolderCollection")
-    ) {
-        return "ResourceCollection objects must be contained by a FolderCollection";
-    }
-    if (
-        childModels.includes("vudl-system:FolderCollection") &&
-        !parentModels.includes("vudl-system:FolderCollection")
-    ) {
-        return "FolderCollection objects must be contained by a FolderCollection";
-    }
-    return null;
-}
-
 edit.post("/object/new", requireToken, bodyParser.json(), async function (req, res) {
     let parentPid = req?.body?.parent;
     if (parentPid !== null && !parentPid?.length) {
@@ -149,7 +111,11 @@ edit.post("/object/new", requireToken, bodyParser.json(), async function (req, r
             return;
         }
         // Validate whether parent relationship is legal:
-        const relationshipError = checkForParentModelErrors(parentPid, parent.models, childModels);
+        const relationshipError = ContainmentValidator.getInstance().checkForParentModelErrors(
+            parentPid,
+            parent.models,
+            childModels,
+        );
         if (relationshipError !== null) {
             res.status(400).send(relationshipError);
             return;
@@ -524,17 +490,8 @@ edit.put(
             const pos = parseInt(req.body);
 
             // Validate the input
-            if (pid == parentPid) {
-                res.status(400).send("Object cannot be its own parent.");
-                return;
-            }
             const parentData = await FedoraDataCollector.getInstance().getHierarchy(parentPid);
-            if (parentData.getAllParents().includes(pid)) {
-                res.status(400).send("Object cannot be its own grandparent.");
-                return;
-            }
-            const childData = await FedoraDataCollector.getInstance().getObjectData(pid);
-            const relationshipError = checkForParentModelErrors(parentPid, parentData.models, childData.models);
+            const relationshipError = await ContainmentValidator.getInstance().checkForErrors(pid, parentData);
             if (relationshipError !== null) {
                 res.status(400).send(relationshipError);
                 return;
