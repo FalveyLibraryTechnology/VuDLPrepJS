@@ -15,7 +15,7 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
         action: { setSnackbarState },
     } = useGlobalContext();
     const {
-        state: { objectDetailsStorage },
+        state: { objectDetailsStorage, parentDetailsStorage },
         action: { attachObjectToParent },
     } = useEditorContext();
     const {
@@ -48,6 +48,23 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
             ? showSnackbarMessage(`Successfully added ${pid} to ${selectedParentPid}`, "info")
             : showSnackbarMessage(result, "error");
         setStatusMessage("");
+    };
+
+    const getParentCount = (): number => {
+        const dataForPid = Object.prototype.hasOwnProperty.call(parentDetailsStorage, pid as string)
+            ? parentDetailsStorage[pid]
+            : {};
+        return (dataForPid["shallow"]?.parents ?? dataForPid["full"]?.parents ?? []).length;
+    };
+
+    const moveToParent = async () => {
+        const parentCount = getParentCount();
+        if (parentCount > 1) {
+            if (!confirm(`Are you sure you wish to move this object? ${parentCount} parents will be deleted.`)) {
+                return;
+            }
+        }
+        alert("move!");
     };
 
     const setToLastPosition = async () => {
@@ -87,7 +104,14 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
             <PidPicker selected={selectedParentPid} setSelected={setSelectedParentPid} />
             <br />
             {positionControl}
-            {visibleMessage.length == 0 ? <button onClick={addParent}>Add</button> : visibleMessage}
+            {visibleMessage.length == 0 ? (
+                <>
+                    <button onClick={addParent}>Add Parent</button>
+                    <button onClick={moveToParent}>Move Here</button>
+                </>
+            ) : (
+                visibleMessage
+            )}
         </>
     );
 };

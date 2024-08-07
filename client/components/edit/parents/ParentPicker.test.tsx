@@ -56,6 +56,7 @@ describe("ParentPicker", () => {
         editorValues = {
             state: {
                 objectDetailsStorage: {},
+                parentDetailsStorage: {},
             },
             action: {
                 attachObjectToParent: jest.fn(),
@@ -106,7 +107,7 @@ describe("ParentPicker", () => {
         };
         render(<ParentPicker pid={pid} />);
         await act(() => setSelected(parentPid));
-        await userEvent.setup().click(screen.getByRole("button"));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Add Parent" }));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(editorValues.action.attachObjectToParent).toHaveBeenCalledWith(pid, parentPid, "");
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
@@ -123,7 +124,7 @@ describe("ParentPicker", () => {
         };
         render(<ParentPicker pid={pid} />);
         await act(() => setSelected(parentPid));
-        await userEvent.setup().click(screen.getByRole("button"));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Add Parent" }));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: "not ok",
@@ -153,7 +154,7 @@ describe("ParentPicker", () => {
         await act(async () => {
             fireEvent.change(screen.getByRole("textbox", { name: "Position:" }), { target: { value: "100" } });
         });
-        await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Add Parent" }));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(editorValues.action.attachObjectToParent).toHaveBeenCalledWith(pid, parentPid, "100");
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
@@ -173,7 +174,7 @@ describe("ParentPicker", () => {
         await act(() => setSelected(parentPid));
         await userEvent.setup().click(screen.getByRole("button"));
         await waitFor(() => expect(fetchValues.action.fetchText).toHaveBeenCalled());
-        await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Add Parent" }));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
             "http://localhost:9000/api/edit/object/foo%3A122/lastChildPosition",
@@ -199,7 +200,7 @@ describe("ParentPicker", () => {
         await act(() => setSelected(parentPid));
         await userEvent.setup().click(screen.getByRole("button"));
         await waitFor(() => expect(fetchValues.action.fetchText).toHaveBeenCalled());
-        await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Add Parent" }));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
             "http://localhost:9000/api/edit/object/foo%3A122/lastChildPosition",
