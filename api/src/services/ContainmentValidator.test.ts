@@ -6,7 +6,8 @@ describe("ContainmentValidator", () => {
         let validator: ContainmentValidator;
 
         beforeEach(() => {
-            validator = new ContainmentValidator(new Config({ trash_pid: "trash:123" }));
+            Config.setInstance(new Config({ trash_pid: "trash:123" }));
+            validator = ContainmentValidator.getInstance();
         });
 
         it("won't allow data in non-trash folder", () => {

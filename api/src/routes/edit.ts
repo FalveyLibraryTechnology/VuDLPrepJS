@@ -490,21 +490,8 @@ edit.put(
             const pos = parseInt(req.body);
 
             // Validate the input
-            if (pid == parentPid) {
-                res.status(400).send("Object cannot be its own parent.");
-                return;
-            }
             const parentData = await FedoraDataCollector.getInstance().getHierarchy(parentPid);
-            if (parentData.getAllParents().includes(pid)) {
-                res.status(400).send("Object cannot be its own grandparent.");
-                return;
-            }
-            const childData = await FedoraDataCollector.getInstance().getObjectData(pid);
-            const relationshipError = ContainmentValidator.getInstance().checkForParentModelErrors(
-                parentPid,
-                parentData.models,
-                childData.models,
-            );
+            const relationshipError = await ContainmentValidator.getInstance().checkForErrors(pid, parentData);
             if (relationshipError !== null) {
                 res.status(400).send(relationshipError);
                 return;

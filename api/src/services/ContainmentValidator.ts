@@ -1,22 +1,63 @@
 import Config from "../models/Config";
+import FedoraDataCollection from "../models/FedoraDataCollection";
+import FedoraDataCollector from "./FedoraDataCollector";
 
 class ContainmentValidator {
     private static instance: ContainmentValidator;
     protected config: Config;
+    protected fedoraDataCollector: FedoraDataCollector;
 
-    constructor(config: Config) {
+    constructor(config: Config, fedoraDataCollector: FedoraDataCollector) {
         this.config = config;
+        this.fedoraDataCollector = fedoraDataCollector;
     }
 
     public static getInstance(): ContainmentValidator {
         if (!ContainmentValidator.instance) {
-            ContainmentValidator.instance = new ContainmentValidator(Config.getInstance());
+            ContainmentValidator.instance = new ContainmentValidator(
+                Config.getInstance(),
+                FedoraDataCollector.getInstance(),
+            );
         }
         return ContainmentValidator.instance;
     }
 
     public static setInstance(instance: ContainmentValidator): void {
         ContainmentValidator.instance = instance;
+    }
+
+    /**
+     * Check all classes of possible containment errors.
+     * @param child  Child PID or FedoraDataCollection representing child
+     * @param parent Parent PID or FedoraDataCollection representing parent
+     * @returns Error message if a problem is found, null if the relationship is valid
+     */
+    public async checkForErrors(
+        child: string | FedoraDataCollection,
+        parent: string | FedoraDataCollection,
+    ): Promise<string | null> {
+        const childData = typeof child === "string" ? await this.fedoraDataCollector.getObjectData(child) : child;
+        const parentData = typeof parent === "string" ? await this.fedoraDataCollector.getHierarchy(parent) : parent;
+        return (
+            this.checkForParentLoopErrors(childData.pid, parentData) ??
+            this.checkForParentModelErrors(parentData.pid, parentData.models, childData.models)
+        );
+    }
+
+    /**
+     * Validate parent PIDs to avoid infinite loops.
+     * @param pid        Child PID
+     * @param parentData FedoraDataCollection describing parent
+     * @returns Error message if a problem is found, null if the relationship is valid
+     */
+    public checkForParentLoopErrors(pid: string, parentData: FedoraDataCollection): string | null {
+        if (pid == parentData.pid) {
+            return "Object cannot be its own parent.";
+        }
+        if (parentData.getAllParents().includes(pid)) {
+            return "Object cannot be its own grandparent.";
+        }
+        return null;
     }
 
     /**
