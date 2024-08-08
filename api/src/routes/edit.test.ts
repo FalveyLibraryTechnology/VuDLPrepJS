@@ -50,6 +50,7 @@ describe("edit", () => {
                 processMetadataDefaults: {},
                 toolPresets: [],
                 favoritePids: {},
+                trashPid: null,
                 topLevelPids: [],
                 vufindUrl: "",
             };
