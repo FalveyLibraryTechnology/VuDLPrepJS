@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - All back-end edit routes include no-cache headers to prevent outdated results from being cached in the browser.
 - The application now remembers the last page you accessed in each child list, so when you return to a list from another page, you will be on the last page viewed.
+- Objects can now be moved in a single step (instead of requiring the add parent / delete parent steps).
 
 ### Changed
 

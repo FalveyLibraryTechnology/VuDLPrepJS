@@ -59,6 +59,8 @@ describe("ParentPicker", () => {
             },
             action: {
                 attachObjectToParent: jest.fn(),
+                getParentCountForPid: jest.fn(),
+                moveObjectToParent: jest.fn(),
             },
         };
         fetchValues = {
@@ -106,7 +108,24 @@ describe("ParentPicker", () => {
         };
         render(<ParentPicker pid={pid} />);
         await act(() => setSelected(parentPid));
-        await userEvent.setup().click(screen.getByRole("button"));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Add Parent" }));
+        await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
+        expect(editorValues.action.attachObjectToParent).toHaveBeenCalledWith(pid, parentPid, "");
+        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
+            message: "Successfully added foo:123 to foo:122",
+            open: true,
+            severity: "info",
+        });
+    });
+
+    it("delegates move to add when there are no existing parents", async () => {
+        editorValues.action.attachObjectToParent.mockResolvedValue("ok");
+        editorValues.state.objectDetailsStorage[parentPid] = {
+            sortOn: "title",
+        };
+        render(<ParentPicker pid={pid} />);
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Move Here" }));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(editorValues.action.attachObjectToParent).toHaveBeenCalledWith(pid, parentPid, "");
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
@@ -123,7 +142,80 @@ describe("ParentPicker", () => {
         };
         render(<ParentPicker pid={pid} />);
         await act(() => setSelected(parentPid));
-        await userEvent.setup().click(screen.getByRole("button"));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Add Parent" }));
+        await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
+        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
+            message: "not ok",
+            open: true,
+            severity: "error",
+        });
+    });
+
+    it("moves to a title-sorted parent", async () => {
+        editorValues.action.moveObjectToParent.mockResolvedValue("ok");
+        editorValues.state.objectDetailsStorage[parentPid] = {
+            sortOn: "title",
+        };
+        editorValues.action.getParentCountForPid.mockReturnValue(1);
+        render(<ParentPicker pid={pid} />);
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Move Here" }));
+        await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
+        expect(editorValues.action.moveObjectToParent).toHaveBeenCalledWith(pid, parentPid, "");
+        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
+            message: "Successfully moved foo:123 to foo:122",
+            open: true,
+            severity: "info",
+        });
+    });
+
+    it("requires confirmation to move out of multiple parents", async () => {
+        const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
+        editorValues.action.moveObjectToParent.mockResolvedValue("ok");
+        editorValues.state.objectDetailsStorage[parentPid] = {
+            sortOn: "title",
+        };
+        editorValues.action.getParentCountForPid.mockReturnValue(2);
+        render(<ParentPicker pid={pid} />);
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Move Here" }));
+        await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
+        expect(confirmSpy).toHaveBeenCalledWith(
+            "Are you sure you wish to move this object? 2 parents will be deleted.",
+        );
+        expect(editorValues.action.moveObjectToParent).toHaveBeenCalledWith(pid, parentPid, "");
+        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
+            message: "Successfully moved foo:123 to foo:122",
+            open: true,
+            severity: "info",
+        });
+    });
+
+    it("can be aborted via confirmation to move out of multiple parents", async () => {
+        const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(false);
+        editorValues.state.objectDetailsStorage[parentPid] = {
+            sortOn: "title",
+        };
+        editorValues.action.getParentCountForPid.mockReturnValue(2);
+        render(<ParentPicker pid={pid} />);
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Move Here" }));
+        expect(confirmSpy).toHaveBeenCalledWith(
+            "Are you sure you wish to move this object? 2 parents will be deleted.",
+        );
+        expect(editorValues.action.moveObjectToParent).not.toHaveBeenCalled();
+        expect(globalValues.action.setSnackbarState).not.toHaveBeenCalled();
+    });
+
+    it("handles move failure gracefully", async () => {
+        editorValues.action.moveObjectToParent.mockResolvedValue("not ok");
+        editorValues.state.objectDetailsStorage[parentPid] = {
+            sortOn: "title",
+        };
+        editorValues.action.getParentCountForPid.mockReturnValue(1);
+        render(<ParentPicker pid={pid} />);
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Move Here" }));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: "not ok",
@@ -153,7 +245,7 @@ describe("ParentPicker", () => {
         await act(async () => {
             fireEvent.change(screen.getByRole("textbox", { name: "Position:" }), { target: { value: "100" } });
         });
-        await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Add Parent" }));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(editorValues.action.attachObjectToParent).toHaveBeenCalledWith(pid, parentPid, "100");
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
@@ -173,7 +265,7 @@ describe("ParentPicker", () => {
         await act(() => setSelected(parentPid));
         await userEvent.setup().click(screen.getByRole("button"));
         await waitFor(() => expect(fetchValues.action.fetchText).toHaveBeenCalled());
-        await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Add Parent" }));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
             "http://localhost:9000/api/edit/object/foo%3A122/lastChildPosition",
@@ -199,7 +291,7 @@ describe("ParentPicker", () => {
         await act(() => setSelected(parentPid));
         await userEvent.setup().click(screen.getByRole("button"));
         await waitFor(() => expect(fetchValues.action.fetchText).toHaveBeenCalled());
-        await userEvent.setup().click(screen.getByRole("button", { name: "Add" }));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Add Parent" }));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
             "http://localhost:9000/api/edit/object/foo%3A122/lastChildPosition",

@@ -408,6 +408,23 @@ describe("useEditorContext", () => {
         });
     });
 
+    describe("getParentCountForPid", () => {
+        it("returns null if no data is loaded", async () => {
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            expect(result.current.action.getParentCountForPid("test:123")).toEqual(null);
+        });
+
+        it("counts PIDs appropriately", async () => {
+            const fakeParentDetails = { parents: ["foo", "bar"] };
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeParentDetails);
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            await act(async () => {
+                await result.current.action.loadParentDetailsIntoStorage("test:123");
+            });
+            expect(result.current.action.getParentCountForPid("test:123")).toEqual(2);
+        });
+    });
+
     describe("removeFromParentDetailsStorage", () => {
         it("removes the specified record without impacting others", async () => {
             const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
@@ -558,6 +575,68 @@ describe("useEditorContext", () => {
             expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
                 "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
                 { method: "PUT", body: "1" },
+            );
+            expect(updateResult).toEqual("boom");
+        });
+    });
+
+    describe("moveObjectToParent", () => {
+        const pid = "foo:123";
+
+        it("moves objects successfully", async () => {
+            fetchValues.action.fetchText.mockResolvedValue("ok");
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+
+            // Load data into storage so we can test that it gets cleared out after updates:
+            const fakeObjectDetails = { foo: "bar" };
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeObjectDetails);
+            await act(async() => {
+                await result.current.action.loadObjectDetailsIntoStorage(pid);
+            });
+            expect(result.current.state.objectDetailsStorage[pid]).toEqual(fakeObjectDetails);
+            const fakeParentDetails = ["foo", "bar"];
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeParentDetails);
+            await act(async() => {
+                await result.current.action.loadParentDetailsIntoStorage(pid);
+            });
+            expect(result.current.state.parentDetailsStorage[pid]["full"]).toEqual(fakeParentDetails);
+            const fakeChildPage = ["boop"];
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeChildPage);
+            await act(async() => {
+                await result.current.action.loadChildrenIntoStorage("foo:122", 1, 1);
+            });
+            const expectedKey = result.current.action.getChildListStorageKey("foo:122", 1, 1);
+            expect(result.current.state.childListStorage[expectedKey]).toEqual(fakeChildPage);
+
+            // Now run the actual test:
+            let updateResult;
+            await act(async () => {
+                updateResult = await result.current.action.moveObjectToParent(pid, "foo:122", "");
+            });
+            expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
+                "http://localhost:9000/api/edit/object/foo%3A123/moveToParent/foo%3A122",
+                { method: "POST", body: "" },
+            );
+            expect(updateResult).toEqual("ok");
+
+            // Various caches should now be empty due to clearing of changed data:
+            expect(result.current.state.objectDetailsStorage).toEqual({});
+            expect(result.current.state.parentDetailsStorage).toEqual({});
+            expect(result.current.state.childListStorage).toEqual({});
+        });
+
+        it("handles exceptions on fetchText call", async () => {
+            fetchValues.action.fetchText.mockImplementation(() => {
+                throw new Error("boom");
+            });
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            let updateResult;
+            await act(async () => {
+                updateResult = await result.current.action.moveObjectToParent(pid, "foo:122", "1");
+            });
+            expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
+                "http://localhost:9000/api/edit/object/foo%3A123/moveToParent/foo%3A122",
+                { method: "POST", body: "1" },
             );
             expect(updateResult).toEqual("boom");
         });
