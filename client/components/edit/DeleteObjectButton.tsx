@@ -32,16 +32,17 @@ const DeleteObjectButton = ({ pid }: DeleteObjectButtonProps): React.ReactElemen
     const [childPidResponse, setChildPidResponse] = useState({ loading: true });
     const [statusMessage, setStatusMessage] = useState<string>("");
     const loaded = Object.prototype.hasOwnProperty.call(objectDetailsStorage, pid);
-    const details = loaded ? objectDetailsStorage[pid] : {};
     useEffect(() => {
         async function loadChildren() {
-            setChildPidResponse({ loading: true });
-            const url = getObjectRecursiveChildPidsUrl(details.pid, 0, 0);
+            const url = getObjectRecursiveChildPidsUrl(pid, 0, 0);
             const response = await fetchJSON(url);
             setChildPidResponse(response);
         }
-        loadChildren();
-    }, [details]);
+        setChildPidResponse({ loading: true });
+        if (loaded) {
+            loadChildren();
+        }
+    }, [loaded]);
 
     const performDelete = async function () {
         const msg =
