@@ -56,6 +56,7 @@ interface EditorState {
     agentsCatalog: Record<string, Object>;
     dublinCoreFieldCatalog: Record<string, Record<string, string>>;
     favoritePidsCatalog: Record<string, string>;
+    trashPid: string | null;
     processMetadataDefaults: Record<string, string>;
     toolPresets: Array<Record<string, string>>;
     vufindUrl: string;
@@ -85,6 +86,7 @@ const editorContextParams: EditorState = {
     agentsCatalog: {},
     dublinCoreFieldCatalog: {},
     favoritePidsCatalog: {},
+    trashPid: null,
     processMetadataDefaults: {},
     toolPresets: [],
     vufindUrl: "",
@@ -119,6 +121,7 @@ const reducerMapping: Record<string, string> = {
     SET_AGENTS_CATALOG: "agentsCatalog",
     SET_DUBLIN_CORE_FIELD_CATALOG: "dublinCoreFieldCatalog",
     SET_FAVORITE_PIDS_CATALOG: "favoritePidsCatalog",
+    SET_TRASH_PID: "trashPid",
     SET_PROCESS_METADATA_DEFAULTS: "processMetadataDefaults",
     SET_TOOL_PRESETS: "toolPresets",
     SET_VUFIND_URL: "vufindUrl",
@@ -267,6 +270,7 @@ export const useEditorContext = () => {
             agentsCatalog,
             dublinCoreFieldCatalog,
             favoritePidsCatalog,
+            trashPid,
             processMetadataDefaults,
             toolPresets,
             vufindUrl,
@@ -449,6 +453,13 @@ export const useEditorContext = () => {
         });
     }
 
+    const setTrashPid = (trashPid: string) => {
+        dispatch({
+            type: "SET_TRASH_PID",
+            payload: trashPid
+        });
+    }
+
     const setProcessMetadataDefaults = (defaults: Record<string, string>) => {
         dispatch({
             type: "SET_PROCESS_METADATA_DEFAULTS",
@@ -532,6 +543,7 @@ export const useEditorContext = () => {
             setModelsCatalog(response.models || {});
             setLicensesCatalog(response.licenses || {});
             setFavoritePidsCatalog(response.favoritePids || {});
+            setTrashPid(response.trashPid || null);
             setToolPresets(response.toolPresets || []);
             setProcessMetadataDefaults(response.processMetadataDefaults || {});
             setAgentsCatalog(response.agents || {});
@@ -704,6 +716,7 @@ export const useEditorContext = () => {
             agentsCatalog,
             dublinCoreFieldCatalog,
             favoritePidsCatalog,
+            trashPid,
             processMetadataDefaults,
             toolPresets,
             vufindUrl,
