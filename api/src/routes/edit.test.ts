@@ -1270,7 +1270,6 @@ describe("edit", () => {
         let parentPid: string;
         let mockData: FedoraDataCollection;
         let mockParentData: FedoraDataCollection;
-        let mockObject;
         let moveSpy;
         beforeEach(() => {
             parentPid = "foo:100";
