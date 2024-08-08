@@ -59,7 +59,6 @@ const DeleteObjectButton = ({ pid }: DeleteObjectButtonProps): React.ReactElemen
             const url = getObjectParentsUrl(pid, true);
             try {
                 const parentDetails = await fetchJSON(url);
-                console.log(parentDetails);
                 parentCount = parentDetails.parents.length;
             } catch (e) {
                 showSnackbarMessage(e.message, "error");

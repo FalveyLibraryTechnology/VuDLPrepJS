@@ -49,6 +49,8 @@ describe("DeleteObjectButton", () => {
                 objectDetailsStorage: {},
             },
             action: {
+                getParentCountForPid: jest.fn(),
+                attachObjectToParent: jest.fn(),
                 moveObjectToParent: jest.fn(),
                 updateObjectState: jest.fn(),
             },
@@ -109,6 +111,7 @@ describe("DeleteObjectButton", () => {
         const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
         editorValues.state.objectDetailsStorage[pid] = { pid, state: "Inactive" };
         editorValues.action.moveObjectToParent.mockResolvedValue("ok");
+        editorValues.action.getParentCountForPid.mockReturnValue(1);
         editorValues.action.updateObjectState.mockResolvedValue(["Status saved successfully.", "success"]);
         fetchContextValues.action.fetchJSON.mockResolvedValue({ numFound: 0 });
         await act(async () => {
@@ -120,7 +123,7 @@ describe("DeleteObjectButton", () => {
         await waitFor(() =>
             expect(editorValues.action.updateObjectState).toHaveBeenCalledWith(pid, "Deleted", 0, expect.anything()),
         );
-        expect(editorValues.action.moveObjectToParent).toHaveBeenCalledWith(pid, "foo:999", null);
+        expect(editorValues.action.moveObjectToParent).toHaveBeenCalledWith(pid, "foo:999", "");
         expect(confirmSpy).toHaveBeenCalledWith("Are you sure you wish to delete PID foo:123?");
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: `Successfully moved ${pid} to foo:999`,
@@ -134,10 +137,70 @@ describe("DeleteObjectButton", () => {
         });
     });
 
+    it("saves data correctly in the no parents special case", async () => {
+        const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
+        editorValues.state.objectDetailsStorage[pid] = { pid, state: "Inactive" };
+        editorValues.action.attachObjectToParent.mockResolvedValue("ok");
+        editorValues.action.getParentCountForPid.mockReturnValue(null);
+        editorValues.action.updateObjectState.mockResolvedValue(["Status saved successfully.", "success"]);
+        fetchContextValues.action.fetchJSON.mockResolvedValue({ numFound: 0 });
+        await act(async () => {
+            render(<DeleteObjectButton pid={pid} />);
+        });
+        await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        const user = userEvent.setup();
+        fetchContextValues.action.fetchJSON.mockResolvedValue({ parents: [] });
+        await user.click(screen.getByText("DeleteIcon"));
+        await waitFor(() =>
+            expect(editorValues.action.updateObjectState).toHaveBeenCalledWith(pid, "Deleted", 0, expect.anything()),
+        );
+        expect(editorValues.action.attachObjectToParent).toHaveBeenCalledWith(pid, "foo:999", "");
+        expect(confirmSpy).toHaveBeenCalledWith("Are you sure you wish to delete PID foo:123?");
+        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
+            message: `Successfully moved ${pid} to foo:999`,
+            open: true,
+            severity: "info",
+        });
+        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
+            message: "Status saved successfully.",
+            open: true,
+            severity: "success",
+        });
+    });
+
+    it("handles retrieval failure in the no parents special case", async () => {
+        const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
+        editorValues.state.objectDetailsStorage[pid] = { pid, state: "Inactive" };
+        editorValues.action.attachObjectToParent.mockResolvedValue("ok");
+        editorValues.action.getParentCountForPid.mockReturnValue(null);
+        editorValues.action.updateObjectState.mockResolvedValue(["Status saved successfully.", "success"]);
+        fetchContextValues.action.fetchJSON.mockResolvedValue({ numFound: 0 });
+        await act(async () => {
+            render(<DeleteObjectButton pid={pid} />);
+        });
+        await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
+        const user = userEvent.setup();
+        fetchContextValues.action.fetchJSON.mockImplementation(() => {
+            throw new Error("kaboom");
+        });
+        await user.click(screen.getByText("DeleteIcon"));
+        await waitFor(() =>
+            expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
+                message: "kaboom",
+                open: true,
+                severity: "error",
+            }),
+        );
+        expect(editorValues.action.updateObjectState).not.toHaveBeenCalled();
+        expect(editorValues.action.attachObjectToParent).not.toHaveBeenCalled();
+        expect(confirmSpy).toHaveBeenCalledWith("Are you sure you wish to delete PID foo:123?");
+    });
+
     it("handles state change failure correctly", async () => {
         const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
         editorValues.state.objectDetailsStorage[pid] = { pid, state: "Inactive" };
         editorValues.action.moveObjectToParent.mockResolvedValue("ok");
+        editorValues.action.getParentCountForPid.mockReturnValue(1);
         editorValues.action.updateObjectState.mockImplementation((foo, bar, baz, callback) => {
             callback("I don't feel well");
             throw new Error("kaboom");
@@ -152,7 +215,7 @@ describe("DeleteObjectButton", () => {
         await waitFor(() =>
             expect(editorValues.action.updateObjectState).toHaveBeenCalledWith(pid, "Deleted", 0, expect.anything()),
         );
-        expect(editorValues.action.moveObjectToParent).toHaveBeenCalledWith(pid, "foo:999", null);
+        expect(editorValues.action.moveObjectToParent).toHaveBeenCalledWith(pid, "foo:999", "");
         expect(confirmSpy).toHaveBeenCalledWith("Are you sure you wish to delete PID foo:123?");
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: `Successfully moved ${pid} to foo:999`,
@@ -175,6 +238,7 @@ describe("DeleteObjectButton", () => {
         const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
         editorValues.state.objectDetailsStorage[pid] = { pid, state: "Inactive" };
         editorValues.action.moveObjectToParent.mockResolvedValue("not ok");
+        editorValues.action.getParentCountForPid.mockReturnValue(1);
         fetchContextValues.action.fetchJSON.mockResolvedValue({ numFound: 0 });
         await act(async () => {
             render(<DeleteObjectButton pid={pid} />);
@@ -182,7 +246,7 @@ describe("DeleteObjectButton", () => {
         await waitFor(() => expect(fetchContextValues.action.fetchJSON).toHaveBeenCalled());
         const user = userEvent.setup();
         await user.click(screen.getByText("DeleteIcon"));
-        await waitFor(() => expect(editorValues.action.moveObjectToParent).toHaveBeenCalledWith(pid, "foo:999", null));
+        await waitFor(() => expect(editorValues.action.moveObjectToParent).toHaveBeenCalledWith(pid, "foo:999", ""));
         expect(confirmSpy).toHaveBeenCalledWith("Are you sure you wish to delete PID foo:123?");
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: `not ok`,
