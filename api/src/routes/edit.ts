@@ -479,6 +479,33 @@ edit.put("/object/:pid/state", requireToken, pidSanitizer, bodyParser.text(), as
 });
 
 const pidAndParentPidSanitizer = sanitizeParameters({ pid: pidSanitizeRegEx, parentPid: pidSanitizeRegEx });
+edit.post(
+    "/object/:pid/moveToParent/:parentPid",
+    requireToken,
+    pidAndParentPidSanitizer,
+    bodyParser.text(),
+    async function (req, res) {
+        try {
+            const { pid, parentPid } = req.params;
+            const pos = parseInt(req.body);
+
+            // Validate the input
+            const parentData = await FedoraDataCollector.getInstance().getHierarchy(parentPid);
+            const relationshipError = await ContainmentValidator.getInstance().checkForErrors(pid, parentData);
+            if (relationshipError !== null) {
+                res.status(400).send(relationshipError);
+                return;
+            }
+
+            // If we got this far, we can safely update things
+            await Fedora.getInstance().movePidToParent(pid, parentPid, parentData.sortOn === "custom" ? pos : null);
+            res.status(200).send("ok");
+        } catch (error) {
+            console.error(error);
+            res.status(500).send(error.message);
+        }
+    },
+);
 edit.put(
     "/object/:pid/parent/:parentPid",
     requireToken,

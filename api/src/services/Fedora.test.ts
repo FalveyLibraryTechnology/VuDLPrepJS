@@ -251,6 +251,36 @@ describe("Fedora", () => {
         });
     });
 
+    describe("movePidToParent", () => {
+        beforeEach(() => {
+            requestSpy = jest.spyOn(fedora, "_request").mockResolvedValue({ statusCode: 204 });
+        });
+
+        it("will move to parent with a position", async () => {
+            fedora.movePidToParent(pid, "foo:100", 50);
+            expect(requestSpy).toHaveBeenCalledWith(
+                "patch",
+                "/" + pid,
+                'DELETE { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> ?parent . <> <http://vudl.org/relationships#sequence> ?pos . } INSERT { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> <info:fedora/foo:100> . <> <http://vudl.org/relationships#sequence> "50" } WHERE {  }',
+                { headers: { "Content-Type": "application/sparql-update" } },
+            );
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
+        });
+
+        it("will move to parent without a position", async () => {
+            fedora.movePidToParent(pid, "foo:100", null);
+            expect(requestSpy).toHaveBeenCalledWith(
+                "patch",
+                "/" + pid,
+                "DELETE { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> ?parent . <> <http://vudl.org/relationships#sequence> ?pos . } INSERT { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> <info:fedora/foo:100> . } WHERE {  }",
+                { headers: { "Content-Type": "application/sparql-update" } },
+            );
+            expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
+            expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
+        });
+    });
+
     describe("deleteSequenceRelationship", () => {
         beforeEach(() => {
             requestSpy = jest.spyOn(fedora, "_request").mockResolvedValue({ statusCode: 204 });

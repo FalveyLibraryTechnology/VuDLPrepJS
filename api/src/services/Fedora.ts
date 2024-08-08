@@ -419,6 +419,29 @@ export class Fedora {
     }
 
     /**
+     * This method removes existing parents from a PID and attaches a new one.
+     *
+     * @param pid       PID to update
+     * @param parentPid Parent PID to update
+     * @param pos       Position within parent (null to skip setting position)
+     */
+    async movePidToParent(pid: string, parentPid: string, pos: number | null): Promise<void> {
+        this.cache.purgeFromCacheIfEnabled(pid);
+        const parentPredicate = "info:fedora/fedora-system:def/relations-external#isMemberOf";
+        const sequencePredicate = "http://vudl.org/relationships#sequence";
+        const targetPath = "/" + pid;
+        const insertClause =
+            `<> <${parentPredicate}> <info:fedora/${parentPid}> .` +
+            (pos === null ? "" : ` <> <${sequencePredicate}> "${pos}"`);
+        const deleteClause = `<> <${parentPredicate}> ?parent . <> <${sequencePredicate}> ?pos .`;
+        const whereClause = "";
+        const patchResponse = await this.patchRdf(targetPath, insertClause, deleteClause, whereClause);
+        if (patchResponse.statusCode !== 204) {
+            throw new Error("Expected 204 No Content response, received: " + patchResponse.statusCode);
+        }
+    }
+
+    /**
      * This method removes a sequence relationship from a pid/parent pid pair.
      *
      * @param pid       PID to update
