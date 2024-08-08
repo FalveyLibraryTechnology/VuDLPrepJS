@@ -60,6 +60,7 @@ describe("ParentPicker", () => {
             },
             action: {
                 attachObjectToParent: jest.fn(),
+                moveObjectToParent: jest.fn(),
             },
         };
         fetchValues = {
@@ -117,6 +118,23 @@ describe("ParentPicker", () => {
         });
     });
 
+    it("delegates move to add when there are no existing parents", async () => {
+        editorValues.action.attachObjectToParent.mockResolvedValue("ok");
+        editorValues.state.objectDetailsStorage[parentPid] = {
+            sortOn: "title",
+        };
+        render(<ParentPicker pid={pid} />);
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Move Here" }));
+        await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
+        expect(editorValues.action.attachObjectToParent).toHaveBeenCalledWith(pid, parentPid, "");
+        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
+            message: "Successfully added foo:123 to foo:122",
+            open: true,
+            severity: "info",
+        });
+    });
+
     it("handles save failure gracefully", async () => {
         editorValues.action.attachObjectToParent.mockResolvedValue("not ok");
         editorValues.state.objectDetailsStorage[parentPid] = {
@@ -125,6 +143,79 @@ describe("ParentPicker", () => {
         render(<ParentPicker pid={pid} />);
         await act(() => setSelected(parentPid));
         await userEvent.setup().click(screen.getByRole("button", { name: "Add Parent" }));
+        await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
+        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
+            message: "not ok",
+            open: true,
+            severity: "error",
+        });
+    });
+
+    it("moves to a title-sorted parent", async () => {
+        editorValues.action.moveObjectToParent.mockResolvedValue("ok");
+        editorValues.state.objectDetailsStorage[parentPid] = {
+            sortOn: "title",
+        };
+        editorValues.state.parentDetailsStorage[pid] = { shallow: { parents: ["old:123"] } };
+        render(<ParentPicker pid={pid} />);
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Move Here" }));
+        await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
+        expect(editorValues.action.moveObjectToParent).toHaveBeenCalledWith(pid, parentPid, "");
+        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
+            message: "Successfully moved foo:123 to foo:122",
+            open: true,
+            severity: "info",
+        });
+    });
+
+    it("requires confirmation to move out of multiple parents", async () => {
+        const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
+        editorValues.action.moveObjectToParent.mockResolvedValue("ok");
+        editorValues.state.objectDetailsStorage[parentPid] = {
+            sortOn: "title",
+        };
+        editorValues.state.parentDetailsStorage[pid] = { shallow: { parents: ["old:123", "old:124"] } };
+        render(<ParentPicker pid={pid} />);
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Move Here" }));
+        await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
+        expect(confirmSpy).toHaveBeenCalledWith(
+            "Are you sure you wish to move this object? 2 parents will be deleted.",
+        );
+        expect(editorValues.action.moveObjectToParent).toHaveBeenCalledWith(pid, parentPid, "");
+        expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
+            message: "Successfully moved foo:123 to foo:122",
+            open: true,
+            severity: "info",
+        });
+    });
+
+    it("can be aborted via confirmation to move out of multiple parents", async () => {
+        const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(false);
+        editorValues.state.objectDetailsStorage[parentPid] = {
+            sortOn: "title",
+        };
+        editorValues.state.parentDetailsStorage[pid] = { shallow: { parents: ["old:123", "old:124"] } };
+        render(<ParentPicker pid={pid} />);
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Move Here" }));
+        expect(confirmSpy).toHaveBeenCalledWith(
+            "Are you sure you wish to move this object? 2 parents will be deleted.",
+        );
+        expect(editorValues.action.moveObjectToParent).not.toHaveBeenCalled();
+        expect(globalValues.action.setSnackbarState).not.toHaveBeenCalled();
+    });
+
+    it("handles move failure gracefully", async () => {
+        editorValues.action.moveObjectToParent.mockResolvedValue("not ok");
+        editorValues.state.objectDetailsStorage[parentPid] = {
+            sortOn: "title",
+        };
+        editorValues.state.parentDetailsStorage[pid] = { shallow: { parents: ["old:123"] } };
+        render(<ParentPicker pid={pid} />);
+        await act(() => setSelected(parentPid));
+        await userEvent.setup().click(screen.getByRole("button", { name: "Move Here" }));
         await waitFor(() => expect(globalValues.action.setSnackbarState).toHaveBeenCalled());
         expect(globalValues.action.setSnackbarState).toHaveBeenCalledWith({
             message: "not ok",
