@@ -129,3 +129,19 @@ After a few moments, a new tab should automatically open in your browser pointin
 | start | run api, client, and queue servers (production) |
 | test  | run both client and api tests |
 | watch | alias for api:watch |
+
+## Command Line Tools
+
+Some useful command-line utilities (which can be run using `node [filename]`) are found in the
+api/scripts directory.
+
+| Script | Description |
+| - | - |
+| export-combined-solr-cache.js | If Solr caching is enabled, this exports it to XML files. |
+| generate-master-md.js | Queue a job to generate the MASTER-MD stream for the specified PID. |
+| generate-pdfs-from-list.js | Queue PDF generation jobs from the specified PID list file. |
+| index-pid-list.js | Queue index jobs from the specified PID list file. |
+| ingest.js | Queue ingest jobs for content publised in the Paginator. |
+| purge-deleted-children-of-pid.js | Purge all deleted children of the specified PID. |
+| reindex-from-solr-cache.js | Rebuild the Solr index from the Solr cache. |
+| send-notification.js | Add a job to the notify queue. |
