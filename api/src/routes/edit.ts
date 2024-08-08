@@ -17,14 +17,12 @@ import { FedoraObject } from "../models/FedoraObject";
 const edit = express.Router();
 
 // Disable caching on the edit route to ensure that data always refreshes correctly:
-edit.use(
-    (_, res, next) => {
-        res.setHeader("Surrogate-Control", "no-store");
-        res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
-        res.setHeader("Expires", "0");
-        next();
-    }
-);
+edit.use((_, res, next) => {
+    res.setHeader("Surrogate-Control", "no-store");
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Expires", "0");
+    next();
+});
 
 edit.get("/models", requireToken, function (req, res) {
     res.json({ CollectionModels: Config.getInstance().collectionModels, DataModels: Config.getInstance().dataModels });
