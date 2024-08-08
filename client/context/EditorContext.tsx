@@ -179,7 +179,6 @@ const editorReducer = (state: EditorState, { type, payload }: { type: string, pa
             ...state.parentDetailsStorage,
         };
         delete parentDetailsStorage[key];
-        console.log(parentDetailsStorage);
         return {
             ...state,
             parentDetailsStorage
