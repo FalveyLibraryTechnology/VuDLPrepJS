@@ -1266,6 +1266,76 @@ describe("edit", () => {
         });
     });
 
+    describe("post /object/:pid/moveToParent/:parentPid", () => {
+        let parentPid: string;
+        let mockData: FedoraDataCollection;
+        let mockParentData: FedoraDataCollection;
+        let mockObject;
+        let moveSpy;
+        beforeEach(() => {
+            parentPid = "foo:100";
+            mockData = FedoraDataCollection.build(pid);
+            mockParentData = FedoraDataCollection.build(parentPid);
+            const collector = FedoraDataCollector.getInstance();
+            jest.spyOn(collector, "getHierarchy").mockResolvedValue(mockParentData);
+            jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
+            moveSpy = jest.spyOn(Fedora.getInstance(), "movePidToParent").mockImplementation(jest.fn());
+        });
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+        it("will not make an object its own parent", async () => {
+            jest.spyOn(FedoraDataCollector.getInstance(), "getHierarchy").mockResolvedValue(mockData);
+            const response = await request(app)
+                .post(`/edit/object/${pid}/moveToParent/${pid}`)
+                .set("Authorization", "Bearer test")
+                .set("Content-Type", "text/plain")
+                .send("2")
+                .expect(StatusCodes.BAD_REQUEST);
+            expect(response.error.text).toEqual("Object cannot be its own parent.");
+            expect(moveSpy).not.toHaveBeenCalled();
+        });
+
+        it("moves to parent when appropriate preconditions are met", async () => {
+            jest.spyOn(mockParentData, "models", "get").mockReturnValue(["vudl-system:CollectionModel"]);
+            await request(app)
+                .post(`/edit/object/${pid}/moveToParent/${parentPid}`)
+                .set("Authorization", "Bearer test")
+                .set("Content-Type", "text/plain")
+                .send("2")
+                .expect(StatusCodes.OK);
+            expect(moveSpy).toHaveBeenCalledWith(pid, parentPid, null);
+        });
+
+        it("moves to parent with sequence when appropriate preconditions are met", async () => {
+            jest.spyOn(mockParentData, "models", "get").mockReturnValue(["vudl-system:CollectionModel"]);
+            jest.spyOn(mockParentData, "sortOn", "get").mockReturnValue("custom");
+            await request(app)
+                .post(`/edit/object/${pid}/moveToParent/${parentPid}`)
+                .set("Authorization", "Bearer test")
+                .set("Content-Type", "text/plain")
+                .send("2")
+                .expect(StatusCodes.OK);
+            expect(moveSpy).toHaveBeenCalledWith(pid, parentPid, 2);
+        });
+
+        it("handles exceptions gracefully", async () => {
+            const exception = new Error("kaboom");
+            jest.spyOn(mockData, "models", "get").mockImplementation(() => {
+                throw exception;
+            });
+            const errorSpy = jest.spyOn(console, "error").mockImplementation(jest.fn());
+            const response = await request(app)
+                .post(`/edit/object/${pid}/moveToParent/${parentPid}`)
+                .set("Authorization", "Bearer test")
+                .set("Content-Type", "text/plain")
+                .send("2")
+                .expect(StatusCodes.INTERNAL_SERVER_ERROR);
+            expect(errorSpy).toHaveBeenCalledWith(exception);
+            expect(response.error.text).toEqual("kaboom");
+        });
+    });
+
     describe("delete /object/:pid/parent/:parentPid", () => {
         let parentPid: string;
         let mockData: FedoraDataCollection;
