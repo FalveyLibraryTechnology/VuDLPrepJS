@@ -10,5 +10,6 @@ exports[`ObjectButtonBar renders correctly 1`] = `
     Refresh children
   </button>,
   "ObjectPreviewButton",
+  "DeleteObjectButton",
 ]
 `;

@@ -27,6 +27,7 @@ export interface CompleteCatalog {
     licenses: Record<string, License>;
     models: Record<string, FedoraModel>;
     favoritePids: Record<string, string>;
+    trashPid: string | null;
     processMetadataDefaults: Record<string, string>;
     toolPresets: Array<Record<string, string>>;
     topLevelPids: Array<string>;
@@ -71,6 +72,7 @@ class FedoraCatalog {
             },
             dublinCoreFields: this.getDublinCoreFields(),
             favoritePids: await this.getFavoritePids(),
+            trashPid: this.config.trashPid,
             models,
             licenses,
             toolPresets,

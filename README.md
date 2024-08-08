@@ -143,5 +143,6 @@ api/scripts directory.
 | index-pid-list.js | Queue index jobs from the specified PID list file. |
 | ingest.js | Queue ingest jobs for content publised in the Paginator. |
 | purge-deleted-children-of-pid.js | Purge all deleted children of the specified PID. |
+| purge-trash.js | Purge all deleted objects that are children of the configured trash_pid. |
 | reindex-from-solr-cache.js | Rebuild the Solr index from the Solr cache. |
 | send-notification.js | Add a job to the notify queue. |

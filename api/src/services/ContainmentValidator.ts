@@ -72,6 +72,10 @@ class ContainmentValidator {
         parentModels: Array<string>,
         childModels: Array<string>,
     ): string | null {
+        // Special case: anything is allowed to go in the trash:
+        if (this.config.trashPid && this.config.trashPid === parentPid) {
+            return null;
+        }
         if (!parentModels.includes("vudl-system:CollectionModel")) {
             return `Illegal parent ${parentPid}; not a collection!`;
         }

@@ -185,8 +185,17 @@ class Config {
         return this.ini["articles_to_strip"] ?? [];
     }
 
+    get trashPid(): string | null {
+        return this.ini["trash_pid"] ?? null;
+    }
+
     get favoritePids(): Array<string> {
-        return this.ini["favorite_pids"] ?? [];
+        const favorites = this.ini["favorite_pids"] ?? [];
+        const trash = this.trashPid;
+        if (trash && !favorites.includes(trash)) {
+            favorites.push(trash);
+        }
+        return favorites;
     }
 
     get languageMap(): Record<string, string> {
