@@ -2,14 +2,14 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## Next Release - TBD
+## 2.4 - 2024-08-08
 
 ### Added
 
 - All back-end edit routes include no-cache headers to prevent outdated results from being cached in the browser.
-- The application now remembers the last page you accessed in each child list, so when you return to a list from another page, you will be on the last page viewed.
-- Formal trash support using the trash_pid setting in vudl.ini.
-- Objects can now be moved in a single step (instead of requiring the add parent / delete parent steps).
+- The last page you accessed in each child list is remembered, so when you return to a list from another page, you will be on the last page viewed.
+- Formal trash support can be enabled using the trash_pid setting in vudl.ini.
+- Objects can be moved in a single step (instead of requiring the add parent / delete parent steps).
 
 ### Changed
 
