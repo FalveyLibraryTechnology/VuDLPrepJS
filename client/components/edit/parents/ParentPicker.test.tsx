@@ -56,10 +56,10 @@ describe("ParentPicker", () => {
         editorValues = {
             state: {
                 objectDetailsStorage: {},
-                parentDetailsStorage: {},
             },
             action: {
                 attachObjectToParent: jest.fn(),
+                getParentCountForPid: jest.fn(),
                 moveObjectToParent: jest.fn(),
             },
         };
@@ -156,7 +156,7 @@ describe("ParentPicker", () => {
         editorValues.state.objectDetailsStorage[parentPid] = {
             sortOn: "title",
         };
-        editorValues.state.parentDetailsStorage[pid] = { shallow: { parents: ["old:123"] } };
+        editorValues.action.getParentCountForPid.mockReturnValue(1);
         render(<ParentPicker pid={pid} />);
         await act(() => setSelected(parentPid));
         await userEvent.setup().click(screen.getByRole("button", { name: "Move Here" }));
@@ -175,7 +175,7 @@ describe("ParentPicker", () => {
         editorValues.state.objectDetailsStorage[parentPid] = {
             sortOn: "title",
         };
-        editorValues.state.parentDetailsStorage[pid] = { shallow: { parents: ["old:123", "old:124"] } };
+        editorValues.action.getParentCountForPid.mockReturnValue(2);
         render(<ParentPicker pid={pid} />);
         await act(() => setSelected(parentPid));
         await userEvent.setup().click(screen.getByRole("button", { name: "Move Here" }));
@@ -196,7 +196,7 @@ describe("ParentPicker", () => {
         editorValues.state.objectDetailsStorage[parentPid] = {
             sortOn: "title",
         };
-        editorValues.state.parentDetailsStorage[pid] = { shallow: { parents: ["old:123", "old:124"] } };
+        editorValues.action.getParentCountForPid.mockReturnValue(2);
         render(<ParentPicker pid={pid} />);
         await act(() => setSelected(parentPid));
         await userEvent.setup().click(screen.getByRole("button", { name: "Move Here" }));
@@ -212,7 +212,7 @@ describe("ParentPicker", () => {
         editorValues.state.objectDetailsStorage[parentPid] = {
             sortOn: "title",
         };
-        editorValues.state.parentDetailsStorage[pid] = { shallow: { parents: ["old:123"] } };
+        editorValues.action.getParentCountForPid.mockReturnValue(1);
         render(<ParentPicker pid={pid} />);
         await act(() => setSelected(parentPid));
         await userEvent.setup().click(screen.getByRole("button", { name: "Move Here" }));

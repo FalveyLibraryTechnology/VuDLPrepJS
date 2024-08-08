@@ -408,6 +408,23 @@ describe("useEditorContext", () => {
         });
     });
 
+    describe("getParentCountForPid", () => {
+        it("returns null if no data is loaded", async () => {
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            expect(result.current.action.getParentCountForPid("test:123")).toEqual(null);
+        });
+
+        it("counts PIDs appropriately", async () => {
+            const fakeObjectDetails = { parents: ["foo", "bar"] };
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeObjectDetails);
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            await act(async () => {
+                await result.current.action.loadParentDetailsIntoStorage("test:123");
+            });
+            expect(result.current.action.getParentCountForPid("test:123")).toEqual(2);
+        });
+    });
+
     describe("removeFromParentDetailsStorage", () => {
         it("removes the specified record without impacting others", async () => {
             const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });

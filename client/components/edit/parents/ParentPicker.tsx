@@ -15,8 +15,8 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
         action: { setSnackbarState },
     } = useGlobalContext();
     const {
-        state: { objectDetailsStorage, parentDetailsStorage },
-        action: { attachObjectToParent, moveObjectToParent },
+        state: { objectDetailsStorage },
+        action: { attachObjectToParent, getParentCountForPid, moveObjectToParent },
     } = useEditorContext();
     const {
         action: { fetchText },
@@ -50,15 +50,8 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
         setStatusMessage("");
     };
 
-    const getParentCount = (): number => {
-        const dataForPid = Object.prototype.hasOwnProperty.call(parentDetailsStorage, pid as string)
-            ? parentDetailsStorage[pid]
-            : {};
-        return (dataForPid["shallow"]?.parents ?? dataForPid["full"]?.parents ?? []).length;
-    };
-
     const moveToParent = async () => {
-        const parentCount = getParentCount();
+        const parentCount = getParentCountForPid(pid) ?? 0;
         // Move operation only works if we have parents; if we do not, treat this as an add.
         if (parentCount === 0) {
             await addParent();

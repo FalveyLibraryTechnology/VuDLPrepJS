@@ -678,6 +678,18 @@ export const useEditorContext = () => {
         return result;
     };
 
+    /**
+     * Return the number of parents for the specified PID.
+     * @param pid PID
+     * @returns Number of parents in storage (null if unknown)
+     */
+    const getParentCountForPid = function (pid: string): number | null {
+        const dataForPid = Object.prototype.hasOwnProperty.call(parentDetailsStorage, pid as string)
+            ? parentDetailsStorage[pid]
+            : {};
+        return (dataForPid["shallow"]?.parents ?? dataForPid["full"]?.parents)?.length ?? null;
+    };
+
     return {
         state: {
             currentAgents,
@@ -726,6 +738,7 @@ export const useEditorContext = () => {
             detachObjectFromParent,
             moveObjectToParent,
             updateObjectState,
+            getParentCountForPid,
         },
     };
 }
