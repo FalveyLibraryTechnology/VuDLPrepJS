@@ -16,7 +16,7 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
     } = useGlobalContext();
     const {
         state: { objectDetailsStorage },
-        action: { attachObjectToParent },
+        action: { attachObjectToParent, getParentCountForPid, moveObjectToParent },
     } = useEditorContext();
     const {
         action: { fetchText },
@@ -46,6 +46,27 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
         const result = await attachObjectToParent(pid, selectedParentPid, position);
         result === "ok"
             ? showSnackbarMessage(`Successfully added ${pid} to ${selectedParentPid}`, "info")
+            : showSnackbarMessage(result, "error");
+        setStatusMessage("");
+    };
+
+    const moveToParent = async () => {
+        const parentCount = getParentCountForPid(pid) ?? 0;
+        // Move operation only works if we have parents; if we do not, treat this as an add.
+        if (parentCount === 0) {
+            await addParent();
+            return;
+        }
+        // If multiple parents will be deleted, warn the user to be sure they realize what they're doing:
+        if (parentCount > 1) {
+            if (!confirm(`Are you sure you wish to move this object? ${parentCount} parents will be deleted.`)) {
+                return;
+            }
+        }
+        setStatusMessage("Saving...");
+        const result = await moveObjectToParent(pid, selectedParentPid, position);
+        result === "ok"
+            ? showSnackbarMessage(`Successfully moved ${pid} to ${selectedParentPid}`, "info")
             : showSnackbarMessage(result, "error");
         setStatusMessage("");
     };
@@ -87,7 +108,14 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
             <PidPicker selected={selectedParentPid} setSelected={setSelectedParentPid} />
             <br />
             {positionControl}
-            {visibleMessage.length == 0 ? <button onClick={addParent}>Add</button> : visibleMessage}
+            {visibleMessage.length == 0 ? (
+                <>
+                    <button onClick={addParent}>Add Parent</button>
+                    <button onClick={moveToParent}>Move Here</button>
+                </>
+            ) : (
+                visibleMessage
+            )}
         </>
     );
 };

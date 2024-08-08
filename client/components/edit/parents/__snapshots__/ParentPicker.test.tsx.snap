@@ -49,7 +49,12 @@ exports[`ParentPicker renders correctly with a selected, loaded, title-sorted pa
   <button
     onClick={[Function]}
   >
-    Add
+    Add Parent
+  </button>,
+  <button
+    onClick={[Function]}
+  >
+    Move Here
   </button>,
 ]
 `;

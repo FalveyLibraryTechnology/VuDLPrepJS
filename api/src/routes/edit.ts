@@ -16,6 +16,14 @@ import { FedoraObject } from "../models/FedoraObject";
 
 const edit = express.Router();
 
+// Disable caching on the edit route to ensure that data always refreshes correctly:
+edit.use((_, res, next) => {
+    res.setHeader("Surrogate-Control", "no-store");
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Expires", "0");
+    next();
+});
+
 edit.get("/models", requireToken, function (req, res) {
     res.json({ CollectionModels: Config.getInstance().collectionModels, DataModels: Config.getInstance().dataModels });
 });
@@ -479,6 +487,33 @@ edit.put("/object/:pid/state", requireToken, pidSanitizer, bodyParser.text(), as
 });
 
 const pidAndParentPidSanitizer = sanitizeParameters({ pid: pidSanitizeRegEx, parentPid: pidSanitizeRegEx });
+edit.post(
+    "/object/:pid/moveToParent/:parentPid",
+    requireToken,
+    pidAndParentPidSanitizer,
+    bodyParser.text(),
+    async function (req, res) {
+        try {
+            const { pid, parentPid } = req.params;
+            const pos = parseInt(req.body);
+
+            // Validate the input
+            const parentData = await FedoraDataCollector.getInstance().getHierarchy(parentPid);
+            const relationshipError = await ContainmentValidator.getInstance().checkForErrors(pid, parentData);
+            if (relationshipError !== null) {
+                res.status(400).send(relationshipError);
+                return;
+            }
+
+            // If we got this far, we can safely update things
+            await Fedora.getInstance().movePidToParent(pid, parentPid, parentData.sortOn === "custom" ? pos : null);
+            res.status(200).send("ok");
+        } catch (error) {
+            console.error(error);
+            res.status(500).send(error.message);
+        }
+    },
+);
 edit.put(
     "/object/:pid/parent/:parentPid",
     requireToken,
