@@ -293,6 +293,18 @@ describe("Fedora", () => {
             expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
             expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
         });
+
+        it("will handle unexpected responses", async () => {
+            requestSpy.mockResolvedValueOnce({ statusCode: 204 });
+            requestSpy.mockResolvedValueOnce({ statusCode: 400 });
+            let error = null;
+            try {
+                await fedora.movePidToParent(pid, "foo:100", null);
+            } catch (e) {
+                error = e;
+            }
+            expect(error?.message).toEqual("Expected 204 No Content response, received: 400");
+        });
     });
 
     describe("deleteSequenceRelationship", () => {
@@ -301,7 +313,7 @@ describe("Fedora", () => {
         });
 
         it("will delete sequence relationship", async () => {
-            fedora.deleteSequenceRelationship(pid, "foo:100");
+            await fedora.deleteSequenceRelationship(pid, "foo:100");
             expect(requestSpy).toHaveBeenCalledWith(
                 "patch",
                 "/" + pid,
@@ -310,6 +322,17 @@ describe("Fedora", () => {
             );
             expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
             expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
+        });
+
+        it("will handle unexpected responses", async () => {
+            requestSpy.mockResolvedValueOnce({ statusCode: 400 });
+            let error = null;
+            try {
+                await fedora.deleteSequenceRelationship(pid, "foo:100");
+            } catch (e) {
+                error = e;
+            }
+            expect(error?.message).toEqual("Expected 204 No Content response, received: 400");
         });
     });
 
@@ -329,6 +352,17 @@ describe("Fedora", () => {
             );
             expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
             expect(purgeCacheSpy).toHaveBeenCalledWith(pid);
+        });
+
+        it("will handle unexpected responses", async () => {
+            requestSpy.mockResolvedValueOnce({ statusCode: 400 });
+            let error = null;
+            try {
+                await fedora.updateSequenceRelationship(pid, "foo:100", null);
+            } catch (e) {
+                error = e;
+            }
+            expect(error?.message).toEqual("Expected 204 No Content response, received: 400");
         });
     });
 
