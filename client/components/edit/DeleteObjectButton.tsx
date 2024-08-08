@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useEditorContext } from "../../context/EditorContext";
 import Delete from "@mui/icons-material/Delete";
-import { getObjectRecursiveChildPidsUrl } from "../../util/routes";
+import { getObjectParentsUrl, getObjectRecursiveChildPidsUrl } from "../../util/routes";
 import { useFetchContext } from "../../context/FetchContext";
 import { useGlobalContext } from "../../context/GlobalContext";
 
@@ -11,7 +11,7 @@ export interface DeleteObjectButtonProps {
 
 const DeleteObjectButton = ({ pid }: DeleteObjectButtonProps): React.ReactElement => {
     const {
-        action: { moveObjectToParent, updateObjectState },
+        action: { attachObjectToParent, getParentCountForPid, moveObjectToParent, updateObjectState },
         state: { objectDetailsStorage, trashPid },
     } = useEditorContext();
     const {
@@ -53,7 +53,24 @@ const DeleteObjectButton = ({ pid }: DeleteObjectButtonProps): React.ReactElemen
             return;
         }
         setStatusMessage("Working...");
-        const result = await moveObjectToParent(pid, trashPid, null);
+        // Get the parent count from storage (if possible) or the API (if necessary); we'll need this to pick the right operation.
+        let parentCount = getParentCountForPid(pid);
+        if (parentCount === null) {
+            const url = getObjectParentsUrl(pid, true);
+            try {
+                const parentDetails = await fetchJSON(url);
+                console.log(parentDetails);
+                parentCount = parentDetails.parents.length;
+            } catch (e) {
+                showSnackbarMessage(e.message, "error");
+                setStatusMessage("");
+                return;
+            }
+        }
+        // Move only works for objects with parents already; if we have no parents, we need to attach to trash instead:
+        const result = await (parentCount === 0
+            ? attachObjectToParent(pid, trashPid, "")
+            : moveObjectToParent(pid, trashPid, ""));
         if (result === "ok") {
             showSnackbarMessage(`Successfully moved ${pid} to ${trashPid}`, "info");
         } else {
