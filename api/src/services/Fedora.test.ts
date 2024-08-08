@@ -257,11 +257,18 @@ describe("Fedora", () => {
         });
 
         it("will move to parent with a position", async () => {
-            fedora.movePidToParent(pid, "foo:100", 50);
+            await fedora.movePidToParent(pid, "foo:100", 50);
+            expect(requestSpy).toHaveBeenCalledTimes(2);
             expect(requestSpy).toHaveBeenCalledWith(
                 "patch",
                 "/" + pid,
-                'DELETE { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> ?parent . <> <http://vudl.org/relationships#sequence> ?pos . } INSERT { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> <info:fedora/foo:100> . <> <http://vudl.org/relationships#sequence> "50" } WHERE {  }',
+                'DELETE { <> <http://vudl.org/relationships#sequence> ?pos . } WHERE { ?id <http://vudl.org/relationships#sequence> ?pos . FILTER(REGEX(?pos, ".*")) }',
+                { headers: { "Content-Type": "application/sparql-update" } },
+            );
+            expect(requestSpy).toHaveBeenCalledWith(
+                "patch",
+                "/" + pid,
+                'DELETE { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> ?parent . } INSERT { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> <info:fedora/foo:100> . <> <http://vudl.org/relationships#sequence> "foo:100#50" } WHERE { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> ?parent . }',
                 { headers: { "Content-Type": "application/sparql-update" } },
             );
             expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
@@ -269,11 +276,18 @@ describe("Fedora", () => {
         });
 
         it("will move to parent without a position", async () => {
-            fedora.movePidToParent(pid, "foo:100", null);
+            await fedora.movePidToParent(pid, "foo:100", null);
+            expect(requestSpy).toHaveBeenCalledTimes(2);
             expect(requestSpy).toHaveBeenCalledWith(
                 "patch",
                 "/" + pid,
-                "DELETE { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> ?parent . <> <http://vudl.org/relationships#sequence> ?pos . } INSERT { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> <info:fedora/foo:100> . } WHERE {  }",
+                'DELETE { <> <http://vudl.org/relationships#sequence> ?pos . } WHERE { ?id <http://vudl.org/relationships#sequence> ?pos . FILTER(REGEX(?pos, ".*")) }',
+                { headers: { "Content-Type": "application/sparql-update" } },
+            );
+            expect(requestSpy).toHaveBeenCalledWith(
+                "patch",
+                "/" + pid,
+                "DELETE { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> ?parent . } INSERT { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> <info:fedora/foo:100> . } WHERE { <> <info:fedora/fedora-system:def/relations-external#isMemberOf> ?parent . }",
                 { headers: { "Content-Type": "application/sparql-update" } },
             );
             expect(purgeCacheSpy).toHaveBeenCalledTimes(1);
