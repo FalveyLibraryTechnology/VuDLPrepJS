@@ -415,8 +415,8 @@ describe("useEditorContext", () => {
         });
 
         it("counts PIDs appropriately", async () => {
-            const fakeObjectDetails = { parents: ["foo", "bar"] };
-            fetchValues.action.fetchJSON.mockResolvedValue(fakeObjectDetails);
+            const fakeParentDetails = { parents: ["foo", "bar"] };
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeParentDetails);
             const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
             await act(async () => {
                 await result.current.action.loadParentDetailsIntoStorage("test:123");
