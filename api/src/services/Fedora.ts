@@ -426,15 +426,37 @@ export class Fedora {
      * @param pos       Position within parent (null to skip setting position)
      */
     async movePidToParent(pid: string, parentPid: string, pos: number | null): Promise<void> {
+        // First delete all sequences:
         this.cache.purgeFromCacheIfEnabled(pid);
+        await this.deleteSequencesMatchingRegEx(pid, ".*");
+
+        // Now remove all existing parents and add the new parent/position:
         const parentPredicate = "info:fedora/fedora-system:def/relations-external#isMemberOf";
         const sequencePredicate = "http://vudl.org/relationships#sequence";
         const targetPath = "/" + pid;
         const insertClause =
             `<> <${parentPredicate}> <info:fedora/${parentPid}> .` +
-            (pos === null ? "" : ` <> <${sequencePredicate}> "${pos}"`);
-        const deleteClause = `<> <${parentPredicate}> ?parent . <> <${sequencePredicate}> ?pos .`;
-        const whereClause = "";
+            (pos === null ? "" : ` <> <${sequencePredicate}> "${parentPid}#${pos}"`);
+        const deleteClause = `<> <${parentPredicate}> ?parent .`;
+        const whereClause = deleteClause;
+        const patchResponse = await this.patchRdf(targetPath, insertClause, deleteClause, whereClause);
+        if (patchResponse.statusCode !== 204) {
+            throw new Error("Expected 204 No Content response, received: " + patchResponse.statusCode);
+        }
+    }
+
+    /**
+     * This method removes sequence data matching a PID and regular expression.
+     *
+     * @param pid   PID to update
+     * @param regex Regex to match
+     */
+    async deleteSequencesMatchingRegEx(pid: string, regex: string): Promise<void> {
+        const predicate = "http://vudl.org/relationships#sequence";
+        const targetPath = "/" + pid;
+        const insertClause = "";
+        const deleteClause = `<> <${predicate}> ?pos .`;
+        const whereClause = `?id <${predicate}> ?pos . FILTER(REGEX(?pos, "${regex}"))`;
         const patchResponse = await this.patchRdf(targetPath, insertClause, deleteClause, whereClause);
         if (patchResponse.statusCode !== 204) {
             throw new Error("Expected 204 No Content response, received: " + patchResponse.statusCode);
@@ -449,15 +471,7 @@ export class Fedora {
      */
     async deleteSequenceRelationship(pid: string, parentPid: string): Promise<void> {
         this.cache.purgeFromCacheIfEnabled(pid);
-        const predicate = "http://vudl.org/relationships#sequence";
-        const targetPath = "/" + pid;
-        const insertClause = "";
-        const deleteClause = `<> <${predicate}> ?pos .`;
-        const whereClause = `?id <${predicate}> ?pos . FILTER(REGEX(?pos, "${parentPid}#"))`;
-        const patchResponse = await this.patchRdf(targetPath, insertClause, deleteClause, whereClause);
-        if (patchResponse.statusCode !== 204) {
-            throw new Error("Expected 204 No Content response, received: " + patchResponse.statusCode);
-        }
+        await this.deleteSequencesMatchingRegEx(pid, `${parentPid}#`);
     }
 
     /**

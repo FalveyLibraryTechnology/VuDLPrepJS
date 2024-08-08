@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer } from "react";
 import {
     editObjectCatalogUrl,
+    getMoveToParentUrl,
     getObjectChildCountsUrl,
     getObjectChildrenUrl,
     getObjectDetailsUrl,
@@ -178,6 +179,7 @@ const editorReducer = (state: EditorState, { type, payload }: { type: string, pa
             ...state.parentDetailsStorage,
         };
         delete parentDetailsStorage[key];
+        console.log(parentDetailsStorage);
         return {
             ...state,
             parentDetailsStorage
@@ -210,6 +212,12 @@ const editorReducer = (state: EditorState, { type, payload }: { type: string, pa
                 childListStorage[key] = state.childListStorage[key];
             }
         }
+        return {
+            ...state,
+            childListStorage
+        };
+    } else if (type === "RESET_CHILD_LIST_STORAGE") {
+        const childListStorage: Record<string, ChildrenResultPage> = {};
         return {
             ...state,
             childListStorage
@@ -399,6 +407,13 @@ export const useEditorContext = () => {
         dispatch({
             type: "CLEAR_PID_FROM_CHILD_LIST_STORAGE",
             payload: { pid },
+        });
+    }
+
+    const resetChildListStorage = () => {
+        dispatch({
+            type: "RESET_CHILD_LIST_STORAGE",
+            payload: {},
         });
     }
 
@@ -639,6 +654,31 @@ export const useEditorContext = () => {
         return result;
     };
 
+    /**
+     * Move a child object to the specified parent.
+     * @param pid       Child PID
+     * @param parentPid Parent PID
+     * @param position  Position value (blank string for no position, number-as-string otherwise)
+     * @returns A status string ("ok" on success, error message otherwise)
+     */
+    const moveObjectToParent = async function (pid: string, parentPid: string, position: string): Promise<string> {
+        const target = getMoveToParentUrl(pid, parentPid);
+        let result: string;
+        try {
+            result = await fetchText(target, { method: "POST", body: position });
+        } catch (e) {
+            result = (e as Error).message ?? "Unexpected error";
+        }
+        if (result === "ok") {
+            // Clear and reload the cached object and its parents, since these have now changed!
+            removeFromObjectDetailsStorage(pid);
+            removeFromParentDetailsStorage(pid);
+            // Clear all cached child lists, since multiple relationships may have been impacted.
+            resetChildListStorage();
+        }
+        return result;
+    };
+
     return {
         state: {
             currentAgents,
@@ -685,6 +725,7 @@ export const useEditorContext = () => {
             clearPidFromChildListStorage,
             attachObjectToParent,
             detachObjectFromParent,
+            moveObjectToParent,
             updateObjectState,
         },
     };
