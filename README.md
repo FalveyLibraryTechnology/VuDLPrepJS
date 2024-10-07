@@ -54,6 +54,7 @@ This software is designed to run on multiple operating systems; however, Ubuntu 
 
 - [Cantaloupe Image Server](https://cantaloupe-project.github.io/) (or another IIIF image server) - optional, but required when using VuFind® (see below, and also [setup notes](docs/cantaloupe.md)).
 - [Fedora Commons](https://duraspace.org/fedora/) - required for storing repository content
+- [Fedora Commons Camel Toolbox](https://github.com/fcrepo-exts/fcrepo-camel-toolbox) - used for sending messages from Fedora to VuDL to enable indexing, etc.
 - [FFmpeg](http://ffmpeg.org/) - required for audio/video processing
 - [FITS](https://projects.iq.harvard.edu/fits/home) - required for file characterization
 - [ImageMagick](https://imagemagick.org) - required by textcleaner (see below)
