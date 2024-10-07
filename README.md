@@ -52,7 +52,7 @@ This software is designed to run on multiple operating systems; however, Ubuntu 
 
 ### External Dependencies
 
-- [Cantaloupe Image Server](https://cantaloupe-project.github.io/) (or another IIIF image server) - optional, but required when using VuFind (see below, and also [setup notes](docs/cantaloupe.md)).
+- [Cantaloupe Image Server](https://cantaloupe-project.github.io/) (or another IIIF image server) - optional, but required when using VuFind® (see below, and also [setup notes](docs/cantaloupe.md)).
 - [Fedora Commons](https://duraspace.org/fedora/) - required for storing repository content
 - [FFmpeg](http://ffmpeg.org/) - required for audio/video processing
 - [FITS](https://projects.iq.harvard.edu/fits/home) - required for file characterization
@@ -60,11 +60,11 @@ This software is designed to run on multiple operating systems; however, Ubuntu 
 - [OCRmyPDF](https://ocrmypdf.readthedocs.io) - required for OCR enhancement of PDFs
 - [Redis](https://redis.io/) - required to support queue features
 - Relational Database ([SQLite](https://www.sqlite.org) by default, or MySQL/MariaDB by configuration) - required for user session persistence and PID generation
-- [Solr](https://solr.apache.org/) - required for searching/indexing content; it is recommended that you use the instance bundled with VuFind (see below)
+- [Solr](https://solr.apache.org/) - required for searching/indexing content; it is recommended that you use the instance bundled with VuFind® (see below)
 - [tesseract-ocr](https://github.com/tesseract-ocr/) - required for OCR of image files
 - [textcleaner](http://www.fmwconcepts.com/imagemagick/textcleaner/index.php) - required for cleanup of image files prior to OCR
 - [Tika](https://tika.apache.org/) - required for text extraction from document files
-- [VuFind](https://vufind.org) - strongly recommended as the public front-end for the repository
+- [VuFind®](https://vufind.org) - strongly recommended as the public front-end for the repository
 
 ### Javascript Dependencies
 
