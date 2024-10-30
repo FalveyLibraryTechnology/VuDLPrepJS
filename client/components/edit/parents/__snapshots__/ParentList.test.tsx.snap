@@ -2,7 +2,7 @@
 
 exports[`ParentList renders a populated parent list correctly (full mode) 1`] = `
 <table
-  border="1"
+  border={1}
 >
   <tbody>
     <tr>
@@ -29,7 +29,7 @@ exports[`ParentList renders a populated parent list correctly (full mode) 1`] = 
 
 exports[`ParentList renders a populated parent list correctly (shallow mode) 1`] = `
 <table
-  border="1"
+  border={1}
 >
   <tbody>
     <tr>
@@ -60,7 +60,7 @@ exports[`ParentList renders a populated parent list correctly (shallow mode) 1`]
 
 exports[`ParentList renders an empty list correctly 1`] = `
 <table
-  border="1"
+  border={1}
 >
   <tbody>
     <tr>

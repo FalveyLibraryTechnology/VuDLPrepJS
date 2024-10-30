@@ -4,7 +4,7 @@ import PidPicker from "../PidPicker";
 import { useGlobalContext } from "../../../context/GlobalContext";
 import { useEditorContext } from "../../../context/EditorContext";
 import { useFetchContext } from "../../../context/FetchContext";
-import { getObjectLastChildPositionUrl, getParentUrl } from "../../../util/routes";
+import { getObjectLastChildPositionUrl } from "../../../util/routes";
 
 interface ParentPickerProps {
     pid: string;
@@ -16,7 +16,7 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
     } = useGlobalContext();
     const {
         state: { objectDetailsStorage },
-        action: { clearPidFromChildListStorage, removeFromObjectDetailsStorage, removeFromParentDetailsStorage },
+        action: { attachObjectToParent, getParentCountForPid, moveObjectToParent },
     } = useEditorContext();
     const {
         action: { fetchText },
@@ -43,24 +43,31 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
 
     const addParent = async () => {
         setStatusMessage("Saving...");
-        const target = getParentUrl(pid, selectedParentPid);
-        let result: string;
-        try {
-            result = await fetchText(target, { method: "PUT", body: position });
-        } catch (e) {
-            result = (e as Error).message ?? "Unexpected error";
+        const result = await attachObjectToParent(pid, selectedParentPid, position);
+        result === "ok"
+            ? showSnackbarMessage(`Successfully added ${pid} to ${selectedParentPid}`, "info")
+            : showSnackbarMessage(result, "error");
+        setStatusMessage("");
+    };
+
+    const moveToParent = async () => {
+        const parentCount = getParentCountForPid(pid) ?? 0;
+        // Move operation only works if we have parents; if we do not, treat this as an add.
+        if (parentCount === 0) {
+            await addParent();
+            return;
         }
-        if (result === "ok") {
-            // Clear and reload the cached object and its parents, since these have now changed!
-            removeFromObjectDetailsStorage(pid);
-            removeFromParentDetailsStorage(pid);
-            // Clear any cached lists belonging to the parent PID, because the
-            // order has potentially changed!
-            clearPidFromChildListStorage(selectedParentPid);
-            showSnackbarMessage(`Successfully added ${pid} to ${selectedParentPid}`, "info");
-        } else {
-            showSnackbarMessage(result, "error");
+        // If multiple parents will be deleted, warn the user to be sure they realize what they're doing:
+        if (parentCount > 1) {
+            if (!confirm(`Are you sure you wish to move this object? ${parentCount} parents will be deleted.`)) {
+                return;
+            }
         }
+        setStatusMessage("Saving...");
+        const result = await moveObjectToParent(pid, selectedParentPid, position);
+        result === "ok"
+            ? showSnackbarMessage(`Successfully moved ${pid} to ${selectedParentPid}`, "info")
+            : showSnackbarMessage(result, "error");
         setStatusMessage("");
     };
 
@@ -72,7 +79,7 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
         } catch (e) {
             result = "0";
         }
-        setPosition(parseInt(result) + 1);
+        setPosition((parseInt(result) + 1).toString());
     };
 
     const positionRequired = details && (details.sortOn ?? "") == "custom";
@@ -101,7 +108,14 @@ const ParentPicker = ({ pid }: ParentPickerProps): React.ReactElement => {
             <PidPicker selected={selectedParentPid} setSelected={setSelectedParentPid} />
             <br />
             {positionControl}
-            {visibleMessage.length == 0 ? <button onClick={addParent}>Add</button> : visibleMessage}
+            {visibleMessage.length == 0 ? (
+                <>
+                    <button onClick={addParent}>Add Parent</button>
+                    <button onClick={moveToParent}>Move Here</button>
+                </>
+            ) : (
+                visibleMessage
+            )}
         </>
     );
 };

@@ -10,6 +10,7 @@ import ObjectButtonBar from "./ObjectButtonBar";
 jest.mock("./EditParentsButton", () => () => "EditParentsButton");
 jest.mock("./ObjectPreviewButton", () => () => "ObjectPreviewButton");
 jest.mock("./ObjectStatus", () => () => "ObjectStatus");
+jest.mock("./DeleteObjectButton", () => () => "DeleteObjectButton");
 jest.mock(
     "@mui/icons-material/Refresh",
     () =>

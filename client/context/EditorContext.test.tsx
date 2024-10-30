@@ -14,7 +14,8 @@ describe("useEditorContext", () => {
     beforeEach(() => {
         fetchValues =  {
             action: {
-                fetchJSON: jest.fn()
+                fetchJSON: jest.fn(),
+                fetchText: jest.fn(),
             }
         };
         mockUseFetchContext.mockReturnValue(
@@ -287,6 +288,30 @@ describe("useEditorContext", () => {
         });
     });
 
+    describe("loadChildCountsIntoStorage", () => {
+        it("successfully calls fetch", async () => {
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            expect(Object.keys(result.current.state.childCountsStorage)).toEqual([]);
+            await act(async () => {
+                await result.current.action.loadChildCountsIntoStorage("test:123");
+            });
+            expect(Object.keys(result.current.state.childCountsStorage)).toEqual(["test:123"]);
+            expect(fetchValues.action.fetchJSON).toHaveBeenCalledTimes(1);
+            expect(fetchValues.action.fetchJSON).toHaveBeenCalledWith("http://localhost:9000/api/edit/object/test%3A123/childCounts");
+        });
+
+        it("handles exceptions", async () => {
+            const fetchSpy = jest.spyOn(fetchValues.action, "fetchJSON").mockImplementation(() => { throw new Error("kaboom"); });
+            const consoleSpy = jest.spyOn(console, "error").mockImplementation(jest.fn());
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            await act(async () => {
+                await result.current.action.loadChildCountsIntoStorage("test:123");
+            });
+            expect(fetchSpy).toHaveBeenCalledTimes(1);
+            expect(consoleSpy).toHaveBeenCalledWith("Problem fetching child count data from http://localhost:9000/api/edit/object/test%3A123/childCounts");
+        });
+    });
+
     describe("loadChildrenIntoStorage", () => {
         it("successfully calls fetch", async () => {
             const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
@@ -328,6 +353,22 @@ describe("useEditorContext", () => {
         });
     });
 
+    describe("clearPidFromChildCountsStorage", () => {
+        it("removes all pages of appropriate data", async () => {
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            expect(Object.keys(result.current.state.childCountsStorage)).toEqual([]);
+            await act(async () => {
+                await result.current.action.loadChildCountsIntoStorage("test:123");
+                await result.current.action.loadChildCountsIntoStorage("test:124");
+            });
+            expect(Object.keys(result.current.state.childCountsStorage)).toEqual(["test:123", "test:124"]);
+            await act(async () => {
+                await result.current.action.clearPidFromChildCountsStorage("test:123");
+            });
+            expect(Object.keys(result.current.state.childCountsStorage)).toEqual(["test:124"]);
+        });
+    });
+
     describe("setStateModalActivePid", () => {
         it("sets the modal's active pid value", async () => {
             const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
@@ -353,7 +394,7 @@ describe("useEditorContext", () => {
             });
             expect(Object.keys(result.current.state.parentDetailsStorage)).toEqual(["test:123", "test:125"]);
         });
-    
+
         it("handles errors", async () => {
             const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
             const callback = jest.fn();
@@ -364,6 +405,23 @@ describe("useEditorContext", () => {
             });
             expect(callback).toHaveBeenCalledWith("test:123");
             expect(errorSpy).toHaveBeenCalledWith("Problem fetching parent details from http://localhost:9000/api/edit/object/test%3A123/parents");
+        });
+    });
+
+    describe("getParentCountForPid", () => {
+        it("returns null if no data is loaded", async () => {
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            expect(result.current.action.getParentCountForPid("test:123")).toEqual(null);
+        });
+
+        it("counts PIDs appropriately", async () => {
+            const fakeParentDetails = { parents: ["foo", "bar"] };
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeParentDetails);
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            await act(async () => {
+                await result.current.action.loadParentDetailsIntoStorage("test:123");
+            });
+            expect(result.current.action.getParentCountForPid("test:123")).toEqual(2);
         });
     });
 
@@ -381,6 +439,268 @@ describe("useEditorContext", () => {
                 await result.current.action.removeFromParentDetailsStorage("test:124");
             });
             expect(Object.keys(result.current.state.parentDetailsStorage)).toEqual(["test:123", "test:125"]);
+        });
+    });
+
+    describe("updateObjectState", () => {
+        const pid = "test:123";
+
+        it("saves data correctly", async () => {
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            // Load an object into storage so we can test that it gets cleared out after updates:
+            const fakeObjectDetails = { foo: "bar" };
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeObjectDetails);
+            await act(async() => {
+                await result.current.action.loadObjectDetailsIntoStorage(pid);
+            });
+            expect(result.current.state.objectDetailsStorage[pid]).toEqual(fakeObjectDetails);
+            const statusCallback = jest.fn();
+            fetchValues.action.fetchText.mockResolvedValue("ok");
+            let updateResult;
+            await act(async () => {
+                updateResult = await result.current.action.updateObjectState(pid, "Active", 0, statusCallback);
+            });
+            expect(statusCallback).toHaveBeenCalledWith("Saving status for test:123 (0 more remaining)...");
+            expect(fetchValues.action.fetchText).toHaveBeenCalledWith("http://localhost:9000/api/edit/object/test%3A123/state", {"body": "Active", "method": "PUT"});
+            expect(updateResult).toEqual(["Status saved successfully.", "success"]);
+            // Object storage should now be empty due to clearing of changed data:
+            expect(result.current.state.objectDetailsStorage).toEqual({});
+        });
+
+        it("handles save failure gracefully", async () => {
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            const statusCallback = jest.fn();
+            fetchValues.action.fetchText.mockResolvedValue("not ok");
+            let updateResult;
+            await act(async () => {
+                updateResult = await result.current.action.updateObjectState(pid, "Active", 0, statusCallback);
+            });
+            expect(statusCallback).toHaveBeenCalledWith("Saving status for test:123 (0 more remaining)...");
+            expect(fetchValues.action.fetchText).toHaveBeenCalledWith("http://localhost:9000/api/edit/object/test%3A123/state", {"body": "Active", "method": "PUT"});
+            expect(updateResult).toEqual(["Status failed to save; \"not ok\"", "error"]);
+        });
+
+        it("handles child save failure gracefully", async () => {
+            fetchValues.action.fetchJSON.mockResolvedValue({ numFound: 1, docs: [{ id: "foo:125" }] });
+            fetchValues.action.fetchText.mockResolvedValue("not ok");
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            const statusCallback = jest.fn();
+            fetchValues.action.fetchText.mockResolvedValue("not ok");
+            let updateResult;
+            await act(async () => {
+                try {
+                    await result.current.action.updateObjectState(pid, "Active", 1, statusCallback);
+                } catch (e) {
+                    updateResult = e;
+                }
+            });
+            expect(statusCallback).toHaveBeenCalledTimes(1);
+            expect(statusCallback).toHaveBeenCalledWith("Saving status for foo:125 (1 more remaining)...");
+            expect(updateResult.message).toEqual("Status failed to save; \"not ok\"");
+        });
+
+        it("updates children correctly", async () => {
+            fetchValues.action.fetchJSON.mockResolvedValue({ numFound: 1, docs: [{ id: "foo:125" }] });
+            fetchValues.action.fetchText.mockResolvedValue("ok");
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            const statusCallback = jest.fn();
+            let updateResult;
+            await act(async () => {
+                updateResult = await result.current.action.updateObjectState(pid, "Active", 1, statusCallback);
+            });
+            expect(statusCallback).toHaveBeenCalledTimes(2);
+            expect(statusCallback).toHaveBeenCalledWith("Saving status for foo:125 (1 more remaining)...");
+            expect(statusCallback).toHaveBeenCalledWith("Saving status for test:123 (0 more remaining)...");
+            expect(fetchValues.action.fetchText).toHaveBeenCalledWith("http://localhost:9000/api/edit/object/test%3A123/state", {"body": "Active", "method": "PUT"});
+            expect(updateResult).toEqual(["Status saved successfully.", "success"]);
+            // Object storage should now be empty due to clearing of changed data:
+            expect(result.current.state.objectDetailsStorage).toEqual({});
+        });
+    });
+
+    describe("attachObjectToParent", () => {
+        const pid = "foo:123";
+
+        it("attaches parents successfully", async () => {
+            fetchValues.action.fetchText.mockResolvedValue("ok");
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+
+            // Load data into storage so we can test that it gets cleared out after updates:
+            const fakeObjectDetails = { foo: "bar" };
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeObjectDetails);
+            await act(async() => {
+                await result.current.action.loadObjectDetailsIntoStorage(pid);
+            });
+            expect(result.current.state.objectDetailsStorage[pid]).toEqual(fakeObjectDetails);
+            const fakeParentDetails = ["foo", "bar"];
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeParentDetails);
+            await act(async() => {
+                await result.current.action.loadParentDetailsIntoStorage(pid);
+            });
+            expect(result.current.state.parentDetailsStorage[pid]["full"]).toEqual(fakeParentDetails);
+            const fakeChildPage = ["boop"];
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeChildPage);
+            await act(async() => {
+                await result.current.action.loadChildrenIntoStorage("foo:122", 1, 1);
+            });
+            const expectedKey = result.current.action.getChildListStorageKey("foo:122", 1, 1);
+            expect(result.current.state.childListStorage[expectedKey]).toEqual(fakeChildPage);
+
+            // Now run the actual test:
+            let updateResult;
+            await act(async () => {
+                updateResult = await result.current.action.attachObjectToParent(pid, "foo:122", "");
+            });
+            expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
+                "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
+                { method: "PUT", body: "" },
+            );
+            expect(updateResult).toEqual("ok");
+
+            // Various caches should now be empty due to clearing of changed data:
+            expect(result.current.state.objectDetailsStorage).toEqual({});
+            expect(result.current.state.parentDetailsStorage).toEqual({});
+            expect(result.current.state.childListStorage).toEqual({});
+        });
+
+        it("handles exceptions on fetchText call", async () => {
+            fetchValues.action.fetchText.mockImplementation(() => {
+                throw new Error("boom");
+            });
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            let updateResult;
+            await act(async () => {
+                updateResult = await result.current.action.attachObjectToParent(pid, "foo:122", "1");
+            });
+            expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
+                "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
+                { method: "PUT", body: "1" },
+            );
+            expect(updateResult).toEqual("boom");
+        });
+    });
+
+    describe("moveObjectToParent", () => {
+        const pid = "foo:123";
+
+        it("moves objects successfully", async () => {
+            fetchValues.action.fetchText.mockResolvedValue("ok");
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+
+            // Load data into storage so we can test that it gets cleared out after updates:
+            const fakeObjectDetails = { foo: "bar" };
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeObjectDetails);
+            await act(async() => {
+                await result.current.action.loadObjectDetailsIntoStorage(pid);
+            });
+            expect(result.current.state.objectDetailsStorage[pid]).toEqual(fakeObjectDetails);
+            const fakeParentDetails = ["foo", "bar"];
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeParentDetails);
+            await act(async() => {
+                await result.current.action.loadParentDetailsIntoStorage(pid);
+            });
+            expect(result.current.state.parentDetailsStorage[pid]["full"]).toEqual(fakeParentDetails);
+            const fakeChildPage = ["boop"];
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeChildPage);
+            await act(async() => {
+                await result.current.action.loadChildrenIntoStorage("foo:122", 1, 1);
+            });
+            const expectedKey = result.current.action.getChildListStorageKey("foo:122", 1, 1);
+            expect(result.current.state.childListStorage[expectedKey]).toEqual(fakeChildPage);
+
+            // Now run the actual test:
+            let updateResult;
+            await act(async () => {
+                updateResult = await result.current.action.moveObjectToParent(pid, "foo:122", "");
+            });
+            expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
+                "http://localhost:9000/api/edit/object/foo%3A123/moveToParent/foo%3A122",
+                { method: "POST", body: "" },
+            );
+            expect(updateResult).toEqual("ok");
+
+            // Various caches should now be empty due to clearing of changed data:
+            expect(result.current.state.objectDetailsStorage).toEqual({});
+            expect(result.current.state.parentDetailsStorage).toEqual({});
+            expect(result.current.state.childListStorage).toEqual({});
+        });
+
+        it("handles exceptions on fetchText call", async () => {
+            fetchValues.action.fetchText.mockImplementation(() => {
+                throw new Error("boom");
+            });
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            let updateResult;
+            await act(async () => {
+                updateResult = await result.current.action.moveObjectToParent(pid, "foo:122", "1");
+            });
+            expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
+                "http://localhost:9000/api/edit/object/foo%3A123/moveToParent/foo%3A122",
+                { method: "POST", body: "1" },
+            );
+            expect(updateResult).toEqual("boom");
+        });
+    });
+
+    describe("detachObjectFromParent", () => {
+        const pid = "foo:123";
+
+        it("detaches parents successfully", async () => {
+            fetchValues.action.fetchText.mockResolvedValue("ok");
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+
+            // Load data into storage so we can test that it gets cleared out after updates:
+            const fakeObjectDetails = { foo: "bar" };
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeObjectDetails);
+            await act(async() => {
+                await result.current.action.loadObjectDetailsIntoStorage(pid);
+            });
+            expect(result.current.state.objectDetailsStorage[pid]).toEqual(fakeObjectDetails);
+            const fakeParentDetails = ["foo", "bar"];
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeParentDetails);
+            await act(async() => {
+                await result.current.action.loadParentDetailsIntoStorage(pid);
+            });
+            expect(result.current.state.parentDetailsStorage[pid]["full"]).toEqual(fakeParentDetails);
+            const fakeChildPage = ["boop"];
+            fetchValues.action.fetchJSON.mockResolvedValue(fakeChildPage);
+            await act(async() => {
+                await result.current.action.loadChildrenIntoStorage("foo:122", 1, 1);
+            });
+            const expectedKey = result.current.action.getChildListStorageKey("foo:122", 1, 1);
+            expect(result.current.state.childListStorage[expectedKey]).toEqual(fakeChildPage);
+
+            // Now run the actual test:
+            let updateResult;
+            await act(async () => {
+                updateResult = await result.current.action.detachObjectFromParent(pid, "foo:122");
+            });
+            expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
+                "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
+                { method: "DELETE" },
+            );
+            expect(updateResult).toEqual("ok");
+
+            // Various caches should now be empty due to clearing of changed data:
+            expect(result.current.state.objectDetailsStorage).toEqual({});
+            expect(result.current.state.parentDetailsStorage).toEqual({});
+            expect(result.current.state.childListStorage).toEqual({});
+        });
+
+        it("handles exceptions on fetchText call", async () => {
+            fetchValues.action.fetchText.mockImplementation(() => {
+                throw new Error("boom");
+            });
+            const { result } = await renderHook(() => useEditorContext(), { wrapper: EditorContextProvider });
+            let updateResult;
+            await act(async () => {
+                updateResult = await result.current.action.detachObjectFromParent(pid, "foo:122");
+            });
+            expect(fetchValues.action.fetchText).toHaveBeenCalledWith(
+                "http://localhost:9000/api/edit/object/foo%3A123/parent/foo%3A122",
+                { method: "DELETE" },
+            );
+            expect(updateResult).toEqual("boom");
         });
     });
 });

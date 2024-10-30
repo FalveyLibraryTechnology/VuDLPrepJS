@@ -1,5 +1,15 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { editObjectCatalogUrl, getObjectChildrenUrl, getObjectDetailsUrl, getObjectParentsUrl } from "../util/routes";
+import {
+    editObjectCatalogUrl,
+    getMoveToParentUrl,
+    getObjectChildCountsUrl,
+    getObjectChildrenUrl,
+    getObjectDetailsUrl,
+    getObjectParentsUrl,
+    getObjectRecursiveChildPidsUrl,
+    getObjectStateUrl,
+    getParentUrl,
+} from "../util/routes";
 import { useFetchContext } from "./FetchContext";
 import { extractFirstMetadataValue as utilExtractFirstMetadataValue } from "../util/metadata";
 import { TreeNode } from "../util/Breadcrumbs";
@@ -35,12 +45,18 @@ export interface License {
     uri: string;
 }
 
+export interface ChildCounts {
+    directChildren: number;
+    totalDescendants: number;
+}
+
 interface EditorState {
     modelsCatalog: Record<string, FedoraModel>;
     licensesCatalog: Record<string, License>;
     agentsCatalog: Record<string, Object>;
     dublinCoreFieldCatalog: Record<string, Record<string, string>>;
     favoritePidsCatalog: Record<string, string>;
+    trashPid: string | null;
     processMetadataDefaults: Record<string, string>;
     toolPresets: Array<Record<string, string>>;
     vufindUrl: string;
@@ -55,6 +71,7 @@ interface EditorState {
     stateModalActivePid: string | null;
     objectDetailsStorage: Record<string, ObjectDetails>;
     parentDetailsStorage: Record<string, Record<string, TreeNode>>;
+    childCountsStorage: Record<string, ChildCounts>;
     childListStorage: Record<string, ChildrenResultPage>;
     topLevelPids: Array<string>;
 }
@@ -69,6 +86,7 @@ const editorContextParams: EditorState = {
     agentsCatalog: {},
     dublinCoreFieldCatalog: {},
     favoritePidsCatalog: {},
+    trashPid: null,
     processMetadataDefaults: {},
     toolPresets: [],
     vufindUrl: "",
@@ -83,6 +101,7 @@ const editorContextParams: EditorState = {
     stateModalActivePid: null,
     objectDetailsStorage: {},
     parentDetailsStorage: {},
+    childCountsStorage: {},
     childListStorage: {},
     topLevelPids: [],
 };
@@ -102,6 +121,7 @@ const reducerMapping: Record<string, string> = {
     SET_AGENTS_CATALOG: "agentsCatalog",
     SET_DUBLIN_CORE_FIELD_CATALOG: "dublinCoreFieldCatalog",
     SET_FAVORITE_PIDS_CATALOG: "favoritePidsCatalog",
+    SET_TRASH_PID: "trashPid",
     SET_PROCESS_METADATA_DEFAULTS: "processMetadataDefaults",
     SET_TOOL_PRESETS: "toolPresets",
     SET_VUFIND_URL: "vufindUrl",
@@ -176,6 +196,16 @@ const editorReducer = (state: EditorState, { type, payload }: { type: string, pa
             ...state,
             childListStorage
         };
+    } else if (type === "ADD_TO_CHILD_COUNTS_STORAGE") {
+        const { key, counts }  = payload as { key: string, counts: ChildCounts };
+        const childCountsStorage = {
+            ...state.childCountsStorage,
+        };
+        childCountsStorage[key] = counts;
+        return {
+            ...state,
+            childCountsStorage
+        };
     } else if (type === "CLEAR_PID_FROM_CHILD_LIST_STORAGE") {
         const { pid } = payload as { pid: string };
         const childListStorage: Record<string, ChildrenResultPage> = {};
@@ -187,6 +217,24 @@ const editorReducer = (state: EditorState, { type, payload }: { type: string, pa
         return {
             ...state,
             childListStorage
+        };
+    } else if (type === "RESET_CHILD_LIST_STORAGE") {
+        const childListStorage: Record<string, ChildrenResultPage> = {};
+        return {
+            ...state,
+            childListStorage
+        };
+    } else if (type === "CLEAR_PID_FROM_CHILD_COUNTS_STORAGE") {
+        const { pid } = payload as { pid: string };
+        const childCountsStorage: Record<string, ChildCounts> = {};
+        for (const key in state.childCountsStorage) {
+            if (key !== pid) {
+                childCountsStorage[key] = state.childCountsStorage[key];
+            }
+        }
+        return {
+            ...state,
+            childCountsStorage
         };
     } else if(Object.keys(reducerMapping).includes(type)){
         return {
@@ -208,7 +256,7 @@ export const EditorContextProvider = ({ children }) => {
 export const useEditorContext = () => {
     const {
         action: {
-            fetchJSON
+            fetchJSON, fetchText
         }
     }= useFetchContext();
     const {
@@ -222,6 +270,7 @@ export const useEditorContext = () => {
             agentsCatalog,
             dublinCoreFieldCatalog,
             favoritePidsCatalog,
+            trashPid,
             processMetadataDefaults,
             toolPresets,
             vufindUrl,
@@ -229,6 +278,7 @@ export const useEditorContext = () => {
             modelsCatalog,
             objectDetailsStorage,
             parentDetailsStorage,
+            childCountsStorage,
             childListStorage,
             topLevelPids,
         },
@@ -313,6 +363,13 @@ export const useEditorContext = () => {
         });
     };
 
+    const addToChildCountsStorage = (key: string, counts: ChildCounts) => {
+        dispatch({
+            type: "ADD_TO_CHILD_COUNTS_STORAGE",
+            payload: { key, counts },
+        });
+    };
+
     const getChildListStorageKey = (pid: string, page: number, pageSize: number): string => {
         return `${pid}_${page}_${pageSize}`;
     };
@@ -356,6 +413,20 @@ export const useEditorContext = () => {
         });
     }
 
+    const resetChildListStorage = () => {
+        dispatch({
+            type: "RESET_CHILD_LIST_STORAGE",
+            payload: {},
+        });
+    }
+
+    const clearPidFromChildCountsStorage = (pid: string) => {
+        dispatch({
+            type: "CLEAR_PID_FROM_CHILD_COUNTS_STORAGE",
+            payload: { pid },
+        });
+    }
+
     const loadChildrenIntoStorage = async (pid: string, page: number, pageSize: number) => {
         const key = getChildListStorageKey(pid, page, pageSize);
         const url = getObjectChildrenUrl(pid, (page - 1) * pageSize, pageSize);
@@ -366,10 +437,26 @@ export const useEditorContext = () => {
         }
     };
 
+    const loadChildCountsIntoStorage = async (pid: string) => {
+        const url = getObjectChildCountsUrl(pid);
+        try {
+            addToChildCountsStorage(pid, await fetchJSON(url));
+        } catch (e) {
+            console.error("Problem fetching child count data from " + url);
+        }
+    };
+
     const setFavoritePidsCatalog = (favoritePidsCatalog: Record<string, string>) => {
         dispatch({
             type: "SET_FAVORITE_PIDS_CATALOG",
             payload: favoritePidsCatalog
+        });
+    }
+
+    const setTrashPid = (trashPid: string) => {
+        dispatch({
+            type: "SET_TRASH_PID",
+            payload: trashPid
         });
     }
 
@@ -456,6 +543,7 @@ export const useEditorContext = () => {
             setModelsCatalog(response.models || {});
             setLicensesCatalog(response.licenses || {});
             setFavoritePidsCatalog(response.favoritePids || {});
+            setTrashPid(response.trashPid || null);
             setToolPresets(response.toolPresets || []);
             setProcessMetadataDefaults(response.processMetadataDefaults || {});
             setAgentsCatalog(response.agents || {});
@@ -476,6 +564,144 @@ export const useEditorContext = () => {
         return utilExtractFirstMetadataValue(currentMetadata, field, defaultValue);
     }
 
+    const updateSingleObjectState = async (pid: string, newState: string, setStatusMessage: (msg: string) => void, remaining: number = 0): Promise<string> => {
+        setStatusMessage(`Saving status for ${pid} (${remaining} more remaining)...`);
+        const target = getObjectStateUrl(pid);
+        const result = await fetchText(target, { method: "PUT", body: newState });
+        if (result === "ok") {
+            // Clear and reload the cached object, since it has now changed!
+            removeFromObjectDetailsStorage(pid);
+        }
+        return result;
+    };
+
+    const saveObjectStateForChildPage = async (response, newState: string, found: number, total: number, setStatusMessage: (msg: string) => void): Promise<boolean> => {
+        for (let i = 0; i < response.docs.length; i++) {
+            const result = await updateSingleObjectState(response.docs[i].id, newState, setStatusMessage, total - (found + i));
+            if (result !== "ok") {
+                throw new Error(`Status failed to save; "${result}"`);
+            }
+        }
+    };
+
+    const applyObjectStateToChildren = async (pid: string, newState: string, expectedTotal: number, setStatusMessage: (msg: string) => void): Promise<boolean> => {
+        const childPageSize = 1000;
+        let found = 0;
+        while (found < expectedTotal) {
+            const url = getObjectRecursiveChildPidsUrl(pid, found, childPageSize);
+            const nextResponse = await fetchJSON(url);
+            await saveObjectStateForChildPage(nextResponse, newState, found, expectedTotal, setStatusMessage);
+            found += nextResponse.docs.length;
+        }
+        return true;
+    };
+
+    /**
+     * Update an object's state (and, optionally, the states of its children).
+     * @param pid                The PID to update
+     * @param newState           The new state to set
+     * @param expectedChildCount The number of children to update (either the actual number of known children, or 0 to skip child updates)
+     * @param setStatusMessage   Callback function to display status messages as we work
+     * @returns An array for updating snackbar messages (first element = message, second element = level)
+     */
+    const updateObjectState = async function (pid: string, newState: string, expectedChildCount: number = 0, setStatusMessage: (msg: string) => void): Promise<Array<string>> {
+        if (expectedChildCount > 0) {
+            await applyObjectStateToChildren(pid, newState, expectedChildCount, setStatusMessage);
+        }
+        const result = await updateSingleObjectState(pid, newState, setStatusMessage);
+        return (result === "ok")
+            ? ["Status saved successfully.", "success"]
+            : [`Status failed to save; "${result}"`, "error"];
+    }
+
+    /**
+     * Attach a child object to the specified parent.
+     * @param pid       Child PID
+     * @param parentPid Parent PID
+     * @param position  Position value (blank string for no position, number-as-string otherwise)
+     * @returns A status string ("ok" on success, error message otherwise)
+     */
+    const attachObjectToParent = async function (pid: string, parentPid: string, position: string): Promise<string> {
+        const target = getParentUrl(pid, parentPid);
+        let result: string;
+        try {
+            result = await fetchText(target, { method: "PUT", body: position });
+        } catch (e) {
+            result = (e as Error).message ?? "Unexpected error";
+        }
+        if (result === "ok") {
+            // Clear and reload the cached object and its parents, since these have now changed!
+            removeFromObjectDetailsStorage(pid);
+            removeFromParentDetailsStorage(pid);
+            // Clear any cached lists belonging to the parent PID, because the
+            // order has potentially changed!
+            clearPidFromChildListStorage(parentPid);
+        }
+        return result;
+    };
+
+    /**
+     * Detach a child object from the specified parent.
+     * @param pid       Child PID
+     * @param parentPid Parent PID
+     * @returns A status string ("ok" on success, error message otherwise)
+     */
+    const detachObjectFromParent = async function (pid: string, parentPid: string): Promise<string> {
+        const target = getParentUrl(pid, parentPid);
+        let result: string;
+        try {
+            result = await fetchText(target, { method: "DELETE" });
+        } catch (e) {
+            result = (e as Error).message ?? "Unexpected error";
+        }
+        if (result === "ok") {
+            // Clear and reload the cached object and its parents, since these have now changed!
+            removeFromObjectDetailsStorage(pid);
+            removeFromParentDetailsStorage(pid);
+            // Clear any cached lists belonging to the parent PID, because the
+            // order has potentially changed!
+            clearPidFromChildListStorage(parentPid);
+        }
+        return result;
+    };
+
+    /**
+     * Move a child object to the specified parent.
+     * @param pid       Child PID
+     * @param parentPid Parent PID
+     * @param position  Position value (blank string for no position, number-as-string otherwise)
+     * @returns A status string ("ok" on success, error message otherwise)
+     */
+    const moveObjectToParent = async function (pid: string, parentPid: string, position: string): Promise<string> {
+        const target = getMoveToParentUrl(pid, parentPid);
+        let result: string;
+        try {
+            result = await fetchText(target, { method: "POST", body: position });
+        } catch (e) {
+            result = (e as Error).message ?? "Unexpected error";
+        }
+        if (result === "ok") {
+            // Clear and reload the cached object and its parents, since these have now changed!
+            removeFromObjectDetailsStorage(pid);
+            removeFromParentDetailsStorage(pid);
+            // Clear all cached child lists, since multiple relationships may have been impacted.
+            resetChildListStorage();
+        }
+        return result;
+    };
+
+    /**
+     * Return the number of parents for the specified PID.
+     * @param pid PID
+     * @returns Number of parents in storage (null if unknown)
+     */
+    const getParentCountForPid = function (pid: string): number | null {
+        const dataForPid = Object.prototype.hasOwnProperty.call(parentDetailsStorage, pid as string)
+            ? parentDetailsStorage[pid]
+            : {};
+        return (dataForPid["shallow"]?.parents ?? dataForPid["full"]?.parents)?.length ?? null;
+    };
+
     return {
         state: {
             currentAgents,
@@ -490,6 +716,7 @@ export const useEditorContext = () => {
             agentsCatalog,
             dublinCoreFieldCatalog,
             favoritePidsCatalog,
+            trashPid,
             processMetadataDefaults,
             toolPresets,
             vufindUrl,
@@ -497,6 +724,7 @@ export const useEditorContext = () => {
             licensesCatalog,
             objectDetailsStorage,
             parentDetailsStorage,
+            childCountsStorage,
             childListStorage,
             topLevelPids,
         },
@@ -513,10 +741,17 @@ export const useEditorContext = () => {
             getChildListStorageKey,
             loadObjectDetailsIntoStorage,
             loadParentDetailsIntoStorage,
+            loadChildCountsIntoStorage,
             loadChildrenIntoStorage,
             removeFromObjectDetailsStorage,
             removeFromParentDetailsStorage,
+            clearPidFromChildCountsStorage,
             clearPidFromChildListStorage,
+            attachObjectToParent,
+            detachObjectFromParent,
+            moveObjectToParent,
+            updateObjectState,
+            getParentCountForPid,
         },
     };
 }

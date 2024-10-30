@@ -146,11 +146,27 @@ class Config {
     }
 
     get dataModels(): Record<string, string> {
-        return this.ini["data_models"];
+        return (
+            this.ini["data_models"] ?? {
+                Image: "vudl-system:ImageData",
+                PDF: "vudl-system:PDFData",
+                DOC: "vudl-system:DOCData",
+                Audio: "vudl-system:AudioData",
+                Video: "vudl-system:VideoData",
+                XLS: "vudl-system:XLSData",
+                Text: "vudl-system:TextData",
+            }
+        );
     }
 
     get collectionModels(): Record<string, string> {
-        return this.ini["collection_models"];
+        return (
+            this.ini["collection_models"] ?? {
+                List: "vudl-system:ListCollection",
+                Resource: "vudl-system:ResourceCollection",
+                Folder: "vudl-system:FolderCollection",
+            }
+        );
     }
 
     get institution(): string {
@@ -169,8 +185,17 @@ class Config {
         return this.ini["articles_to_strip"] ?? [];
     }
 
+    get trashPid(): string | null {
+        return this.ini["trash_pid"] ?? null;
+    }
+
     get favoritePids(): Array<string> {
-        return this.ini["favorite_pids"] ?? [];
+        const favorites = this.ini["favorite_pids"] ?? [];
+        const trash = this.trashPid;
+        if (trash && !favorites.includes(trash)) {
+            favorites.push(trash);
+        }
+        return favorites;
     }
 
     get languageMap(): Record<string, string> {

@@ -2,6 +2,7 @@ import express = require("express");
 import bodyParser = require("body-parser");
 import Config from "../models/Config";
 import Fedora from "../services/Fedora";
+import ContainmentValidator from "../services/ContainmentValidator";
 import FedoraCatalog from "../services/FedoraCatalog";
 import DatastreamManager from "../services/DatastreamManager";
 import FedoraObjectFactory from "../services/FedoraObjectFactory";
@@ -14,6 +15,14 @@ import FedoraDataCollection from "../models/FedoraDataCollection";
 import { FedoraObject } from "../models/FedoraObject";
 
 const edit = express.Router();
+
+// Disable caching on the edit route to ensure that data always refreshes correctly:
+edit.use((_, res, next) => {
+    res.setHeader("Surrogate-Control", "no-store");
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Expires", "0");
+    next();
+});
 
 edit.get("/models", requireToken, function (req, res) {
     res.json({ CollectionModels: Config.getInstance().collectionModels, DataModels: Config.getInstance().dataModels });
@@ -70,16 +79,29 @@ edit.post("/object/new", requireToken, bodyParser.json(), async function (req, r
     if (parentPid !== null && !parentPid?.length) {
         parentPid = null;
     }
+    // Validate model parameter:
     const model = req.body?.model;
     if (!model) {
         res.status(400).send("Missing model parameter.");
         return;
     }
+    const childModels = ["vudl-system:CoreModel", model];
+    const config = Config.getInstance();
+    if (Object.values(config.collectionModels).indexOf(model) > -1) {
+        childModels.push("vudl-system:CollectionModel");
+    } else if (Object.values(config.dataModels).indexOf(model) > -1) {
+        childModels.push("vudl-system:DataModel");
+    } else {
+        res.status(400).send(`Unrecognized model ${model}.`);
+        return;
+    }
+    // Validate title parameter:
     const title = req.body?.title;
     if (!title) {
         res.status(400).send("Missing title parameter.");
         return;
     }
+    // Validate state parameter:
     const state = req.body?.state;
     if (!state) {
         res.status(400).send("Missing state parameter.");
@@ -96,9 +118,14 @@ edit.post("/object/new", requireToken, bodyParser.json(), async function (req, r
             res.status(404).send("Error loading parent PID: " + parentPid);
             return;
         }
-        // Parents must be collections; validate!
-        if (!parent.models.includes("vudl-system:CollectionModel")) {
-            res.status(400).send("Illegal parent " + parentPid + "; not a collection!");
+        // Validate whether parent relationship is legal:
+        const relationshipError = ContainmentValidator.getInstance().checkForParentModelErrors(
+            parentPid,
+            parent.models,
+            childModels,
+        );
+        if (relationshipError !== null) {
+            res.status(400).send(relationshipError);
             return;
         }
     }
@@ -133,6 +160,30 @@ async function getChildren(req, res) {
         return;
     }
     const response = result?.body?.response ?? { numFound: 0, start: 0, docs: [] };
+    res.json(response);
+}
+
+async function getChildCounts(req, res) {
+    const config = Config.getInstance();
+    const solr = Solr.getInstance();
+
+    const cleanPid = req.params.pid.replace(/["]/g, "");
+    const childQuery = `fedora_parent_id_str_mv:"${cleanPid}"`;
+    const childResult = await solr.query(config.solrCore, childQuery, { rows: "0" });
+    if (childResult.statusCode !== 200) {
+        res.status(childResult.statusCode ?? 500).send("Unexpected Solr response code.");
+        return;
+    }
+    const descendantQuery = `hierarchy_all_parents_str_mv:"${cleanPid}"`;
+    const descendantResult = await solr.query(config.solrCore, descendantQuery, { rows: "0" });
+    if (descendantResult.statusCode !== 200) {
+        res.status(descendantResult.statusCode ?? 500).send("Unexpected Solr response code.");
+        return;
+    }
+    const response = {
+        directChildren: childResult?.body?.response?.numFound ?? 0,
+        totalDescendants: descendantResult?.body?.response?.numFound ?? 0,
+    };
     res.json(response);
 }
 
@@ -276,6 +327,7 @@ edit.get("/object/:pid/datastream/:stream/processMetadata", requireToken, datast
 
 edit.get("/topLevelObjects", requireToken, getChildren);
 edit.get("/object/:pid/children", requireToken, pidSanitizer, getChildren);
+edit.get("/object/:pid/childCounts", requireToken, pidSanitizer, getChildCounts);
 edit.get("/object/:pid/lastChildPosition", requireToken, pidSanitizer, async (req, res) => {
     const cleanPid = req.params.pid.replace(/["]/g, "");
     const query = `fedora_parent_id_str_mv:"${cleanPid}"`;
@@ -422,7 +474,11 @@ edit.put("/object/:pid/state", requireToken, pidSanitizer, bodyParser.text(), as
             res.status(400).send(`Illegal state: ${state}`);
             return;
         }
-        await fedora.modifyObjectState(pid, state);
+        // Only update state if it's different from the existing one:
+        const existing = await FedoraDataCollector.getInstance().getObjectData(pid);
+        if (existing.state !== state) {
+            await fedora.modifyObjectState(pid, state);
+        }
         res.status(200).send("ok");
     } catch (error) {
         console.error(error);
@@ -431,6 +487,33 @@ edit.put("/object/:pid/state", requireToken, pidSanitizer, bodyParser.text(), as
 });
 
 const pidAndParentPidSanitizer = sanitizeParameters({ pid: pidSanitizeRegEx, parentPid: pidSanitizeRegEx });
+edit.post(
+    "/object/:pid/moveToParent/:parentPid",
+    requireToken,
+    pidAndParentPidSanitizer,
+    bodyParser.text(),
+    async function (req, res) {
+        try {
+            const { pid, parentPid } = req.params;
+            const pos = parseInt(req.body);
+
+            // Validate the input
+            const parentData = await FedoraDataCollector.getInstance().getHierarchy(parentPid);
+            const relationshipError = await ContainmentValidator.getInstance().checkForErrors(pid, parentData);
+            if (relationshipError !== null) {
+                res.status(400).send(relationshipError);
+                return;
+            }
+
+            // If we got this far, we can safely update things
+            await Fedora.getInstance().movePidToParent(pid, parentPid, parentData.sortOn === "custom" ? pos : null);
+            res.status(200).send("ok");
+        } catch (error) {
+            console.error(error);
+            res.status(500).send(error.message);
+        }
+    },
+);
 edit.put(
     "/object/:pid/parent/:parentPid",
     requireToken,
@@ -442,17 +525,10 @@ edit.put(
             const pos = parseInt(req.body);
 
             // Validate the input
-            if (pid == parentPid) {
-                res.status(400).send("Object cannot be its own parent.");
-                return;
-            }
             const parentData = await FedoraDataCollector.getInstance().getHierarchy(parentPid);
-            if (parentData.getAllParents().includes(pid)) {
-                res.status(400).send("Object cannot be its own grandparent.");
-                return;
-            }
-            if (!parentData.models.includes("vudl-system:CollectionModel")) {
-                res.status(400).send(`Illegal parent ${parentPid}; not a collection!`);
+            const relationshipError = await ContainmentValidator.getInstance().checkForErrors(pid, parentData);
+            if (relationshipError !== null) {
+                res.status(400).send(relationshipError);
                 return;
             }
 

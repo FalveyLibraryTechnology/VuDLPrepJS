@@ -52,19 +52,20 @@ This software is designed to run on multiple operating systems; however, Ubuntu 
 
 ### External Dependencies
 
-- [Cantaloupe Image Server](https://cantaloupe-project.github.io/) (or another IIIF image server) - optional, but required when using VuFind (see below, and also [setup notes](docs/cantaloupe.md)).
+- [Cantaloupe Image Server](https://cantaloupe-project.github.io/) (or another IIIF image server) - optional, but required when using VuFind® (see below, and also [setup notes](docs/cantaloupe.md)).
 - [Fedora Commons](https://duraspace.org/fedora/) - required for storing repository content
+- [Fedora Commons Camel Toolbox](https://github.com/fcrepo-exts/fcrepo-camel-toolbox) - used for sending messages from Fedora to VuDL to enable indexing, etc.
 - [FFmpeg](http://ffmpeg.org/) - required for audio/video processing
 - [FITS](https://projects.iq.harvard.edu/fits/home) - required for file characterization
 - [ImageMagick](https://imagemagick.org) - required by textcleaner (see below)
 - [OCRmyPDF](https://ocrmypdf.readthedocs.io) - required for OCR enhancement of PDFs
 - [Redis](https://redis.io/) - required to support queue features
 - Relational Database ([SQLite](https://www.sqlite.org) by default, or MySQL/MariaDB by configuration) - required for user session persistence and PID generation
-- [Solr](https://solr.apache.org/) - required for searching/indexing content; it is recommended that you use the instance bundled with VuFind (see below)
+- [Solr](https://solr.apache.org/) - required for searching/indexing content; it is recommended that you use the instance bundled with VuFind® (see below)
 - [tesseract-ocr](https://github.com/tesseract-ocr/) - required for OCR of image files
 - [textcleaner](http://www.fmwconcepts.com/imagemagick/textcleaner/index.php) - required for cleanup of image files prior to OCR
 - [Tika](https://tika.apache.org/) - required for text extraction from document files
-- [VuFind](https://vufind.org) - strongly recommended as the public front-end for the repository
+- [VuFind®](https://vufind.org) - strongly recommended as the public front-end for the repository
 
 ### Javascript Dependencies
 
@@ -129,3 +130,20 @@ After a few moments, a new tab should automatically open in your browser pointin
 | start | run api, client, and queue servers (production) |
 | test  | run both client and api tests |
 | watch | alias for api:watch |
+
+## Command Line Tools
+
+Some useful command-line utilities (which can be run using `node [filename]`) are found in the
+api/scripts directory.
+
+| Script | Description |
+| - | - |
+| export-combined-solr-cache.js | If Solr caching is enabled, this exports it to XML files. |
+| generate-master-md.js | Queue a job to generate the MASTER-MD stream for the specified PID. |
+| generate-pdfs-from-list.js | Queue PDF generation jobs from the specified PID list file. |
+| index-pid-list.js | Queue index jobs from the specified PID list file. |
+| ingest.js | Queue ingest jobs for content publised in the Paginator. |
+| purge-deleted-children-of-pid.js | Purge all deleted children of the specified PID. |
+| purge-trash.js | Purge all deleted objects that are children of the configured trash_pid. |
+| reindex-from-solr-cache.js | Rebuild the Solr index from the Solr cache. |
+| send-notification.js | Add a job to the notify queue. |

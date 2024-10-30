@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../../../context/GlobalContext";
 import { useEditorContext } from "../../../context/EditorContext";
-import { useFetchContext } from "../../../context/FetchContext";
-import { getParentUrl } from "../../../util/routes";
 import Delete from "@mui/icons-material/Delete";
 
 export interface ParentListProps {
@@ -16,16 +14,8 @@ const ParentList = ({ pid, initiallyShallow = true }: ParentListProps): React.Re
     } = useGlobalContext();
     const {
         state: { parentDetailsStorage },
-        action: {
-            clearPidFromChildListStorage,
-            loadParentDetailsIntoStorage,
-            removeFromObjectDetailsStorage,
-            removeFromParentDetailsStorage,
-        },
+        action: { detachObjectFromParent, loadParentDetailsIntoStorage },
     } = useEditorContext();
-    const {
-        action: { fetchText },
-    } = useFetchContext();
     const [shallow, setShallow] = useState<boolean>(initiallyShallow);
     const dataForPid = Object.prototype.hasOwnProperty.call(parentDetailsStorage, pid as string)
         ? parentDetailsStorage[pid]
@@ -51,24 +41,10 @@ const ParentList = ({ pid, initiallyShallow = true }: ParentListProps): React.Re
         if (!confirm("Are you sure you wish to remove this parent?")) {
             return;
         }
-        const target = getParentUrl(pid, parentPid);
-        let result: string;
-        try {
-            result = await fetchText(target, { method: "DELETE" });
-        } catch (e) {
-            result = (e as Error).message ?? "Unexpected error";
-        }
-        if (result === "ok") {
-            // Clear and reload the cached object and its parents, since these have now changed!
-            removeFromObjectDetailsStorage(pid);
-            removeFromParentDetailsStorage(pid);
-            // Clear any cached lists belonging to the parent PID, because the
-            // order has potentially changed!
-            clearPidFromChildListStorage(parentPid);
-            showSnackbarMessage(`Successfully removed ${pid} from ${parentPid}`, "info");
-        } else {
-            showSnackbarMessage(result, "error");
-        }
+        const result = await detachObjectFromParent(pid, parentPid);
+        result === "ok"
+            ? showSnackbarMessage(`Successfully removed ${pid} from ${parentPid}`, "info")
+            : showSnackbarMessage(result, "error");
     };
 
     const parents = (loaded ? parentDetailsStorage[pid][key].parents ?? [] : []).map((parent) => {
@@ -92,7 +68,7 @@ const ParentList = ({ pid, initiallyShallow = true }: ParentListProps): React.Re
         );
     });
     return (
-        <table border="1">
+        <table border={1}>
             <tbody>
                 {parents.length > 0 ? (
                     parents

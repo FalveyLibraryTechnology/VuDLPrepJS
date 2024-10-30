@@ -50,6 +50,7 @@ describe("edit", () => {
                 processMetadataDefaults: {},
                 toolPresets: [],
                 favoritePids: {},
+                trashPid: null,
                 topLevelPids: [],
                 vufindUrl: "",
             };
@@ -172,10 +173,18 @@ describe("edit", () => {
                 .expect(StatusCodes.BAD_REQUEST);
             expect(response.text).toEqual("Missing model parameter.");
         });
+        it("requires a valid model parameter", async () => {
+            const response = await request(app)
+                .post("/edit/object/new")
+                .send({ model: "vudl-system:UnsupportedValue" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.BAD_REQUEST);
+            expect(response.text).toEqual("Unrecognized model vudl-system:UnsupportedValue.");
+        });
         it("requires a title parameter", async () => {
             const response = await request(app)
                 .post("/edit/object/new")
-                .send({ model: "vudl-system:foo" })
+                .send({ model: "vudl-system:FolderCollection" })
                 .set("Authorization", "Bearer test")
                 .expect(StatusCodes.BAD_REQUEST);
             expect(response.text).toEqual("Missing title parameter.");
@@ -183,7 +192,7 @@ describe("edit", () => {
         it("requires a state parameter", async () => {
             const response = await request(app)
                 .post("/edit/object/new")
-                .send({ model: "vudl-system:foo", title: "bar" })
+                .send({ model: "vudl-system:FolderCollection", title: "bar" })
                 .set("Authorization", "Bearer test")
                 .expect(StatusCodes.BAD_REQUEST);
             expect(response.text).toEqual("Missing state parameter.");
@@ -194,18 +203,150 @@ describe("edit", () => {
             const dataSpy = jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
             const response = await request(app)
                 .post("/edit/object/new")
-                .send({ model: "vudl-system:foo", title: "bar", state: "Active", parent: "pid:123" })
+                .send({ model: "vudl-system:FolderCollection", title: "bar", state: "Active", parent: "pid:123" })
                 .set("Authorization", "Bearer test")
                 .expect(StatusCodes.BAD_REQUEST);
             expect(response.text).toEqual("Illegal parent pid:123; not a collection!");
             expect(dataSpy).toHaveBeenCalledTimes(1);
             expect(dataSpy).toHaveBeenCalledWith("pid:123");
         });
+        it("will fail if data is added to a non-list model", async () => {
+            const mockData = FedoraDataCollection.build("pid:123");
+            mockData.fedoraDetails = {
+                hasModel: [
+                    "http://localhost:8080/rest/vudl-system:FolderCollection",
+                    "http://localhost:8080/rest/vudl-system:CoreModel",
+                    "http://localhost:8080/rest/vudl-system:CollectionModel",
+                ],
+            };
+            const collector = FedoraDataCollector.getInstance();
+            const dataSpy = jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
+            const response = await request(app)
+                .post("/edit/object/new")
+                .send({ model: "vudl-system:ImageData", title: "bar", state: "Active", parent: "pid:123" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.BAD_REQUEST);
+            expect(response.text).toEqual("DataModel objects must be contained by a ListCollection");
+            expect(dataSpy).toHaveBeenCalledTimes(1);
+            expect(dataSpy).toHaveBeenCalledWith("pid:123");
+        });
+        it("will fail if list is added to a non-resource model", async () => {
+            const mockData = FedoraDataCollection.build("pid:123");
+            mockData.fedoraDetails = {
+                hasModel: [
+                    "http://localhost:8080/rest/vudl-system:FolderCollection",
+                    "http://localhost:8080/rest/vudl-system:CoreModel",
+                    "http://localhost:8080/rest/vudl-system:CollectionModel",
+                ],
+            };
+            const collector = FedoraDataCollector.getInstance();
+            const dataSpy = jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
+            const response = await request(app)
+                .post("/edit/object/new")
+                .send({ model: "vudl-system:ListCollection", title: "bar", state: "Active", parent: "pid:123" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.BAD_REQUEST);
+            expect(response.text).toEqual("ListCollection objects must be contained by a ResourceCollection");
+            expect(dataSpy).toHaveBeenCalledTimes(1);
+            expect(dataSpy).toHaveBeenCalledWith("pid:123");
+        });
+        it("will fail if resource is added to a non-folder model", async () => {
+            const mockData = FedoraDataCollection.build("pid:123");
+            mockData.fedoraDetails = {
+                hasModel: [
+                    "http://localhost:8080/rest/vudl-system:ResourceCollection",
+                    "http://localhost:8080/rest/vudl-system:CoreModel",
+                    "http://localhost:8080/rest/vudl-system:CollectionModel",
+                ],
+            };
+            const collector = FedoraDataCollector.getInstance();
+            const dataSpy = jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
+            const response = await request(app)
+                .post("/edit/object/new")
+                .send({ model: "vudl-system:ResourceCollection", title: "bar", state: "Active", parent: "pid:123" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.BAD_REQUEST);
+            expect(response.text).toEqual("ResourceCollection objects must be contained by a FolderCollection");
+            expect(dataSpy).toHaveBeenCalledTimes(1);
+            expect(dataSpy).toHaveBeenCalledWith("pid:123");
+        });
+        it("will fail if folder is added to a non-folder model", async () => {
+            const mockData = FedoraDataCollection.build("pid:123");
+            mockData.fedoraDetails = {
+                hasModel: [
+                    "http://localhost:8080/rest/vudl-system:ResourceCollection",
+                    "http://localhost:8080/rest/vudl-system:CoreModel",
+                    "http://localhost:8080/rest/vudl-system:CollectionModel",
+                ],
+            };
+            const collector = FedoraDataCollector.getInstance();
+            const dataSpy = jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
+            const response = await request(app)
+                .post("/edit/object/new")
+                .send({ model: "vudl-system:FolderCollection", title: "bar", state: "Active", parent: "pid:123" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.BAD_REQUEST);
+            expect(response.text).toEqual("FolderCollection objects must be contained by a FolderCollection");
+            expect(dataSpy).toHaveBeenCalledTimes(1);
+            expect(dataSpy).toHaveBeenCalledWith("pid:123");
+        });
+        it("handles data retrieval exceptions", async () => {
+            const mockData = FedoraDataCollection.build("pid:123");
+            mockData.fedoraDetails = {
+                hasModel: [
+                    "http://localhost:8080/rest/vudl-system:FolderCollection",
+                    "http://localhost:8080/rest/vudl-system:CoreModel",
+                    "http://localhost:8080/rest/vudl-system:CollectionModel",
+                ],
+            };
+            const collector = FedoraDataCollector.getInstance();
+            const kaboom = new Error("kaboom!");
+            const dataSpy = jest.spyOn(collector, "getObjectData").mockImplementation(() => {
+                throw kaboom;
+            });
+            const response = await request(app)
+                .post("/edit/object/new")
+                .send({ model: "vudl-system:FolderCollection", title: "bar", state: "Active", parent: "pid:123" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.NOT_FOUND);
+            expect(response.text).toEqual("Error loading parent PID: pid:123");
+            expect(dataSpy).toHaveBeenCalledTimes(1);
+            expect(dataSpy).toHaveBeenCalledWith("pid:123");
+        });
+        it("handles build exceptions", async () => {
+            const mockData = FedoraDataCollection.build("pid:123");
+            mockData.fedoraDetails = {
+                hasModel: [
+                    "http://localhost:8080/rest/vudl-system:FolderCollection",
+                    "http://localhost:8080/rest/vudl-system:CoreModel",
+                    "http://localhost:8080/rest/vudl-system:CollectionModel",
+                ],
+            };
+            const collector = FedoraDataCollector.getInstance();
+            const dataSpy = jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
+            const factory = FedoraObjectFactory.getInstance();
+            const kaboom = new Error("kaboom!");
+            const factorySpy = jest.spyOn(factory, "build").mockImplementation(() => {
+                throw kaboom;
+            });
+            const consoleSpy = jest.spyOn(console, "error").mockImplementation(jest.fn());
+            const response = await request(app)
+                .post("/edit/object/new")
+                .send({ model: "vudl-system:FolderCollection", title: "bar", state: "Active", parent: "pid:123" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.BAD_REQUEST);
+            expect(response.text).toEqual("kaboom!");
+            expect(consoleSpy).toHaveBeenCalledWith(kaboom);
+            expect(dataSpy).toHaveBeenCalledTimes(1);
+            expect(dataSpy).toHaveBeenCalledWith("pid:123");
+            expect(factorySpy).toHaveBeenCalledTimes(1);
+            expect(factorySpy).toHaveBeenCalledWith("FolderCollection", "bar", "Active", "pid:123");
+        });
         it("will succeed if parent has collection model", async () => {
             const mockData = FedoraDataCollection.build("pid:123");
             mockData.fedoraDetails = {
                 hasModel: [
-                    "http://localhost:8080/rest/vudl-system:FolderModel",
+                    "http://localhost:8080/rest/vudl-system:FolderCollection",
                     "http://localhost:8080/rest/vudl-system:CoreModel",
                     "http://localhost:8080/rest/vudl-system:CollectionModel",
                 ],
@@ -217,14 +358,14 @@ describe("edit", () => {
             const factorySpy = jest.spyOn(factory, "build").mockResolvedValue(newObject);
             const response = await request(app)
                 .post("/edit/object/new")
-                .send({ model: "vudl-system:foo", title: "bar", state: "Active", parent: "pid:123" })
+                .send({ model: "vudl-system:FolderCollection", title: "bar", state: "Active", parent: "pid:123" })
                 .set("Authorization", "Bearer test")
                 .expect(StatusCodes.OK);
             expect(response.text).toEqual("child:123");
             expect(dataSpy).toHaveBeenCalledTimes(1);
             expect(dataSpy).toHaveBeenCalledWith("pid:123");
             expect(factorySpy).toHaveBeenCalledTimes(1);
-            expect(factorySpy).toHaveBeenCalledWith("foo", "bar", "Active", "pid:123");
+            expect(factorySpy).toHaveBeenCalledWith("FolderCollection", "bar", "Active", "pid:123");
         });
     });
 
@@ -693,10 +834,62 @@ describe("edit", () => {
         });
     });
 
+    describe("get /object/:pid/childCounts", () => {
+        let querySpy;
+        const solrResponse = { statusCode: 200, body: { response: { numFound: 0 } } };
+        beforeEach(() => {
+            querySpy = jest.spyOn(Solr.getInstance(), "query").mockResolvedValue(solrResponse as NeedleResponse);
+        });
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+        it("will run appropriate Solr queries", async () => {
+            const response1 = JSON.parse(JSON.stringify(solrResponse));
+            response1.body.response.numFound = 5;
+            const response2 = JSON.parse(JSON.stringify(solrResponse));
+            response2.body.response.numFound = 100;
+            querySpy.mockResolvedValueOnce(response1);
+            querySpy.mockResolvedValueOnce(response2);
+            const response = await request(app)
+                .get(`/edit/object/${pid}/childCounts`)
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.OK);
+            expect(querySpy).toHaveBeenCalledTimes(2);
+            expect(querySpy).toHaveBeenCalledWith("biblio", 'fedora_parent_id_str_mv:"foo:123"', {
+                rows: "0",
+            });
+            expect(querySpy).toHaveBeenCalledWith("biblio", 'hierarchy_all_parents_str_mv:"foo:123"', {
+                rows: "0",
+            });
+            expect(response.text).toEqual('{"directChildren":5,"totalDescendants":100}');
+        });
+        it("handles Solr errors in the first query", async () => {
+            const response1 = JSON.parse(JSON.stringify(solrResponse));
+            response1.statusCode = 500;
+            querySpy.mockResolvedValueOnce(response1);
+            await request(app)
+                .get(`/edit/object/${pid}/childCounts`)
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.INTERNAL_SERVER_ERROR);
+        });
+        it("handles Solr errors in the second query", async () => {
+            const response1 = JSON.parse(JSON.stringify(solrResponse));
+            response1.body.response.numFound = 5;
+            const response2 = JSON.parse(JSON.stringify(solrResponse));
+            response2.statusCode = 500;
+            querySpy.mockResolvedValueOnce(response1);
+            querySpy.mockResolvedValueOnce(response2);
+            await request(app)
+                .get(`/edit/object/${pid}/childCounts`)
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.INTERNAL_SERVER_ERROR);
+        });
+    });
+
     describe("get /object/:pid/children", () => {
         let querySpy;
+        const solrResponse = { statusCode: 200, body: { response: { foo: "bar" } } };
         beforeEach(() => {
-            const solrResponse = { statusCode: 200, body: { response: { foo: "bar" } } };
             querySpy = jest.spyOn(Solr.getInstance(), "query").mockResolvedValue(solrResponse as NeedleResponse);
         });
         afterEach(() => {
@@ -728,6 +921,16 @@ describe("edit", () => {
                 start: "200",
             });
             expect(response.text).toEqual('{"foo":"bar"}');
+        });
+        it("handles Solr errors in the query", async () => {
+            const response1 = JSON.parse(JSON.stringify(solrResponse));
+            response1.statusCode = 500;
+            querySpy.mockResolvedValueOnce(response1);
+            await request(app)
+                .get(`/edit/object/${pid}/children`)
+                .query({ rows: "100", start: "200" })
+                .set("Authorization", "Bearer test")
+                .expect(StatusCodes.INTERNAL_SERVER_ERROR);
         });
     });
 
@@ -847,6 +1050,20 @@ describe("edit", () => {
     });
 
     describe("put /object/:pid/state", () => {
+        let getObjectSpy;
+        let stateSpy;
+
+        beforeEach(() => {
+            const collector = FedoraDataCollector.getInstance();
+            getObjectSpy = jest.spyOn(collector, "getObjectData").mockImplementation(jest.fn());
+            const fedora = Fedora.getInstance();
+            stateSpy = jest.spyOn(fedora, "modifyObjectState").mockImplementation(jest.fn());
+        });
+
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
         it("will reject invalid states", async () => {
             const response = await request(app)
                 .put(`/edit/object/${pid}/state`)
@@ -855,12 +1072,12 @@ describe("edit", () => {
                 .send("Illegal")
                 .expect(StatusCodes.BAD_REQUEST);
             expect(response.error.text).toEqual("Illegal state: Illegal");
+            expect(getObjectSpy).not.toHaveBeenCalled();
+            expect(stateSpy).not.toHaveBeenCalled();
         });
 
         it("will accept a valid state", async () => {
-            const fedora = Fedora.getInstance();
-            const stateSpy = jest.spyOn(fedora, "modifyObjectState").mockImplementation(jest.fn());
-
+            getObjectSpy.mockResolvedValue(FedoraDataCollection.build(pid));
             await request(app)
                 .put(`/edit/object/${pid}/state`)
                 .set("Authorization", "Bearer test")
@@ -868,7 +1085,38 @@ describe("edit", () => {
                 .send("Active")
                 .expect(StatusCodes.OK);
 
+            expect(getObjectSpy).toHaveBeenCalledWith(pid);
             expect(stateSpy).toHaveBeenCalledWith(pid, "Active");
+        });
+
+        it("will handle unexpected errors", async () => {
+            const kaboom = new Error("kaboom");
+            getObjectSpy.mockImplementation(() => {
+                throw kaboom;
+            });
+            const consoleSpy = jest.spyOn(console, "error").mockImplementation(jest.fn());
+            const response = await request(app)
+                .put(`/edit/object/${pid}/state`)
+                .set("Authorization", "Bearer test")
+                .set("Content-Type", "text/plain")
+                .send("Active")
+                .expect(StatusCodes.INTERNAL_SERVER_ERROR);
+
+            expect(consoleSpy).toHaveBeenCalledWith(kaboom);
+            expect(response.text).toEqual("kaboom");
+        });
+
+        it("will not write an existing state to Fedora", async () => {
+            getObjectSpy.mockResolvedValue(FedoraDataCollection.build(pid, {}, { state: ["Active"] }));
+            await request(app)
+                .put(`/edit/object/${pid}/state`)
+                .set("Authorization", "Bearer test")
+                .set("Content-Type", "text/plain")
+                .send("Active")
+                .expect(StatusCodes.OK);
+
+            expect(getObjectSpy).toHaveBeenCalledWith(pid);
+            expect(stateSpy).not.toHaveBeenCalled();
         });
     });
 
@@ -920,13 +1168,16 @@ describe("edit", () => {
     describe("put /object/:pid/parent/:parentPid", () => {
         let parentPid: string;
         let mockData: FedoraDataCollection;
+        let mockParentData: FedoraDataCollection;
         let mockObject;
         let buildSpy;
         beforeEach(() => {
             parentPid = "foo:100";
-            mockData = FedoraDataCollection.build(parentPid);
+            mockData = FedoraDataCollection.build(pid);
+            mockParentData = FedoraDataCollection.build(parentPid);
             const collector = FedoraDataCollector.getInstance();
-            jest.spyOn(collector, "getHierarchy").mockResolvedValue(mockData);
+            jest.spyOn(collector, "getHierarchy").mockResolvedValue(mockParentData);
+            jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
             mockObject = {
                 addParentRelationship: jest.fn(),
                 addSequenceRelationship: jest.fn(),
@@ -937,6 +1188,7 @@ describe("edit", () => {
             jest.clearAllMocks();
         });
         it("will not make an object its own parent", async () => {
+            jest.spyOn(FedoraDataCollector.getInstance(), "getHierarchy").mockResolvedValue(mockData);
             const response = await request(app)
                 .put(`/edit/object/${pid}/parent/${pid}`)
                 .set("Authorization", "Bearer test")
@@ -948,7 +1200,7 @@ describe("edit", () => {
         });
 
         it("will not make an object its own grandparent", async () => {
-            mockData.addParent(FedoraDataCollection.build(pid));
+            mockParentData.addParent(FedoraDataCollection.build(pid));
             const response = await request(app)
                 .put(`/edit/object/${pid}/parent/${parentPid}`)
                 .set("Authorization", "Bearer test")
@@ -971,7 +1223,7 @@ describe("edit", () => {
         });
 
         it("adds parent when appropriate preconditions are met", async () => {
-            jest.spyOn(mockData, "models", "get").mockReturnValue(["vudl-system:CollectionModel"]);
+            jest.spyOn(mockParentData, "models", "get").mockReturnValue(["vudl-system:CollectionModel"]);
             await request(app)
                 .put(`/edit/object/${pid}/parent/${parentPid}`)
                 .set("Authorization", "Bearer test")
@@ -985,8 +1237,8 @@ describe("edit", () => {
         });
 
         it("adds parent and sequence when appropriate preconditions are met", async () => {
-            jest.spyOn(mockData, "models", "get").mockReturnValue(["vudl-system:CollectionModel"]);
-            jest.spyOn(mockData, "sortOn", "get").mockReturnValue("custom");
+            jest.spyOn(mockParentData, "models", "get").mockReturnValue(["vudl-system:CollectionModel"]);
+            jest.spyOn(mockParentData, "sortOn", "get").mockReturnValue("custom");
             await request(app)
                 .put(`/edit/object/${pid}/parent/${parentPid}`)
                 .set("Authorization", "Bearer test")
@@ -1006,6 +1258,75 @@ describe("edit", () => {
             const errorSpy = jest.spyOn(console, "error").mockImplementation(jest.fn());
             const response = await request(app)
                 .put(`/edit/object/${pid}/parent/${parentPid}`)
+                .set("Authorization", "Bearer test")
+                .set("Content-Type", "text/plain")
+                .send("2")
+                .expect(StatusCodes.INTERNAL_SERVER_ERROR);
+            expect(errorSpy).toHaveBeenCalledWith(exception);
+            expect(response.error.text).toEqual("kaboom");
+        });
+    });
+
+    describe("post /object/:pid/moveToParent/:parentPid", () => {
+        let parentPid: string;
+        let mockData: FedoraDataCollection;
+        let mockParentData: FedoraDataCollection;
+        let moveSpy;
+        beforeEach(() => {
+            parentPid = "foo:100";
+            mockData = FedoraDataCollection.build(pid);
+            mockParentData = FedoraDataCollection.build(parentPid);
+            const collector = FedoraDataCollector.getInstance();
+            jest.spyOn(collector, "getHierarchy").mockResolvedValue(mockParentData);
+            jest.spyOn(collector, "getObjectData").mockResolvedValue(mockData);
+            moveSpy = jest.spyOn(Fedora.getInstance(), "movePidToParent").mockImplementation(jest.fn());
+        });
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+        it("will not make an object its own parent", async () => {
+            jest.spyOn(FedoraDataCollector.getInstance(), "getHierarchy").mockResolvedValue(mockData);
+            const response = await request(app)
+                .post(`/edit/object/${pid}/moveToParent/${pid}`)
+                .set("Authorization", "Bearer test")
+                .set("Content-Type", "text/plain")
+                .send("2")
+                .expect(StatusCodes.BAD_REQUEST);
+            expect(response.error.text).toEqual("Object cannot be its own parent.");
+            expect(moveSpy).not.toHaveBeenCalled();
+        });
+
+        it("moves to parent when appropriate preconditions are met", async () => {
+            jest.spyOn(mockParentData, "models", "get").mockReturnValue(["vudl-system:CollectionModel"]);
+            await request(app)
+                .post(`/edit/object/${pid}/moveToParent/${parentPid}`)
+                .set("Authorization", "Bearer test")
+                .set("Content-Type", "text/plain")
+                .send("2")
+                .expect(StatusCodes.OK);
+            expect(moveSpy).toHaveBeenCalledWith(pid, parentPid, null);
+        });
+
+        it("moves to parent with sequence when appropriate preconditions are met", async () => {
+            jest.spyOn(mockParentData, "models", "get").mockReturnValue(["vudl-system:CollectionModel"]);
+            jest.spyOn(mockParentData, "sortOn", "get").mockReturnValue("custom");
+            await request(app)
+                .post(`/edit/object/${pid}/moveToParent/${parentPid}`)
+                .set("Authorization", "Bearer test")
+                .set("Content-Type", "text/plain")
+                .send("2")
+                .expect(StatusCodes.OK);
+            expect(moveSpy).toHaveBeenCalledWith(pid, parentPid, 2);
+        });
+
+        it("handles exceptions gracefully", async () => {
+            const exception = new Error("kaboom");
+            jest.spyOn(mockData, "models", "get").mockImplementation(() => {
+                throw exception;
+            });
+            const errorSpy = jest.spyOn(console, "error").mockImplementation(jest.fn());
+            const response = await request(app)
+                .post(`/edit/object/${pid}/moveToParent/${parentPid}`)
                 .set("Authorization", "Bearer test")
                 .set("Content-Type", "text/plain")
                 .send("2")

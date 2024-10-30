@@ -9,7 +9,10 @@ import { EditorContextProvider, ObjectDetails } from "../../../context/EditorCon
 import { FetchContextProvider } from "../../../context/FetchContext";
 
 jest.mock("./ChildList", () => () => "ChildList");
+jest.mock("../CopyPidButton", () => () => "CopyPidButton");
 jest.mock("../ObjectButtonBar", () => (props) => "ObjectButtonBar:" + JSON.stringify(props));
+jest.mock("../ObjectChildCounts", () => (props) => "ObjectChildCounts:" + JSON.stringify(props));
+jest.mock("../ObjectModels", () => (props) => "ObjectModels:" + JSON.stringify(props));
 jest.mock("../ObjectThumbnail", () => (props) => "ObjectThumbnail: " + JSON.stringify(props));
 
 function getChildComponent(props: ChildProps) {
@@ -68,6 +71,29 @@ describe("Child", () => {
 
     it("renders a thumbnail", async () => {
         props.thumbnail = true;
+        let tree;
+        await renderer.act(async () => {
+            tree = renderer.create(getChildComponent(props));
+        });
+        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/object/foo%3A123/details");
+        expect(tree.toJSON()).toMatchSnapshot();
+    });
+
+    it("renders child counts", async () => {
+        props.showChildCounts = true;
+        let tree;
+        await renderer.act(async () => {
+            tree = renderer.create(getChildComponent(props));
+        });
+        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
+        expect(lastRequestUrl).toEqual("http://localhost:9000/api/edit/object/foo%3A123/details");
+        expect(tree.toJSON()).toMatchSnapshot();
+    });
+
+    it("renders thumbnail and child counts", async () => {
+        props.thumbnail = true;
+        props.showChildCounts = true;
         let tree;
         await renderer.act(async () => {
             tree = renderer.create(getChildComponent(props));

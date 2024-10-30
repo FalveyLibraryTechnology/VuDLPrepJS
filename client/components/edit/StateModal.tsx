@@ -13,7 +13,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { useGlobalContext } from "../../context/GlobalContext";
 import { useEditorContext } from "../../context/EditorContext";
-import { getObjectRecursiveChildPidsUrl, getObjectStateUrl } from "../../util/routes";
+import { getObjectRecursiveChildPidsUrl } from "../../util/routes";
 import { useFetchContext } from "../../context/FetchContext";
 import ObjectLoader from "./ObjectLoader";
 
@@ -23,10 +23,10 @@ const StateModal = (): React.ReactElement => {
     } = useGlobalContext();
     const {
         state: { objectDetailsStorage, stateModalActivePid },
-        action: { removeFromObjectDetailsStorage },
+        action: { updateObjectState },
     } = useEditorContext();
     const {
-        action: { fetchJSON, fetchText },
+        action: { fetchJSON },
     } = useFetchContext();
 
     function closeStateModal() {
@@ -39,12 +39,11 @@ const StateModal = (): React.ReactElement => {
     const [childPidResponse, setChildPidResponse] = useState({ loading: true });
     const loaded = Object.prototype.hasOwnProperty.call(objectDetailsStorage, stateModalActivePid);
     const details = loaded ? objectDetailsStorage[stateModalActivePid] : {};
-    const childPageSize = 1000;
     useEffect(() => {
         async function loadChildren() {
             setChildPidResponse({ loading: true });
             setIncludeChildren(false);
-            const url = getObjectRecursiveChildPidsUrl(details.pid, 0, childPageSize);
+            const url = getObjectRecursiveChildPidsUrl(details.pid, 0, 0);
             const response = await fetchJSON(url);
             setChildPidResponse(response);
         }
@@ -70,59 +69,20 @@ const StateModal = (): React.ReactElement => {
         });
     };
 
-    const updateStatus = async (pid: string): Promise<string> => {
-        setStatusMessage(`Saving status for ${pid}...`);
-        const target = getObjectStateUrl(pid);
-        const result = await fetchText(target, { method: "PUT", body: selectedValue });
-        if (result === "ok") {
-            // Clear and reload the cached object, since it has now changed!
-            removeFromObjectDetailsStorage(pid);
-        }
-        return result;
-    };
-
-    const saveChildPage = async (response): Promise<boolean> => {
-        for (let i = 0; i < response.docs.length; i++) {
-            const result = await updateStatus(response.docs[i].id);
-            if (result !== "ok") {
-                showSnackbarMessage(`Status failed to save; "${result}"`, "error");
-                closeStateModal();
-                setStatusMessage("");
-                return false;
-            }
-        }
-        return true;
-    };
-
-    const saveChildren = async (): Promise<boolean> => {
-        const expectedTotal = childPidResponse.numFound;
-        let found = 0;
-        let nextResponse = childPidResponse;
-        while (found < expectedTotal) {
-            if (!(await saveChildPage(nextResponse))) {
-                return false;
-            }
-            found += nextResponse.docs.length;
-            if (found < expectedTotal) {
-                const url = getObjectRecursiveChildPidsUrl(details.pid, found, childPageSize);
-                nextResponse = await fetchJSON(url);
-            }
-        }
-        return true;
-    };
-
     const save = async () => {
-        if (selectedValue !== details.state) {
-            if (includeChildren) {
-                if (!(await saveChildren())) {
-                    return;
-                }
-            }
-            const result = await updateStatus(stateModalActivePid);
-            if (result === "ok") {
-                showSnackbarMessage("Status saved successfully.", "success");
-            } else {
-                showSnackbarMessage(`Status failed to save; "${result}"`, "error");
+        // Don't allow the user to set the state to the existing state (unless)
+        // children are involved, since it may be necessary to update mixed-status items.
+        if (selectedValue !== details.state || includeChildren) {
+            try {
+                const result = await updateObjectState(
+                    stateModalActivePid,
+                    selectedValue,
+                    includeChildren ? childPidResponse.numFound : 0,
+                    setStatusMessage,
+                );
+                showSnackbarMessage(...result);
+            } catch (e) {
+                showSnackbarMessage(e.message, "error");
             }
             closeStateModal();
             setStatusMessage("");

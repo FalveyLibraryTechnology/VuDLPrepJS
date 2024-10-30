@@ -12,11 +12,14 @@ import DatastreamAgentsAddContentRow from "./DatastreamAgentsAddContentRow";
 import DatastreamAgentsModifyContentRow from "./DatastreamAgentsModifyContentRow";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import PidPicker from "../PidPicker";
 
 const DatastreamAgentsContent = (): React.ReactElement => {
     const {
-        state: { agentsCatalog, currentAgents },
-        action: { setCurrentAgents },
+        state: { agentsCatalog, currentAgents, objectDetailsStorage },
+        action: { loadObjectDetailsIntoStorage, setCurrentAgents },
     } = useEditorContext();
     const {
         action: { closeModal },
@@ -33,6 +36,32 @@ const DatastreamAgentsContent = (): React.ReactElement => {
     });
     const [hasChanges, setHasChanges] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [clonePid, setClonePid] = useState("");
+    const EDIT_TAB = 0;
+    const CLONE_TAB = 1;
+    const [tab, setTab] = useState<number>(EDIT_TAB);
+    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+        setTab(newValue);
+    };
+    const clonePidLoaded = clonePid.length > 0 && Object.prototype.hasOwnProperty.call(objectDetailsStorage, clonePid);
+    const loadClonePid = async (newClonePid: string) => {
+        if (newClonePid.length == 0) {
+            setClonePid("");
+            return;
+        }
+        if (!Object.prototype.hasOwnProperty.call(objectDetailsStorage, newClonePid)) {
+            let error = false;
+            const errorCallback = () => {
+                error = true;
+            };
+            await loadObjectDetailsIntoStorage(newClonePid, errorCallback);
+            if (error) {
+                alert(`Cannot load PID: ${newClonePid}`);
+                return;
+            }
+        }
+        setClonePid(newClonePid);
+    };
     const canSave = currentAgents.every(({ role, type, name }) => {
         return role && type && name;
     });
@@ -61,58 +90,84 @@ const DatastreamAgentsContent = (): React.ReactElement => {
         }
     }, [contentRef]);
 
+    const callGetAgents = async (overridePid: string | null = null, force = false) => {
+        const currentAgents = await getAgents(overridePid, force);
+        if (!currentAgents.length) {
+            currentAgents.push({ role, type, name, notes: [] });
+            setHasChanges(true);
+        }
+        setCurrentAgents(currentAgents);
+        setIsLoading(false);
+    };
     useEffect(() => {
-        const callGetAgents = async () => {
-            const currentAgents = await getAgents();
-            if (!currentAgents.length) {
-                currentAgents.push({ role, type, name, notes: [] });
-                setHasChanges(true);
-            }
-            setCurrentAgents(currentAgents);
-            setIsLoading(false);
-        };
         callGetAgents();
     }, []);
+    const doClone = async () => {
+        const details = objectDetailsStorage[clonePid] ?? {};
+        if ((details?.datastreams ?? []).includes("AGENTS")) {
+            setIsLoading(true);
+            await callGetAgents(clonePid, true);
+        } else {
+            alert(`${clonePid} does not contain an AGENTS datastream.`);
+        }
+        setTab(EDIT_TAB);
+        setClonePid("");
+    };
     return (
         <>
-            <Grid container spacing={1} sx={{ padding: "20px 24px" }}>
-                <Grid container item xs={3}>
-                    Role
-                </Grid>
-                <Grid container item xs={3}>
-                    Type
-                </Grid>
-                <Grid container item xs={5}>
-                    Name
-                </Grid>
-                <Grid container item xs={1}>
-                    Actions
-                </Grid>
-            </Grid>
-
             <DialogContent sx={{ width: "100%", minHeight: "50vh" }} ref={contentRef}>
                 {isLoading ? (
                     <Box display="flex" justifyContent="center" alignItems="center" minHeight="50vh">
                         <CircularProgress />
                     </Box>
                 ) : (
-                    <Grid container spacing={1}>
-                        {currentAgents.map((agent, index) => {
-                            return (
-                                <DatastreamAgentsModifyContentRow
-                                    key={index}
-                                    agent={agent}
-                                    index={index}
+                    <>
+                        <Box sx={{ borderBottom: 1, borderColor: "divider", marginBottom: "1em" }}>
+                            <Tabs value={tab} onChange={handleTabChange}>
+                                <Tab label="Editor" />
+                                <Tab label="Clone" />
+                            </Tabs>
+                        </Box>
+                        <div style={{ display: tab == EDIT_TAB ? "block" : "none" }}>
+                            <Grid container spacing={1} sx={{ padding: "20px 24px" }}>
+                                <Grid container item xs={3}>
+                                    Role
+                                </Grid>
+                                <Grid container item xs={3}>
+                                    Type
+                                </Grid>
+                                <Grid container item xs={5}>
+                                    Name
+                                </Grid>
+                                <Grid container item xs={1}>
+                                    Actions
+                                </Grid>
+                            </Grid>
+                            <Grid container spacing={1}>
+                                {currentAgents.map((agent, index) => {
+                                    return (
+                                        <DatastreamAgentsModifyContentRow
+                                            key={index}
+                                            agent={agent}
+                                            index={index}
+                                            setHasChanges={setHasChanges}
+                                        />
+                                    );
+                                })}
+                                <DatastreamAgentsAddContentRow
+                                    agent={addAgent}
+                                    setAgent={setAddAgent}
                                     setHasChanges={setHasChanges}
                                 />
-                            );
-                        })}
-                        <DatastreamAgentsAddContentRow
-                            agent={addAgent}
-                            setAgent={setAddAgent}
-                            setHasChanges={setHasChanges}
-                        />
-                    </Grid>
+                            </Grid>
+                        </div>
+                        <div style={{ display: tab == CLONE_TAB ? "block" : "none" }}>
+                            <div>
+                                <PidPicker selected={clonePid} setSelected={loadClonePid} />
+                            </div>
+                            {clonePidLoaded ? <button onClick={doClone}>Clone</button> : null}
+                        </div>
+                    </>
                 )}
             </DialogContent>
             <Divider />

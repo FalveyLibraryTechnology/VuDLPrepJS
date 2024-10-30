@@ -5,7 +5,7 @@ interface NextFunction {
 }
 
 export const defaultSanitizeRegEx = /^[-.a-zA-Z0-9_]+$/;
-export const pidSanitizeRegEx = /^[a-zA-Z]+:[0-9]+/;
+export const pidSanitizeRegEx = /^[a-zA-Z]+:[0-9]+$/;
 
 export function sanitizeParameters(customRules = {}, defaultRule = defaultSanitizeRegEx) {
     return function (req: Request, res: Response, next: NextFunction) {

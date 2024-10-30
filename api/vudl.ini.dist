@@ -29,6 +29,12 @@ collection = "Digital Library"
 top_level_pids[] = "vudl:1"
 top_level_pids[] = "vudl:3"
 
+# The trash PID should be an Inactive Folder created inside your Holding Area.
+# When set, this PID will be automatically included in the "favorite PIDs" List,
+# will enable smarter delete buttons, and will be given special exemption from
+# standard containment rules to allow anything to be moved there.
+#trash_pid = "vudl:xxx"
+
 # Settings for Tesseract OCR
 tesseract_path = "/usr/local/bin/tesseract"
 
@@ -99,7 +105,8 @@ articles_to_strip[] = "an "
 articles_to_strip[] = "the "
 
 # "Favorite PIDs" that should be displayed in the "edit parents" dialog box.
-# Useful for "trash can" and "in progress" holding area.
+# Useful for example, to create an "in progress" holding area. See the trash_pid
+# setting above for a separate way to add your trash can to favorites.
 #favorite_pids[] = "vudl:1234"
 #favorite_pids[] = "vudl:1235"
 
@@ -362,9 +369,12 @@ uri = "http://creativecommons.org/licenses/by-nc-sa/4.0/"
 [licenses.ATTRIBUTION_NON_COMMERCIAL_NO_DERIVS]
 name = "Attribution-NonCommercial-NoDerivs"
 uri = "http://creativecommons.org/licenses/by-nc-nd/4.0/"
-[licenses.PUBLIC_DOMAIN]
+[licenses.CC0]
 name = "CC0 1.0 Universal (Public Domain)"
 uri = "https://creativecommons.org/publicdomain/zero/1.0/"
+[licenses.PUBLIC_DOMAIN]
+name = "Public Domain Mark"
+uri = "https://creativecommons.org/public-domain/pdm/"
 
 # Agent
 [agent]

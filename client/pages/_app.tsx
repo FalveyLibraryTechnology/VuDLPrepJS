@@ -19,10 +19,8 @@ function MyApp({ Component, pageProps }: { Component: React.ReactNode }): React.
     return (
         <GlobalContextProvider>
             <PaginatorContextProvider>
-                <div className="logout">
-                    <LogoutButton />
-                </div>
                 <FetchContextProvider>
+                    <LogoutButton />
                     <Component {...pageProps} />
                 </FetchContextProvider>
             </PaginatorContextProvider>

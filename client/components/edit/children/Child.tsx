@@ -10,15 +10,27 @@ import { extractFirstMetadataValue } from "../../../util/metadata";
 import ObjectLoader from "../ObjectLoader";
 import ObjectButtonBar from "../ObjectButtonBar";
 import ObjectThumbnail from "../ObjectThumbnail";
+import CopyPidButton from "../CopyPidButton";
+import ObjectChildCounts from "../ObjectChildCounts";
+import ObjectModels from "../ObjectModels";
 
 export interface ChildProps {
     pid: string;
     parentPid?: string;
     initialTitle: string;
     thumbnail?: boolean;
+    models?: boolean;
+    showChildCounts?: boolean;
 }
 
-export const Child = ({ pid, parentPid = "", initialTitle, thumbnail = false }: ChildProps): React.ReactElement => {
+export const Child = ({
+    pid,
+    parentPid = "",
+    initialTitle,
+    thumbnail = false,
+    models = false,
+    showChildCounts = false,
+}: ChildProps): React.ReactElement => {
     const {
         state: { objectDetailsStorage },
     } = useEditorContext();
@@ -36,25 +48,39 @@ export const Child = ({ pid, parentPid = "", initialTitle, thumbnail = false }: 
             }
         </span>
     );
-    const childList = expanded ? <ChildList pid={pid} pageSize={10} forceThumbs={thumbnail} /> : "";
-    const thumbnailDisplay = thumbnail ? (
+    const childList = expanded ? (
+        <ChildList
+            pid={pid}
+            pageSize={10}
+            forceChildCounts={showChildCounts}
+            forceModels={models}
+            forceThumbs={thumbnail}
+        />
+    ) : (
+        ""
+    );
+    const hasExtraTools = thumbnail || models || showChildCounts;
+    const extraTools = hasExtraTools ? (
         <Grid item xs={1}>
-            <ObjectThumbnail pid={pid} />
+            {thumbnail ? <ObjectThumbnail pid={pid} /> : ""}
+            {showChildCounts ? <ObjectChildCounts pid={pid} /> : ""}
+            {models ? <ObjectModels pid={pid} /> : ""}
         </Grid>
     ) : null;
     return (
         <>
             <Grid container className="child__container">
-                <Grid item xs={thumbnail ? 7 : 8} className="child__label">
+				<Grid item xs={hasExtraTools ? 7 : 8} className="child__label">
                     {expandControl}
                     {loaded && parentPid ? <ChildPosition pid={pid} parentPid={parentPid} /> : ""}
-                    <Link href={"/edit/object/" + pid}>{(title.length > 0 ? title : "-") + " [" + pid + "]"}</Link>
+                    <Link href={"/edit/object/" + pid}>{(title.length > 0 ? title : "-") + ` [${pid}]`}</Link>{" "}
+                    <CopyPidButton pid={pid} />
                 </Grid>
                 <Grid item xs={4}>
                     {loaded ? <ObjectButtonBar pid={pid} /> : ""}
                     <ObjectLoader pid={pid} />
                 </Grid>
-                {thumbnailDisplay}
+                {extraTools}
             </Grid>
             {childList}
         </>

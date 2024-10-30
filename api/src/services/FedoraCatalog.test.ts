@@ -12,7 +12,7 @@ describe("FedoraCatalog", () => {
         let solrParams;
 
         beforeEach(() => {
-            config = new Config({ favorite_pids: ["foo:123", "foo:124"] });
+            config = new Config({ favorite_pids: ["foo:123", "foo:124"], trash_pid: "foo:999" });
             solr = {
                 query: jest.fn(),
             };
@@ -43,6 +43,7 @@ describe("FedoraCatalog", () => {
                 },
                 dublinCoreFields: {},
                 favoritePids: {},
+                trashPid: null,
                 licenses: {},
                 models: {},
                 processMetadataDefaults: {},
@@ -64,7 +65,9 @@ describe("FedoraCatalog", () => {
                 favoritePids: {
                     "foo:123": "foo:123",
                     "foo:124": "foo:124",
+                    "foo:999": "foo:999",
                 },
+                trashPid: "foo:999",
                 licenses: {},
                 models: {},
                 processMetadataDefaults: {},
@@ -78,7 +81,15 @@ describe("FedoraCatalog", () => {
 
         it("returns a catalog based on the configuration, utilizing non-empty Solr PIDS response", async () => {
             solrResponse = {
-                body: { response: { docs: [{ id: "foo:123" }, { id: "foo:124", title: "second title" }] } },
+                body: {
+                    response: {
+                        docs: [
+                            { id: "foo:123" },
+                            { id: "foo:124", title: "second title" },
+                            { id: "foo:999", title: "Trash" },
+                        ],
+                    },
+                },
             };
             const expectedCatalog = {
                 agents: {
@@ -90,7 +101,9 @@ describe("FedoraCatalog", () => {
                 favoritePids: {
                     "foo:123": "- [foo:123]", // test missing title in Solr response
                     "foo:124": "second title [foo:124]",
+                    "foo:999": "Trash [foo:999]",
                 },
+                trashPid: "foo:999",
                 licenses: {},
                 models: {},
                 processMetadataDefaults: {},
@@ -101,8 +114,8 @@ describe("FedoraCatalog", () => {
             const catalog = new FedoraCatalog(config, solr);
             expect(await catalog.getCompleteCatalog()).toEqual(expectedCatalog);
             expect(core).toEqual("biblio");
-            expect(query).toEqual('id:"foo:123" OR id:"foo:124"');
-            expect(solrParams).toEqual({ fl: "id,title", rows: "2" });
+            expect(query).toEqual('id:"foo:123" OR id:"foo:124" OR id:"foo:999"');
+            expect(solrParams).toEqual({ fl: "id,title", rows: "3" });
         });
     });
 });

@@ -335,6 +335,182 @@ exports[`PidPicker renders correctly with parents 1`] = `
 ]
 `;
 
+exports[`PidPicker renders correctly with recent PIDs 1`] = `
+[
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
+  >
+    AccordionSummary: "Enter PID manually"
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
+    >
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+      >
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+        >
+          <div
+            className="MuiAccordion-region"
+            role="region"
+          >
+            <div
+              className="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              <label>
+                Enter PID:
+                 
+                <input
+                  onChange={[Function]}
+                  type="text"
+                  value=""
+                />
+              </label>
+              <button
+                onClick={[Function]}
+              >
+                Set
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
+  >
+    AccordionSummary: "Choose PID from Tree"
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
+    >
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+      >
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+        >
+          <div
+            className="MuiAccordion-region"
+            role="region"
+          >
+            <div
+              className="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              ChildList
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
+  >
+    AccordionSummary: "Choose PID from Favorites"
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
+    >
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+      >
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+        >
+          <div
+            className="MuiAccordion-region"
+            role="region"
+          >
+            <div
+              className="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              <ul>
+                <li>
+                  <button
+                    onClick={[Function]}
+                  >
+                    first test
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={[Function]}
+                  >
+                    second test
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiAccordion-root MuiAccordion-rounded MuiAccordion-gutters css-1086bdv-MuiPaper-root-MuiAccordion-root"
+  >
+    AccordionSummary: "Choose PID from Recently Viewed"
+    <div
+      className="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+      style={
+        {
+          "minHeight": "0px",
+        }
+      }
+    >
+      <div
+        className="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+      >
+        <div
+          className="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+        >
+          <div
+            className="MuiAccordion-region"
+            role="region"
+          >
+            <div
+              className="MuiAccordionDetails-root css-15v22id-MuiAccordionDetails-root"
+            >
+              <ul>
+                <li>
+                  <button
+                    onClick={[Function]}
+                  >
+                    first test
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={[Function]}
+                  >
+                    second test
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
 exports[`PidPicker renders correctly without favorite PIDs 1`] = `
 [
   <div

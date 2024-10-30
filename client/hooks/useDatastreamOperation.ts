@@ -273,10 +273,13 @@ const useDatastreamOperation = () => {
         }
         return  "";
     };
-    const getProcessMetadata = async (): Promise<object> => {
-        if(currentDatastreams.includes(activeDatastream)) {
+    const getProcessMetadata = async (overridePid: string | null = null, force = false): Promise<object> => {
+        // We should only try to fetch the data if we know the datastream is available; if there's an
+        // overridePid provided, however, we can't check as easily, so we need to have an upstream check
+        // and use the force flag to bypass the currentDatastreams check.
+        if(force || currentDatastreams.includes(activeDatastream)) {
             try {
-                return await fetchJSON(objectDatastreamProcessMetadataUrl(currentPid, activeDatastream));
+                return await fetchJSON(objectDatastreamProcessMetadataUrl(overridePid ?? currentPid, activeDatastream));
             } catch(err) {
                 setSnackbarState({
                     open: true,
@@ -287,10 +290,13 @@ const useDatastreamOperation = () => {
         }
         return processMetadataDefaults;
     };
-    const getAgents = async (): Promise<Array<object>> => {
-        if(currentDatastreams.includes(activeDatastream)) {
+    const getAgents = async (overridePid: string | null = null, force = false): Promise<Array<object>> => {
+        // We should only try to fetch the data if we know the datastream is available; if there's an
+        // overridePid provided, however, we can't check as easily, so we need to have an upstream check
+        // and use the force flag to bypass the currentDatastreams check.
+        if(force || currentDatastreams.includes(activeDatastream)) {
             try {
-                return await fetchJSON(objectDatastreamAgentsUrl(currentPid, activeDatastream));
+                return await fetchJSON(objectDatastreamAgentsUrl(overridePid ?? currentPid, activeDatastream));
             } catch(err) {
                 setSnackbarState({
                     open: true,

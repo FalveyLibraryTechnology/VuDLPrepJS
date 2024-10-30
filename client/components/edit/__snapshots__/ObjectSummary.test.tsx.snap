@@ -17,6 +17,10 @@ exports[`ObjectSummary displays loading message when appropriate 1`] = `
     Loading...
   </h2>
   <div />
+  PID: 
+  foo:123
+   
+  CopyPidButton
   <br
     style={
       {
@@ -39,6 +43,7 @@ exports[`ObjectSummary renders information from metadata when available 1`] = `
     }
   >
     ObjectThumbnail
+    ObjectModels
   </div>
   <h2>
     My title
@@ -54,6 +59,11 @@ exports[`ObjectSummary renders information from metadata when available 1`] = `
   </div>
   ObjectButtonBar
   ObjectOrder
+  ObjectChildCounts
+  PID: 
+  foo:123
+   
+  CopyPidButton
   <br
     style={
       {

@@ -13,7 +13,7 @@ const SinglePidIndexer = ({ setResults }: SinglePidIndexerProps): React.ReactEle
     const doApiCall = async (method: string) => {
         setResults("Loading...");
         try {
-            setResults(await fetchText(`${baseUrl}/messenger/solrindex/${encodeURIComponent(pid)}`, { method }));
+            setResults(await fetchText(`${baseUrl}/messenger/solrindex/${encodeURIComponent(pid.trim())}`, { method }));
         } catch (error) {
             setResults(error.message);
         }
