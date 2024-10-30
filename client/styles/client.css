@@ -203,14 +203,3 @@ label input[type="radio"] {
     color: var(--tree-item-focus-text);
     background-color: var(--tree-item-focus-bg);
 }
-
-.child__container {
-    align-items: center;
-}
-.child__label {
-    display: flex;
-    align-items: center;
-}
-.child__expand-icon {
-    vertical-align: bottom;
-}
