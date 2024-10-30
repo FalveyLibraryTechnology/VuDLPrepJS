@@ -1,1 +1,20 @@
+/*
 .row:after,.row:before{clear:both;content:"";display:table}.col,.row{box-sizing:border-box;width:100%}.col{float:left}.col.one{width:8.333%}.col.two{width:16.666%}.col.three{width:25%}.col.four{width:33.333%}.col.five{width:41.666%}.col.six{width:50%}.col.seven{width:58.333%}.col.eight{width:66.666%}.col.nine{width:75%}.col.ten{width:83.333%}.col.eleven{width:91.666%}@media(max-width:600px){.row:not(.static)>.col{width:100%}}
+*/
+
+.row {
+    display: flex;
+    width: 100%;
+}
+.col.one    { flex:  1  1 0%; }
+.col.two    { flex:  2  2 0%; }
+.col.three  { flex:  3  3 0%; }
+.col.four   { flex:  4  4 0%; }
+.col.five   { flex:  5  5 0%; }
+.col.six    { flex:  6  6 0%; }
+.col.seven  { flex:  7  7 0%; }
+.col.eight  { flex:  8  8 0%; }
+.col.nine   { flex:  9  9 0%; }
+.col.ten    { flex: 10 10 0%; }
+.col.eleven { flex: 11 11 0%; }
+.col.twelve { flex: 12 12 0%; }

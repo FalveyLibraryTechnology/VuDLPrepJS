@@ -6,11 +6,20 @@ interface SnackbarState {
     severity: string
 }
 
+
+export enum ThemeOption {
+    system = "system",
+    light = "light",
+    dark = "dark",
+};
+
 interface GlobalState {
     // Modal control
     modalOpenStates: Record<string, boolean>;
     // Snackbar
     snackbarState: SnackbarState;
+    // User theme
+    userTheme: ThemeOption,
 }
 
 /**
@@ -26,12 +35,15 @@ const initialGlobalState: GlobalState = {
         message: "",
         severity: "info",
     },
+    // User theme
+    userTheme: localLoadUserTheme(),
 };
 
 type Action =
     | { type: 'OPEN_MODAL'; payload: string }
     | { type: 'CLOSE_MODAL'; payload: string }
-    | { type: 'SET_SNACKBAR_STATE'; payload: SnackbarState };
+    | { type: 'SET_SNACKBAR_STATE'; payload: SnackbarState }
+    | { type: 'SET_USER_THEME'; payload: ThemeOption };
 
 /**
  * Update the shared states of react components.
@@ -127,11 +139,23 @@ export const useGlobalContext = () => {
         });
     };
 
+    // User theme
+
+    const setUserTheme = (userTheme: ThemeOption) => {
+        localSaveUserTheme(userTheme);
+        applyUserThemeToBody(userTheme);
+        dispatch({
+            type: "SET_USER_THEME",
+            payload: userTheme,
+        });
+    };
+
     return {
         state: {
             // only return limited state
             // to create "private" attributes
             snackbarState: state.snackbarState,
+            userTheme: state.userTheme,
         },
         action: {
             // Modal control
@@ -141,6 +165,8 @@ export const useGlobalContext = () => {
             toggleModal,
             // Snackbar
             setSnackbarState,
+            // User theme
+            setUserTheme,
         },
     };
 }
@@ -148,4 +174,51 @@ export const useGlobalContext = () => {
 export default {
     GlobalContextProvider,
     useGlobalContext
+}
+
+/* User Theme */
+
+// Get system theme from CSS media queries
+function systemTheme(): ThemeOption {
+    let defaultTheme = "light" as ThemeOption;
+
+    if (typeof window != "undefined" && typeof window.matchMedia != "undefined") {
+        if (window.matchMedia("(prefers-color-scheme)").media == "not all") {
+            return defaultTheme;
+        }
+
+        const isDark = !window.matchMedia("(prefers-color-scheme: light)").matches;
+        return (isDark ? "dark" : "light")  as ThemeOption;
+    }
+
+    return defaultTheme;
+}
+
+function applyUserThemeToBody(userTheme: ThemeOption) {
+    if (typeof window != "undefined") {
+        document.body.setAttribute(
+            "color-scheme",
+            userTheme == "system" ? systemTheme() : userTheme
+        );
+    }
+}
+
+// Save page theme to localStorage
+function localSaveUserTheme(mediaTheme: ThemeOption) {
+    if (typeof window != "undefined") {
+        localStorage.setItem("vudl-theme", mediaTheme);
+    }
+}
+
+// Get page theme from localStorage
+function localLoadUserTheme(): ThemeOption {
+    if (typeof window != "undefined") {
+        let mediaTheme = (localStorage.getItem("vudl-theme") ?? "system") as ThemeOption;
+
+        applyUserThemeToBody(mediaTheme);
+
+        return mediaTheme;
+    }
+
+    return "system" as ThemeOption;
 }

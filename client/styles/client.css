@@ -1,16 +1,15 @@
 p {
-    padding: 0 12px;
+    padding: 0 1rem;
     width: 100%;
-    margin-bottom: 9px;
+    margin-block: 1rem;
 }
 .controls {
     margin-top: 0px;
-    padding: 0 8px;
 }
 .top {
     position: absolute;
-    top: 41px;
-    right: 8px;
+    top: 3.5rem;
+    right: 1rem;
 }
 .top button {
     margin: 0 2px;
@@ -23,23 +22,24 @@ p {
 }
 input {
     padding: 2px;
-    border: 1px solid #6a737d;
+    background-color: var(--input-bg) !important;
+    border: 1px solid var(--input-border);
     border-radius: 4px;
 }
 input:focus {
-    border-color: #2188ff;
-    outline-color: #2188ff;
-    box-shadow: 0 0 0 4px #c8e1ff;
+    border-color: var(--input-focus-border);
+    outline-color: var(--input-focus-border);
+    box-shadow: 0 0 0 4px var(--shadow-gray);
 }
 .status {
     padding: 0;
-    padding-top: 5px;
+/*    padding-top: 5px;*/
 }
 .group input[type="text"] {
     height: auto;
     margin-right: 3px;
     padding: 6px;
-    border: 1px solid #53626f;
+    border: 1px solid var(--group-border);
     border-radius: 2px;
 }
 
@@ -54,7 +54,7 @@ label {
     cursor: pointer;
 }
 label:hover {
-    background-color: #c8e1ff;
+    background-color: var(--label-hover);
 }
 label input[type="text"],
 label input[type="number"],
@@ -79,8 +79,7 @@ label input[type="radio"] {
 }
 .group button {
     margin: 0;
-    border-right: 1px solid #ececec;
-    color: #fff;
+    border-right: 1px solid var(--group-border);
     border-radius: 0;
 }
 .group input[type="text"] + button,
@@ -101,14 +100,14 @@ label input[type="radio"] {
 .toggles button,
 .toggles + button {
     padding: 5px 40px;
-    background-color: #7f8c8d;
-    border-color: #34495e;
+    background-color: var(--btn-toggle-bg);
+    border-color: var(--btn-toggle-border);
 }
 .toggles button:hover,
 .toggles + button:hover,
 .toggles button:focus,
 .toggles + button:focus {
-    background-color: #53626f;
+    background-color: var(--btn-toggle-focus-bg);
 }
 
 .group#prefixes button {
@@ -128,8 +127,8 @@ label input[type="radio"] {
     margin-left: 8px;
     padding: 4px;
     padding-bottom: 400px;
-    border: 1px solid #c1c1c1;
-    background-color: #fff;
+    border: 1px solid var(--page-list-border);
+    background-color: var(--page-list-bg);
     border-radius: 6px 0 0 6px;
 }
 .thumbnail {
@@ -141,15 +140,19 @@ label input[type="radio"] {
     height: 202px;
     margin: 2px;
     padding: 4px;
-    background: #e1e1e1;
     font-weight: 400;
+    color: var(--thumbnail-label);
     text-align: center;
-    text-shadow: 0 1px 0 #fff;
+    background-color: var(--thumbnail-bg);
+    border-radius: 0.25rem;
     cursor: pointer;
     word-break: break-all;
 }
+[color-scheme="light"] .thumbnail {
+    text-shadow: 0 1px 0 #fff;
+}
 .thumbnail.selected {
-    background: #51aded;
+    background-color: var(--thumbnail-focus-bg);
 }
 .thumbnail img {
     display: block;
@@ -173,10 +176,11 @@ label input[type="radio"] {
     display: table;
     top: 0;
     left: 0;
-    padding: 2px;
+    padding-inline: 4px;
     font-size: 10px;
-    background: #fff;
-    color: #000;
+    font-weight: 700;
+    background-color: var(--thumbnail-number-bg);
+    color: var(--thumbnail-number-text);
 }
 .preview,
 #zoomy {
@@ -191,11 +195,11 @@ label input[type="radio"] {
 }
 
 .preview img {
-  border: 1px solid black;
+  border: 1px solid var(--thumbnail-preview-border);
 }
 
 .MuiTreeItem-root.Mui-selected,
 .MuiTreeItem-root.Mui-selected:hover {
-    color: #fff;
-    background-color: #000;
+    color: var(--tree-item-focus-text);
+    background-color: var(--tree-item-focus-bg);
 }

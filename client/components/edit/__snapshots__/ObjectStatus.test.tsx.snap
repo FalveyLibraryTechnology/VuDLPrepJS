@@ -12,7 +12,11 @@ exports[`ObjectStatus defaults to unknown state 1`] = `
       ◉
     </span>
      
-    Unknown
+    <span
+      className="indicator__label"
+    >
+      Unknown
+    </span>
   </button>,
   ",",
 ]
@@ -30,7 +34,11 @@ exports[`ObjectStatus displays the state found in the response 1`] = `
       ◉
     </span>
      
-    Inactive
+    <span
+      className="indicator__label"
+    >
+      Inactive
+    </span>
   </button>,
   ",",
 ]

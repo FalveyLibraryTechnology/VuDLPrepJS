@@ -27,7 +27,7 @@ export const ObjectStatus = ({ pid }: ObjectStatusProps): React.ReactElement => 
     const stateMsg = loaded ? (
         <button onClick={clickAction} className={styles[stateTxt.toLowerCase()]}>
             <span className={styles.indicator}>&#9673;</span>&nbsp;
-            {stateTxt}
+            <span className={styles.indicator__label}>{stateTxt}</span>
         </button>
     ) : (
         ""

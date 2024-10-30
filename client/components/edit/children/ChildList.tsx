@@ -4,6 +4,7 @@ import { useEditorContext } from "../../../context/EditorContext";
 import Child from "./Child";
 import SelectableChild from "./SelectableChild";
 import CircularProgress from "@mui/material/CircularProgress";
+import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
 
 export interface ChildListProps {
@@ -88,38 +89,34 @@ export const ChildList = ({
                 {showThumbs ? "Hide Thumbnails" : "Show Thumbnails"}
             </button>
         ) : null;
-    const contents =
-        childDocs.length > 0 ? (
-            childDocs.map((child: Record<string, string>) => {
-                return (
-                    <li key={`${pid}_child_${child.id}`}>
-                        {selectCallback === false ? (
-                            <Child
-                                pid={child.id}
-                                parentPid={pid}
-                                initialTitle={child.title ?? "-"}
-                                thumbnail={forceThumbs ?? showThumbs}
-                                models={forceModels ?? showModels}
-                                showChildCounts={forceChildCounts ?? showChildCounts}
-                            />
-                        ) : (
-                            <SelectableChild
-                                pid={child.id}
-                                selectCallback={selectCallback}
-                                initialTitle={child.title ?? "-"}
-                                thumbnail={forceThumbs ?? showThumbs}
-                            />
-                        )}
-                    </li>
-                );
-            })
-        ) : (
-            <p>Empty.</p>
-        );
+    const contents = childDocs.map((child: Record<string, string>) => {
+			return (
+				<li key={`${pid}_child_${child.id}`}>
+					{selectCallback === false ? (
+						<Child
+							pid={child.id}
+							parentPid={pid}
+							initialTitle={child.title ?? "-"}
+							thumbnail={forceThumbs ?? showThumbs}
+							models={forceModels ?? showModels}
+							showChildCounts={forceChildCounts ?? showChildCounts}
+						/>
+					) : (
+						<SelectableChild
+							pid={child.id}
+							selectCallback={selectCallback}
+							initialTitle={child.title ?? "-"}
+							thumbnail={forceThumbs ?? showThumbs}
+						/>
+					)}
+				</li>
+			);
+		});
     const pageCount = Math.ceil(children.numFound / pageSize);
     const paginator =
         pageCount > 1 ? (
             <Pagination
+                sx={{ ml: 3 }}
                 count={pageCount}
                 page={page}
                 siblingCount={2}
@@ -135,20 +132,26 @@ export const ChildList = ({
     const endNumber = startNumber + pageSize - 1;
     const paginatorLabel =
         children.numFound > 1 ? (
-            <p>
+            <>
                 Showing {startNumber} - {children.numFound < endNumber ? children.numFound : endNumber} of{" "}
                 {children.numFound}
-            </p>
+            </>
         ) : null;
     return (
-        <>
+        <div className={styles.childlist}>
             {thumbsButton}
             {modelsButton}
             {childButton}
-            {paginatorLabel}
-            {paginator}
-            <ul className={styles.childlist}>{contents}</ul>
-        </>
+			<Grid container sx={{ spacing: 2, alignItems: "center" }}>
+				<Grid item xs="auto">
+					{paginatorLabel}
+				</Grid>
+				<Grid item xs="auto">
+					{paginator}
+				</Grid>
+			</Grid>
+            <ul className={styles.childlist__list}>{contents.length ? contents : <em>Empty.</em>}</ul>
+        </div>
     );
 };
 

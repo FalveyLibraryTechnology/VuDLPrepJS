@@ -20,7 +20,7 @@ const ObjectButtonBar = ({ pid }: ObjectButtonBarProps): React.ReactElement => {
             <ObjectStatus pid={pid} />
             <EditParentsButton pid={pid} />
             <button onClick={() => clearPidFromChildListStorage(pid)}>
-                <Refresh style={{ height: "14px" }} titleAccess="Refresh children" />
+                <Refresh style={{ height: "20px", verticalAlign: "sub" }} titleAccess="Refresh children" />
             </button>
             <ObjectPreviewButton pid={pid} />
             <DeleteObjectButton pid={pid} />

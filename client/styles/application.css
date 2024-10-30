@@ -1,28 +1,50 @@
+html {
+    font-size: 16px;
+}
+
 body {
-    background: #fafbfc;
-    font-size: 14px;
-    font-family: "Roboto", Arial;
+    padding-inline: 1rem;
+    font-size: 1rem;
+    font-family: var(--family-sans);
     font-weight: 500;
+    line-height: 1.5;
+    color: var(--body-color);
+    background-color: var(--body-bg);
     overflow-x: hidden;
+}
+
+a {
+    color: var(--link-color);
+}
+a:hover,
+a:focus {
+    color: var(--heading-color);
+}
+a:visited {
+    color: var(--link-visited);
+}
+
+a,
+button {
+    font-weight: 500;
 }
 
 .hidden {
     display: none;
 }
 
-#jobSelector {
-    margin-left: 1rem;
+h1, h2, h3, h4 {
+    color: var(--heading-color);
 }
 
 h2 {
     margin-top: 2rem;
     margin-bottom: 0;
     font-size: 1.6rem;
-    color: #4d4d4d;
 }
 
 ul {
-    margin-top: 0.25rem;
+    margin-block: 1rem;
     padding-left: 1rem;
     list-style-position: inside;
 }
@@ -34,12 +56,12 @@ button,
 .button {
     display: inline-block;
     margin: 0 2px;
-    padding: 4px 10px;
+    padding: 6px 10px;
     border: 0;
-    color: #fff;
-    line-height: 1.5;
+    color: var(--btn-text);
+    line-height: 1.15;
     text-decoration: none;
-    background-color: #485a6c;
+    background-color: var(--btn-bg);
     cursor: pointer;
     border-radius: 5px;
 }
@@ -50,33 +72,33 @@ button.active,
 .button:hover,
 .button:focus,
 .button.active {
-    background-color: #3498db;
-    border-color: #275575;
+    background-color: var(--btn-focus-bg);
+    border-color: var(--btn-border);
 }
 
 button.primary,
 .button.primary {
-    background-color: #27ae60;
-    border-color: #13562f;
-    color: #fff;
+    background-color: var(--btn-primary-bg);
+    border-color: var(--btn-primary-border);
+    color: var(--btn-primary-text);
 }
 button.primary:hover,
 .button.primary:hover,
 button.primary:focus,
 .button.primary:focus {
-    background-color: #155724;
+    background-color: var(--btn-primary-focus-bg);
 }
 
 button.danger,
 .button.danger {
-    background-color: red;
+    background-color: var(--btn-danger-bg);
     margin-left: 20px;
 }
 button.danger:hover,
 .button.danger:hover,
 button.danger:focus,
 .button.danger:focus {
-    background-color: #a10705;
+    background-color: var(--btn-danger-focus-bg);
 }
 
 button.btn-link {
@@ -84,18 +106,52 @@ button.btn-link {
     padding: 0 0.25rem;
     border-color: transparent;
     font-weight: bold;
-    color: #008aed;
+    color: var(--link-color);
     text-decoration: underline;
     background-color: transparent;
     box-shadow: none;
 }
 
-.logout {
+/* Layout */
+
+#jobSelector {
+    margin-left: 1rem;
+}
+
+.nav--right {
     position: absolute;
     top: 12px;
     right: 8px;
+    display: flex;
+    gap: 0.25rem;
 }
+
+.user-theme__menu {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
+}
+#user-theme {
+    min-height: auto;
+    padding-block: 6px;
+    line-height: 1.25rem;
+    background-color: var(--input-bg);
+}
+#user-theme__label {
+    position: relative;
+    width: fit-content;
+    transform: none;
+    transition: none;
+}
+
 .logout .button {
-    background: #1abc9c;
-    border-color: #16a085;
+    color: var(--btn-text);
+    background-color: var(--btn-logout-bg);
+    border-color: var(--btn-logout-border);
+}
+.logout .button:hover,
+.logout .button:focus {
+    background-color: var(--btn-logout-focus-bg);
 }

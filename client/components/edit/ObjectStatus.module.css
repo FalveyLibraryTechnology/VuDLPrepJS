@@ -1,19 +1,29 @@
+.active,
+.inactive,
+.deleted,
+.unknown {
+    display: inline-flex;
+    width: 100px;
+    text-align: left;
+}
+
+.indicator__label {
+    flex: 1 1 0%;
+    text-align: center;
+}
+
 .active .indicator {
-    color: green;
+    color: var(--object-status-active);
 }
 
 .inactive .indicator {
-    color: yellow;
+    color: var(--object-status-inactive);
 }
 
 .deleted .indicator {
-    color: red;
+    color: var(--object-status-deleted);
 }
 
 .unknown .indicator {
-    color: gray;
-}
-
-.indicator {
-    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+    color: var(--object-status-unknown);
 }

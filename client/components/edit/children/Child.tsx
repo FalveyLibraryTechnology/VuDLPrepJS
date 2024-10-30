@@ -1,3 +1,4 @@
+import styles from "./ChildList.module.css";
 import React, { useState } from "react";
 import { useEditorContext } from "../../../context/EditorContext";
 import ChildList from "./ChildList";
@@ -41,7 +42,11 @@ export const Child = ({
     const title = !loaded ? initialTitle : extractFirstMetadataValue(details?.metadata ?? {}, "dc:title", "-");
     const expandControl = (
         <span onClick={() => setExpanded(!expanded)}>
-            {expanded ? <IndeterminateCheckBox titleAccess="Collapse Tree" /> : <AddBox titleAccess="Expand Tree" />}
+            {
+                expanded
+                    ? <IndeterminateCheckBox titleAccess="Collapse Tree" className={styles.childlist__expandicon} />
+                    : <AddBox titleAccess="Expand Tree" className={styles.childlist__expandicon} />
+            }
         </span>
     );
     const childList = expanded ? (
@@ -53,33 +58,36 @@ export const Child = ({
             forceThumbs={thumbnail}
         />
     ) : (
-        ""
+        null
     );
     const hasExtraTools = thumbnail || models || showChildCounts;
     const extraTools = hasExtraTools ? (
-        <Grid item xs={1}>
+        <Grid item xs>
             {thumbnail ? <ObjectThumbnail pid={pid} /> : ""}
             {showChildCounts ? <ObjectChildCounts pid={pid} /> : ""}
             {models ? <ObjectModels pid={pid} /> : ""}
         </Grid>
     ) : null;
     return (
-        <>
-            <Grid container>
-                <Grid item xs={hasExtraTools ? 7 : 8}>
-                    {expandControl}
+        <div className={styles.childlist__item}>
+            <Grid container sx={{ spacing: 2, alignItems: "center" }}>
+				<Grid item xs={6}>
+                    {expandControl}{" "}
                     {loaded && parentPid ? <ChildPosition pid={pid} parentPid={parentPid} /> : ""}
-                    <Link href={"/edit/object/" + pid}>{(title.length > 0 ? title : "-") + ` [${pid}]`}</Link>{" "}
-                    <CopyPidButton pid={pid} />
+                    <Link href={"/edit/object/" + pid}>{title || "(no title)"}</Link>
                 </Grid>
-                <Grid item xs={4}>
+				<Grid item xs>
+					{pid}
+					<CopyPidButton pid={pid} />
+				</Grid>
+                <Grid item xs="auto">
                     {loaded ? <ObjectButtonBar pid={pid} /> : ""}
                     <ObjectLoader pid={pid} />
                 </Grid>
                 {extraTools}
             </Grid>
             {childList}
-        </>
+        </div>
     );
 };
 

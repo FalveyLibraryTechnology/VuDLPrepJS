@@ -2,16 +2,16 @@
 
 exports[`Child handles empty titles appropriately 1`] = `
 <div
-  className="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+  className="MuiGrid-root MuiGrid-container child__container css-11lq3yg-MuiGrid-root"
 >
   <div
-    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 child__label css-vok43g-MuiGrid-root"
   >
     <span
       onClick={[Function]}
     >
       <svg
-        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium child__expand-icon css-i4bv87-MuiSvgIcon-root"
         data-testid="AddBoxIcon"
         focusable="false"
         role="img"
@@ -46,16 +46,16 @@ exports[`Child handles empty titles appropriately 1`] = `
 
 exports[`Child renders a thumbnail 1`] = `
 <div
-  className="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+  className="MuiGrid-root MuiGrid-container child__container css-11lq3yg-MuiGrid-root"
 >
   <div
-    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 css-uqwprf-MuiGrid-root"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7 child__label css-uqwprf-MuiGrid-root"
   >
     <span
       onClick={[Function]}
     >
       <svg
-        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium child__expand-icon css-i4bv87-MuiSvgIcon-root"
         data-testid="AddBoxIcon"
         focusable="false"
         role="img"
@@ -194,16 +194,16 @@ exports[`Child renders thumbnail and child counts 1`] = `
 
 exports[`Child renders using ajax-loaded data 1`] = `
 <div
-  className="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+  className="MuiGrid-root MuiGrid-container child__container css-11lq3yg-MuiGrid-root"
 >
   <div
-    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 child__label css-vok43g-MuiGrid-root"
   >
     <span
       onClick={[Function]}
     >
       <svg
-        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium child__expand-icon css-i4bv87-MuiSvgIcon-root"
         data-testid="AddBoxIcon"
         focusable="false"
         role="img"
