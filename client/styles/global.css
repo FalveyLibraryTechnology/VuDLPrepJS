@@ -1,0 +1,128 @@
+@layer reset {
+    body {
+        padding: 0;
+        font-family: var(--family-sans-serif);
+        line-height: 1.5;
+        background-color: var(--canvas);
+        color: var(--canvas-text);
+    }
+}
+
+@layer global {
+    h1 {
+        margin-block-start: 0;
+    }
+
+    h2,
+    h3,
+    h4 {
+        margin-block: 1em 1rem;
+    }
+
+    p,
+    ol,
+    ul {
+        margin-block: 1rem;
+    }
+
+    /* Focus Outlines */
+
+    :is(a, button, input, textarea, summary) {
+        --outline-size: max(2px, 0.08em);
+        --outline-style: solid;
+        --outline-color: currentColor;
+    }
+
+    /* fallback :focus styles for fallback purposes */
+    :is(a, button, input, textarea, summary):focus,
+    /* :focus-visible styles */
+    :is(a, button, input, textarea):focus-visible {
+		position: relative;
+        outline: var(--outline-size) var(--outline-style) var(--outline-color);
+        outline-offset: var(--outline-offset, var(--outline-size));
+		z-index: 100;
+    }
+
+    /* Remove fallback :focus styles when :focus-visible is available */
+    :is(a, button, input, textarea):focus:not(:focus-visible) {
+        outline: none;
+    }
+}
+
+@layer layout {
+    #__next {
+        position: relative;
+        margin: 0;
+        padding-inline: 1rem;
+        padding-block: 1px;
+    }
+
+    .logout {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+}
+
+@layer components {
+    .breadcrumbs {
+        width: fit-content;
+        margin-block: 1rem;
+        padding-inline: 1rem;
+        padding-block: 0.5rem;
+        font-size: 0.875rem;
+        list-style: none;
+        background-color: var(--panel);
+    }
+
+    .breadcrumbs li {
+        display: inline;
+    }
+
+    .breadcrumbs li:not(:first-child):before {
+        content: " > ";
+    }
+
+    button,
+    .button {
+        --outline-color: var(--button-text);
+
+        display: inline-block;
+        padding-inline: 1rem;
+        padding-block: 0.5rem;
+        color: var(--button-text);
+		line-height: normal;
+        text-decoration: none;
+        background-color: var(--button-face);
+        border: 1px solid var(--border);
+        border-radius: 0.25rem;
+        cursor: pointer;
+
+        &:hover {
+            color: var(--canvas);
+            background-color: var(--canvas-text);
+            border-color: var(--canvas-text);
+
+            --outline-color: var(--canvas-text);
+        }
+    }
+
+    .btn-primary {
+        color: var(--primary-text);
+        background-color: var(--primary);
+        border-color: var(--primary);
+
+        --outline-color: var(--primary);
+    }
+}
+
+/* MUI: better default icon size */
+svg.css-i4bv87-MuiSvgIcon-root {
+    font-size: 1em;
+    vertical-align: top;
+}
+
+/* MUI: modal */
+.css-tlc64q-MuiPaper-root-MuiDialog-paper {
+    background-color: var(--canvas);
+}

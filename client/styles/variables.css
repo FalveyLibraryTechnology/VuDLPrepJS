@@ -1,0 +1,43 @@
+:root {
+    --canvas: var(--gray-50);
+    --canvas-text: var(--gray-900);
+    --panel: var(--gray-200);
+    --border: var(--gray-400);
+
+    --text-muted: var(--gray-600);
+
+    --family-sans-serif: system-ui, ui-sans-serif, sans-serif;
+    --family-serif: ui-serif, serif;
+    --family-monospace: ui-monospace, monospace;
+
+    --primary: var(--teal-700);
+    --primary-text: white;
+
+    --secondary: var(--gray-300);
+    --secondary-text: black;
+
+    --button-face: var(--gray-100);
+    --button-text: black;
+
+    --active: var(--red-800);
+    --active-text: white;
+
+	--selected: var(--sky-300);
+	--selected-text: black;
+
+    --success: var(--green-300);
+    --success-text: var(--green-900);
+
+    --danger: var(--red-200);
+    --danger-text: var(--red-950);
+
+    --object-status-active: var(--green-800);
+    --object-status-inactive: var(--yellow-800);
+    --object-status-deleted: var(--red-800);
+    --object-status-unknown: var(--gray-600);
+
+    --object-status-active-hover: var(--green-300);
+    --object-status-inactive-hover: var(--yellow-300);
+    --object-status-deleted-hover: var(--red-300);
+    --object-status-unknown-hover: var(--gray-300);
+}

@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import type React from "react";
+import { useEffect } from "react";
+
 import JobPaginatorZoomToggle from "./JobPaginatorZoomToggle";
 import PaginatorControls from "./PaginatorControls";
 import PaginatorList from "./PaginatorList";
 import { usePaginatorContext } from "../../context/PaginatorContext";
+
+import Grid from "@mui/material/Grid";
 import Link from "next/link";
 
 interface JobPaginatorProps {
@@ -21,21 +25,22 @@ const JobPaginator = ({ initialCategory, initialJob }: JobPaginatorProps): React
     }, []);
 
     return (
-        <div id="paginator">
-            <div className="row">
-                <div className="six col">
-                    <JobPaginatorZoomToggle />
-                </div>
-                <div className="six col">
-                    <p>
-                        <Link href="/">Main Menu</Link> &gt; <Link href="/paginate">Paginator</Link> &gt; {category}{" "}
-                        &gt; {job}
-                    </p>
-                    <PaginatorControls />
-                    <PaginatorList />
-                </div>
-            </div>
-        </div>
+		<>
+			<ul className="breadcrumbs" style={{ marginBlockEnd: 0 }}>
+				<li><Link href="/">Main Menu</Link></li>
+				<li><Link href="/paginate">Paginator</Link></li>
+				<li>{category}{" "}{job}</li>
+			</ul>
+			<Grid container id="paginator">
+				<Grid item xs={6}>
+					<JobPaginatorZoomToggle />
+				</Grid>
+				<Grid item xs={6}>
+					<PaginatorControls />
+					<PaginatorList />
+				</Grid>
+			</Grid>
+		</>
     );
 };
 

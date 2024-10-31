@@ -4,12 +4,16 @@ import { GlobalContextProvider } from "../context/GlobalContext";
 import { PaginatorContextProvider } from "../context/PaginatorContext";
 import { FetchContextProvider } from "../context/FetchContext";
 
-import "../styles/normalize.css";
-import "../styles/application.css";
-import "../styles/client.css";
-import "../styles/justgrid.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
 import LogoutButton from "../components/LogoutButton";
+
+import "../styles/vendor/modern-normalize.css";
+import "../styles/vendor/colors-tailwindcss.css";
+
+import "../styles/reset.css";
+import "../styles/variables.css";
+import "../styles/global.css";
+import "../styles/job-paginator.css";
+import "../styles/object-editor.css";
 
 function MyApp({ Component, pageProps }: { Component: React.ReactNode }): React.ReactElement {
     return (

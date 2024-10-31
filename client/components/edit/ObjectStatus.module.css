@@ -1,19 +1,27 @@
 .active .indicator {
-    color: green;
+    color: var(--object-status-active);
+}
+.active:is(:hover, :focus) .indicator {
+    color: var(--object-status-active-hover);
 }
 
 .inactive .indicator {
-    color: yellow;
+    color: var(--object-status-inactive);
+}
+.inactive:is(:hover, :focus) .indicator {
+    color: var(--object-status-inactive-hover);
 }
 
 .deleted .indicator {
-    color: red;
+    color: var(--object-status-deleted);
+}
+.deleted:is(:hover, :focus) .indicator {
+    color: var(--object-status-deleted-hover);
 }
 
 .unknown .indicator {
-    color: gray;
+    color: var(--object-status-unknown);
 }
-
-.indicator {
-    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+.unknown:is(:hover, :focus) .indicator {
+    color: var(--object-status-unknown-hover);
 }

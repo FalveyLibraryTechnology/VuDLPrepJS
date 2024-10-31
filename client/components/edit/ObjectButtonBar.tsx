@@ -1,31 +1,39 @@
 import React from "react";
+import styles from "./ObjectButtonBar.module.css";
+
 import { useEditorContext } from "../../context/EditorContext";
 import ObjectPreviewButton from "./ObjectPreviewButton";
 import ObjectStatus from "./ObjectStatus";
-import Refresh from "@mui/icons-material/Refresh";
 import EditParentsButton from "./EditParentsButton";
 import DeleteObjectButton from "./DeleteObjectButton";
 
+import RefreshIcon from "@mui/icons-material/Refresh";
+
 export interface ObjectButtonBarProps {
-    pid: string;
+	pid: string;
 }
 
 const ObjectButtonBar = ({ pid }: ObjectButtonBarProps): React.ReactElement => {
-    const {
-        action: { clearPidFromChildListStorage },
-    } = useEditorContext();
+	const {
+		action: { clearPidFromChildListStorage },
+	} = useEditorContext();
 
-    return (
-        <>
-            <ObjectStatus pid={pid} />
-            <EditParentsButton pid={pid} />
-            <button onClick={() => clearPidFromChildListStorage(pid)}>
-                <Refresh style={{ height: "14px" }} titleAccess="Refresh children" />
-            </button>
-            <ObjectPreviewButton pid={pid} />
-            <DeleteObjectButton pid={pid} />
-        </>
-    );
+	return (
+		<div className={styles.objectBar}>
+			<ObjectStatus pid={pid} />
+			<EditParentsButton pid={pid} />
+			<button
+				type="button"
+				className={styles.refreshBtn}
+				onClick={() => clearPidFromChildListStorage(pid)}
+				title="Refresh children"
+			>
+				<RefreshIcon /> Refresh
+			</button>
+			<ObjectPreviewButton pid={pid} />
+			<DeleteObjectButton pid={pid} />
+		</div>
+	);
 };
 
 export default ObjectButtonBar;

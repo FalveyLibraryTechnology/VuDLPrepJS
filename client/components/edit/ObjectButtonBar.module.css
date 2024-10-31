@@ -1,0 +1,14 @@
+.objectBar {
+    display: grid;
+	grid-template-columns: repeat(4, 1fr);
+
+    & button {
+		width: 100%;
+        white-space: nowrap;
+	}
+
+	& button:not(:hover, :focus) {
+		border-color: transparent;
+		background-color: transparent;
+    }
+}
