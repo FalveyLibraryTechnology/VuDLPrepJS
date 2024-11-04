@@ -25,22 +25,28 @@ const JobPaginator = ({ initialCategory, initialJob }: JobPaginatorProps): React
     }, []);
 
     return (
-		<>
-			<ul className="breadcrumbs" style={{ marginBlockEnd: 0 }}>
-				<li><Link href="/">Main Menu</Link></li>
-				<li><Link href="/paginate">Paginator</Link></li>
-				<li>{category}{" "}{job}</li>
-			</ul>
-			<Grid container id="paginator">
-				<Grid item xs={6}>
-					<JobPaginatorZoomToggle />
-				</Grid>
-				<Grid item xs={6}>
-					<PaginatorControls />
-					<PaginatorList />
-				</Grid>
-			</Grid>
-		</>
+        <>
+            <ul className="breadcrumbs" style={{ marginBlockEnd: 0 }}>
+                <li>
+                    <Link href="/">Main Menu</Link>
+                </li>
+                <li>
+                    <Link href="/paginate">Paginator</Link>
+                </li>
+                <li>
+                    {category} {job}
+                </li>
+            </ul>
+            <Grid container id="paginator">
+                <Grid item xs={6}>
+                    <JobPaginatorZoomToggle />
+                </Grid>
+                <Grid item xs={6}>
+                    <PaginatorControls />
+                    <PaginatorList />
+                </Grid>
+            </Grid>
+        </>
     );
 };
 

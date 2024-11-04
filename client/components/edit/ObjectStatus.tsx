@@ -5,27 +5,23 @@ import { useGlobalContext } from "../../context/GlobalContext";
 import { useEditorContext } from "../../context/EditorContext";
 import ObjectLoader from "./ObjectLoader";
 
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import ModeStandbyIcon from '@mui/icons-material/ModeStandby';
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import ModeStandbyIcon from "@mui/icons-material/ModeStandby";
 
 export interface ObjectStatusProps {
     pid: string;
 }
 
 function getStatusIcon(statusText: string) {
-	switch (statusText) {
-		case "Active":
-			return <CheckCircleIcon></CheckCircleIcon>;
-		case "Inactive":
-			return <ModeStandbyIcon></ModeStandbyIcon>;
-
-	}
-	return <HelpOutlineIcon></HelpOutlineIcon>;
+    switch (statusText) {
+        case "Active":
+            return <CheckCircleIcon></CheckCircleIcon>;
+        case "Inactive":
+            return <ModeStandbyIcon></ModeStandbyIcon>;
+    }
+    return <HelpOutlineIcon></HelpOutlineIcon>;
 }
-const statusIcons = {
-	"Inactive": ModeStandbyIcon,
-};
 
 export const ObjectStatus = ({ pid }: ObjectStatusProps): React.ReactElement => {
     const {

@@ -10,30 +10,30 @@ import DeleteObjectButton from "./DeleteObjectButton";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
 export interface ObjectButtonBarProps {
-	pid: string;
+    pid: string;
 }
 
 const ObjectButtonBar = ({ pid }: ObjectButtonBarProps): React.ReactElement => {
-	const {
-		action: { clearPidFromChildListStorage },
-	} = useEditorContext();
+    const {
+        action: { clearPidFromChildListStorage },
+    } = useEditorContext();
 
-	return (
-		<div className={styles.objectBar}>
-			<ObjectStatus pid={pid} />
-			<EditParentsButton pid={pid} />
-			<button
-				type="button"
-				className={styles.refreshBtn}
-				onClick={() => clearPidFromChildListStorage(pid)}
-				title="Refresh children"
-			>
-				<RefreshIcon /> Refresh
-			</button>
-			<ObjectPreviewButton pid={pid} />
-			<DeleteObjectButton pid={pid} />
-		</div>
-	);
+    return (
+        <div className={styles.objectBar}>
+            <ObjectStatus pid={pid} />
+            <EditParentsButton pid={pid} />
+            <button
+                type="button"
+                className={styles.refreshBtn}
+                onClick={() => clearPidFromChildListStorage(pid)}
+                title="Refresh children"
+            >
+                <RefreshIcon /> Refresh
+            </button>
+            <ObjectPreviewButton pid={pid} />
+            <DeleteObjectButton pid={pid} />
+        </div>
+    );
 };
 
 export default ObjectButtonBar;

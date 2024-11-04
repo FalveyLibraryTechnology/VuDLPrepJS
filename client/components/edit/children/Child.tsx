@@ -38,27 +38,16 @@ export const Child = ({
         state: { objectDetailsStorage },
     } = useEditorContext();
     const [expanded, setExpanded] = useState<boolean>(false);
-    const loaded = Object.prototype.hasOwnProperty.call(
-        objectDetailsStorage,
-        pid,
-    );
+    const loaded = Object.prototype.hasOwnProperty.call(objectDetailsStorage, pid);
     const details = loaded ? objectDetailsStorage[pid] : {};
 
-    const title = !loaded
-        ? initialTitle
-        : extractFirstMetadataValue(details?.metadata ?? {}, "dc:title", "-");
+    const title = !loaded ? initialTitle : extractFirstMetadataValue(details?.metadata ?? {}, "dc:title", "-");
     const expandControl = (
         <span onClick={() => setExpanded(!expanded)}>
             {expanded ? (
-                <IndeterminateCheckBox
-                    titleAccess="Collapse Tree"
-                    className={styles.childlist__expandicon}
-                />
+                <IndeterminateCheckBox titleAccess="Collapse Tree" className={styles.childlist__expandicon} />
             ) : (
-                <AddBox
-                    titleAccess="Expand Tree"
-                    className={styles.childlist__expandicon}
-                />
+                <AddBox titleAccess="Expand Tree" className={styles.childlist__expandicon} />
             )}
         </span>
     );
@@ -83,12 +72,7 @@ export const Child = ({
         <div className={styles.childlist__item}>
             <Grid container spacing={2} alignItems="center">
                 <Grid item xs>
-                    {expandControl}{" "}
-                    {loaded && parentPid ? (
-                        <ChildPosition pid={pid} parentPid={parentPid} />
-                    ) : (
-                        ""
-                    )}
+                    {expandControl} {loaded && parentPid ? <ChildPosition pid={pid} parentPid={parentPid} /> : ""}
                     <Link href={"/edit/object/" + pid}>{title || "(no title)"}</Link>
                 </Grid>
                 <Grid item xs={1} className={styles.childlist__pid}>
@@ -97,7 +81,7 @@ export const Child = ({
                 <Grid item xs={1}>
                     <CopyPidButton pid={pid} />
                 </Grid>
-                <Grid item xs="auto" style={{textAlign:"right"}}>
+                <Grid item xs="auto" style={{ textAlign: "right" }}>
                     {loaded ? <ObjectButtonBar pid={pid} /> : ""}
                     <ObjectLoader pid={pid} />
                 </Grid>

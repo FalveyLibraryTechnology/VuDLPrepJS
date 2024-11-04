@@ -31,9 +31,7 @@ export const ChildList = ({
     // Use session storage to remember the last page viewed across pages/history:
     const pageStorageKey = "child_page_" + pid;
     const initialPage: string | null =
-        typeof sessionStorage !== "undefined"
-            ? sessionStorage.getItem(pageStorageKey)
-            : null;
+        typeof sessionStorage !== "undefined" ? sessionStorage.getItem(pageStorageKey) : null;
     const [page, setPage] = useState<number>(parseInt(initialPage ?? "1"));
     if (typeof sessionStorage !== "undefined") {
         sessionStorage.setItem(pageStorageKey, page.toString());
@@ -134,8 +132,7 @@ export const ChildList = ({
     const paginatorLabel =
         children.numFound > 1 ? (
             <p>
-                Showing {startNumber} -{" "}
-                {children.numFound < endNumber ? children.numFound : endNumber} of{" "}
+                Showing {startNumber} - {children.numFound < endNumber ? children.numFound : endNumber} of{" "}
                 {children.numFound}
             </p>
         ) : null;
@@ -143,15 +140,22 @@ export const ChildList = ({
         <div className={styles.childlist}>
             <Grid container sx={{ spacing: 2, alignItems: "center" }}>
                 <Grid item xs="auto">
+                    {thumbsButton}
+                </Grid>
+                <Grid item xs="auto">
+                    {modelsButton}
+                </Grid>
+                <Grid item xs="auto">
+                    {childButton}
+                </Grid>
+                <Grid item xs="auto">
                     {paginatorLabel}
                 </Grid>
                 <Grid item xs="auto">
                     {paginator}
                 </Grid>
             </Grid>
-            <ul className={styles.childlist__list}>
-                {contents.length ? contents : <em>Empty.</em>}
-            </ul>
+            <ul className={styles.childlist__list}>{contents.length ? contents : <em>Empty.</em>}</ul>
         </div>
     );
 };
