@@ -55,11 +55,9 @@ export const ChildList = ({
     }
     const children = childListStorage[key];
     const childDocs = children.docs;
-    const buttonStyles = { float: "right", marginTop: "-2em" };
     const childButton =
         forceChildCounts === null ? (
             <button
-                style={buttonStyles}
                 onClick={() => {
                     setShowChildCounts(!showChildCounts);
                 }}
@@ -70,7 +68,6 @@ export const ChildList = ({
     const modelsButton =
         forceModels === null ? (
             <button
-                style={buttonStyles}
                 onClick={() => {
                     setShowModels(!showModels);
                 }}
@@ -81,7 +78,6 @@ export const ChildList = ({
     const thumbsButton =
         forceThumbs === null ? (
             <button
-                style={buttonStyles}
                 onClick={() => {
                     setShowThumbs(!showThumbs);
                 }}
@@ -138,14 +134,10 @@ export const ChildList = ({
         ) : null;
     return (
         <div className={styles.childlist}>
-            <Grid container sx={{ spacing: 2, alignItems: "center" }}>
+            <Grid container spacing={2} alignItems="center">
                 <Grid item xs="auto">
                     {thumbsButton}
-                </Grid>
-                <Grid item xs="auto">
                     {modelsButton}
-                </Grid>
-                <Grid item xs="auto">
                     {childButton}
                 </Grid>
                 <Grid item xs="auto">

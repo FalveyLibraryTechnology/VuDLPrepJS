@@ -1,6 +1,7 @@
 .childlist {
 	padding-inline: 1rem;
 	padding-block: 1px;
+	color: var(--panel-text);
 	background-color: var(--panel);
 }
 

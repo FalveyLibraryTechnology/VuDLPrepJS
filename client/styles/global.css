@@ -80,7 +80,8 @@
     }
 
     .breadcrumbs li:not(:first-child):before {
-        content: " > ";
+		color: var(--text-muted);
+        content: " ❭ ";
     }
 
     button,

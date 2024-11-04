@@ -1,29 +1,46 @@
 :root {
-    --canvas: var(--gray-50);
-    --canvas-text: var(--gray-900);
-    --panel: var(--gray-200);
-    --border: var(--gray-400);
+	--light-0: white;
+	--light-1: #e4e4e4;
+	--light-2: #c9c9c9;
+	--light-3: #adadad;
+	--light-4: #8f8f8f;
+	--light-5: #6d6d6d;
+	--light-6: #434343;
+}
 
-    --text-muted: var(--gray-600);
+:root {
+    --canvas: var(--light-0);
+    --canvas-text: var(--light-6);
+    --panel: var(--light-1);
+	--panel-text: black;
+    --border: var(--light-3);
+
+    --text-muted: var(--light-5);
 
     --family-sans-serif: system-ui, ui-sans-serif, sans-serif;
     --family-serif: ui-serif, serif;
     --family-monospace: ui-monospace, monospace;
 
-    --primary: var(--teal-700);
+    --primary: var(--sky-800);
     --primary-text: white;
 
-    --secondary: var(--gray-300);
-    --secondary-text: black;
+    --secondary: var(--light-5);
+    --secondary-text: white;
 
-    --button-face: var(--gray-100);
+    --button-face: var(--light-0);
     --button-text: black;
+
+    --button-hover: black;
+    --button-hover-text: white;
 
     --active: var(--red-800);
     --active-text: white;
 
-	--selected: var(--sky-300);
+	--selected: var(--amber-200);
 	--selected-text: black;
+
+	--info: var(--sky-100);
+	--info-text: var(--sky-900);
 
     --success: var(--green-300);
     --success-text: var(--green-900);

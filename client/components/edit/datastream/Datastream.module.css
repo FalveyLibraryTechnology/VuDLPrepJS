@@ -1,3 +1,4 @@
 .enabled {
-    background-color: #d5e3a5;
+	color: var(--selected-text);
+    background-color: var(--selected);
 }

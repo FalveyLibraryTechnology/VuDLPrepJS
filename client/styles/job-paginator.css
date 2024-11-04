@@ -1,5 +1,9 @@
 /* Layout */
 
+body:has(#paginator) {
+	background-color: var(--light-1);
+}
+
 .controls {
 	font-size: 14px;
 }
@@ -55,7 +59,7 @@ label {
     cursor: pointer;
 }
 label:hover {
-    background-color: #c8e1ff;
+    background-color: var(--light-1);
 }
 label input[type="text"],
 label input[type="number"],
@@ -176,6 +180,6 @@ label input[type="radio"] {
 
 .MuiTreeItem-root.Mui-selected,
 .MuiTreeItem-root.Mui-selected:hover {
-    color: #fff;
-    background-color: #000;
+    color: var(--button-hover-text);
+    background-color: var(--button-hover);
 }

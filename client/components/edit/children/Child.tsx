@@ -75,17 +75,17 @@ export const Child = ({
                     {expandControl} {loaded && parentPid ? <ChildPosition pid={pid} parentPid={parentPid} /> : ""}
                     <Link href={"/edit/object/" + pid}>{title || "(no title)"}</Link>
                 </Grid>
+                {extraTools}
                 <Grid item xs={1} className={styles.childlist__pid}>
                     {pid}
                 </Grid>
-                <Grid item xs={1}>
+                <Grid item xs="none">
                     <CopyPidButton pid={pid} />
                 </Grid>
                 <Grid item xs="auto" style={{ textAlign: "right" }}>
                     {loaded ? <ObjectButtonBar pid={pid} /> : ""}
                     <ObjectLoader pid={pid} />
                 </Grid>
-                {extraTools}
             </Grid>
             {childList}
         </div>
