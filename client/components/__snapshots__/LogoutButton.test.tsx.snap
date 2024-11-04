@@ -5,7 +5,7 @@ exports[`LogoutButton renders correctly when logged in 1`] = `
   className="logout"
 >
   <a
-    className="button"
+    className="button btn-primary"
     href="http://localhost:9000/api/auth/logout"
     onClick={[MockFunction]}
   >
