@@ -41,7 +41,7 @@ describe("ObjectButtonBar", () => {
     it("can refresh a list of children", async () => {
         render(<ObjectButtonBar pid={pid} />);
         const refreshIcon = screen.getByRole("button");
-        expect(refreshIcon.textContent).toEqual("Refresh");
+        expect(refreshIcon.textContent.trim()).toEqual("Refresh");
         await userEvent.setup().click(refreshIcon);
         await waitFor(() => expect(mockContext.action.clearPidFromChildListStorage).toHaveBeenCalledTimes(1));
         expect(mockContext.action.clearPidFromChildListStorage).toHaveBeenCalledWith(pid);
