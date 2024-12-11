@@ -65,7 +65,7 @@ This software is designed to run on multiple operating systems; however, Ubuntu 
 - [tesseract-ocr](https://github.com/tesseract-ocr/) - required for OCR of image files
 - [textcleaner](http://www.fmwconcepts.com/imagemagick/textcleaner/index.php) - required for cleanup of image files prior to OCR
 - [Tika](https://tika.apache.org/) - required for text extraction from document files
-- [VuFind®](https://vufind.org) - strongly recommended as the public front-end for the repository
+- [VuFind®](https://vufind.org) - strongly recommended as the public front-end for the repository (see the [VuFindVuDL module](https://github.com/FalveyLibraryTechnology/VuFindVuDL) for integration details).
 
 ### Javascript Dependencies
 
