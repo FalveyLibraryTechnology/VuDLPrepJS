@@ -2,7 +2,7 @@
 
 exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`] = `
 <ul
-  className="breadcrumb"
+  className="breadcrumbs"
 >
   <li>
     <a
@@ -180,7 +180,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (deep parent chain) 1`
 exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mode) 1`] = `
 [
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -214,7 +214,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -248,7 +248,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -282,7 +282,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -316,7 +316,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -350,7 +350,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -384,7 +384,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -418,7 +418,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -452,7 +452,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -486,7 +486,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -520,7 +520,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -554,7 +554,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -588,7 +588,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -622,7 +622,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -656,7 +656,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -695,7 +695,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, deep mo
 exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow mode) 1`] = `
 [
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -736,7 +736,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -777,7 +777,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -818,7 +818,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -859,7 +859,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -900,7 +900,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -941,7 +941,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -982,7 +982,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -1023,7 +1023,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -1064,7 +1064,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -1105,7 +1105,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -1146,7 +1146,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -1187,7 +1187,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -1228,7 +1228,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -1269,7 +1269,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -1315,7 +1315,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (many parents, shallow
 exports[`Breadcrumb renders using ajax-loaded object data (multiple parents with common grandparent) 1`] = `
 [
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -1359,7 +1359,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (multiple parents with
     </li>
   </ul>,
   <ul
-    className="breadcrumb"
+    className="breadcrumbs"
   >
     <li>
       <a
@@ -1407,7 +1407,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (multiple parents with
 
 exports[`Breadcrumb renders using ajax-loaded object data (no parents, deep mode) 1`] = `
 <ul
-  className="breadcrumb"
+  className="breadcrumbs"
 >
   <li>
     <a
@@ -1434,7 +1434,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (no parents, deep mode
 
 exports[`Breadcrumb renders using ajax-loaded object data (no parents, shallow mode) 1`] = `
 <ul
-  className="breadcrumb"
+  className="breadcrumbs"
 >
   <li>
     <a
@@ -1461,7 +1461,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (no parents, shallow m
 
 exports[`Breadcrumb renders using ajax-loaded object data (simple case, deep mode) 1`] = `
 <ul
-  className="breadcrumb"
+  className="breadcrumbs"
 >
   <li>
     <a
@@ -1498,7 +1498,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (simple case, deep mod
 
 exports[`Breadcrumb renders using ajax-loaded object data (simple case, shallow mode) 1`] = `
 <ul
-  className="breadcrumb"
+  className="breadcrumbs"
 >
   <li>
     <a
@@ -1542,7 +1542,7 @@ exports[`Breadcrumb renders using ajax-loaded object data (simple case, shallow 
 
 exports[`Breadcrumb renders without a pid 1`] = `
 <ul
-  className="breadcrumb"
+  className="breadcrumbs"
 >
   <li>
     <a

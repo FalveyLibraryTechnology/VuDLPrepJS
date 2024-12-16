@@ -6,6 +6,10 @@ import MagicLabeler from "../../util/MagicLabeler";
 import PaginatorControlGroup from "./PaginatorControlGroup";
 import ZoomToggleButton from "./ZoomToggleButton";
 
+import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+
 const PaginatorControls = (): React.ReactElement => {
     const {
         state: { currentPage, zoom, order },
@@ -36,39 +40,47 @@ const PaginatorControls = (): React.ReactElement => {
     } = usePaginatorControls(currentPage, getMagicLabel, setLabel);
     return pageCount > 0 ? (
         <div className="controls">
-            <div className="group">
-                <div className="status"></div>
-                <input type="text" value={getLabel(currentPage) ?? ""} id="page" onChange={updateCurrentPageLabel} />
-                <button onClick={prevPage}>Prev</button>
-                <button
-                    onClick={() => {
-                        approveCurrentPageLabel();
-                        nextPage();
-                    }}
-                >
-                    Next
-                </button>
-            </div>
-            <div className="top">
-                <ZoomToggleButton toggleZoom={toggleZoom} zoom={zoom} />
-                <button
-                    className="primary"
-                    onClick={() => {
-                        approveCurrentPageLabel();
-                        save(false);
-                    }}
-                >
-                    Save
-                </button>
-                <button
-                    className="primary"
-                    onClick={() => {
-                        approveCurrentPageLabel();
-                        save(true);
-                    }}
-                >
-                    Save and Publish
-                </button>
+            <div className="top-row">
+                <div className="top-row__left">
+                    <input
+                        type="text"
+                        value={getLabel(currentPage) ?? ""}
+                        id="page"
+                        onChange={updateCurrentPageLabel}
+                    />
+                    <button onClick={prevPage}>Prev</button>
+                    <button
+                        onClick={() => {
+                            approveCurrentPageLabel();
+                            nextPage();
+                        }}
+                    >
+                        Next
+                    </button>
+                    <div className="status"></div>
+                </div>
+
+                <div className="top-row__right">
+                    <ZoomToggleButton toggleZoom={toggleZoom} zoom={zoom} />
+                    <button
+                        className="btn-primary"
+                        onClick={() => {
+                            approveCurrentPageLabel();
+                            save(false);
+                        }}
+                    >
+                        Save
+                    </button>
+                    <button
+                        className="btn-primary"
+                        onClick={() => {
+                            approveCurrentPageLabel();
+                            save(true);
+                        }}
+                    >
+                        Save and Publish
+                    </button>
+                </div>
             </div>
             <PaginatorControlGroup callback={setLabelPrefix} label="prefixes">
                 {MagicLabeler.prefixes}
@@ -79,23 +91,27 @@ const PaginatorControls = (): React.ReactElement => {
             <PaginatorControlGroup callback={setLabelSuffix} label="suffixes">
                 {MagicLabeler.suffixes}
             </PaginatorControlGroup>
-            <div className="toggles group">
-                <button onClick={toggleBrackets} title="Toggle Brackets">
-                    [ ]
-                </button>
-                <button onClick={toggleCase} title="Toggle Case">
-                    <i className="fa fa-text-height"></i>
-                </button>
-                <button onClick={toggleRoman} title="Toggle Roman Numerals">
-                    4<i className="fa fa-fw fa-arrows-alt-h"></i>IV
+            <div className="group">
+                <div className="toggles">
+                    <button onClick={toggleBrackets} title="Toggle Brackets">
+                        [ ]
+                    </button>
+                    <button onClick={toggleCase} title="Toggle Case">
+                        Aa
+                    </button>
+                    <button onClick={toggleRoman} title="Toggle Roman Numerals">
+                        4<CompareArrowsIcon />
+                        IV
+                    </button>
+                    <button onClick={autonumberFollowingPages} title="Autonumber Following Pages">
+                        <AutoFixHighIcon />
+                    </button>
+                </div>
+
+                <button className="delete-btn" onClick={deletePage} title="Delete Current Page">
+                    <DeleteForeverIcon /> Delete Current Page
                 </button>
             </div>
-            <button onClick={autonumberFollowingPages} title="Autonumber Following Pages">
-                <i className="fa fa-sort-numeric-down"></i>
-            </button>
-            <button className="danger" onClick={deletePage} title="Delete Current Page">
-                <i className="fa fa-fw fa-trash"></i> Delete Current Page
-            </button>
         </div>
     ) : (
         // No pages, only show save buttons:

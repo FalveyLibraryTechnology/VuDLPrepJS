@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+
+import styles from "./ChildList.module.css";
+
 import { useEditorContext } from "../../../context/EditorContext";
 import ChildList from "./ChildList";
 import ChildPosition from "./ChildPosition";
@@ -41,7 +44,11 @@ export const Child = ({
     const title = !loaded ? initialTitle : extractFirstMetadataValue(details?.metadata ?? {}, "dc:title", "-");
     const expandControl = (
         <span onClick={() => setExpanded(!expanded)}>
-            {expanded ? <IndeterminateCheckBox titleAccess="Collapse Tree" /> : <AddBox titleAccess="Expand Tree" />}
+            {expanded ? (
+                <IndeterminateCheckBox titleAccess="Collapse Tree" className={styles.childlist__expandicon} />
+            ) : (
+                <AddBox titleAccess="Expand Tree" className={styles.childlist__expandicon} />
+            )}
         </span>
     );
     const childList = expanded ? (
@@ -52,34 +59,36 @@ export const Child = ({
             forceModels={models}
             forceThumbs={thumbnail}
         />
-    ) : (
-        ""
-    );
+    ) : null;
     const hasExtraTools = thumbnail || models || showChildCounts;
     const extraTools = hasExtraTools ? (
-        <Grid item xs={1}>
+        <Grid item>
             {thumbnail ? <ObjectThumbnail pid={pid} /> : ""}
             {showChildCounts ? <ObjectChildCounts pid={pid} /> : ""}
             {models ? <ObjectModels pid={pid} /> : ""}
         </Grid>
     ) : null;
     return (
-        <>
-            <Grid container>
-                <Grid item xs={hasExtraTools ? 7 : 8}>
-                    {expandControl}
-                    {loaded && parentPid ? <ChildPosition pid={pid} parentPid={parentPid} /> : ""}
-                    <Link href={"/edit/object/" + pid}>{(title.length > 0 ? title : "-") + ` [${pid}]`}</Link>{" "}
+        <div className={styles.childlist__item}>
+            <Grid container spacing={2} alignItems="center">
+                <Grid item xs>
+                    {expandControl} {loaded && parentPid ? <ChildPosition pid={pid} parentPid={parentPid} /> : ""}
+                    <Link href={"/edit/object/" + pid}>{title || "(no title)"}</Link>
+                </Grid>
+                {extraTools}
+                <Grid item xs={1} className={styles.childlist__pid}>
+                    {pid}
+                </Grid>
+                <Grid item xs="none">
                     <CopyPidButton pid={pid} />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs="auto" style={{ textAlign: "right" }}>
                     {loaded ? <ObjectButtonBar pid={pid} /> : ""}
                     <ObjectLoader pid={pid} />
                 </Grid>
-                {extraTools}
             </Grid>
             {childList}
-        </>
+        </div>
     );
 };
 

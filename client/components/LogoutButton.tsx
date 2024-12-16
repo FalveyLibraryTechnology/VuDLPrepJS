@@ -14,7 +14,7 @@ const LogoutButton = (): React.ReactElement => {
     }, [token]);
     return showButton ? (
         <div className="logout">
-            <a href={logoutUrl} className="button" onClick={clearToken}>
+            <a href={logoutUrl} className="button btn-primary" onClick={clearToken}>
                 Log Out
             </a>
         </div>

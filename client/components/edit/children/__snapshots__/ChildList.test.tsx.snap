@@ -1,187 +1,181 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ChildList allows child counts to be toggled on 1`] = `
-[
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
+<div
+  className="childlist"
+>
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-ofrcno-MuiGrid-root"
   >
-    Show Thumbnails
-  </button>,
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
-  >
-    Show Models
-  </button>,
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
-  >
-    Hide Child Counts
-  </button>,
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    >
+      <button
+        onClick={[Function]}
+      >
+        Show Thumbnails
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Show Models
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Hide Child Counts
+      </button>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    />
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    />
+  </div>
   <ul
-    className="childlist"
+    className="childlist__list"
   >
     <li>
       Child
     </li>
-  </ul>,
-]
+  </ul>
+</div>
 `;
 
 exports[`ChildList allows models to be toggled on 1`] = `
-[
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
+<div
+  className="childlist"
+>
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-ofrcno-MuiGrid-root"
   >
-    Show Thumbnails
-  </button>,
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
-  >
-    Hide Models
-  </button>,
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
-  >
-    Show Child Counts
-  </button>,
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    >
+      <button
+        onClick={[Function]}
+      >
+        Show Thumbnails
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Hide Models
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Show Child Counts
+      </button>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    />
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    />
+  </div>
   <ul
-    className="childlist"
+    className="childlist__list"
   >
     <li>
       Child
     </li>
-  </ul>,
-]
+  </ul>
+</div>
 `;
 
 exports[`ChildList allows thumbnails to be toggled on 1`] = `
-[
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
+<div
+  className="childlist"
+>
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-ofrcno-MuiGrid-root"
   >
-    Hide Thumbnails
-  </button>,
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
-  >
-    Show Models
-  </button>,
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
-  >
-    Show Child Counts
-  </button>,
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    >
+      <button
+        onClick={[Function]}
+      >
+        Hide Thumbnails
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Show Models
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Show Child Counts
+      </button>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    />
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    />
+  </div>
   <ul
-    className="childlist"
+    className="childlist__list"
   >
     <li>
       Child
     </li>
-  </ul>,
-]
+  </ul>
+</div>
 `;
 
 exports[`ChildList displays a paginator when appropriate 1`] = `
-[
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
+<div
+  className="childlist"
+>
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-ofrcno-MuiGrid-root"
   >
-    Show Thumbnails
-  </button>,
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
-  >
-    Show Models
-  </button>,
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
-  >
-    Show Child Counts
-  </button>,
-  <p>
-    Showing 
-    1
-     - 
-    10
-     of
-     
-    10000
-  </p>,
-  "Pagination",
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    >
+      <button
+        onClick={[Function]}
+      >
+        Show Thumbnails
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Show Models
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Show Child Counts
+      </button>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    >
+      <p>
+        Showing 
+        1
+         - 
+        10
+         of
+         
+        10000
+      </p>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    >
+      Pagination
+    </div>
+  </div>
   <ul
-    className="childlist"
+    className="childlist__list"
   >
     <li>
       Child
@@ -213,141 +207,135 @@ exports[`ChildList displays a paginator when appropriate 1`] = `
     <li>
       Child
     </li>
-  </ul>,
-]
+  </ul>
+</div>
 `;
 
 exports[`ChildList renders using SelectableChild when a callback is provided 1`] = `
-[
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
+<div
+  className="childlist"
+>
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-ofrcno-MuiGrid-root"
   >
-    Show Thumbnails
-  </button>,
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
-  >
-    Show Models
-  </button>,
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
-  >
-    Show Child Counts
-  </button>,
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    >
+      <button
+        onClick={[Function]}
+      >
+        Show Thumbnails
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Show Models
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Show Child Counts
+      </button>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    />
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    />
+  </div>
   <ul
-    className="childlist"
+    className="childlist__list"
   >
     <li>
       SelectableChild
     </li>
-  </ul>,
-]
+  </ul>
+</div>
 `;
 
 exports[`ChildList renders using ajax-loaded object data 1`] = `
-[
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
+<div
+  className="childlist"
+>
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-ofrcno-MuiGrid-root"
   >
-    Show Thumbnails
-  </button>,
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
-  >
-    Show Models
-  </button>,
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
-  >
-    Show Child Counts
-  </button>,
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    >
+      <button
+        onClick={[Function]}
+      >
+        Show Thumbnails
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Show Models
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Show Child Counts
+      </button>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    />
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    />
+  </div>
   <ul
-    className="childlist"
+    className="childlist__list"
   >
     <li>
       Child
     </li>
-  </ul>,
-]
+  </ul>
+</div>
 `;
 
 exports[`ChildList renders using ajax-loaded root data 1`] = `
-[
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
+<div
+  className="childlist"
+>
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-ofrcno-MuiGrid-root"
   >
-    Show Thumbnails
-  </button>,
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
-  >
-    Show Models
-  </button>,
-  <button
-    onClick={[Function]}
-    style={
-      {
-        "float": "right",
-        "marginTop": "-2em",
-      }
-    }
-  >
-    Show Child Counts
-  </button>,
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    >
+      <button
+        onClick={[Function]}
+      >
+        Show Thumbnails
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Show Models
+      </button>
+      <button
+        onClick={[Function]}
+      >
+        Show Child Counts
+      </button>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    />
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+    />
+  </div>
   <ul
-    className="childlist"
+    className="childlist__list"
   >
     <li>
       Child
     </li>
-  </ul>,
-]
+  </ul>
+</div>
 `;

@@ -1,0 +1,60 @@
+:root {
+	--light-0: white;
+	--light-1: #e4e4e4;
+	--light-2: #c9c9c9;
+	--light-3: #adadad;
+	--light-4: #8f8f8f;
+	--light-5: #6d6d6d;
+	--light-6: #434343;
+}
+
+:root {
+    --canvas: var(--light-0);
+    --canvas-text: var(--light-6);
+    --panel: var(--light-1);
+	--panel-text: black;
+    --border: var(--light-3);
+
+    --text-muted: var(--light-5);
+
+    --family-sans-serif: system-ui, ui-sans-serif, sans-serif;
+    --family-serif: ui-serif, serif;
+    --family-monospace: ui-monospace, monospace;
+
+    --primary: var(--sky-800);
+    --primary-text: white;
+
+    --secondary: var(--light-5);
+    --secondary-text: white;
+
+    --button-face: var(--light-0);
+    --button-text: black;
+
+    --button-hover: black;
+    --button-hover-text: white;
+
+    --active: var(--red-800);
+    --active-text: white;
+
+	--selected: var(--amber-200);
+	--selected-text: black;
+
+	--info: var(--sky-100);
+	--info-text: var(--sky-900);
+
+    --success: var(--green-300);
+    --success-text: var(--green-900);
+
+    --danger: var(--red-200);
+    --danger-text: var(--red-950);
+
+    --object-status-active: var(--green-800);
+    --object-status-inactive: var(--yellow-800);
+    --object-status-deleted: var(--red-800);
+    --object-status-unknown: var(--gray-600);
+
+    --object-status-active-hover: var(--green-300);
+    --object-status-inactive-hover: var(--yellow-300);
+    --object-status-deleted-hover: var(--red-300);
+    --object-status-unknown-hover: var(--gray-300);
+}

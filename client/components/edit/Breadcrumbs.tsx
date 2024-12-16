@@ -1,4 +1,3 @@
-import styles from "../shared/Breadcrumbs.module.css";
 import React, { useEffect, useState } from "react";
 import BasicBreadcrumbs from "../shared/BasicBreadcrumbs";
 import { TreeNode, processBreadcrumbData } from "../../util/Breadcrumbs";
@@ -71,7 +70,7 @@ const Breadcrumbs = ({ pid = null, initiallyShallow = true }: BreadcrumbsProps):
             </li>,
         );
         return (
-            <ul className={styles.breadcrumb} key={"breadcrumbs_" + keySuffix}>
+            <ul className="breadcrumbs" key={"breadcrumbs_" + keySuffix}>
                 {breadcrumbs}
             </ul>
         );
