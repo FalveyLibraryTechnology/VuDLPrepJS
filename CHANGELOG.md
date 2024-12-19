@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.5 - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- MySQL connections are now managed by the mysql2 driver instead of mysql for improved support/compatibility. If you use MySQL or MariaDB, be sure to change `mysql` to `mysql2` in your `api/vudl.ini` file!
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 2.4 - 2024-08-08
 
 ### Added

@@ -134,14 +134,14 @@ admin_user = admin_password
 
 # Database settings
 [Database]
-# Supported values: mysql, sqlite3
+# Supported values: mysql2, sqlite3
 client = sqlite3
 
 # Database connection settings (required values vary based on client setting above)
 [Database.connection]
 # Required when client = sqlite3; filename of database, relative to api directory
 filename = "./data/auth.sqlite3"
-# Required when client = mysql
+# Required when client = mysql2
 # To set up a MySQL/MariaDB database, run these commands in the database client:
 #    create database vudl;
 #    create user 'your_database_user'@'localhost' identified by 'your_database_password';
